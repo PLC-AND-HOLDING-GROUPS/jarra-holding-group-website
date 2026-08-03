@@ -8,7 +8,7 @@ const applicationData = [
     {
         title: "Mining License Application Portal",
         heading: "Streamlined digital platform for transparent and efficient mining license applications.",
-        description: "The Ministry of Mines provides a comprehensive online portal for all mining-related license applications. Our digital system ensures transparency, reduces processing times, and provides real-time tracking of application status. From exploration permits to large-scale mining licenses, all applications are managed through this secure platform.",
+        description: "The Wollega Adventist Academy Alumni Association provides a comprehensive online portal for all mining-related license applications. Our digital system ensures transparency, reduces processing times, and provides real-time tracking of application status. From exploration permits to large-scale mining licenses, all applications are managed through this secure platform.",
         image: "/home-1.jpg",
         benefits: [
             "24/7 online application submission",
@@ -77,7 +77,7 @@ const ApplicationPortalPage = () => {
                             Mining License Application Portal
                         </h1>
                         <p className='text-xl text-blue-100 mb-8'>
-                            Digital gateway for transparent and efficient mining license applications with the Ministry of Mines
+                            Digital gateway for transparent and efficient mining license applications with the Wollega Adventist Academy Alumni Association
                         </p>
                         <a
                             href="#apply-now"
@@ -99,7 +99,7 @@ const ApplicationPortalPage = () => {
                                 Welcome to the Digital Application Portal
                             </h2>
                             <p className='text-lg text-gray-600'>
-                                The Ministry of Mines is committed to digital transformation, providing investors with a seamless online experience for all mining license applications. Our portal ensures transparency, efficiency, and accessibility throughout the application process.
+                                The Wollega Adventist Academy Alumni Association is committed to digital transformation, providing investors with a seamless online experience for all mining license applications. Our portal ensures transparency, efficiency, and accessibility throughout the application process.
                             </p>
                         </div>
 

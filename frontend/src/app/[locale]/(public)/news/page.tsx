@@ -29,7 +29,7 @@ const NewsPage = () => {
             <PageHeader
                 title="News"
                 icon={<MessageCircle />}
-                description="News and updates from the Ministry of Mines"
+                description="News and updates from the Wollega Adventist Academy Alumni Association"
             />
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -40,7 +40,7 @@ const NewsPage = () => {
                     </h1>
                     <div className="mt-2 h-1 w-12 bg-golden-dark rounded-full" />
                     <p className="text-gray-600 mt-4 max-w-2xl">
-                        Stay updated with the latest news and announcements from the Ministry of Mines.
+                        Stay updated with the latest news and announcements from the Wollega Adventist Academy Alumni Association.
 
                         Here you can find information about our activities, projects, and initiatives.
                     </p>

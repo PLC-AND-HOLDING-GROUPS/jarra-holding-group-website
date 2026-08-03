@@ -407,7 +407,7 @@ export const NavbarLogo = () => {
                 height={50}
             />
             <div className="flex flex-col">
-                <span className="text-golden-dark font-semibold dark:text-white text-md -mt-[2px]">Ministry of Mines</span>
+                <span className="text-golden-dark font-semibold dark:text-white text-md -mt-[2px]">WAAAMS</span>
                 <span className="text-golden-dark font-semibold dark:text-white text-md">የማዕድን ሚኒስቴር</span>
             </div>
         </Link>

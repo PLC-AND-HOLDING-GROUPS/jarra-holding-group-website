@@ -99,7 +99,7 @@ const MiningDataPage = () => {
                             Mining Sector Data Portal
                         </h1>
                         <p className='text-gray-900 max-w-2xl'>
-                            Official statistics and analytics from Ethiopia's Ministry of Mines -
+                            Official statistics and analytics from Ethiopia's Wollega Adventist Academy Alumni Association -
                             Real-time data for informed decision making
                         </p>
                     </div>
@@ -351,7 +351,7 @@ const MiningDataPage = () => {
                 <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
                     <div>
                         <p className='text-sm text-gray-500 mb-2'>Data Source</p>
-                        <p className='font-medium text-gray-900'>Ministry of Mines - Ethiopian Government</p>
+                        <p className='font-medium text-gray-900'>Wollega Adventist Academy Alumni Association - Ethiopian Government</p>
                     </div>
                     <div className='flex items-center gap-6'>
                         <div className='text-center'>

@@ -12,9 +12,9 @@ type NewsItem = {
 export const newsData: NewsItem[] = [
     {
         id: 1,
-        title: "Ministry of Mines Holds Consultation to Strengthen Mineral Development",
+        title: "Wollega Adventist Academy Alumni Association Holds Consultation to Strengthen Mineral Development",
         excerpt:
-            "The Ministry of Mines conducted a consultation with key stakeholders to discuss strategies for strengthening mineral development and improving sector performance across the country.",
+            "The Wollega Adventist Academy Alumni Association conducted a consultation with key stakeholders to discuss strategies for strengthening mineral development and improving sector performance across the country.",
         image: "/home-1.jpg",
         date: "2026-02-03",
         category: "Projects",
@@ -34,7 +34,7 @@ export const newsData: NewsItem[] = [
         id: 3,
         title: "Review Conducted on Ongoing Mining Development Projects",
         excerpt:
-            "The Ministry of Mines carried out a review of ongoing mining development projects across various regions to assess progress, challenges, and compliance with regulations.",
+            "The Wollega Adventist Academy Alumni Association carried out a review of ongoing mining development projects across various regions to assess progress, challenges, and compliance with regulations.",
         image: "/home-1.jpg",
         date: "2026-01-25",
         category: "Projects",
@@ -42,9 +42,9 @@ export const newsData: NewsItem[] = [
     },
     {
         id: 4,
-        title: "Ministry of Mines Holds Consultation to Strengthen Mineral Development",
+        title: "Wollega Adventist Academy Alumni Association Holds Consultation to Strengthen Mineral Development",
         excerpt:
-            "The Ministry of Mines conducted a consultation with key stakeholders to discuss strategies for strengthening mineral development and improving sector performance across the country.",
+            "The Wollega Adventist Academy Alumni Association conducted a consultation with key stakeholders to discuss strategies for strengthening mineral development and improving sector performance across the country.",
         image: "/home-1.jpg",
         date: "2026-02-03",
         category: "Projects",
@@ -64,7 +64,7 @@ export const newsData: NewsItem[] = [
         id: 6,
         title: "Review Conducted on Ongoing Mining Development Projects",
         excerpt:
-            "The Ministry of Mines carried out a review of ongoing mining development projects across various regions to assess progress, challenges, and compliance with regulations.",
+            "The Wollega Adventist Academy Alumni Association carried out a review of ongoing mining development projects across various regions to assess progress, challenges, and compliance with regulations.",
         image: "/home-1.jpg",
         date: "2026-01-25",
         category: "Projects",
@@ -78,17 +78,17 @@ export const newsData: NewsItem[] = [
 export const mockNewsData = [
     {
         id: "1",
-        title: "Ministry of Mines Holds Consultation to Strengthen Mineral Development",
+        title: "Wollega Adventist Academy Alumni Association Holds Consultation to Strengthen Mineral Development",
         subtitle: "Strategic meeting with stakeholders focuses on enhancing Ethiopia's mining sector performance",
         date: "2026-02-03",
         category: "Projects",
-        author: "Ministry of Mines Communications Office",
+        author: "Wollega Adventist Academy Alumni Association Communications Office",
         image: "/home-1.jpg",
-        imageCaption: "The consultation meeting held at the Ministry of Mines headquarters",
+        imageCaption: "The consultation meeting held at the Wollega Adventist Academy Alumni Association headquarters",
         tags: ["Consultation", "Development", "Mining", "Policy", "Ethiopia"],
         content: `
       <div class="space-y-6">
-        <p class="lead">The Ministry of Mines conducted a comprehensive consultation with key stakeholders to discuss strategies for strengthening mineral development and improving sector performance across Ethiopia. The high-level meeting brought together industry experts, government officials, and private sector representatives.</p>
+        <p class="lead">The Wollega Adventist Academy Alumni Association conducted a comprehensive consultation with key stakeholders to discuss strategies for strengthening mineral development and improving sector performance across Ethiopia. The high-level meeting brought together industry experts, government officials, and private sector representatives.</p>
         
         <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
           <h3 class="font-bold text-lg mb-2">Key Objectives:</h3>
@@ -139,7 +139,7 @@ export const mockNewsData = [
         
         <blockquote class="border-l-4 border-gray-300 pl-6 py-2 my-6 italic">
           "This consultation marks a significant step forward in our efforts to unlock Ethiopia's mineral potential. We are committed to creating a mining sector that contributes substantially to national development while ensuring environmental sustainability and community welfare."
-          <footer class="mt-2 not-italic font-semibold">— Ministry of Mines Spokesperson</footer>
+          <footer class="mt-2 not-italic font-semibold">— Wollega Adventist Academy Alumni Association Spokesperson</footer>
         </blockquote>
         
         <h2 class="text-2xl font-bold">Sector Statistics</h2>

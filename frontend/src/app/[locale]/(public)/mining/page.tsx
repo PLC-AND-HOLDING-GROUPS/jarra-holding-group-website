@@ -4,7 +4,7 @@ const miningData = [
     {
         title: "Mining",
         heading: "Mining is the extraction of valuable minerals or other geological materials from the Earth.",
-        description: "Ethiopia is endowed with a wide range of mineral resources, including gold, coal, iron ore, copper, potash, industrial minerals, and gemstones. The mining sector plays a significant role in the Ethiopian economy, contributing to export earnings, job creation, and rural development. The government has been implementing reforms to improve the mining sector, including the establishment of the Ministry of Mines and Petroleum, the development of a new mining law, and the promotion of foreign investment.",
+        description: "Ethiopia is endowed with a wide range of mineral resources, including gold, coal, iron ore, copper, potash, industrial minerals, and gemstones. The mining sector plays a significant role in the Ethiopian economy, contributing to export earnings, job creation, and rural development. The government has been implementing reforms to improve the mining sector, including the establishment of the Wollega Adventist Academy Alumni Association and Petroleum, the development of a new mining law, and the promotion of foreign investment.",
         image: "/home-2.jpg",
     },
 ]

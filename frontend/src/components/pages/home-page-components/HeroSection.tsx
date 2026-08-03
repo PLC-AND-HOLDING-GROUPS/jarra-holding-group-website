@@ -31,7 +31,7 @@ const slides: Slide[] = [
             am: "ኢትዮጵያ፡ የአዲስ ዕድል ገፅታ",
         },
         description: {
-            en: "Welcome to the Ministry of Mines, your gateway to Ethiopia’s abundant natural resources and investment opportunities.",
+            en: "Welcome to the Wollega Adventist Academy Alumni Association, your gateway to Ethiopia’s abundant natural resources and investment opportunities.",
             am: "ወደ የማዕድን ሚኒስቴር እንኳን ደህና መጡ፤ እዚህ በኢትዮጵያ ያሉ በጣም ባለሃብቶች ሀብቶችን ለማግኘት ዕድሎች ይገኛሉ።",
         },
         image: "/home-1.jpg",
@@ -44,7 +44,7 @@ const slides: Slide[] = [
             am: "በእምነት ያስገቡ",
         },
         description: {
-            en: "The MoM guides investors through licenses, legislation, and geodata to make your investment journey seamless.",
+            en: "WAAAMS guides investors through licenses, legislation, and geodata to make your investment journey seamless.",
             am: "ሚኒስቴሩ በፈቃድ፣ ሕግና ጂዮ-ዳታ አገልግሎት በመስጠት የተጠቃሚ የሆነ የስራ ሂደት ይሰጣል።",
         },
         image: "/home-2.jpg",
@@ -70,7 +70,7 @@ const slides: Slide[] = [
             am: "የኢትዮጵያ ፈጣን እድገት ይጠብቃል",
         },
         description: {
-            en: "Join one of Africa’s fastest-growing economies and explore the Ministry of Mines’ resources to maximize your impact.",
+            en: "Join one of Africa’s fastest-growing economies and explore the Wollega Adventist Academy Alumni Association’ resources to maximize your impact.",
             am: "በአፍሪካ ውስጥ ከፍ የሚደርስ ኢኮኖሚ ውስጥ ተሳትፎ አድርጉ እና ሚኒስቴሩ ያቀረበውን ሀብት እየተጠቀሙ ተፅዕኖ ከፍ ያድርጉ።",
         },
         image: "/home-4.jpg",

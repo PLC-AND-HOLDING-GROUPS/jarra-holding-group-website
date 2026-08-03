@@ -4,7 +4,7 @@
 # - Waits for Nginx to be ready before issuing
 # - Runs a renewal loop every 12 hours after that
 
-DOMAIN="${CERTBOT_DOMAIN:-www.mom.gov.et}"
+DOMAIN="${CERTBOT_DOMAIN:-www.waaams.org}"
 EMAIL="${CERTBOT_EMAIL}"
 CERT_PATH="/etc/letsencrypt/live/${DOMAIN}/fullchain.pem"
 

@@ -23,7 +23,7 @@ const Footer = () => {
                     <div className="flex flex-col gap- justify-center items-center" >
                         <Image src="/logo-only.png" alt="Logo" width={100} height={100} />
                         <h3 className="text-base font-semibold text-golden-dark mb-4">
-                            Ministry of Mines
+                            WAAAMS
                         </h3>
 
                     </div>
@@ -150,7 +150,7 @@ const Footer = () => {
                     </div>
 
                     <p className="text-center w-full md:w-fit">
-                        © {new Date().getFullYear()} Ministry of Mines – Ethiopia. All rights
+                        © {new Date().getFullYear()} Wollega Adventist Academy Alumni Association. All rights
                         reserved.
                     </p>
 

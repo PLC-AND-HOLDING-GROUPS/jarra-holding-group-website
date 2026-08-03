@@ -1,12 +1,12 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: mom_postgres
+    container_name: waaams_postgres
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-root}
-      POSTGRES_DB: ${DB_NAME:-mom_website}
+      POSTGRES_DB: ${DB_NAME:-waaams_db}
       TZ: UTC
     ports:
       - "5432:5432"
@@ -17,17 +17,17 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: mom_backend
+    container_name: waaams_backend
     restart: always
     environment:
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=${DB_USER:-postgres}
       - DB_PASSWORD=${DB_PASSWORD:-root}
-      - DB_NAME=${DB_NAME:-mom_website}
+      - DB_NAME=${DB_NAME:-waaams_db}
       - PORT=4000
       - JWT_SECRET=${JWT_SECRET}
-      - FRONTEND_URL=https://www.mom.gov.et
+      - FRONTEND_URL=http://localhost:3000
       - TZ=UTC
       - APP_TIMEZONE=Africa/Addis_Ababa
     expose:
@@ -42,19 +42,19 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_BASE_URL=https://www.mom.gov.et/api
-        - NEXT_PUBLIC_BASE=https://www.mom.gov.et
+        - NEXT_PUBLIC_BASE_URL=http://localhost:4000/api
+        - NEXT_PUBLIC_BASE=http://localhost:4000
         - NEXT_PUBLIC_TIMEZONE=Africa/Addis_Ababa
-    container_name: mom_frontend
+    container_name: waaams_frontend
     restart: always
     environment:
-      - NEXT_PUBLIC_BASE_URL=https://www.mom.gov.et/api
-      - NEXT_PUBLIC_BASE=https://www.mom.gov.et
+      - NEXT_PUBLIC_BASE_URL=http://localhost:4000/api
+      - NEXT_PUBLIC_BASE=http://localhost:4000
       - NEXT_PUBLIC_TIMEZONE=Africa/Addis_Ababa
       - AUTH_SECRET=${AUTH_SECRET}
-      - AUTH_URL=https://www.mom.gov.et/api/auth
+      - AUTH_URL=http://localhost:3000/api/auth
       - NEXTAUTH_SECRET=${AUTH_SECRET}
-      - NEXTAUTH_URL=https://www.mom.gov.et/api/auth
+      - NEXTAUTH_URL=http://localhost:3000/api/auth
     expose:
       - "3000"
     depends_on:
@@ -62,7 +62,7 @@ services:
 
   nginx:
     image: nginx:stable-alpine
-    container_name: mom_nginx
+    container_name: waaams_nginx
     restart: always
     ports:
       - "80:80"
@@ -80,10 +80,10 @@ services:
 
   certbot:
     image: certbot/certbot:latest
-    container_name: mom_certbot
+    container_name: waaams_certbot
     environment:
       - CERTBOT_EMAIL=${CERTBOT_EMAIL}
-      - CERTBOT_DOMAIN=www.mom.gov.et
+      - CERTBOT_DOMAIN=www.waaams.org
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot

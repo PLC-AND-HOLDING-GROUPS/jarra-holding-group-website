@@ -21,10 +21,10 @@ const coreValues = {
     icon: "/icons/diamond.png",
     title: "Values",
     values: [
-        "Teamwork is a fundamental principle of the Ministry of Mines, emphasizing collaboration among departments, stakeholders, and partners to achieve shared goals in the sustainable development and management of Ethiopia’s mineral resources.",
+        "Teamwork is a fundamental principle of the Wollega Adventist Academy Alumni Association, emphasizing collaboration among departments, stakeholders, and partners to achieve shared goals in the sustainable development and management of Ethiopia’s mineral resources.",
         "Innovation and creativity guide the Ministry in adopting modern technologies, improving regulatory frameworks, and encouraging forward-looking solutions that enhance efficiency, competitiveness, and responsible growth within the mining sector.",
         "Endurance reflects the Ministry’s commitment to long-term planning, resilience, and consistent effort in overcoming sectoral challenges while ensuring stability, continuity, and progress in mineral resource development.",
-        "Ethics underpin all activities of the Ministry of Mines, ensuring transparency, accountability, fairness, and integrity in decision-making, licensing, investment facilitation, and engagement with communities and stakeholders.",
+        "Ethics underpin all activities of the Wollega Adventist Academy Alumni Association, ensuring transparency, accountability, fairness, and integrity in decision-making, licensing, investment facilitation, and engagement with communities and stakeholders.",
     ],
 };
 
@@ -41,7 +41,7 @@ export default function VisionMissionValues() {
                     </h1>
                     <p className="text-gray-600 mt-3 max-w-3xl mx-auto">
                         Guiding principles that shape the strategic direction and operational
-                        excellence of the Ministry of Mines.
+                        excellence of the Wollega Adventist Academy Alumni Association.
                     </p>
                 </div>
 

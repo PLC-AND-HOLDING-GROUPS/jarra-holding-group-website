@@ -1,6 +1,6 @@
-# MoM Website
+# WAAAMS
 
-Ministry of Mines public website and admin CMS: **PostgreSQL**, **Node.js/Express API**, and **Next.js** frontend.
+Wollega Adventist Academy Alumni Management System public website and admin CMS: **PostgreSQL**, **Node.js/Express API**, and **Next.js** frontend.
 
 You can run everything with **Docker Compose** or run **backend** and **frontend** locally against a Postgres instance.
 
@@ -139,8 +139,8 @@ docker compose up -d --build
 Migrations run automatically when the backend container starts. To run manually:
 
 ```bash
-docker exec -it mom_backend npm run migrate
-docker exec -it mom_backend npm run seed
+docker exec -it waaams_backend npm run migrate
+docker exec -it waaams_backend npm run seed
 ```
 
 ### Image reprocessing (Docker)
@@ -148,7 +148,7 @@ docker exec -it mom_backend npm run seed
 After migrations, generate WebP variants for **existing** uploads:
 
 ```bash
-docker exec -it mom_backend npm run reprocess-attachments
+docker exec -it waaams_backend npm run reprocess-attachments
 ```
 
 ---
@@ -157,7 +157,7 @@ docker exec -it mom_backend npm run reprocess-attachments
 
 ### 1. Database
 
-Create a Postgres database matching `DB_NAME` in `backend/.env` (default `mom_website`).
+Create a Postgres database matching `DB_NAME` in `backend/.env` (default `waaams_db`).
 
 ### 2. Backend
 
@@ -282,7 +282,7 @@ Uploads persist via `./backend/uploads` volume mount in `docker-compose.yml`.
 ## Production notes
 
 - Set strong `JWT_SECRET`, `AUTH_SECRET`, and `DB_PASSWORD` via server env or secrets manager — never use placeholder values.
-- Ensure `NEXT_PUBLIC_*` URLs match your public domain (e.g. `https://www.mom.gov.et`).
+- Ensure `NEXT_PUBLIC_*` URLs match your public domain (e.g. `https://www.waaams.org`).
 - After deploy, run migrations and `reprocess-attachments` once if upgrading from a version without image variants.
 - Uploads are served from `/uploads` with long-lived cache headers for images.
 

@@ -16,9 +16,9 @@ type NewsItem = {
 const news: NewsItem[] = [
     {
         id: 1,
-        title: "The Ministry of Mines held a consultation forum with stakeholders",
+        title: "The Wollega Adventist Academy Alumni Association held a consultation forum with stakeholders",
         description:
-            "The Ministry of Mines conducted a high-level consultation forum with regional and federal stakeholders to strengthen coordination, address sector challenges, and improve overall performance and policy alignment within the mining industry.",
+            "The Wollega Adventist Academy Alumni Association conducted a high-level consultation forum with regional and federal stakeholders to strengthen coordination, address sector challenges, and improve overall performance and policy alignment within the mining industry.",
         image: "/home-1.jpg",
         date: "2026-01-26",
     },

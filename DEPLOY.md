@@ -1,6 +1,6 @@
 # Production deploy
 
-Deploy the upgraded **v2 database** and **reprocessed uploads** to `www.mom.gov.et`.
+Deploy the upgraded **v2 database** and **reprocessed uploads** to `www.waaams.org`.
 
 ## What goes in git (push / pull)
 
@@ -39,8 +39,8 @@ cd /path/to/website
 
 # 1. Backup live DB (optional but recommended)
 mkdir -p backups/manual
-docker exec -e PGPASSWORD="$DB_PASSWORD" mom_postgres \
-  pg_dump -U postgres -d mom_website --clean --if-exists --no-owner \
+docker exec -e PGPASSWORD="$DB_PASSWORD" waaams_postgres \
+  pg_dump -U postgres -d waaams_db --clean --if-exists --no-owner \
   > backups/manual/pre-deploy-$(date +%Y%m%d).sql
 
 # 2. Pull latest code + db snapshot
@@ -70,9 +70,9 @@ Uploads are mounted from `./backend/uploads` into the backend container (persist
 
 | Check | URL |
 |---|---|
-| Public site | https://www.mom.gov.et |
-| Admin login | https://www.mom.gov.et/en/access/identity/gateway |
-| API | https://www.mom.gov.et/api |
+| Public site | https://www.waaams.org |
+| Admin login | https://www.waaams.org/en/access/identity/gateway |
+| API | https://www.waaams.org/api |
 
 Migrations run on backend start; with the imported snapshot they should be a no-op.  
 `seed:production` is idempotent (safe if permissions already exist).
@@ -97,7 +97,7 @@ To regenerate deploy artifacts from a fresh server export:
 ```bash
 # Place raw server files locally (gitignored):
 #   backend/db-snapshot.sql          (v1 export from server)
-#   backend/server-uploads.tar.gz  (docker cp from mom_backend:/app/uploads)
+#   backend/server-uploads.tar.gz  (docker cp from waaams_backend:/app/uploads)
 
 cd backend
 npm run db:upgrade-from-server   # imports v1, migrates, reprocesses, exports v2

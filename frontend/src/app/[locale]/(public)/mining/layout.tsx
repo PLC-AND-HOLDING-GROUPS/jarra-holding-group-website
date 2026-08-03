@@ -10,7 +10,7 @@ const items = [
     { label: "Snapshot of mining sector", slug: "/mining", description: "Overview of Ethiopia's mining sector" },
     { label: "Licensing and Legislations", slug: "/mining/licensing-and-legislation", description: "Overview of Ethiopia's mining sector" },
     { label: "Legislation & Regulations", slug: "/mining/regional-legislation", description: "Overview of Ethiopia's mining sector" },
-    { label: "Application Portal", slug: "/mining/application-portal", description: "Digital gateway for transparent and efficient mining license applications with the Ministry of Mines" },
+    { label: "Application Portal", slug: "/mining/application-portal", description: "Digital gateway for transparent and efficient mining license applications with the Wollega Adventist Academy Alumni Association" },
     { label: "Mining Data", slug: "/mining/data", description: "Overview of Ethiopia's mining sector" },
     { label: "Gemstones", slug: "/mining/gemstones", description: "Overview of Ethiopia's mining sector" },
 ];
@@ -28,7 +28,7 @@ export default function Layout({
 
     // Find active item for title & breadcrumb
     const activeItem = items.find((item) => item.slug === normalizedPathname);
-    const title = activeItem?.label ?? "Background of MoM";
+    const title = activeItem?.label ?? "Background of WAAAMS";
     const description = activeItem?.description ?? "Overview of Ethiopia's mining sector";
 
     return (

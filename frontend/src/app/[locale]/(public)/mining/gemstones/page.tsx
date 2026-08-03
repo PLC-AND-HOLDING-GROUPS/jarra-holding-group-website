@@ -376,7 +376,7 @@ const GemstonesPage = () => {
             {/* Footer */}
             <div className='mt-12 pt-8 border-t border-gray-200 text-center'>
                 <p className='text-gray-600 mb-2'>
-                    Data Source: Ministry of Mines Geological Survey & Ethiopian Gemological Institute
+                    Data Source: Wollega Adventist Academy Alumni Association Geological Survey & Ethiopian Gemological Institute
                 </p>
                 <p className='text-sm text-gray-500'>
                     All images and descriptions are for illustrative purposes. Actual specimens may vary.

@@ -7,7 +7,7 @@
 
 set -e
 
-DOMAIN="www.mom.gov.et"
+DOMAIN="www.waaams.org"
 CERT="/etc/letsencrypt/live/${DOMAIN}/fullchain.pem"
 
 # ── Select initial config based on cert existence ──────────────────────────────
