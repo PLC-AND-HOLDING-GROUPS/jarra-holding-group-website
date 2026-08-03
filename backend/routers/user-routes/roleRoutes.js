@@ -14,7 +14,7 @@ const {
   getRoleById,
   updateRole,
   deleteRole,
-} = require("../controllers/roleController");
+} = require("../../controllers/user/roleController");
 
 router.post("/", validateCreateRole, createRole);
 router.get("/", getRoles);
