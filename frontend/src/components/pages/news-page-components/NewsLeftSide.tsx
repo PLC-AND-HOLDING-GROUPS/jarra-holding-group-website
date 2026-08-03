@@ -20,7 +20,7 @@ type NewsSidebarProps = {
 const NewsLeftSide = ({ relatedNews }: NewsSidebarProps) => {
     return (
         <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b">
+            <h2 className="text-xl font-bold text-heading mb-6 pb-3 border-b">
                 Related News
             </h2>
 
@@ -29,7 +29,7 @@ const NewsLeftSide = ({ relatedNews }: NewsSidebarProps) => {
                     <a
                         key={item.id}
                         href={`/news/${item.id}`}
-                        className="block group hover:bg-gray-50 p-3 rounded-lg transition-colors"
+                        className="block group hover:bg-background-secondary p-3 rounded-lg transition-colors"
                     >
                         <div className="flex gap-3 mb-3">
                             <div className="flex-shrink-0">
@@ -44,16 +44,16 @@ const NewsLeftSide = ({ relatedNews }: NewsSidebarProps) => {
                                 </div>
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 mb-1 line-clamp-2 text-sm">
+                                <h3 className="font-semibold text-heading group-hover:text-secondary mb-1 line-clamp-2 text-sm">
                                     {item.title}
                                 </h3>
-                                <p className="text-xs text-gray-600 line-clamp-2 mb-2">
+                                <p className="text-xs text-muted line-clamp-2 mb-2">
                                     {item.description}
                                 </p>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-xs text-gray-500">{item.date}</span>
+                                    <span className="text-xs text-muted">{item.date}</span>
                                     <div className="flex items-center gap-1">
-                                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded">
+                                        <span className="px-2 py-0.5 bg-secondary/10 text-secondary text-xs rounded">
                                             {item.category}
                                         </span>
                                     </div>
@@ -66,7 +66,7 @@ const NewsLeftSide = ({ relatedNews }: NewsSidebarProps) => {
 
             <a
                 href="/news"
-                className="mt-6 inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium text-sm"
+                className="mt-6 inline-flex items-center gap-2 text-secondary hover:text-blue-800 font-medium text-sm"
             >
                 View All News
                 <ChevronRight size={14} />

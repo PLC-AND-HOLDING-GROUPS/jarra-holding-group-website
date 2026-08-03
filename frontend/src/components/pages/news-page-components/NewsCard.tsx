@@ -38,18 +38,18 @@ const NewsCard = ({ id, title, excerpt, image, date, category, tags, readingTime
 
             {/* Content */}
             <div className="p-5">
-                <p className="text-xs font-semibold text-blue-600 mb-1">
+                <p className="text-xs font-semibold text-secondary mb-1">
                     {category} • {readingTime(excerpt)} min read
                 </p>
 
-                <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">{title}</h3>
+                <h3 className="font-bold text-base text-heading mb-2 line-clamp-2">{title}</h3>
 
-                <p className="text-sm text-gray-600 line-clamp-3 mb-3">{excerpt}</p>
+                <p className="text-sm text-muted line-clamp-3 mb-3">{excerpt}</p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-3">
                     {tags.map((tag) => (
-                        <span key={tag} className="text-xs bg-gray-200 dark:bg-neutral-800 px-2 py-1 rounded-full">
+                        <span key={tag} className="text-xs bg-background-secondary dark:bg-neutral-800 px-2 py-1 rounded-full">
                             {tag}
                         </span>
                     ))}
@@ -57,7 +57,7 @@ const NewsCard = ({ id, title, excerpt, image, date, category, tags, readingTime
 
                 <Link
                     href={`/news/${id}`}
-                    className="inline-flex items-center text-sm font-semibold text-golden-dark hover:gap-2 transition-all"
+                    className="inline-flex items-center text-sm font-semibold text-primary hover:gap-2 transition-all"
                 >
                     Read More
                     <span className="ml-1">→</span>

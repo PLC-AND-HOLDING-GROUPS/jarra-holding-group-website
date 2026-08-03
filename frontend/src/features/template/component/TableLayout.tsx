@@ -41,7 +41,7 @@ export const TableLayout: React.FC<PageLayoutProps> = ({
               <h1 className="text-2xl font-semibold text-[#073954]">{title}</h1>
             )}
             {description && (
-              <p className="text-gray-500 text-lg">{description}</p>
+              <p className="text-muted text-lg">{description}</p>
             )}
           </div>
 
@@ -49,7 +49,7 @@ export const TableLayout: React.FC<PageLayoutProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-footer" />
               <Input
                 placeholder="Search..."
                 value={searchQuery}

@@ -98,18 +98,18 @@ const MiningDataPage = () => {
                         <h1 className='text-4xl font-bold mb-4'>
                             Mining Sector Data Portal
                         </h1>
-                        <p className='text-gray-900 max-w-2xl'>
+                        <p className='text-heading max-w-2xl'>
                             Official statistics and analytics from Ethiopia's Wollega Adventist Academy Alumni Association -
                             Real-time data for informed decision making
                         </p>
                     </div>
                     <div className='flex items-center gap-4'>
                         <div className='text-right'>
-                            <p className='text-sm text-gray-600'>Last Updated</p>
+                            <p className='text-sm text-muted'>Last Updated</p>
                             <p className='text-lg font-semibold'>December 2023</p>
                         </div>
                         <div className='h-12 w-px bg-gray-700'></div>
-                        <button className='flex items-center gap-2 bg-golden-dark text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors'>
+                        <button className='flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-background-secondary transition-colors'>
                             <Download className="w-5 h-5" />
                             Download Report
                         </button>
@@ -125,7 +125,7 @@ const MiningDataPage = () => {
                         {keyMetrics.map((metric, index) => (
                             <div
                                 key={index}
-                                className='bg-white rounded-xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow'
+                                className='bg-white rounded-xl border border-border p-6 shadow-lg hover:shadow-xl transition-shadow'
                             >
                                 <div className='flex items-start justify-between mb-4'>
                                     <div className={`p-2 rounded-lg bg-gradient-to-br ${metric.color} text-white`}>
@@ -138,26 +138,26 @@ const MiningDataPage = () => {
                                         {metric.change}
                                     </span>
                                 </div>
-                                <h3 className='text-2xl font-bold text-gray-900 mb-2'>{metric.value}</h3>
-                                <p className='text-gray-900 font-medium mb-1'>{metric.title}</p>
-                                <p className='text-sm text-gray-500'>{metric.period}</p>
+                                <h3 className='text-2xl font-bold text-heading mb-2'>{metric.value}</h3>
+                                <p className='text-heading font-medium mb-1'>{metric.title}</p>
+                                <p className='text-sm text-muted'>{metric.period}</p>
                             </div>
                         ))}
                     </div>
 
                     {/* Featured Dashboard */}
-                    <div className='bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200'>
+                    <div className='bg-white rounded-xl shadow-lg overflow-hidden border border-border'>
                         <div className='p-6'>
                             <div className='flex justify-between items-start mb-6'>
                                 <div>
-                                    <h2 className='text-2xl font-bold text-gray-900 mb-2'>
+                                    <h2 className='text-2xl font-bold text-heading mb-2'>
                                         {miningData[0].title}
                                     </h2>
-                                    <p className='text-gray-600'>
+                                    <p className='text-muted'>
                                         {miningData[0].heading}
                                     </p>
                                 </div>
-                                <div className='flex items-center gap-2 text-blue-600 font-medium'>
+                                <div className='flex items-center gap-2 text-secondary font-medium'>
                                     <Filter className='w-5 h-5' />
                                     <span>Interactive Dashboard</span>
                                 </div>
@@ -166,20 +166,20 @@ const MiningDataPage = () => {
                             <div className='mb-8'>
                                 <div className='h-64 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex items-center justify-center'>
                                     <div className='text-center'>
-                                        <BarChart3 className='w-16 h-16 text-gray-400 mx-auto mb-4' />
-                                        <p className='text-gray-500 font-medium'>Interactive Data Visualization</p>
-                                        <p className='text-sm text-gray-400'>Hover over charts for detailed insights</p>
+                                        <BarChart3 className='w-16 h-16 text-footer mx-auto mb-4' />
+                                        <p className='text-muted font-medium'>Interactive Data Visualization</p>
+                                        <p className='text-sm text-footer'>Hover over charts for detailed insights</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                                 {miningData[0].features.map((feature, index) => (
-                                    <div key={index} className='flex items-center gap-3 p-3 bg-gray-50 rounded-lg'>
+                                    <div key={index} className='flex items-center gap-3 p-3 bg-background-secondary rounded-lg'>
                                         <div className='w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center'>
-                                            <Database className='w-4 h-4 text-blue-600' />
+                                            <Database className='w-4 h-4 text-secondary' />
                                         </div>
-                                        <span className='text-gray-700'>{feature}</span>
+                                        <span className='text-muted'>{feature}</span>
                                     </div>
                                 ))}
                             </div>
@@ -187,51 +187,51 @@ const MiningDataPage = () => {
                     </div>
 
                     {/* Regional Performance Table */}
-                    <div className='bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden'>
-                        <div className='p-6 border-b border-gray-200'>
-                            <h3 className='text-2xl font-bold text-gray-900 flex items-center gap-2'>
-                                <MapPin className='w-6 h-6 text-blue-600' />
+                    <div className='bg-white rounded-xl border border-border shadow-lg overflow-hidden'>
+                        <div className='p-6 border-b border-border'>
+                            <h3 className='text-2xl font-bold text-heading flex items-center gap-2'>
+                                <MapPin className='w-6 h-6 text-secondary' />
                                 Regional Production Data
                             </h3>
-                            <p className='text-gray-600 mt-2'>
+                            <p className='text-muted mt-2'>
                                 Mineral production and revenue distribution across Ethiopia's regions
                             </p>
                         </div>
                         <div className='overflow-x-auto'>
                             <table className='w-full'>
-                                <thead className='bg-gray-50'>
+                                <thead className='bg-background-secondary'>
                                     <tr>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-gray-900'>Region</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-gray-900'>Production Share</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-gray-900'>Revenue</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-gray-900'>Active Licenses</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-gray-900'>Trend</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Region</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Production Share</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Revenue</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Active Licenses</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Trend</th>
                                     </tr>
                                 </thead>
                                 <tbody className='divide-y divide-gray-200'>
                                     {regionalData.map((data, index) => (
-                                        <tr key={index} className='hover:bg-gray-50 transition-colors'>
+                                        <tr key={index} className='hover:bg-background-secondary transition-colors'>
                                             <td className='py-4 px-6'>
-                                                <div className='font-medium text-gray-900'>{data.region}</div>
+                                                <div className='font-medium text-heading'>{data.region}</div>
                                             </td>
                                             <td className='py-4 px-6'>
                                                 <div className='flex items-center gap-3'>
-                                                    <div className='w-full bg-gray-200 rounded-full h-2'>
+                                                    <div className='w-full bg-background-secondary rounded-full h-2'>
                                                         <div
-                                                            className='bg-blue-600 h-2 rounded-full'
+                                                            className='bg-secondary h-2 rounded-full'
                                                             style={{ width: data.production }}
                                                         ></div>
                                                     </div>
-                                                    <span className='font-semibold text-gray-900'>{data.production}</span>
+                                                    <span className='font-semibold text-heading'>{data.production}</span>
                                                 </div>
                                             </td>
                                             <td className='py-4 px-6'>
-                                                <div className='font-semibold text-gray-900'>{data.revenue}</div>
+                                                <div className='font-semibold text-heading'>{data.revenue}</div>
                                             </td>
                                             <td className='py-4 px-6'>
                                                 <div className='inline-flex items-center gap-1'>
-                                                    <span className='font-medium text-gray-900'>{data.licenses}</span>
-                                                    <span className='text-sm text-gray-500'>licenses</span>
+                                                    <span className='font-medium text-heading'>{data.licenses}</span>
+                                                    <span className='text-sm text-muted'>licenses</span>
                                                 </div>
                                             </td>
                                             <td className='py-4 px-6'>
@@ -252,7 +252,7 @@ const MiningDataPage = () => {
                 <div className='lg:col-span-4 space-y-8'>
                     {/* Mineral Categories */}
                     <div className='bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100'>
-                        <h3 className='text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2'>
+                        <h3 className='text-2xl font-bold text-heading mb-6 flex items-center gap-2'>
                             <PieChart className='w-6 h-6' />
                             Mineral Categories
                         </h3>
@@ -267,24 +267,24 @@ const MiningDataPage = () => {
                                             <div className='p-2 bg-blue-100 rounded-lg'>
                                                 {category.icon}
                                             </div>
-                                            <h4 className='font-bold text-gray-900'>{category.title}</h4>
+                                            <h4 className='font-bold text-heading'>{category.title}</h4>
                                         </div>
                                         <span className='px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full font-medium'>
                                             {category.growth}
                                         </span>
                                     </div>
                                     <div className='mb-3'>
-                                        <p className='text-sm text-gray-600 mb-2'>{category.description}</p>
+                                        <p className='text-sm text-muted mb-2'>{category.description}</p>
                                         <div className='flex items-center justify-between'>
-                                            <span className='text-sm text-gray-500'>Annual Production</span>
-                                            <span className='font-semibold text-gray-900'>{category.production}</span>
+                                            <span className='text-sm text-muted'>Annual Production</span>
+                                            <span className='font-semibold text-heading'>{category.production}</span>
                                         </div>
                                     </div>
                                     <div className='pt-3 border-t border-gray-100'>
-                                        <p className='text-sm font-medium text-gray-700 mb-2'>Top Producers:</p>
+                                        <p className='text-sm font-medium text-muted mb-2'>Top Producers:</p>
                                         <div className='flex flex-wrap gap-2'>
                                             {category.topProducers.map((producer, idx) => (
-                                                <span key={idx} className='px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded'>
+                                                <span key={idx} className='px-2 py-1 bg-background-secondary text-muted text-xs rounded'>
                                                     {producer}
                                                 </span>
                                             ))}
@@ -296,8 +296,8 @@ const MiningDataPage = () => {
                     </div>
 
                     {/* Data Tools */}
-                    <div className='bg-white rounded-xl border border-gray-200 p-6 shadow-sm'>
-                        <h3 className='text-2xl font-bold text-gray-900 mb-6'>
+                    <div className='bg-white rounded-xl border border-border p-6 shadow-sm'>
+                        <h3 className='text-2xl font-bold text-heading mb-6'>
                             Data Analysis Tools
                         </h3>
                         <div className='space-y-4'>
@@ -326,18 +326,18 @@ const MiningDataPage = () => {
                                 <a
                                     key={index}
                                     href="#"
-                                    className='flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors group'
+                                    className='flex items-center justify-between p-3 bg-background-secondary rounded-lg hover:bg-secondary/10 transition-colors group'
                                 >
                                     <div className='flex items-center gap-3'>
-                                        <div className='p-2 bg-blue-100 rounded-lg text-blue-600'>
+                                        <div className='p-2 bg-blue-100 rounded-lg text-secondary'>
                                             {tool.icon}
                                         </div>
                                         <div>
-                                            <p className='font-medium text-gray-900 group-hover:text-blue-600'>{tool.title}</p>
-                                            <p className='text-sm text-gray-500'>{tool.description}</p>
+                                            <p className='font-medium text-heading group-hover:text-secondary'>{tool.title}</p>
+                                            <p className='text-sm text-muted'>{tool.description}</p>
                                         </div>
                                     </div>
-                                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600" />
+                                    <ChevronRight className="w-5 h-5 text-footer group-hover:text-secondary" />
                                 </a>
                             ))}
                         </div>
@@ -347,26 +347,26 @@ const MiningDataPage = () => {
             </div>
 
             {/* Quick Stats Footer */}
-            <div className='mt-12 pt-8 border-t border-gray-200'>
+            <div className='mt-12 pt-8 border-t border-border'>
                 <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
                     <div>
-                        <p className='text-sm text-gray-500 mb-2'>Data Source</p>
-                        <p className='font-medium text-gray-900'>Wollega Adventist Academy Alumni Association - Ethiopian Government</p>
+                        <p className='text-sm text-muted mb-2'>Data Source</p>
+                        <p className='font-medium text-heading'>Wollega Adventist Academy Alumni Association - Ethiopian Government</p>
                     </div>
                     <div className='flex items-center gap-6'>
                         <div className='text-center'>
-                            <p className='text-2xl font-bold text-gray-900'>98.7%</p>
-                            <p className='text-sm text-gray-500'>Data Accuracy</p>
+                            <p className='text-2xl font-bold text-heading'>98.7%</p>
+                            <p className='text-sm text-muted'>Data Accuracy</p>
                         </div>
                         <div className='h-8 w-px bg-gray-300'></div>
                         <div className='text-center'>
-                            <p className='text-2xl font-bold text-gray-900'>24/7</p>
-                            <p className='text-sm text-gray-500'>Data Availability</p>
+                            <p className='text-2xl font-bold text-heading'>24/7</p>
+                            <p className='text-sm text-muted'>Data Availability</p>
                         </div>
                         <div className='h-8 w-px bg-gray-300'></div>
                         <div className='text-center'>
-                            <p className='text-2xl font-bold text-gray-900'>API</p>
-                            <p className='text-sm text-gray-500'>Developer Access</p>
+                            <p className='text-2xl font-bold text-heading'>API</p>
+                            <p className='text-sm text-muted'>Developer Access</p>
                         </div>
                     </div>
                 </div>

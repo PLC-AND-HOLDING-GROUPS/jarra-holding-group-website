@@ -12,11 +12,11 @@ const miningData = [
 const MiningPage = () => {
     return (
         <div className='w-7xl mx-auto grid grid-cols-1 md:grid-cols-7 gap-8'>
-            <div className="col-span-2 prose max-w-none flex flex-col gap-4 text-gray-500">
-                <p className='text-gray-900'>
+            <div className="col-span-2 prose max-w-none flex flex-col gap-4 text-muted">
+                <p className='text-heading'>
                     On this page, you can learn more about Ethiopia’s mining sector, including an overview of its natural resources, mining’s current economic contribution, the reforms which are taking place, and who the key actors are.
                 </p>
-                <p className='text-gray-500'>
+                <p className='text-muted'>
                     On this page, you can learn more about Ethiopia’s mining sector, including an overview of its natural resources, mining’s current economic contribution, the reforms which are taking place, and who the key actors are.
                 </p>
             </div>
@@ -29,26 +29,26 @@ const MiningPage = () => {
                     className="object-cover w-full"
                     priority={true}
                 />
-                <p className='text-gray-900'>
+                <p className='text-heading'>
                     {miningData[0].heading}
                 </p>
             </div>
             {/* Ministry's Core Mandate */}
-            <div className="col-span-2 prose max-w-none flex flex-col gap-2 text-gray-500">
+            <div className="col-span-2 prose max-w-none flex flex-col gap-2 text-muted">
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-bold text-golden-dark">• Mandate</h2>
+                    <h2 className="text-xl font-bold text-primary">• Mandate</h2>
                     <p>
                         Lead East Africa's mining sector through sustainable resource development and economic value addition.
                     </p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-bold text-golden-dark">• Strategic Focus</h2>
+                    <h2 className="text-xl font-bold text-primary">• Strategic Focus</h2>
                     <p>
                         Ensure sustainable, transparent mineral resource management and foster investment-friendly policies.
                     </p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-bold text-golden-dark">• Key Priority</h2>
+                    <h2 className="text-xl font-bold text-primary">• Key Priority</h2>
                     <p>
                         Maximize mining's contribution to the national economy through effective governance and value chain development.
                     </p>

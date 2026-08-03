@@ -206,9 +206,9 @@ export default function CreateRole() {
       case "all":
         return "bg-green-100 text-green-800 border-green-200";
       case "some":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        return "bg-yellow-100 text-primary border-yellow-200";
       default:
-        return "bg-gray-100 text-gray-600 border-gray-200";
+        return "bg-background-secondary text-muted border-border";
     }
   }, []);
 

@@ -52,7 +52,7 @@ export default function ExternalLogin() {
         <div className="w-full bg-cover bg-center p-8 flex items-center justify-center">
           <div className="backdrop-blur-md p-6 rounded-xl text-center">
             <img
-              src="/logo-aii.png"
+              src="/waa-logo.png"
               alt="Organization Logo"
               className="h-72 mx-auto mb-3 rounded-xl p-2"
             />

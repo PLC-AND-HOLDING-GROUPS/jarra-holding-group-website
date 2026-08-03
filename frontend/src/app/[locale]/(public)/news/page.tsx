@@ -35,11 +35,11 @@ const NewsPage = () => {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Page header */}
                 <div className="mb-8">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-golden-dark">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-primary">
                         News
                     </h1>
-                    <div className="mt-2 h-1 w-12 bg-golden-dark rounded-full" />
-                    <p className="text-gray-600 mt-4 max-w-2xl">
+                    <div className="mt-2 h-1 w-12 bg-primary rounded-full" />
+                    <p className="text-muted mt-4 max-w-2xl">
                         Stay updated with the latest news and announcements from the Wollega Adventist Academy Alumni Association.
 
                         Here you can find information about our activities, projects, and initiatives.
@@ -54,7 +54,7 @@ const NewsPage = () => {
                             <div key={cat} className="relative z-10">
                                 <button
                                     onClick={() => setActiveCategory(cat)}
-                                    className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? "text-white" : "text-gray-700 hover:bg-golden-dark20"
+                                    className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? "text-white" : "text-muted hover:bg-primary20"
                                         }`}
                                 >
                                     {cat}
@@ -63,7 +63,7 @@ const NewsPage = () => {
                                 {isActive && (
                                     <motion.div
                                         layoutId="active-category"
-                                        className="absolute inset-0 bg-golden-dark rounded-lg z-0"
+                                        className="absolute inset-0 bg-primary rounded-lg z-0"
                                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                     />
                                 )}

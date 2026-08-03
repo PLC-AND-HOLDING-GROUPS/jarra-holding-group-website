@@ -138,15 +138,11 @@ function Stars({ count = 5000 }) {
             <bufferGeometry>
                 <bufferAttribute
                     attach="attributes-position"
-                    count={count}
-                    array={positions}
-                    itemSize={3}
+                    args={[positions, 3]}
                 />
                 <bufferAttribute
                     attach="attributes-size"
-                    count={count}
-                    array={sizes}
-                    itemSize={1}
+                    args={[sizes, 1]}
                 />
             </bufferGeometry>
             <pointsMaterial
@@ -210,7 +206,7 @@ export default function GlobeTwoSided({ frontUrl, backUrl }: { frontUrl: string;
             <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10">
                 <div className="flex items-center gap-4 bg-black/30 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm">
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                        <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
                         <span>Interactive Globe</span>
                     </div>
                     <div className="h-4 w-px bg-white/30"></div>

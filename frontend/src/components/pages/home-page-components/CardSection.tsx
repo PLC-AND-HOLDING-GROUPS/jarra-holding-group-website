@@ -37,7 +37,7 @@ const CardSection = () => {
 
                     {/* Right Buttons */}
                     <div className="flex gap-4">
-                        <Button className="bg-golden-dark hover:bg-golden-darkHover px-9 py-2">
+                        <Button className="bg-primary hover:bg-primaryHover px-9 py-2">
                             Learn More
                         </Button>
 

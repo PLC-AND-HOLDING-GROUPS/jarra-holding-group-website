@@ -66,10 +66,10 @@ const LicensingAndLegislationPage = () => {
         <div className='w-7xl mx-auto'>
             {/* Header Section */}
             <div className='mb-10 text-center'>
-                <h1 className='text-4xl font-bold text-gray-900 mb-4'>
+                <h1 className='text-4xl font-bold text-heading mb-4'>
                     Licensing & Legislation
                 </h1>
-                <p className='text-xl text-gray-600 max-w-3xl mx-auto'>
+                <p className='text-xl text-muted max-w-3xl mx-auto'>
                     Transparent regulatory framework governing Ethiopia's mining sector with investor-friendly policies
                 </p>
             </div>
@@ -78,7 +78,7 @@ const LicensingAndLegislationPage = () => {
                 {/* Left Column - Main Content */}
                 <div className='lg:col-span-7 space-y-8'>
                     {/* Featured Content Card */}
-                    <div className='bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200'>
+                    <div className='bg-white rounded-xl shadow-lg overflow-hidden border border-border'>
                         <div className='relative h-64 w-full'>
                             <Image
                                 src={legislationData[0].image}
@@ -95,17 +95,17 @@ const LicensingAndLegislationPage = () => {
                             </div>
                         </div>
                         <div className='p-6'>
-                            <p className='text-lg text-gray-700 mb-6'>
+                            <p className='text-lg text-muted mb-6'>
                                 {legislationData[0].heading}
                             </p>
-                            <p className='text-gray-600 mb-6'>
+                            <p className='text-muted mb-6'>
                                 {legislationData[0].description}
                             </p>
                             <div className='space-y-3'>
                                 {legislationData[0].features.map((feature, index) => (
                                     <div key={index} className='flex items-center gap-3'>
                                         <CheckCircle className='w-5 h-5 text-green-600 flex-shrink-0' />
-                                        <span className='text-gray-700'>{feature}</span>
+                                        <span className='text-muted'>{feature}</span>
                                     </div>
                                 ))}
                             </div>
@@ -114,36 +114,36 @@ const LicensingAndLegislationPage = () => {
 
                     {/* License Types Grid */}
                     <div>
-                        <h3 className='text-2xl font-bold text-gray-900 mb-6'>
+                        <h3 className='text-2xl font-bold text-heading mb-6'>
                             License Categories
                         </h3>
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
                             {licenseTypes.map((license, index) => (
                                 <div
                                     key={index}
-                                    className='bg-white p-5 shadow-xl rounded-xl border border-gray-200 hover:border-blue-500 transition-colors shadow-sm'
+                                    className='bg-white p-5 shadow-xl rounded-xl border border-border hover:border-secondary transition-colors shadow-sm'
                                 >
-                                    <div className='mb-2 flex space-x-2 text-blue-600'>
+                                    <div className='mb-2 flex space-x-2 text-secondary'>
                                         {license.icon}
-                                        <h4 className='font-bold text-lg text-gray-900'>
+                                        <h4 className='font-bold text-lg text-heading'>
                                             {license.title}
                                         </h4>
                                     </div>
 
-                                    <div className='inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-3'>
+                                    <div className='inline-block px-3 py-1 bg-blue-100 text-secondary rounded-full text-sm font-medium mb-3'>
                                         Duration: {license.duration}
                                     </div>
-                                    <p className='text-gray-600 mb-4'>
+                                    <p className='text-muted mb-4'>
                                         {license.description}
                                     </p>
                                     <div className='space-y-2'>
-                                        <p className='text-sm font-medium text-gray-700'>
+                                        <p className='text-sm font-medium text-muted'>
                                             Key Requirements:
                                         </p>
                                         {license.requirements.map((req, idx) => (
                                             <div key={idx} className='flex items-center gap-2'>
-                                                <div className='w-1.5 h-1.5 bg-blue-500 rounded-full'></div>
-                                                <span className='text-sm text-gray-600'>{req}</span>
+                                                <div className='w-1.5 h-1.5 bg-secondary rounded-full'></div>
+                                                <span className='text-sm text-muted'>{req}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -157,7 +157,7 @@ const LicensingAndLegislationPage = () => {
                 <div className='lg:col-span-5 space-y-8'>
                     {/* Key Legislation Panel */}
                     <div className='shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100'>
-                        <h3 className='text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2'>
+                        <h3 className='text-2xl font-bold text-heading mb-6 flex items-center gap-2'>
                             <Scale className='w-6 h-6' />
                             Key Legislation
                         </h3>
@@ -168,14 +168,14 @@ const LicensingAndLegislationPage = () => {
                                     className='bg-white p-4 rounded-lg border border-blue-100 hover:border-blue-300 transition-colors'
                                 >
                                     <div className='flex justify-between items-start mb-2'>
-                                        <h4 className='font-semibold text-gray-900'>
+                                        <h4 className='font-semibold text-heading'>
                                             {law.title}
                                         </h4>
-                                        <span className='px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-full'>
+                                        <span className='px-2 py-1 bg-blue-100 text-secondary text-sm rounded-full'>
                                             {law.year}
                                         </span>
                                     </div>
-                                    <p className='text-gray-600 text-sm'>
+                                    <p className='text-muted text-sm'>
                                         {law.description}
                                     </p>
                                 </div>
@@ -184,8 +184,8 @@ const LicensingAndLegislationPage = () => {
                     </div>
 
                     {/* Regulatory Principles */}
-                    <div className='shadow-xl bg-white rounded-xl border border-gray-200 p-6 shadow-sm'>
-                        <h3 className='text-2xl font-bold text-gray-900 mb-6'>
+                    <div className='shadow-xl bg-white rounded-xl border border-border p-6 shadow-sm'>
+                        <h3 className='text-2xl font-bold text-heading mb-6'>
                             Regulatory Principles
                         </h3>
                         <div className='space-y-4'>
@@ -209,18 +209,18 @@ const LicensingAndLegislationPage = () => {
                             ].map((principle, index) => (
                                 <div key={index} className='pb-4 border-b border-gray-100 last:border-0 last:pb-0'>
                                     <div className='flex items-center gap-3 mb-2'>
-                                        <div className='w-3 h-3 bg-blue-500 rounded-full'></div>
-                                        <h4 className='font-semibold text-gray-900'>{principle.title}</h4>
+                                        <div className='w-3 h-3 bg-secondary rounded-full'></div>
+                                        <h4 className='font-semibold text-heading'>{principle.title}</h4>
                                     </div>
-                                    <p className='text-gray-600 text-sm ml-6'>{principle.desc}</p>
+                                    <p className='text-muted text-sm ml-6'>{principle.desc}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     {/* Quick Links */}
-                    <div className='shadow-xl bg-gray-50 rounded-xl p-6 border border-gray-200'>
-                        <h3 className='text-xl font-bold text-gray-900 mb-4'>
+                    <div className='shadow-xl bg-background-secondary rounded-xl p-6 border border-border'>
+                        <h3 className='text-xl font-bold text-heading mb-4'>
                             Quick Resources
                         </h3>
                         <div className='space-y-3'>
@@ -233,12 +233,12 @@ const LicensingAndLegislationPage = () => {
                                 <a
                                     key={index}
                                     href="#"
-                                    className='flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-400 hover:shadow transition-all group'
+                                    className='flex items-center justify-between p-3 bg-white rounded-lg border border-border hover:border-secondary hover:shadow transition-all group'
                                 >
-                                    <span className='text-gray-700 group-hover:text-blue-600'>
+                                    <span className='text-muted group-hover:text-secondary'>
                                         {resource.label}
                                     </span>
-                                    <span className='px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded group-hover:bg-blue-50 group-hover:text-blue-600'>
+                                    <span className='px-2 py-1 bg-background-secondary text-muted text-xs rounded group-hover:bg-secondary/10 group-hover:text-secondary'>
                                         {resource.type === 'link' ? 'View →' : 'PDF ↓'}
                                     </span>
                                 </a>

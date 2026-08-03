@@ -81,7 +81,7 @@ const ApplicationPortalPage = () => {
                         </p>
                         <a
                             href="#apply-now"
-                            className='inline-flex items-center gap-2 bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg'
+                            className='inline-flex items-center gap-2 bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold hover:bg-secondary/10 transition-colors shadow-lg'
                         >
                             Start New Application
                             <ArrowRight className="w-5 h-5" />
@@ -95,10 +95,10 @@ const ApplicationPortalPage = () => {
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16'>
                     <div>
                         <div className='mb-8'>
-                            <h2 className='text-3xl font-bold text-gray-900 mb-4'>
+                            <h2 className='text-3xl font-bold text-heading mb-4'>
                                 Welcome to the Digital Application Portal
                             </h2>
-                            <p className='text-lg text-gray-600'>
+                            <p className='text-lg text-muted'>
                                 The Wollega Adventist Academy Alumni Association is committed to digital transformation, providing investors with a seamless online experience for all mining license applications. Our portal ensures transparency, efficiency, and accessibility throughout the application process.
                             </p>
                         </div>
@@ -108,7 +108,7 @@ const ApplicationPortalPage = () => {
                                 <div key={index} className='flex items-start gap-3'>
                                     <CheckCircle className='w-6 h-6 text-green-500 flex-shrink-0 mt-1' />
                                     <div>
-                                        <p className='font-medium text-gray-900'>{benefit}</p>
+                                        <p className='font-medium text-heading'>{benefit}</p>
                                     </div>
                                 </div>
                             ))}
@@ -126,8 +126,8 @@ const ApplicationPortalPage = () => {
                         <div className='absolute inset-0 bg-gradient-to-tr from-blue-900/70 to-transparent' />
                         <div className='absolute bottom-8 left-8'>
                             <div className='inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full'>
-                                <Clock className='w-5 h-5 text-blue-600' />
-                                <span className='font-semibold text-gray-900'>Average Processing Time Reduced by 40%</span>
+                                <Clock className='w-5 h-5 text-secondary' />
+                                <span className='font-semibold text-heading'>Average Processing Time Reduced by 40%</span>
                             </div>
                         </div>
                     </div>
@@ -135,14 +135,14 @@ const ApplicationPortalPage = () => {
 
                 {/* Application Types */}
                 <div className='mb-16'>
-                    <h3 className='text-3xl font-bold text-gray-900 mb-10 text-center'>
+                    <h3 className='text-3xl font-bold text-heading mb-10 text-center'>
                         Available Application Types
                     </h3>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
                         {applicationTypes.map((type, index) => (
                             <div
                                 key={index}
-                                className='group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1'
+                                className='group bg-white rounded-xl border border-border overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1'
                             >
                                 <div className={`h-2 bg-gradient-to-r ${type.color}`} />
                                 <div className='p-6'>
@@ -150,34 +150,34 @@ const ApplicationPortalPage = () => {
                                         <div className={`p-2 rounded-lg bg-gradient-to-br ${type.color} text-white`}>
                                             {type.icon}
                                         </div>
-                                        <h4 className='text-xl font-bold text-gray-900'>{type.title}</h4>
+                                        <h4 className='text-xl font-bold text-heading'>{type.title}</h4>
                                     </div>
 
                                     <div className='space-y-4 mb-6'>
-                                        <div className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'>
-                                            <span className='text-gray-600'>Processing Time</span>
-                                            <span className='font-semibold text-gray-900'>{type.processingTime}</span>
+                                        <div className='flex items-center justify-between p-3 bg-background-secondary rounded-lg'>
+                                            <span className='text-muted'>Processing Time</span>
+                                            <span className='font-semibold text-heading'>{type.processingTime}</span>
                                         </div>
-                                        <div className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'>
-                                            <span className='text-gray-600'>Application Fee</span>
-                                            <span className='font-semibold text-gray-900'>{type.fee}</span>
+                                        <div className='flex items-center justify-between p-3 bg-background-secondary rounded-lg'>
+                                            <span className='text-muted'>Application Fee</span>
+                                            <span className='font-semibold text-heading'>{type.fee}</span>
                                         </div>
                                     </div>
 
                                     <div className='space-y-2'>
-                                        <p className='text-sm font-medium text-gray-700 mb-2'>Application Steps:</p>
+                                        <p className='text-sm font-medium text-muted mb-2'>Application Steps:</p>
                                         {type.steps.map((step, idx) => (
                                             <div key={idx} className='flex items-center gap-2'>
-                                                <div className='w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold'>
+                                                <div className='w-6 h-6 rounded-full bg-blue-100 text-secondary flex items-center justify-center text-xs font-bold'>
                                                     {idx + 1}
                                                 </div>
-                                                <span className='text-gray-600'>{step}</span>
+                                                <span className='text-muted'>{step}</span>
                                             </div>
                                         ))}
                                     </div>
 
                                     <Link href={`/mining/application-portal/${type.title}`} >
-                                        <Button className='w-full mt-6 bg-golden-dark text-white py-3 rounded-lg font-medium hover:bg-golden-dark transition-colors'>Start {type.title}</Button>
+                                        <Button className='w-full mt-6 bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary transition-colors'>Start {type.title}</Button>
                                     </Link>
                                 </div>
                             </div>

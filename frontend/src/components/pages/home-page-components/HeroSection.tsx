@@ -145,11 +145,11 @@ export default function HeroSection() {
 
                             <div className="relative z-10 w-full h-full flex items-center justify-center mb-20">
                                 <div className="max-w-7xl w-full px-6">
-                                    <div className="inline-flex items-center gap-2   rounded-full bg-golden-dark10 text-golden-dark text-sm font-semibold mb-10">
+                                    <div className="inline-flex items-center gap-2   rounded-full bg-primary10 text-primary text-sm font-semibold mb-10">
                                         {/* Animated ping dot */}
                                         <span className="relative flex h-2 w-2">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-golden-dark opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-golden-dark"></span>
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                                         </span>
 
                                         {t("hero.badge")}
@@ -162,7 +162,7 @@ export default function HeroSection() {
                                         {slide.description[locale]}
                                     </p>
                                     <div className="flex flex-col sm:flex-row gap-4 mt-4 w-fit">
-                                        <Button className="bg-golden-dark z-30 w-full sm:w-fit hover:bg-golden-darkHover h-12  text-base flex items-center justify-center">
+                                        <Button className="bg-primary z-30 w-full sm:w-fit hover:bg-primaryHover h-12  text-base flex items-center justify-center">
                                             {t("hero.button")} <ArrowRight className="w-4 h-4 " />
                                         </  Button>
                                         <Button className="bg-white z-30 text-primary w-full sm:w-fit h-12  text-base hover:bg-white/80">

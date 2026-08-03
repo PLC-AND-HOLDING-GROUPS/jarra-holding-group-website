@@ -82,7 +82,7 @@ export default function Layout({
                         <div>
                             <h1 className="text-2xl flex gap-1 flex-col font-serif text-teal-800 leading-tight">
                                 {title}
-                                <span className="text-golden-dark h-1 w-1/2 bg-teal-800"></span>
+                                <span className="text-primary h-1 w-1/2 bg-teal-800"></span>
                             </h1>
                         </div>
                     </div>

@@ -52,7 +52,7 @@ const CustomNode = ({
                     <foreignObject x={-10} y={-10} width={20} height={20}>
                         <button
                             onClick={toggleNode}
-                            className="w-5 h-5 rounded-full bg-golden-dark text-white text-sm font-bold flex items-center justify-center cursor-pointer"
+                            className="w-5 h-5 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center cursor-pointer"
                         >
                             {isCollapsed ? "+" : "−"}
                         </button>
@@ -61,15 +61,15 @@ const CustomNode = ({
             )}
 
             <foreignObject x={-150} y={-90} width={300} height={140}>
-                <div className="w-full h-full bg-white rounded-2xl border border-gray-200 shadow-md p-5 flex flex-col justify-between">
+                <div className="w-full h-full bg-white rounded-2xl border border-border shadow-md p-5 flex flex-col justify-between">
                     <div className="flex justify-center items-center">
-                        <h3 className="text-golden-dark text-center font-semibold text-lg line-clamp-2">
+                        <h3 className="text-primary text-center font-semibold text-lg line-clamp-2">
                             {nodeDatum.name}
                         </h3>
 
                     </div>
                     {nodeDatum.attributes.description && (
-                        <p className="text-sm text-gray-600 text-center mt-2 line-clamp-2">
+                        <p className="text-sm text-muted text-center mt-2 line-clamp-2">
                             {shortenText(nodeDatum.attributes.description, 40)}
                         </p>
                     )}
@@ -148,12 +148,12 @@ const HierarchyD3Tree: React.FC<HierarchyD3TreeProps> = ({
             className={`${isFullScreen
                 ? "fixed top-0 left-0 z-[9999] w-screen h-screen rounded-none"
                 : "relative w-full rounded-lg"
-                } bg-[#F9FBFC] border border-gray-200 overflow-hidden transition-all duration-300`}
+                } bg-[#F9FBFC] border border-border overflow-hidden transition-all duration-300`}
         >
             {/* Full-screen toggle */}
             <button
                 onClick={() => setIsFullScreen(!isFullScreen)}
-                className="absolute top-4 right-4 z-50 p-2 rounded-md bg-white border shadow hover:bg-gray-100"
+                className="absolute top-4 right-4 z-50 p-2 rounded-md bg-white border shadow hover:bg-background-secondary"
             >
                 {isFullScreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
             </button>

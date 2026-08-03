@@ -36,10 +36,10 @@ export default function VisionMissionValues() {
 
                 {/* Page Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-golden-dark">
+                    <h1 className="text-4xl font-bold text-primary">
                         Vision, Mission & Core Values
                     </h1>
-                    <p className="text-gray-600 mt-3 max-w-3xl mx-auto">
+                    <p className="text-muted mt-3 max-w-3xl mx-auto">
                         Guiding principles that shape the strategic direction and operational
                         excellence of the Wollega Adventist Academy Alumni Association.
                     </p>

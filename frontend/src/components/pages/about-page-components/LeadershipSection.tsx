@@ -8,7 +8,7 @@ export default function LeadershipSection() {
                 <h1 className="md:text-4xl text-2xl font-bold text-teal-900">
                     Ministry Leadership Structure
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-muted mt-2">
                     Interactive organizational hierarchy
                 </p>
             </div>

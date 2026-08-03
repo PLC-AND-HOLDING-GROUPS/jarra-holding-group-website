@@ -132,11 +132,11 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             return (
               <div className="flex items-center space-x-2">
                 {option.data?.icon && (
-                  <span className="text-gray-400">{option.data.icon}</span>
+                  <span className="text-footer">{option.data.icon}</span>
                 )}
                 <span>{option.label}</span>
                 {option.data?.description && (
-                  <span className="text-xs text-gray-500 ml-auto">
+                  <span className="text-xs text-muted ml-auto">
                     {option.data.description}
                   </span>
                 )}

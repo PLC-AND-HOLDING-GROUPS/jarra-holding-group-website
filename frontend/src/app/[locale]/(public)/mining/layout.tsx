@@ -44,8 +44,8 @@ export default function Layout({
             <div className="relative">
                 {/* Overlay Search Bar - positioned to cover half of the PageHeader */}
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-7xl z-[999]">
-                    <div className="pt-5 pb-10 w-full bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden space-y-6 px-7">
-                        <h1 className="text-2xl font-bold text-golden-dark text-center">More On Mining</h1>
+                    <div className="pt-5 pb-10 w-full bg-white rounded-2xl shadow-xl border border-border overflow-hidden space-y-6 px-7">
+                        <h1 className="text-2xl font-bold text-primary text-center">More On Mining</h1>
 
                         <div className={`bg-white flex items-center justify-around gap-4`}>
                             {items.map((item) => {
@@ -54,7 +54,7 @@ export default function Layout({
                                     <Button
                                         key={item.slug}
                                         onClick={() => router.push(item.slug)}
-                                        className={`p-6 cursor-pointer transition-colors bg-gray-100 border border-gray-200  ${active ? "bg-golden-dark text-white font-semibold border-l-4 border-golden-dark shadow-xl hover:bg-golden" : "text-gray-700 hover:bg-gray-50"
+                                        className={`p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-golden-dark shadow-xl hover:bg-golden" : "text-muted hover:bg-background-secondary"
                                             }`}
                                     >
                                         {item.label}
@@ -73,8 +73,8 @@ export default function Layout({
                             <div>
                                 <h1 className="text-2xl flex gap-2 flex-col font-serif text-teal-800 leading-tight">
                                     {title}
-                                    <span className="text-golden-dark h-1 w-1/2 bg-teal-800"></span>
-                                    <p className="text-gray-600 text-lg text-teal-800">{description}</p>
+                                    <span className="text-primary h-1 w-1/2 bg-teal-800"></span>
+                                    <p className="text-muted text-lg text-teal-800">{description}</p>
                                 </h1>
                             </div>
                         </div>

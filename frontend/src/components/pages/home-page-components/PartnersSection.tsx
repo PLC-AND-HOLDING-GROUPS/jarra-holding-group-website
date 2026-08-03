@@ -25,11 +25,11 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ speed = 50 }) => {
         <section className="w-full max-w-7xl pb-28 overflow-hidden">
             {/* Header */}
             <div className="mb-10 px-4">
-                <h2 className="text-2xl sm:text-3xl font-bold text-golden-dark">
+                <h2 className="text-2xl sm:text-3xl font-bold text-primary">
                     Our Partners
                 </h2>
-                <div className="mt-2 h-1 w-20 bg-golden-dark rounded-full"></div>
-                <p className="mt-3 text-gray-600 max-w-2xl">
+                <div className="mt-2 h-1 w-20 bg-primary rounded-full"></div>
+                <p className="mt-3 text-muted max-w-2xl">
                     We collaborate with trusted national and international partners to
                     support sustainable industrial and economic development.
                 </p>

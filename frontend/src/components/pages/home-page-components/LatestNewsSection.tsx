@@ -76,17 +76,17 @@ export default function LatestNewsSection() {
                 {/* Section Header */}
                 <div className="mb-10 flex justify-between items-center">
                     <div className="flex  flex-col ">
-                        <p className=" text-sm font-medium text-gray-500">News & Updates</p>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-golden-dark">
+                        <p className=" text-sm font-medium text-muted">News & Updates</p>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-primary">
                             Latest News
                         </h2>
-                        <div className="mt-3 h-1 w-20 bg-golden-dark rounded-full"></div>
+                        <div className="mt-3 h-1 w-20 bg-primary rounded-full"></div>
                     </div>
                     {/* Creative "Find All News" Card */}
                     <div className="flex items-center">
                         <a
                             href="/news"
-                            className="flex items-center gap-2 bg-golden-dark hover:bg-golden-darkHover text-white px-2 md:px-5 py-2 md:py-3 rounded-md md:rounded-2xl  shadow-md transition-all transform "
+                            className="flex items-center gap-2 bg-primary hover:bg-primaryHover text-white px-2 md:px-5 py-2 md:py-3 rounded-md md:rounded-2xl  shadow-md transition-all transform "
                         >
                             <span className="font-medium text-xs md:text-base">Find All News</span>
                             <ArrowRight size={18} />
@@ -118,14 +118,14 @@ export default function LatestNewsSection() {
 
                         {/* Content */}
                         <div className="p-4 md:p-8 flex flex-col justify-center gap-4">
-                            <h3 className="text-lg md:text-xl font-semibold text-gray-900">
+                            <h3 className="text-lg md:text-xl font-semibold text-heading">
                                 {item.title}
                             </h3>
-                            <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+                            <p className="text-muted leading-relaxed text-sm md:text-base">
                                 {item.description}
                             </p>
 
-                            <Button className="mt-4 bg-golden-dark hover:bg-golden-darkHover inline-flex items-center gap-2 w-fit px-6 py-3 rounded-md   text-white text-sm font-medium  transition">
+                            <Button className="mt-4 bg-primary hover:bg-primaryHover inline-flex items-center gap-2 w-fit px-6 py-3 rounded-md   text-white text-sm font-medium  transition">
                                 Read More <ArrowRight size={16} />
                             </Button>
                         </div>

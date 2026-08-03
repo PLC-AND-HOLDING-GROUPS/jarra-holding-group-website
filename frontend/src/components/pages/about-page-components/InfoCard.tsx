@@ -32,12 +32,12 @@ export default function InfoCard({
                         className="object-cover md:w-28 w-24"
                         priority={true}
                     />
-                    <h2 className="text-xl font-bold text-golden-dark">{title}</h2>
+                    <h2 className="text-xl font-bold text-primary">{title}</h2>
                 </div>
 
             </div>
 
-            <div className="text-gray-700 text-sm sm:text-base leading-relaxed">
+            <div className="text-muted text-sm sm:text-base leading-relaxed">
                 {children}
             </div>
         </motion.div>

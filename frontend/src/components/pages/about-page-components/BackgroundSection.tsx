@@ -10,14 +10,14 @@ const BackgroundPage = () => {
                 {/* Hero Header */}
                 <div className="text-center mb-12">
                     <div className="inline-flex items-center gap-3 mb-4">
-                        <div className="bg-golden-dark/10 p-3 rounded-2xl">
-                            <Building2 className="w-8 h-8 text-golden-dark" />
+                        <div className="bg-primary/10 p-3 rounded-2xl">
+                            <Building2 className="w-8 h-8 text-primary" />
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
-                            Ministry <span className="text-golden-dark">Background</span>
+                        <h1 className="text-4xl md:text-5xl font-bold text-heading">
+                            Ministry <span className="text-primary">Background</span>
                         </h1>
                     </div>
-                    <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+                    <p className="text-muted text-lg max-w-3xl mx-auto">
                         Established to regulate and develop Ethiopia's mineral and petroleum resources
                         for sustainable economic growth and national development.
                     </p>

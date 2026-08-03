@@ -181,16 +181,16 @@ const GemstonesPage = () => {
 
             {/* Search and Filter Section */}
             <div className='mb-10'>
-                <div className='bg-white rounded-xl p-6 border border-gray-200 shadow-lg'>
+                <div className='bg-white rounded-xl p-6 border border-border shadow-lg'>
                     <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
                         {/* Search Bar */}
                         <div className='lg:col-span-5'>
                             <div className='relative'>
-                                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400' />
+                                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-footer' />
                                 <input
                                     type="text"
                                     placeholder="Search gemstones by name, location, color, or type..."
-                                    className='w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                                    className='w-full pl-12 pr-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -200,9 +200,9 @@ const GemstonesPage = () => {
                         {/* Category Filter */}
                         <div className='lg:col-span-3'>
                             <div className='relative'>
-                                <Filter className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400' />
+                                <Filter className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-footer' />
                                 <select
-                                    className='w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none'
+                                    className='w-full pl-12 pr-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none'
                                     value={selectedCategory}
                                     onChange={(e) => setSelectedCategory(e.target.value)}
                                 >
@@ -212,16 +212,16 @@ const GemstonesPage = () => {
                                         </option>
                                     ))}
                                 </select>
-                                <ChevronDown className='absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none' />
+                                <ChevronDown className='absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-footer pointer-events-none' />
                             </div>
                         </div>
 
                         {/* Color Filter */}
                         <div className='lg:col-span-3'>
                             <div className='relative'>
-                                <Diamond className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400' />
+                                <Diamond className='absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-footer' />
                                 <select
-                                    className='w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none'
+                                    className='w-full pl-12 pr-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none'
                                     value={selectedColor}
                                     onChange={(e) => setSelectedColor(e.target.value)}
                                 >
@@ -231,7 +231,7 @@ const GemstonesPage = () => {
                                         </option>
                                     ))}
                                 </select>
-                                <ChevronDown className='absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none' />
+                                <ChevronDown className='absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-footer pointer-events-none' />
                             </div>
                         </div>
 
@@ -243,7 +243,7 @@ const GemstonesPage = () => {
                                     setSelectedCategory("All");
                                     setSelectedColor("All");
                                 }}
-                                className='w-full py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium'
+                                className='w-full py-3 border border-border text-muted rounded-lg hover:bg-background-secondary transition-colors font-medium'
                             >
                                 Reset
                             </button>
@@ -251,9 +251,9 @@ const GemstonesPage = () => {
                     </div>
 
                     {/* Results Count */}
-                    <div className='mt-6 pt-6 border-t border-gray-200'>
-                        <p className='text-gray-600'>
-                            Showing <span className='font-bold text-golden-dark'>{filteredGemstones.length}</span> of {gemstonesData.length} gemstones
+                    <div className='mt-6 pt-6 border-t border-border'>
+                        <p className='text-muted'>
+                            Showing <span className='font-bold text-primary'>{filteredGemstones.length}</span> of {gemstonesData.length} gemstones
                             {searchTerm && ` matching "${searchTerm}"`}
                         </p>
                     </div>
@@ -265,7 +265,7 @@ const GemstonesPage = () => {
                     {filteredGemstones.map(gem => (
                         <div
                             key={gem.id}
-                            className='bg-white rounded-xl grid grid-cols-1 lg:grid-cols-3 gap-2 border border-gray-200 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group'
+                            className='bg-white rounded-xl grid grid-cols-1 lg:grid-cols-3 gap-2 border border-border overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group'
                         >
                             {/* Image with placeholder description */}
                             <div className='relative bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden'>
@@ -278,9 +278,9 @@ const GemstonesPage = () => {
                                     />
                                 ) : (
                                     <div className='w-full h-full flex flex-col items-center justify-center p-4 text-center'>
-                                        <Gem className='w-16 h-16 text-gray-400 mb-3' />
-                                        <p className='text-gray-500 font-medium'>{gem.name}</p>
-                                        <p className='text-sm text-gray-400 mt-1'>{gem.color} • {gem.type}</p>
+                                        <Gem className='w-16 h-16 text-footer mb-3' />
+                                        <p className='text-muted font-medium'>{gem.name}</p>
+                                        <p className='text-sm text-footer mt-1'>{gem.color} • {gem.type}</p>
                                     </div>
                                 )}
                                 {/* Category Badge */}
@@ -298,8 +298,8 @@ const GemstonesPage = () => {
                             <div className='p-6 col-span-2'>
                                 <div className='flex justify-between items-start mb-3'>
                                     <div>
-                                        <h3 className='text-xl font-bold text-gray-900 mb-1'>{gem.name}</h3>
-                                        <div className='flex items-center gap-2 text-gray-600'>
+                                        <h3 className='text-xl font-bold text-heading mb-1'>{gem.name}</h3>
+                                        <div className='flex items-center gap-2 text-muted'>
                                             <MapPin className='w-4 h-4' />
                                             <span className='text-sm'>{gem.location}</span>
                                         </div>
@@ -307,27 +307,27 @@ const GemstonesPage = () => {
                                     <div className='text-right'>
                                         <div className={`px-2 py-1 rounded text-xs font-bold ${gem.value === "Very High" ? 'bg-red-100 text-red-700' :
                                             gem.value === "High" ? 'bg-amber-100 text-amber-700' :
-                                                gem.value === "Medium-High" ? 'bg-blue-100 text-blue-700' :
+                                                gem.value === "Medium-High" ? 'bg-blue-100 text-secondary' :
                                                     gem.value === "Medium" ? 'bg-green-100 text-green-700' :
-                                                        'bg-gray-100 text-gray-700'
+                                                        'bg-background-secondary text-muted'
                                             }`}>
                                             {gem.value} Value
                                         </div>
                                     </div>
                                 </div>
 
-                                <p className='text-gray-600 text-sm mb-4 line-clamp-2'>
+                                <p className='text-muted text-sm mb-4 line-clamp-2'>
                                     {gem.description}
                                 </p>
 
                                 <div className='grid grid-cols-2 gap-3 mb-4'>
-                                    <div className='p-2 bg-gray-50 rounded'>
-                                        <p className='text-xs text-gray-500'>Type</p>
-                                        <p className='font-medium text-gray-900'>{gem.type}</p>
+                                    <div className='p-2 bg-background-secondary rounded'>
+                                        <p className='text-xs text-muted'>Type</p>
+                                        <p className='font-medium text-heading'>{gem.type}</p>
                                     </div>
-                                    <div className='p-2 bg-gray-50 rounded'>
-                                        <p className='text-xs text-gray-500'>Hardness</p>
-                                        <p className='font-medium text-gray-900'>{gem.hardness} Mohs</p>
+                                    <div className='p-2 bg-background-secondary rounded'>
+                                        <p className='text-xs text-muted'>Hardness</p>
+                                        <p className='font-medium text-heading'>{gem.hardness} Mohs</p>
                                     </div>
                                 </div>
 
@@ -336,23 +336,23 @@ const GemstonesPage = () => {
                                     {gem.tags.slice(0, 3).map((tag, index) => (
                                         <span
                                             key={index}
-                                            className='px-2 py-1 bg-yellow-50 text-golden-dark text-xs rounded-full'
+                                            className='px-2 py-1 bg-yellow-50 text-primary text-xs rounded-full'
                                         >
                                             {tag}
                                         </span>
                                     ))}
                                     {gem.tags.length > 3 && (
-                                        <span className='px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full'>
+                                        <span className='px-2 py-1 bg-background-secondary text-muted text-xs rounded-full'>
                                             +{gem.tags.length - 3} more
                                         </span>
                                     )}
                                 </div>
 
                                 <div className='flex justify-between items-center pt-4 border-t border-gray-100'>
-                                    <div className='text-sm text-gray-500'>
+                                    <div className='text-sm text-muted'>
                                         Discovered: {gem.discoveryYear}
                                     </div>
-                                    <button className='text-sm font-medium text-golden-dark hover:text-golden-light'>
+                                    <button className='text-sm font-medium text-primary hover:text-golden-light'>
                                         View Details →
                                     </button>
                                 </div>
@@ -363,10 +363,10 @@ const GemstonesPage = () => {
 
                 {/* Empty State */}
                 {filteredGemstones.length === 0 && (
-                    <div className='text-center py-16 bg-white rounded-xl border border-gray-200'>
-                        <Gem className='w-16 h-16 text-gray-400 mx-auto mb-4' />
-                        <h3 className='text-xl font-bold text-gray-900 mb-2'>No gemstones found</h3>
-                        <p className='text-gray-600 max-w-md mx-auto'>
+                    <div className='text-center py-16 bg-white rounded-xl border border-border'>
+                        <Gem className='w-16 h-16 text-footer mx-auto mb-4' />
+                        <h3 className='text-xl font-bold text-heading mb-2'>No gemstones found</h3>
+                        <p className='text-muted max-w-md mx-auto'>
                             Try adjusting your search or filters to find Ethiopian gemstones matching your criteria.
                         </p>
                     </div>
@@ -374,11 +374,11 @@ const GemstonesPage = () => {
             </div>
 
             {/* Footer */}
-            <div className='mt-12 pt-8 border-t border-gray-200 text-center'>
-                <p className='text-gray-600 mb-2'>
+            <div className='mt-12 pt-8 border-t border-border text-center'>
+                <p className='text-muted mb-2'>
                     Data Source: Wollega Adventist Academy Alumni Association Geological Survey & Ethiopian Gemological Institute
                 </p>
-                <p className='text-sm text-gray-500'>
+                <p className='text-sm text-muted'>
                     All images and descriptions are for illustrative purposes. Actual specimens may vary.
                 </p>
             </div>

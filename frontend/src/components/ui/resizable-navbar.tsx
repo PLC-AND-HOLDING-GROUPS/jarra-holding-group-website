@@ -166,11 +166,11 @@ export const LanguageSwitcher = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setOpen((v) => !v)}
                 className={clsx(
-                    "flex items-center gap-2 rounded-full px-3 py-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition"
+                    "flex items-center gap-2 rounded-full px-3 py-2 hover:bg-background-secondary dark:hover:bg-neutral-800 transition"
                 )}
             >
                 <GlobeIcon className="h-5 w-5 animate-spin [animation-duration:6s]" />
-                <span className="text-sm font-semibold text-golden-dark dark:text-white">
+                <span className="text-sm font-semibold text-primary dark:text-white">
                     {currentLang.label}
                 </span>
             </motion.button>
@@ -193,8 +193,8 @@ export const LanguageSwitcher = () => {
                                     className={clsx(
                                         "w-full px-4 py-2 text-left text-sm transition",
                                         isActive
-                                            ? "bg-gray-100 dark:bg-neutral-800 font-semibold text-golden-dark"
-                                            : "hover:bg-gray-50 dark:hover:bg-neutral-800"
+                                            ? "bg-background-secondary dark:bg-neutral-800 font-semibold text-primary"
+                                            : "hover:bg-background-secondary dark:hover:bg-neutral-800"
                                     )}
                                 >
                                     {lang.full}
@@ -238,8 +238,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                             className={cn(
                                 "relative px-4 py-2 cursor-pointer transition-colors",
                                 isActive
-                                    ? "text-golden-dark dark:text-white font-semibold"
-                                    : "text-neutral-600 dark:text-neutral-300"
+                                    ? "text-primary dark:text-white font-semibold"
+                                    : "text-muted hover:text-primary-hover dark:text-neutral-300 dark:hover:text-primary-hover"
                             )}
                         >
                             <div className="flex items-center gap-1">
@@ -254,7 +254,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                                 {item.children && (
                                     <ChevronDown
                                         className={cn(
-                                            "text-neutral-400 group-hover:text-neutral-600 dark:text-neutral-400 h-4 w-4 transition-transform duration-200",
+                                            "text-neutral-400 group-hover:text-primary-hover dark:text-neutral-400 h-4 w-4 transition-transform duration-200",
                                             hovered === idx ? "rotate-180" : "rotate-0"
                                         )}
                                     />
@@ -264,7 +264,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                             {(hovered === idx || isActive) && (
                                 <motion.div
                                     layoutId="hovered"
-                                    className="absolute inset-0 rounded-full bg-gray-100 dark:bg-neutral-800 -z-10"
+                                    className="absolute inset-0 rounded-full bg-background-secondary dark:bg-neutral-800 -z-10"
                                 />
                             )}
                         </div>
@@ -282,7 +282,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                                         key={cIdx}
                                         href={child.link!}
                                         onClick={onItemClick}
-                                        className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 transition"
+                                        className="block px-4 py-2 text-sm hover:bg-background-secondary dark:hover:bg-neutral-800 transition"
                                     >
                                         {child.name}
                                     </Link>
@@ -401,14 +401,14 @@ export const NavbarLogo = () => {
             className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
         >
             <img
-                src="/logo-only.svg"
+                src="/waa-logo.png"
                 alt="logo"
                 width={50}
                 height={50}
             />
             <div className="flex flex-col">
-                <span className="text-golden-dark font-semibold dark:text-white text-md -mt-[2px]">WAAAMS</span>
-                <span className="text-golden-dark font-semibold dark:text-white text-md">የማዕድን ሚኒስቴር</span>
+                <span className="text-secondary font-semibold dark:text-white text-md -mt-[2px]">WAAAMS</span>
+                <span className="text-secondary font-semibold dark:text-white text-md">የማዕድን ሚኒስቴር</span>
             </div>
         </Link>
     );
@@ -443,14 +443,15 @@ export const NavbarButton = ({
             "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
     };
 
+    const Component = Tag as any;
     return (
-        <Tag
+        <Component
             href={href || undefined}
             className={cn(baseStyles, variantStyles[variant], className)}
             {...props}
         >
             {children}
-        </Tag>
+        </Component>
     );
 };
 

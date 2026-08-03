@@ -27,10 +27,10 @@ export default function LeadershipCard({ person }: any) {
                 />
             </div>
 
-            <h3 className="font-bold text-gray-800">{person.name}</h3>
-            <p className="text-sm font-semibold text-gray-600">{person.title}</p>
+            <h3 className="font-bold text-heading">{person.name}</h3>
+            <p className="text-sm font-semibold text-muted">{person.title}</p>
 
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-muted mt-2">
                 {person.fullDescription}
             </p>
         </motion.div>

@@ -188,26 +188,26 @@ export default function PermissionList() {
         </div>
 
         {/* Permissions Accordion */}
-        <div className="w-full bg-white border border-gray-200 rounded-lg shadow">
+        <div className="w-full bg-white border border-border rounded-lg shadow">
           <div className="p-6 border-b">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h2 className="text-xl font-bold text-[#094C81]">
+                <h2 className="text-xl font-bold text-secondary">
                   Permissions List
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-muted mt-1">
                   {permissions.length} total permissions • {stats.active} active
                   • {stats.inactive} inactive
                 </p>
               </div>
               <div className="relative w-full md:w-auto">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#094C81]" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-secondary" />
                 <Input
                   type="text"
                   placeholder="Search permissions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full md:w-64 pl-10 h-11 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#094C81] focus:border-[#094C81] outline-none transition-colors text-sm text-gray-700"
+                  className="w-full md:w-64 pl-10 h-11 pr-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-colors text-sm text-muted"
                 />
               </div>
             </div>
