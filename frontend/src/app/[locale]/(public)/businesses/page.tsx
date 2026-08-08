@@ -36,7 +36,7 @@ const BusinessesPage = () => {
             {/* Business Principles */}
             <div className="col-span-2 prose max-w-none flex flex-col gap-2 text-muted">
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-bold text-primary">Our Business Principles</h2>
+                    <h2 className="text-xl font-bold text-heading">Our Business Principles</h2>
                     <h3 className="text-lg font-bold text-secondary mt-2">• Reliability</h3>
                     <p>Delivering dependable commercial and logistics operations.</p>
                 </div>

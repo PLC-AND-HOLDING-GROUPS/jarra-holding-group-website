@@ -90,7 +90,7 @@ const TradingPage = () => {
     return (
         <div className='w-7xl mx-auto'>
             {/* Hero Header */}
-            <div className='bg-gradient-to-r from-golden-dark via-golden-light to-golden-dark rounded-2xl p-8 mb-10 text-white overflow-hidden relative'>
+            <div className='bg-secondary rounded-2xl p-8 mb-10 text-white overflow-hidden relative'>
                 <div className='relative z-10'>
                     <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8'>
                         <div>
@@ -104,12 +104,12 @@ const TradingPage = () => {
                         </div>
                         <div className='flex items-center gap-4'>
                             <div className='text-right'>
-                                <p className='text-sm text-golden-light'>Trade Sectors</p>
+                                <p className='text-sm text-gray-300'>Trade Sectors</p>
                                 <p className='text-3xl font-bold'>{stats.total}</p>
                             </div>
-                            <div className='h-12 w-px bg-golden-light'></div>
+                            <div className='h-12 w-px bg-gray-500'></div>
                             <div className='text-right'>
-                                <p className='text-sm text-golden-light'>Import/Export</p>
+                                <p className='text-sm text-gray-300'>Import/Export</p>
                                 <p className='text-3xl font-bold'>{stats.export + stats.import}</p>
                             </div>
                         </div>

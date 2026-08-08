@@ -83,8 +83,8 @@ export default function PublicNavbar() {
                                         onClick={() => setOpenMobileIndex(isOpen ? null : idx)}
                                         className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
           ${isActive
-                                                ? "text-primary dark:text-white font-semibold border border-golden-dark30 bg-primary20"
-                                                : "text-muted dark:text-neutral-200 hover:text-primary hover:bg-primary10"
+                                                ? "text-heading dark:text-white font-semibold border border-golden-dark30 bg-primary/20"
+                                                : "text-muted dark:text-neutral-200 hover:text-heading hover:bg-primary/10"
                                             }`}
                                     >
                                         <span>{item.name}</span>
@@ -98,8 +98,8 @@ export default function PublicNavbar() {
                                         onClick={() => setIsMobileMenuOpen(false)}
                                         className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
           ${isActive
-                                                ? "text-primary dark:text-white font-semibold border border-golden-dark30 bg-primary20"
-                                                : "text-muted dark:text-neutral-200 hover:text-primary hover:bg-primary10"
+                                                ? "text-heading dark:text-white font-semibold border border-golden-dark30 bg-primary/20"
+                                                : "text-muted dark:text-neutral-200 hover:text-heading hover:bg-primary/10"
                                             }`}
                                     >
                                         <span>{item.name}</span>
@@ -129,8 +129,8 @@ export default function PublicNavbar() {
                                                         onClick={() => setIsMobileMenuOpen(false)}
                                                         className={`px-3 py-2 rounded-md text-base transition-colors
               ${isChildActive
-                                                                ? "text-primary font-semibold bg-primary10"
-                                                                : "text-muted dark:text-neutral-300 hover:text-primary hover:bg-primary10"
+                                                                ? "text-heading font-semibold bg-primary/10"
+                                                                : "text-muted dark:text-neutral-300 hover:text-heading hover:bg-primary/10"
                                                             }`}
                                                     >
                                                         {child.name}

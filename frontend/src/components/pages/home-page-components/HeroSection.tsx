@@ -145,7 +145,7 @@ export default function HeroSection() {
 
                             <div className="relative z-10 w-full h-full flex items-center justify-center mb-20">
                                 <div className="max-w-7xl w-full px-6">
-                                    <div className="inline-flex items-center gap-2   rounded-full bg-primary10 text-primary text-sm font-semibold mb-10">
+                                    <div className="inline-flex items-center gap-2   rounded-full bg-primary/20 text-primary text-sm font-semibold mb-10">
                                         {/* Animated ping dot */}
                                         <span className="relative flex h-2 w-2">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
