@@ -1,12 +1,12 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: waaams_postgres
+    container_name: jarra-holding-group-website-db
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-root}
-      POSTGRES_DB: ${DB_NAME:-waaams_db}
+      POSTGRES_DB: ${DB_NAME:-jarra_holding_group_website}
       TZ: UTC
     ports:
       - "5432:5432"
@@ -17,14 +17,14 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: waaams_backend
+    container_name: jarra-holding-group-website-backend
     restart: always
     environment:
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=${DB_USER:-postgres}
       - DB_PASSWORD=${DB_PASSWORD:-root}
-      - DB_NAME=${DB_NAME:-waaams_db}
+      - DB_NAME=${DB_NAME:-jarra_holding_group_website}
       - PORT=4000
       - JWT_SECRET=${JWT_SECRET}
       - FRONTEND_URL=http://localhost:3000
@@ -45,7 +45,7 @@ services:
         - NEXT_PUBLIC_BASE_URL=http://localhost:4000/api
         - NEXT_PUBLIC_BASE=http://localhost:4000
         - NEXT_PUBLIC_TIMEZONE=Africa/Addis_Ababa
-    container_name: waaams_frontend
+    container_name: jarra-holding-group-website-frontend
     restart: always
     environment:
       - NEXT_PUBLIC_BASE_URL=http://localhost:4000/api
@@ -62,7 +62,7 @@ services:
 
   nginx:
     image: nginx:stable-alpine
-    container_name: waaams_nginx
+    container_name: jarra-holding-group-website-nginx
     restart: always
     ports:
       - "80:80"
@@ -80,7 +80,7 @@ services:
 
   certbot:
     image: certbot/certbot:latest
-    container_name: waaams_certbot
+    container_name: jarra-holding-group-website-certbot
     environment:
       - CERTBOT_EMAIL=${CERTBOT_EMAIL}
       - CERTBOT_DOMAIN=www.waaams.org

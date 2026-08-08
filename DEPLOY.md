@@ -39,8 +39,8 @@ cd /path/to/website
 
 # 1. Backup live DB (optional but recommended)
 mkdir -p backups/manual
-docker exec -e PGPASSWORD="$DB_PASSWORD" waaams_postgres \
-  pg_dump -U postgres -d waaams_db --clean --if-exists --no-owner \
+docker exec -e PGPASSWORD="$DB_PASSWORD" jarra-holding-group-website-db \
+  pg_dump -U postgres -d jarra_holding_group_website --clean --if-exists --no-owner \
   > backups/manual/pre-deploy-$(date +%Y%m%d).sql
 
 # 2. Pull latest code + db snapshot
@@ -97,7 +97,7 @@ To regenerate deploy artifacts from a fresh server export:
 ```bash
 # Place raw server files locally (gitignored):
 #   backend/db-snapshot.sql          (v1 export from server)
-#   backend/server-uploads.tar.gz  (docker cp from waaams_backend:/app/uploads)
+#   backend/server-uploads.tar.gz  (docker cp from jarra-holding-group-website-backend:/app/uploads)
 
 cd backend
 npm run db:upgrade-from-server   # imports v1, migrates, reprocesses, exports v2

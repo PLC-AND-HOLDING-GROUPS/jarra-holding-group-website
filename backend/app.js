@@ -105,7 +105,7 @@ app.use("/api/permissions", permissionRoute);
 
 // ================== Root Endpoint ==================
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to WAAAMS API 🚀" });
+  res.json({ message: "Welcome to Jarra Holding Group API 🚀" });
 });
 
 // ================== Error Handler ==================

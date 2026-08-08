@@ -1,6 +1,6 @@
-# WAAAMS
+# Jarra Holding Group Website
 
-Wollega Adventist Academy Alumni Management System public website and admin CMS: **PostgreSQL**, **Node.js/Express API**, and **Next.js** frontend.
+> Corporate website and content management platform for Jarra Holding Group.
 
 You can run everything with **Docker Compose** or run **backend** and **frontend** locally against a Postgres instance.
 
@@ -139,8 +139,8 @@ docker compose up -d --build
 Migrations run automatically when the backend container starts. To run manually:
 
 ```bash
-docker exec -it waaams_backend npm run migrate
-docker exec -it waaams_backend npm run seed
+docker exec -it jarra-holding-group-website-backend npm run migrate
+docker exec -it jarra-holding-group-website-backend npm run seed
 ```
 
 ### Image reprocessing (Docker)
@@ -148,7 +148,7 @@ docker exec -it waaams_backend npm run seed
 After migrations, generate WebP variants for **existing** uploads:
 
 ```bash
-docker exec -it waaams_backend npm run reprocess-attachments
+docker exec -it jarra-holding-group-website-backend npm run reprocess-attachments
 ```
 
 ---
@@ -157,7 +157,7 @@ docker exec -it waaams_backend npm run reprocess-attachments
 
 ### 1. Database
 
-Create a Postgres database matching `DB_NAME` in `backend/.env` (default `waaams_db`).
+Create a Postgres database matching `DB_NAME` in `backend/.env` (default `jarra_holding_group_website`).
 
 ### 2. Backend
 

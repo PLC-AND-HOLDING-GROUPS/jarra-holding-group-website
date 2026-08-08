@@ -8,7 +8,7 @@ const { sendEmail } = require("./utils/sendEmail");
     await sendEmail(
       process.env.EMAIL_USER, 
       "✅ Email Configuration Test",
-      "This is a test email from WAAAMS."
+      "This is a test email from Jarra Holding Group Website."
     );
 
     console.log("✅ Email sent successfully!");
