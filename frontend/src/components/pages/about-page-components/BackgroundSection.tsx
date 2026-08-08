@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Building2, Target, Shield, Gem, Users, Globe, Award, FileText, Rocket, PieChart } from "lucide-react";
-import RotatingImage3D from "./RotatingImage3D";
+import RotatingGlobe from "./RotatingGlobe";
 
 const BackgroundPage = () => {
     return (
@@ -14,17 +14,17 @@ const BackgroundPage = () => {
                             <Building2 className="w-8 h-8 text-primary" />
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold text-heading">
-                            Ministry <span className="text-primary">Background</span>
+                            Ministry Background & <span className="text-primary">Import/Export</span>
                         </h1>
                     </div>
                     <p className="text-muted text-lg max-w-3xl mx-auto">
                         Established to regulate and develop Ethiopia's mineral and petroleum resources
-                        for sustainable economic growth and national development.
+                        for sustainable economic growth, national development, and global import/export operations.
                     </p>
                 </div>
 
                 <div className="flex items-center justify-center">
-                    <RotatingImage3D frontUrl="/map.jpg" backUrl="/home-2.jpg" /></div>
+                    <RotatingGlobe /></div>
             </div>
         </div>
     );
