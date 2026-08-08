@@ -87,8 +87,8 @@ export default function CreateRole() {
 
   // Populate form when role data is loaded (edit mode)
   useEffect(() => {
-    if (isEditMode && roleResponse?.data && resourceGroups.length > 0) {
-      const role = roleResponse.data;
+    if (isEditMode && roleResponse && resourceGroups.length > 0) {
+      const role = roleResponse as any;
 
       // Normalize role_type to lowercase internal/external
       const type =

@@ -83,7 +83,7 @@ export default function PublicNavbar() {
                                         onClick={() => setOpenMobileIndex(isOpen ? null : idx)}
                                         className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
           ${isActive
-                                                ? "text-heading dark:text-white font-semibold border border-golden-dark30 bg-primary/20"
+                                                ? "text-heading dark:text-white font-semibold border border-primary/30 bg-primary/20"
                                                 : "text-muted dark:text-neutral-200 hover:text-heading hover:bg-primary/10"
                                             }`}
                                     >
@@ -98,7 +98,7 @@ export default function PublicNavbar() {
                                         onClick={() => setIsMobileMenuOpen(false)}
                                         className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
           ${isActive
-                                                ? "text-heading dark:text-white font-semibold border border-golden-dark30 bg-primary/20"
+                                                ? "text-heading dark:text-white font-semibold border border-primary/30 bg-primary/20"
                                                 : "text-muted dark:text-neutral-200 hover:text-heading hover:bg-primary/10"
                                             }`}
                                     >

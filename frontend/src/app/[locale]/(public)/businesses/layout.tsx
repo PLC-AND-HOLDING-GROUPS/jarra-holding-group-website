@@ -53,7 +53,7 @@ export default function Layout({
                                     <Button
                                         key={item.slug}
                                         onClick={() => router.push(item.slug)}
-                                        className={`flex-1 min-w-[180px] p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-golden-dark shadow-xl hover:bg-golden" : "text-muted hover:bg-background-secondary"
+                                        className={`flex-1 min-w-[180px] p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-primary shadow-xl hover:bg-primary/90" : "text-muted hover:bg-background-secondary"
                                             }`}
                                     >
                                         {item.label}

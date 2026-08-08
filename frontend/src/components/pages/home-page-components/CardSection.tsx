@@ -22,7 +22,7 @@ const CardSection = () => {
 
                     {/* Left Text */}
                     <div className="">
-                        <h2 className="text-lg lg:text-3xl font-bold text-golden-classic mb-4 leading-snug">
+                        <h2 className="text-lg lg:text-3xl font-bold text-primary mb-4 leading-snug">
                             One of the Best Performing Economies in Ethiopia
                         </h2>
 

@@ -23,7 +23,7 @@ export default function InfoCard({
         ${"text-center"}`}
         >
             <div className={`flex items-center md:gap-6 md:mb-4 mb-2 ${center ? "justify-center" : ""}`}>
-                <div className="w-full rounded-full bg-golden-light flex items-center justify-center flex-col gap-2">
+                <div className="w-full rounded-full bg-primary/20 flex items-center justify-center flex-col gap-2">
                     <Image
                         src={icon}
                         alt={title}

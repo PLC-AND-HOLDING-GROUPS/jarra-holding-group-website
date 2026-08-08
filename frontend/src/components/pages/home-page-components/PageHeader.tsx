@@ -11,7 +11,7 @@ const PageHeader = ({ title, icon, description }: { title: string, icon: React.R
                 </span>
 
                 {/* Title */}
-                <h1 className="text-2xl md:3xl lg:text-5xl font-bold text-golden-classic text-center">
+                <h1 className="text-2xl md:3xl lg:text-5xl font-bold text-primary text-center">
                     {title}
                 </h1>
 

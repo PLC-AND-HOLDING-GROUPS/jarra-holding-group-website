@@ -142,7 +142,7 @@ export default function LatestNewsSection() {
                             className={clsx(
                                 "relative flex-shrink-0 w-28 h-20 rounded-xl overflow-hidden border transition",
                                 active === i
-                                    ? "border-golden-dark ring-2 ring-primary/30"
+                                    ? "border-primary ring-2 ring-primary/30"
                                     : "border-transparent opacity-70 hover:opacity-100"
                             )}
                         >

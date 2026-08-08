@@ -200,7 +200,7 @@ export default function HeroSection() {
                             onClick={() => setCurrent(idx)}
                             className={clsx(
                                 "h-2.5 w-2.5 rounded-full transition",
-                                current === idx ? "bg-golden-classic" : "bg-white/60 hover:bg-white"
+                                current === idx ? "bg-primary" : "bg-white/60 hover:bg-white"
                             )}
                         />
                     ))}
