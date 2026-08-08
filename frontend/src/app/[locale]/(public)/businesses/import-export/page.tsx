@@ -1,72 +1,53 @@
 import React from 'react'
 import Image from "next/image";
-import { FileText, Upload, Clock, Shield, CheckCircle, AlertCircle, ArrowRight } from 'lucide-react';
+import { FileText, Upload, Clock, Shield, CheckCircle, ArrowRight, Package, Plane, Ship } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const applicationData = [
+const operationsData = [
     {
-        title: "Mining License Application Portal",
-        heading: "Streamlined digital platform for transparent and efficient mining license applications.",
-        description: "The Wollega Adventist Academy Alumni Association provides a comprehensive online portal for all mining-related license applications. Our digital system ensures transparency, reduces processing times, and provides real-time tracking of application status. From exploration permits to large-scale mining licenses, all applications are managed through this secure platform.",
-        image: "/home-1.jpg",
+        title: "Import & Export Operations",
+        heading: "Connecting global suppliers and regional markets through efficient cross-border trade.",
+        description: "Jarra Holding Group manages a robust import and export network. Our operations ensure seamless movement of goods across borders, reducing transit times, and providing reliable supply chain continuity. From sourcing critical materials to exporting regional products, our team handles end-to-end commercial trade logistics.",
+        image: "/factory.jpg",
         benefits: [
-            "24/7 online application submission",
-            "Real-time application status tracking",
-            "Digital document upload and management",
-            "Automated fee calculation and payment",
-            "Secure and encrypted data handling"
+            "End-to-end supply chain management",
+            "Reliable cross-border transit times",
+            "Comprehensive customs clearance",
+            "Secure product handling and storage",
+            "Extensive global supplier network"
         ]
     },
 ]
 
-const applicationTypes = [
+const serviceTypes = [
     {
-        icon: <FileText className="w-5 h-5" />,
-        title: "Exploration Permit",
-        processingTime: "30-45 days",
-        fee: "ETB 5,000 - 50,000",
-        steps: ["Initial inquiry", "Document submission", "Technical review", "Approval"],
+        icon: <Ship className="w-5 h-5" />,
+        title: "Import Operations",
+        processingTime: "Continuous",
+        fee: "Commercial Goods",
+        steps: ["Supplier Sourcing", "Logistics Planning", "Customs Clearance", "Warehouse Delivery"],
         color: "from-blue-500 to-cyan-500"
     },
     {
-        icon: <Shield className="w-5 h-5" />,
-        title: "Mining License",
-        processingTime: "60-90 days",
-        fee: "ETB 100,000 - 1M+",
-        steps: ["Pre-application meeting", "EIA submission", "Committee review", "Final approval"],
+        icon: <Plane className="w-5 h-5" />,
+        title: "Export Operations",
+        processingTime: "Continuous",
+        fee: "Regional Products",
+        steps: ["Product Aggregation", "Quality Assurance", "Export Compliance", "Market Delivery"],
         color: "from-green-500 to-emerald-500"
     },
     {
-        icon: <Upload className="w-5 h-5" />,
-        title: "Renewal Application",
-        processingTime: "15-30 days",
-        fee: "ETB 10,000 - 100,000",
-        steps: ["Renewal notice", "Compliance check", "Performance review", "Renewal"],
+        icon: <Package className="w-5 h-5" />,
+        title: "Supply Chain Solutions",
+        processingTime: "Integrated",
+        fee: "End-to-End",
+        steps: ["Needs Assessment", "Network Optimization", "Transit Tracking", "Final Distribution"],
         color: "from-amber-500 to-orange-500"
     }
 ]
 
-const applicationProcess = [
-    { step: 1, title: "Account Registration", description: "Create your verified applicant account", duration: "Instant" },
-    { step: 2, title: "Application Form", description: "Complete the digital application form", duration: "1-2 days" },
-    { step: 3, title: "Document Upload", description: "Submit required supporting documents", duration: "1-3 days" },
-    { step: 4, title: "Fee Payment", description: "Pay applicable fees online", duration: "Instant" },
-    { step: 5, title: "Review Process", description: "Technical and compliance review", duration: "30-90 days" },
-    { step: 6, title: "Decision & License", description: "Receive decision and download license", duration: "1-2 days" }
-]
-
-const requiredDocuments = [
-    { title: "Company Registration", format: "PDF", mandatory: true },
-    { title: "Technical Proposal", format: "PDF", mandatory: true },
-    { title: "Environmental Impact Assessment", format: "PDF", mandatory: true },
-    { title: "Financial Capability Proof", format: "PDF/Excel", mandatory: true },
-    { title: "Community Development Plan", format: "PDF", mandatory: false },
-    { title: "Safety Management Plan", format: "PDF", mandatory: true }
-]
-
-const ApplicationPortalPage = () => {
-
+const ImportExportPage = () => {
     return (
         <div className='min-h-screen bg-gradient-to-b from-gray-50 to-white'>
             {/* Hero Header */}
@@ -74,18 +55,18 @@ const ApplicationPortalPage = () => {
                 <div className='w-7xl mx-auto px-6 py-16'>
                     <div className='max-w-4xl'>
                         <h1 className='text-5xl font-bold mb-6'>
-                            Mining License Application Portal
+                            Import & Export Operations
                         </h1>
                         <p className='text-xl text-blue-100 mb-8'>
-                            Digital gateway for transparent and efficient mining license applications with the Wollega Adventist Academy Alumni Association
+                            Connecting international markets and regional distribution through reliable cross-border trade.
                         </p>
-                        <a
-                            href="#apply-now"
+                        <Link
+                            href="/contact"
                             className='inline-flex items-center gap-2 bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold hover:bg-secondary/10 transition-colors shadow-lg'
                         >
-                            Start New Application
+                            Partner With Us
                             <ArrowRight className="w-5 h-5" />
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -96,15 +77,15 @@ const ApplicationPortalPage = () => {
                     <div>
                         <div className='mb-8'>
                             <h2 className='text-3xl font-bold text-heading mb-4'>
-                                Welcome to the Digital Application Portal
+                                Global Reach, Local Reliability
                             </h2>
                             <p className='text-lg text-muted'>
-                                The Wollega Adventist Academy Alumni Association is committed to digital transformation, providing investors with a seamless online experience for all mining license applications. Our portal ensures transparency, efficiency, and accessibility throughout the application process.
+                                Jarra Holding Group is committed to optimizing the movement of commercial goods. Our import and export divisions provide partners with a seamless, integrated approach to international trade, ensuring efficiency and transparency throughout the supply chain.
                             </p>
                         </div>
 
                         <div className='space-y-6'>
-                            {applicationData[0].benefits.map((benefit, index) => (
+                            {operationsData[0].benefits.map((benefit, index) => (
                                 <div key={index} className='flex items-start gap-3'>
                                     <CheckCircle className='w-6 h-6 text-green-500 flex-shrink-0 mt-1' />
                                     <div>
@@ -117,8 +98,8 @@ const ApplicationPortalPage = () => {
 
                     <div className='relative h-96 rounded-2xl overflow-hidden shadow-2xl'>
                         <Image
-                            src={applicationData[0].image}
-                            alt="Application Portal Interface"
+                            src={operationsData[0].image}
+                            alt="Import Export Operations"
                             fill
                             className='object-cover'
                             priority
@@ -127,19 +108,19 @@ const ApplicationPortalPage = () => {
                         <div className='absolute bottom-8 left-8'>
                             <div className='inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full'>
                                 <Clock className='w-5 h-5 text-secondary' />
-                                <span className='font-semibold text-heading'>Average Processing Time Reduced by 40%</span>
+                                <span className='font-semibold text-heading'>Optimized Transit and Delivery</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Application Types */}
+                {/* Service Types */}
                 <div className='mb-16'>
                     <h3 className='text-3xl font-bold text-heading mb-10 text-center'>
-                        Available Application Types
+                        Key Trade Operations
                     </h3>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-                        {applicationTypes.map((type, index) => (
+                        {serviceTypes.map((type, index) => (
                             <div
                                 key={index}
                                 className='group bg-white rounded-xl border border-border overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1'
@@ -155,17 +136,17 @@ const ApplicationPortalPage = () => {
 
                                     <div className='space-y-4 mb-6'>
                                         <div className='flex items-center justify-between p-3 bg-background-secondary rounded-lg'>
-                                            <span className='text-muted'>Processing Time</span>
+                                            <span className='text-muted'>Operation Type</span>
                                             <span className='font-semibold text-heading'>{type.processingTime}</span>
                                         </div>
                                         <div className='flex items-center justify-between p-3 bg-background-secondary rounded-lg'>
-                                            <span className='text-muted'>Application Fee</span>
+                                            <span className='text-muted'>Focus</span>
                                             <span className='font-semibold text-heading'>{type.fee}</span>
                                         </div>
                                     </div>
 
                                     <div className='space-y-2'>
-                                        <p className='text-sm font-medium text-muted mb-2'>Application Steps:</p>
+                                        <p className='text-sm font-medium text-muted mb-2'>Key Steps:</p>
                                         {type.steps.map((step, idx) => (
                                             <div key={idx} className='flex items-center gap-2'>
                                                 <div className='w-6 h-6 rounded-full bg-blue-100 text-secondary flex items-center justify-center text-xs font-bold'>
@@ -175,10 +156,6 @@ const ApplicationPortalPage = () => {
                                             </div>
                                         ))}
                                     </div>
-
-                                    <Link href={`/mining/application-portal/${type.title}`} >
-                                        <Button className='w-full mt-6 bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary transition-colors'>Start {type.title}</Button>
-                                    </Link>
                                 </div>
                             </div>
                         ))}
@@ -189,4 +166,4 @@ const ApplicationPortalPage = () => {
     )
 }
 
-export default ApplicationPortalPage
+export default ImportExportPage

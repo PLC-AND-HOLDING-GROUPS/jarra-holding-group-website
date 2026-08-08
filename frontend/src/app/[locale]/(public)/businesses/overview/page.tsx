@@ -1,94 +1,89 @@
 import React from 'react'
-import Image from "next/image";
-import { BarChart3, PieChart, TrendingUp, Download, MapPin, Database, Filter, ChevronRight } from 'lucide-react';
+import { BarChart3, PieChart, TrendingUp, Download, MapPin, Database, Filter, ChevronRight, Package, Truck, Building2 } from 'lucide-react';
 
-const miningData = [
+const businessData = [
     {
-        title: "Mineral Resource Dashboard",
-        heading: "Comprehensive data analytics platform for Ethiopia's mining sector performance.",
-        description: "Access real-time statistics, production metrics, and economic impact data from Ethiopia's mining industry. Our data portal provides investors, researchers, and policymakers with accurate, up-to-date information on mineral production, export revenues, employment figures, and sector growth trends.",
-        image: "/data-dashboard.jpg",
+        title: "Business Overview & Operations",
+        heading: "Comprehensive view of Jarra Holding Group's integrated commercial operations.",
+        description: "Explore our diversified network of business activities. Our overview provides insights into our warehousing infrastructure, distribution networks, import/export operations, and overall growth trends across multiple locations.",
         features: [
-            "Real-time production statistics",
-            "Export revenue tracking",
-            "Employment data analytics",
-            "Environmental compliance metrics",
-            "Investment flow monitoring"
+            "Supply chain connectivity",
+            "Multi-location warehousing",
+            "Cross-border trading",
+            "Logistics management",
+            "Commercial partnerships"
         ]
     },
 ]
 
-const mineralCategories = [
+const businessCategories = [
     {
-        icon: <TrendingUp className="w-5 h-5" />,
-        title: "Metallic Minerals",
-        production: "85,000 MT",
-        growth: "+12.5%",
-        description: "Gold, iron ore, copper, lead-zinc",
-        topProducers: ["Legadembi Gold", "Midroc Gold", "National Mining Corp"]
+        icon: <Package className="w-5 h-5" />,
+        title: "Import & Export",
+        growth: "Growing",
+        description: "Cross-border trade and sourcing",
+        topFocus: ["International Markets", "Supplier Networks", "Trade Agreements"]
     },
     {
-        icon: <PieChart className="w-5 h-5" />,
-        title: "Industrial Minerals",
-        production: "2.3M MT",
-        growth: "+8.2%",
-        description: "Potash, limestone, gypsum, silica sand",
-        topProducers: ["Ethiopian Potash", "Derba Cement", "National Cement"]
+        icon: <Building2 className="w-5 h-5" />,
+        title: "Warehousing",
+        growth: "Expanding",
+        description: "Strategic storage facilities",
+        topFocus: ["Inventory Management", "Secure Storage", "Strategic Locations"]
     },
     {
-        icon: <MapPin className="w-5 h-5" />,
-        title: "Construction Minerals",
-        production: "15.8M MT",
-        growth: "+15.3%",
-        description: "Aggregates, dimension stones, clays",
-        topProducers: ["Local SMEs", "Regional Enterprises", "Private Operators"]
+        icon: <Truck className="w-5 h-5" />,
+        title: "Distribution & Logistics",
+        growth: "Scaling",
+        description: "Reliable movement of goods",
+        topFocus: ["Supply Networks", "Regional Delivery", "Transport Efficiency"]
     }
 ]
 
 const keyMetrics = [
     {
-        title: "Total Mineral Production",
-        value: "18.2M MT",
-        change: "+14.2%",
-        period: "Last Fiscal Year",
+        title: "Business Areas",
+        value: "Multiple",
+        change: "Diversified",
+        period: "Integrated Operations",
         icon: <Database className="w-5 h-5" />,
         color: "from-blue-500 to-cyan-500"
     },
     {
-        title: "Export Revenue",
-        value: "$1.2B",
-        change: "+22.5%",
-        period: "Annual Contribution",
+        title: "Commercial Reach",
+        value: "Regional",
+        change: "Expanding",
+        period: "Market Operations",
         icon: <TrendingUp className="w-5 h-5" />,
         color: "from-green-500 to-emerald-500"
     },
     {
-        title: "Direct Employment",
-        value: "45,000+",
-        change: "+8.7%",
-        period: "Jobs Created",
-        icon: <BarChart3 className="w-5 h-5" />,
+        title: "Warehousing",
+        value: "Strategic",
+        change: "Locations",
+        period: "Infrastructure",
+        icon: <Building2 className="w-5 h-5" />,
         color: "from-amber-500 to-orange-500"
     },
     {
-        title: "Active Licenses",
-        value: "1,250",
-        change: "+5.3%",
-        period: "Currently Active",
+        title: "Partnerships",
+        value: "Growing",
+        change: "Network",
+        period: "Commercial Relations",
         icon: <Filter className="w-5 h-5" />,
         color: "from-purple-500 to-pink-500"
     }
 ]
 
-const regionalData = [
-    { region: "Oromia", production: "42%", revenue: "$510M", licenses: 450 },
-    { region: "Amhara", production: "28%", revenue: "$340M", licenses: 320 },
-    { region: "SNNPR", production: "15%", revenue: "$180M", licenses: 210 },
-    { region: "Tigray", production: "8%", revenue: "$95M", licenses: 180 },
-    { region: "Others", production: "7%", revenue: "$85M", licenses: 90 }
+const operationsData = [
+    { area: "Import Operations", focus: "Sourcing & Trade", infrastructure: "Integrated", status: "Active" },
+    { area: "Export Operations", focus: "Market Access", infrastructure: "Integrated", status: "Active" },
+    { area: "Warehousing", focus: "Storage & Inventory", infrastructure: "Multi-location", status: "Active" },
+    { area: "Logistics", focus: "Movement of Goods", infrastructure: "Regional", status: "Active" },
+    { area: "Distribution", focus: "Supply Networks", infrastructure: "Growing", status: "Active" }
 ]
 
-const MiningDataPage = () => {
+const OverviewPage = () => {
     return (
         <div className='w-7xl mx-auto'>
             {/* Header with Stats */}
@@ -96,23 +91,11 @@ const MiningDataPage = () => {
                 <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6'>
                     <div>
                         <h1 className='text-4xl font-bold mb-4'>
-                            Mining Sector Data Portal
+                            Jarra at a Glance
                         </h1>
                         <p className='text-heading max-w-2xl'>
-                            Official statistics and analytics from Ethiopia's Wollega Adventist Academy Alumni Association -
-                            Real-time data for informed decision making
+                            An overview of Jarra Holding Group's integrated business network and commercial operations.
                         </p>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <div className='text-right'>
-                            <p className='text-sm text-muted'>Last Updated</p>
-                            <p className='text-lg font-semibold'>December 2023</p>
-                        </div>
-                        <div className='h-12 w-px bg-gray-700'></div>
-                        <button className='flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-background-secondary transition-colors'>
-                            <Download className="w-5 h-5" />
-                            Download Report
-                        </button>
                     </div>
                 </div>
             </div>
@@ -131,10 +114,7 @@ const MiningDataPage = () => {
                                     <div className={`p-2 rounded-lg bg-gradient-to-br ${metric.color} text-white`}>
                                         {metric.icon}
                                     </div>
-                                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${metric.change.startsWith('+')
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'bg-red-100 text-red-700'
-                                        }`}>
+                                    <span className={`px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700`}>
                                         {metric.change}
                                     </span>
                                 </div>
@@ -151,30 +131,27 @@ const MiningDataPage = () => {
                             <div className='flex justify-between items-start mb-6'>
                                 <div>
                                     <h2 className='text-2xl font-bold text-heading mb-2'>
-                                        {miningData[0].title}
+                                        {businessData[0].title}
                                     </h2>
                                     <p className='text-muted'>
-                                        {miningData[0].heading}
+                                        {businessData[0].heading}
                                     </p>
                                 </div>
                                 <div className='flex items-center gap-2 text-secondary font-medium'>
                                     <Filter className='w-5 h-5' />
-                                    <span>Interactive Dashboard</span>
+                                    <span>Integrated Ecosystem</span>
                                 </div>
                             </div>
 
                             <div className='mb-8'>
-                                <div className='h-64 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex items-center justify-center'>
-                                    <div className='text-center'>
-                                        <BarChart3 className='w-16 h-16 text-footer mx-auto mb-4' />
-                                        <p className='text-muted font-medium'>Interactive Data Visualization</p>
-                                        <p className='text-sm text-footer'>Hover over charts for detailed insights</p>
-                                    </div>
+                                <div className='h-64 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex flex-col items-center justify-center p-8 text-center'>
+                                    <p className='text-muted mb-4'>{businessData[0].description}</p>
+                                    <BarChart3 className='w-16 h-16 text-footer mx-auto' />
                                 </div>
                             </div>
 
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                                {miningData[0].features.map((feature, index) => (
+                                {businessData[0].features.map((feature, index) => (
                                     <div key={index} className='flex items-center gap-3 p-3 bg-background-secondary rounded-lg'>
                                         <div className='w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center'>
                                             <Database className='w-4 h-4 text-secondary' />
@@ -186,58 +163,43 @@ const MiningDataPage = () => {
                         </div>
                     </div>
 
-                    {/* Regional Performance Table */}
+                    {/* Operations Table */}
                     <div className='bg-white rounded-xl border border-border shadow-lg overflow-hidden'>
                         <div className='p-6 border-b border-border'>
                             <h3 className='text-2xl font-bold text-heading flex items-center gap-2'>
                                 <MapPin className='w-6 h-6 text-secondary' />
-                                Regional Production Data
+                                Business Operations
                             </h3>
                             <p className='text-muted mt-2'>
-                                Mineral production and revenue distribution across Ethiopia's regions
+                                Overview of key business areas and infrastructure
                             </p>
                         </div>
                         <div className='overflow-x-auto'>
                             <table className='w-full'>
                                 <thead className='bg-background-secondary'>
                                     <tr>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Region</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Production Share</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Revenue</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Active Licenses</th>
-                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Trend</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Business Area</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Strategic Focus</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Infrastructure</th>
+                                        <th className='py-3 px-6 text-left text-sm font-semibold text-heading'>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className='divide-y divide-gray-200'>
-                                    {regionalData.map((data, index) => (
+                                    {operationsData.map((data, index) => (
                                         <tr key={index} className='hover:bg-background-secondary transition-colors'>
                                             <td className='py-4 px-6'>
-                                                <div className='font-medium text-heading'>{data.region}</div>
+                                                <div className='font-medium text-heading'>{data.area}</div>
                                             </td>
                                             <td className='py-4 px-6'>
-                                                <div className='flex items-center gap-3'>
-                                                    <div className='w-full bg-background-secondary rounded-full h-2'>
-                                                        <div
-                                                            className='bg-secondary h-2 rounded-full'
-                                                            style={{ width: data.production }}
-                                                        ></div>
-                                                    </div>
-                                                    <span className='font-semibold text-heading'>{data.production}</span>
-                                                </div>
+                                                <span className='font-semibold text-heading'>{data.focus}</span>
                                             </td>
                                             <td className='py-4 px-6'>
-                                                <div className='font-semibold text-heading'>{data.revenue}</div>
-                                            </td>
-                                            <td className='py-4 px-6'>
-                                                <div className='inline-flex items-center gap-1'>
-                                                    <span className='font-medium text-heading'>{data.licenses}</span>
-                                                    <span className='text-sm text-muted'>licenses</span>
-                                                </div>
+                                                <div className='font-semibold text-heading'>{data.infrastructure}</div>
                                             </td>
                                             <td className='py-4 px-6'>
                                                 <div className='flex items-center gap-1 text-green-600'>
                                                     <TrendingUp className='w-4 h-4' />
-                                                    <span className='font-medium'>Growing</span>
+                                                    <span className='font-medium'>{data.status}</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -250,14 +212,14 @@ const MiningDataPage = () => {
 
                 {/* Right Column - Sidebar Content */}
                 <div className='lg:col-span-4 space-y-8'>
-                    {/* Mineral Categories */}
+                    {/* Business Categories */}
                     <div className='bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100'>
                         <h3 className='text-2xl font-bold text-heading mb-6 flex items-center gap-2'>
                             <PieChart className='w-6 h-6' />
-                            Mineral Categories
+                            Key Verticals
                         </h3>
                         <div className='space-y-4'>
-                            {mineralCategories.map((category, index) => (
+                            {businessCategories.map((category, index) => (
                                 <div
                                     key={index}
                                     className='bg-white p-4 rounded-lg border border-blue-100 hover:border-blue-300 transition-colors'
@@ -275,17 +237,13 @@ const MiningDataPage = () => {
                                     </div>
                                     <div className='mb-3'>
                                         <p className='text-sm text-muted mb-2'>{category.description}</p>
-                                        <div className='flex items-center justify-between'>
-                                            <span className='text-sm text-muted'>Annual Production</span>
-                                            <span className='font-semibold text-heading'>{category.production}</span>
-                                        </div>
                                     </div>
                                     <div className='pt-3 border-t border-gray-100'>
-                                        <p className='text-sm font-medium text-muted mb-2'>Top Producers:</p>
+                                        <p className='text-sm font-medium text-muted mb-2'>Focus Areas:</p>
                                         <div className='flex flex-wrap gap-2'>
-                                            {category.topProducers.map((producer, idx) => (
+                                            {category.topFocus.map((focus, idx) => (
                                                 <span key={idx} className='px-2 py-1 bg-background-secondary text-muted text-xs rounded'>
-                                                    {producer}
+                                                    {focus}
                                                 </span>
                                             ))}
                                         </div>
@@ -295,38 +253,37 @@ const MiningDataPage = () => {
                         </div>
                     </div>
 
-                    {/* Data Tools */}
+                    {/* Data Tools / Quick Links */}
                     <div className='bg-white rounded-xl border border-border p-6 shadow-sm'>
                         <h3 className='text-2xl font-bold text-heading mb-6'>
-                            Data Analysis Tools
+                            Network Operations
                         </h3>
                         <div className='space-y-4'>
                             {[
                                 {
-                                    title: "Custom Report Generator",
-                                    description: "Create tailored reports with selected metrics",
-                                    icon: <Filter className="w-5 h-5" />
+                                    title: "Supply Chain",
+                                    description: "Connecting suppliers and markets",
+                                    icon: <Package className="w-5 h-5" />
                                 },
                                 {
-                                    title: "Export Data Portal",
-                                    description: "Download datasets in multiple formats",
-                                    icon: <Download className="w-5 h-5" />
+                                    title: "Distribution",
+                                    description: "Reliable movement of goods",
+                                    icon: <Truck className="w-5 h-5" />
                                 },
                                 {
-                                    title: "Forecasting Model",
-                                    description: "Predictive analytics for sector growth",
+                                    title: "Warehousing",
+                                    description: "Strategic storage facilities",
+                                    icon: <Building2 className="w-5 h-5" />
+                                },
+                                {
+                                    title: "Commercial Trade",
+                                    description: "Business partnerships & sourcing",
                                     icon: <TrendingUp className="w-5 h-5" />
-                                },
-                                {
-                                    title: "GIS Mineral Mapping",
-                                    description: "Interactive mineral distribution maps",
-                                    icon: <MapPin className="w-5 h-5" />
                                 }
                             ].map((tool, index) => (
-                                <a
+                                <div
                                     key={index}
-                                    href="#"
-                                    className='flex items-center justify-between p-3 bg-background-secondary rounded-lg hover:bg-secondary/10 transition-colors group'
+                                    className='flex items-center justify-between p-3 bg-background-secondary rounded-lg hover:bg-secondary/10 transition-colors group cursor-default'
                                 >
                                     <div className='flex items-center gap-3'>
                                         <div className='p-2 bg-blue-100 rounded-lg text-secondary'>
@@ -338,11 +295,10 @@ const MiningDataPage = () => {
                                         </div>
                                     </div>
                                     <ChevronRight className="w-5 h-5 text-footer group-hover:text-secondary" />
-                                </a>
+                                </div>
                             ))}
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -350,23 +306,23 @@ const MiningDataPage = () => {
             <div className='mt-12 pt-8 border-t border-border'>
                 <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
                     <div>
-                        <p className='text-sm text-muted mb-2'>Data Source</p>
-                        <p className='font-medium text-heading'>Wollega Adventist Academy Alumni Association - Ethiopian Government</p>
+                        <p className='text-sm text-muted mb-2'>Operations</p>
+                        <p className='font-medium text-heading'>Jarra Holding Group</p>
                     </div>
                     <div className='flex items-center gap-6'>
                         <div className='text-center'>
-                            <p className='text-2xl font-bold text-heading'>98.7%</p>
-                            <p className='text-sm text-muted'>Data Accuracy</p>
+                            <p className='text-2xl font-bold text-heading'>Reliable</p>
+                            <p className='text-sm text-muted'>Partnerships</p>
                         </div>
                         <div className='h-8 w-px bg-gray-300'></div>
                         <div className='text-center'>
-                            <p className='text-2xl font-bold text-heading'>24/7</p>
-                            <p className='text-sm text-muted'>Data Availability</p>
+                            <p className='text-2xl font-bold text-heading'>Integrated</p>
+                            <p className='text-sm text-muted'>Supply Chain</p>
                         </div>
                         <div className='h-8 w-px bg-gray-300'></div>
                         <div className='text-center'>
-                            <p className='text-2xl font-bold text-heading'>API</p>
-                            <p className='text-sm text-muted'>Developer Access</p>
+                            <p className='text-2xl font-bold text-heading'>Growing</p>
+                            <p className='text-sm text-muted'>Network</p>
                         </div>
                     </div>
                 </div>
@@ -375,4 +331,4 @@ const MiningDataPage = () => {
     )
 }
 
-export default MiningDataPage
+export default OverviewPage

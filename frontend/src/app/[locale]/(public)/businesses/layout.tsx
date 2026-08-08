@@ -7,12 +7,11 @@ import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import { Button } from "@/components/ui/button";
 
 const items = [
-    { label: "Snapshot of mining sector", slug: "/mining", description: "Overview of Ethiopia's mining sector" },
-    { label: "Licensing and Legislations", slug: "/mining/licensing-and-legislation", description: "Overview of Ethiopia's mining sector" },
-    { label: "Legislation & Regulations", slug: "/mining/regional-legislation", description: "Overview of Ethiopia's mining sector" },
-    { label: "Application Portal", slug: "/mining/application-portal", description: "Digital gateway for transparent and efficient mining license applications with the Wollega Adventist Academy Alumni Association" },
-    { label: "Mining Data", slug: "/mining/data", description: "Overview of Ethiopia's mining sector" },
-    { label: "Gemstones", slug: "/mining/gemstones", description: "Overview of Ethiopia's mining sector" },
+    { label: "Our Businesses", slug: "/businesses", description: "Connecting trade, logistics, warehousing, and distribution" },
+    { label: "Overview", slug: "/businesses/overview", description: "Jarra Holding Group business overview and operations" },
+    { label: "Import & Export", slug: "/businesses/import-export", description: "Cross-border trading and supply operations" },
+    { label: "Warehousing", slug: "/businesses/warehousing", description: "Multi-location storage and inventory infrastructure" },
+    { label: "Trading", slug: "/businesses/trading", description: "Product sourcing and commercial goods" },
 ];
 
 export default function Layout({
@@ -28,33 +27,33 @@ export default function Layout({
 
     // Find active item for title & breadcrumb
     const activeItem = items.find((item) => item.slug === normalizedPathname);
-    const title = activeItem?.label ?? "Background of WAAAMS";
-    const description = activeItem?.description ?? "Overview of Ethiopia's mining sector";
+    const title = activeItem?.label ?? "Our Businesses";
+    const description = activeItem?.description ?? "Connecting trade, logistics, warehousing, and distribution";
 
     return (
         <>
             {/* Hero / Page Header (shared across all administration pages) */}
             <PageHeader
-                title="Overview of Ethiopia's mining sector"
+                title="Our Businesses"
                 icon={<Quote />}
-                description="Overview of Ethiopia's mining sector"
+                description="Connecting trade, logistics, warehousing, and distribution"
             />
 
             {/* Main container with relative positioning for overlay */}
             <div className="relative">
                 {/* Overlay Search Bar - positioned to cover half of the PageHeader */}
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-7xl z-[999]">
-                    <div className="pt-5 pb-10 w-full bg-white rounded-2xl shadow-xl border border-border overflow-hidden space-y-6 px-7">
-                        <h1 className="text-2xl font-bold text-primary text-center">More On Mining</h1>
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] md:w-full max-w-7xl z-[999] pointer-events-auto">
+                    <div className="pt-5 pb-10 w-full bg-white rounded-2xl shadow-xl border border-border overflow-hidden space-y-6 px-4 md:px-7">
+                        <h1 className="text-2xl font-bold text-primary text-center">Explore Our Businesses</h1>
 
-                        <div className={`bg-white flex items-center justify-around gap-4`}>
+                        <div className={`bg-white flex flex-row items-stretch justify-between gap-4 overflow-x-auto pb-4 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x`}>
                             {items.map((item) => {
                                 const active = normalizedPathname === item.slug;
                                 return (
                                     <Button
                                         key={item.slug}
                                         onClick={() => router.push(item.slug)}
-                                        className={`p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-golden-dark shadow-xl hover:bg-golden" : "text-muted hover:bg-background-secondary"
+                                        className={`flex-1 min-w-[180px] p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-golden-dark shadow-xl hover:bg-golden" : "text-muted hover:bg-background-secondary"
                                             }`}
                                     >
                                         {item.label}

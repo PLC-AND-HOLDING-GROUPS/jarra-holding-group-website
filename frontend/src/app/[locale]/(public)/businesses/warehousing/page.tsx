@@ -1,76 +1,76 @@
 import React from 'react'
 import Image from "next/image";
-import { CheckCircle, FileText, Shield, Scale } from 'lucide-react';
+import { CheckCircle, FileText, Shield, Map, Package, Truck, Database } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
-const legislationData = [
+const warehousingData = [
     {
-        title: "Mining Licensing Framework",
-        heading: "Structured regulatory framework for transparent and efficient mineral resource governance.",
-        description: "Ethiopia has established a comprehensive legal framework for mining operations, designed to attract investment while ensuring environmental protection and community benefits. The licensing system categorizes permits based on mineral type, scale of operation, and investment size. All licenses require compliance with environmental impact assessments, community development plans, and periodic reporting.",
-        image: "/home-1.jpg",
+        title: "Warehousing Infrastructure",
+        heading: "Strategic storage facilities supporting regional trade and distribution.",
+        description: "Jarra Holding Group operates a network of modern warehousing facilities strategically located to support our import, export, and distribution operations. Our infrastructure is designed to handle high-volume commercial goods, ensuring safe storage, efficient inventory management, and rapid deployment to regional markets.",
+        image: "/factory.jpg",
         features: [
-            "Clear licensing procedures and timelines",
-            "Online application and tracking system",
-            "Transparent fee structure",
-            "Technical and financial capability requirements",
-            "Environmental compliance standards"
+            "Multi-location storage network",
+            "Advanced inventory management",
+            "Secure handling of commercial goods",
+            "Strategic regional positioning",
+            "Integrated logistics support"
         ]
     },
 ]
 
-const licenseTypes = [
+const facilityTypes = [
     {
-        icon: <FileText className="w-6 h-6" />,
-        title: "Exploration License",
-        duration: "2-3 years",
-        description: "For geological surveys and mineral discovery activities",
-        requirements: ["Technical team", "Work program", "Financial capability"]
+        icon: <Database className="w-6 h-6" />,
+        title: "Central Hubs",
+        duration: "High Capacity",
+        description: "Primary distribution centers for major import and export consolidation.",
+        requirements: ["Large-scale storage", "Heavy machinery access", "24/7 operations"]
     },
     {
-        icon: <Shield className="w-6 h-6" />,
-        title: "Mining License",
-        duration: "15-25 years",
-        description: "For commercial extraction and processing operations",
-        requirements: ["Feasibility study", "Environmental plan", "Community agreement"]
+        icon: <Map className="w-6 h-6" />,
+        title: "Regional Depots",
+        duration: "Medium Capacity",
+        description: "Strategic storage facilities positioned near key regional markets.",
+        requirements: ["Quick dispatch", "Market proximity", "Flexible storage"]
     },
     {
-        icon: <Scale className="w-6 h-6" />,
-        title: "Artisanal License",
-        duration: "1-5 years",
-        description: "For small-scale traditional mining operations",
-        requirements: ["Local registration", "Safety training", "Environmental commitment"]
+        icon: <Truck className="w-6 h-6" />,
+        title: "Transit Facilities",
+        duration: "High Turnover",
+        description: "Cross-docking and temporary storage for active supply chains.",
+        requirements: ["Rapid loading/unloading", "Transport connectivity", "Efficient throughput"]
     }
 ]
 
-const keyLaws = [
+const capabilities = [
     {
-        title: "Mining Operations Proclamation",
-        year: "2020",
-        description: "Governing framework for all mining activities and licensing procedures"
+        title: "Inventory Management",
+        year: "Active",
+        description: "Precise tracking and control of commercial goods across all facilities."
     },
     {
-        title: "Environmental Impact Assessment",
-        year: "2021",
-        description: "Mandatory assessment requirements for all mining operations"
+        title: "Secure Storage",
+        year: "Active",
+        description: "Comprehensive security protocols to protect valuable inventory."
     },
     {
-        title: "Revenue Sharing Regulation",
-        year: "2019",
-        description: "Framework for revenue distribution between government and communities"
+        title: "Distribution Integration",
+        year: "Active",
+        description: "Seamless connection between storage and regional delivery networks."
     }
 ]
 
-const LicensingAndLegislationPage = () => {
+const WarehousingPage = () => {
     return (
         <div className='w-7xl mx-auto'>
             {/* Header Section */}
             <div className='mb-10 text-center'>
                 <h1 className='text-4xl font-bold text-heading mb-4'>
-                    Licensing & Legislation
+                    Warehousing & Infrastructure
                 </h1>
                 <p className='text-xl text-muted max-w-3xl mx-auto'>
-                    Transparent regulatory framework governing Ethiopia's mining sector with investor-friendly policies
+                    Strategic storage and inventory management supporting Jarra's commercial network
                 </p>
             </div>
 
@@ -81,8 +81,8 @@ const LicensingAndLegislationPage = () => {
                     <div className='bg-white rounded-xl shadow-lg overflow-hidden border border-border'>
                         <div className='relative h-64 w-full'>
                             <Image
-                                src={legislationData[0].image}
-                                alt={legislationData[0].title}
+                                src={warehousingData[0].image}
+                                alt={warehousingData[0].title}
                                 fill
                                 className='object-cover'
                                 priority={true}
@@ -90,19 +90,19 @@ const LicensingAndLegislationPage = () => {
                             <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
                             <div className='absolute bottom-6 left-6'>
                                 <h2 className='text-2xl font-bold text-white'>
-                                    {legislationData[0].title}
+                                    {warehousingData[0].title}
                                 </h2>
                             </div>
                         </div>
                         <div className='p-6'>
                             <p className='text-lg text-muted mb-6'>
-                                {legislationData[0].heading}
+                                {warehousingData[0].heading}
                             </p>
                             <p className='text-muted mb-6'>
-                                {legislationData[0].description}
+                                {warehousingData[0].description}
                             </p>
                             <div className='space-y-3'>
-                                {legislationData[0].features.map((feature, index) => (
+                                {warehousingData[0].features.map((feature, index) => (
                                     <div key={index} className='flex items-center gap-3'>
                                         <CheckCircle className='w-5 h-5 text-green-600 flex-shrink-0' />
                                         <span className='text-muted'>{feature}</span>
@@ -112,37 +112,37 @@ const LicensingAndLegislationPage = () => {
                         </div>
                     </div>
 
-                    {/* License Types Grid */}
+                    {/* Facility Types Grid */}
                     <div>
                         <h3 className='text-2xl font-bold text-heading mb-6'>
-                            License Categories
+                            Facility Network
                         </h3>
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-                            {licenseTypes.map((license, index) => (
+                            {facilityTypes.map((facility, index) => (
                                 <div
                                     key={index}
-                                    className='bg-white p-5 shadow-xl rounded-xl border border-border hover:border-secondary transition-colors shadow-sm'
+                                    className='bg-white p-5 shadow-xl rounded-xl border border-border hover:border-blue-500 transition-colors shadow-sm'
                                 >
-                                    <div className='mb-2 flex space-x-2 text-secondary'>
-                                        {license.icon}
+                                    <div className='mb-2 flex space-x-2 text-blue-600'>
+                                        {facility.icon}
                                         <h4 className='font-bold text-lg text-heading'>
-                                            {license.title}
+                                            {facility.title}
                                         </h4>
                                     </div>
 
-                                    <div className='inline-block px-3 py-1 bg-blue-100 text-secondary rounded-full text-sm font-medium mb-3'>
-                                        Duration: {license.duration}
+                                    <div className='inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-3'>
+                                        Scale: {facility.duration}
                                     </div>
                                     <p className='text-muted mb-4'>
-                                        {license.description}
+                                        {facility.description}
                                     </p>
                                     <div className='space-y-2'>
                                         <p className='text-sm font-medium text-muted'>
-                                            Key Requirements:
+                                            Key Capabilities:
                                         </p>
-                                        {license.requirements.map((req, idx) => (
+                                        {facility.requirements.map((req, idx) => (
                                             <div key={idx} className='flex items-center gap-2'>
-                                                <div className='w-1.5 h-1.5 bg-secondary rounded-full'></div>
+                                                <div className='w-1.5 h-1.5 bg-blue-500 rounded-full'></div>
                                                 <span className='text-sm text-muted'>{req}</span>
                                             </div>
                                         ))}
@@ -155,64 +155,64 @@ const LicensingAndLegislationPage = () => {
 
                 {/* Right Column - Sidebar Content */}
                 <div className='lg:col-span-5 space-y-8'>
-                    {/* Key Legislation Panel */}
+                    {/* Capabilities Panel */}
                     <div className='shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100'>
                         <h3 className='text-2xl font-bold text-heading mb-6 flex items-center gap-2'>
-                            <Scale className='w-6 h-6' />
-                            Key Legislation
+                            <Shield className='w-6 h-6 text-blue-600' />
+                            Core Capabilities
                         </h3>
                         <div className='space-y-4'>
-                            {keyLaws.map((law, index) => (
+                            {capabilities.map((cap, index) => (
                                 <div
                                     key={index}
                                     className='bg-white p-4 rounded-lg border border-blue-100 hover:border-blue-300 transition-colors'
                                 >
                                     <div className='flex justify-between items-start mb-2'>
                                         <h4 className='font-semibold text-heading'>
-                                            {law.title}
+                                            {cap.title}
                                         </h4>
-                                        <span className='px-2 py-1 bg-blue-100 text-secondary text-sm rounded-full'>
-                                            {law.year}
+                                        <span className='px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full'>
+                                            {cap.year}
                                         </span>
                                     </div>
                                     <p className='text-muted text-sm'>
-                                        {law.description}
+                                        {cap.description}
                                     </p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Regulatory Principles */}
+                    {/* Operational Standards */}
                     <div className='shadow-xl bg-white rounded-xl border border-border p-6 shadow-sm'>
                         <h3 className='text-2xl font-bold text-heading mb-6'>
-                            Regulatory Principles
+                            Operational Standards
                         </h3>
                         <div className='space-y-4'>
                             {[
                                 {
-                                    title: "Transparency",
-                                    desc: "All licensing procedures and decisions are publicly accessible"
+                                    title: "Reliability",
+                                    desc: "Consistent service and continuous supply chain support"
                                 },
                                 {
-                                    title: "Fairness",
-                                    desc: "Equal opportunity for all qualified applicants"
-                                },
-                                {
-                                    title: "Sustainability",
-                                    desc: "Environmental protection and community development integrated"
+                                    title: "Security",
+                                    desc: "Protected facilities ensuring safety of all commercial goods"
                                 },
                                 {
                                     title: "Efficiency",
-                                    desc: "Streamlined processes with clear timelines"
+                                    desc: "Optimized handling, loading, and dispatch procedures"
+                                },
+                                {
+                                    title: "Scale",
+                                    desc: "Capacity to handle high-volume import and distribution needs"
                                 }
-                            ].map((principle, index) => (
+                            ].map((standard, index) => (
                                 <div key={index} className='pb-4 border-b border-gray-100 last:border-0 last:pb-0'>
                                     <div className='flex items-center gap-3 mb-2'>
-                                        <div className='w-3 h-3 bg-secondary rounded-full'></div>
-                                        <h4 className='font-semibold text-heading'>{principle.title}</h4>
+                                        <div className='w-3 h-3 bg-blue-600 rounded-full'></div>
+                                        <h4 className='font-semibold text-heading'>{standard.title}</h4>
                                     </div>
-                                    <p className='text-muted text-sm ml-6'>{principle.desc}</p>
+                                    <p className='text-muted text-sm ml-6'>{standard.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -221,25 +221,24 @@ const LicensingAndLegislationPage = () => {
                     {/* Quick Links */}
                     <div className='shadow-xl bg-background-secondary rounded-xl p-6 border border-border'>
                         <h3 className='text-xl font-bold text-heading mb-4'>
-                            Quick Resources
+                            Related Operations
                         </h3>
                         <div className='space-y-3'>
                             {[
-                                { label: "License Application Portal", type: "link" },
-                                { label: "Legal Framework Documents", type: "download" },
-                                { label: "Compliance Guidelines", type: "download" },
-                                { label: "Fee Structure", type: "link" }
+                                { label: "Distribution Network", type: "link", href: "/businesses/trading" },
+                                { label: "Import Operations", type: "link", href: "/businesses/import-export" },
+                                { label: "Logistics Support", type: "link", href: "/businesses/overview" }
                             ].map((resource, index) => (
                                 <a
                                     key={index}
-                                    href="#"
-                                    className='flex items-center justify-between p-3 bg-white rounded-lg border border-border hover:border-secondary hover:shadow transition-all group'
+                                    href={resource.href}
+                                    className='flex items-center justify-between p-3 bg-white rounded-lg border border-border hover:border-blue-500 hover:shadow transition-all group'
                                 >
-                                    <span className='text-muted group-hover:text-secondary'>
+                                    <span className='text-muted group-hover:text-blue-600'>
                                         {resource.label}
                                     </span>
-                                    <span className='px-2 py-1 bg-background-secondary text-muted text-xs rounded group-hover:bg-secondary/10 group-hover:text-secondary'>
-                                        {resource.type === 'link' ? 'View →' : 'PDF ↓'}
+                                    <span className='px-2 py-1 bg-background-secondary text-muted text-xs rounded group-hover:bg-blue-100 group-hover:text-blue-600'>
+                                        View →
                                     </span>
                                 </a>
                             ))}
@@ -251,4 +250,4 @@ const LicensingAndLegislationPage = () => {
     )
 }
 
-export default LicensingAndLegislationPage
+export default WarehousingPage
