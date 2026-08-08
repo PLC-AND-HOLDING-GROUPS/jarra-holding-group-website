@@ -89,7 +89,7 @@ const Footer = () => {
 
             {/* Bottom bar */}
             <div className="border-t border-gray-800">
-                <div className="max-w-7xl mx-auto px-6 pb-5 flex flex-col  md:flex-row items-center justify-between text-sm">
+                <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between text-sm">
                     {/* Social */}
                     <div className="flex gap-4  justify-left w-full md:w-fit mb-10 md:mb-0">
                         <a href="#" className="hover:text-primary">

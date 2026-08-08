@@ -10,7 +10,7 @@ function GlobeNetwork() {
     const arcs = useMemo(() => {
         const curves: THREE.Vector3[][] = [];
         const dots: THREE.Vector3[] = [];
-        const numArcs = 35; // Number of connections
+        const numArcs = 70; // Number of connections
         const radius = 4.2;
 
         for (let i = 0; i < numArcs; i++) {
