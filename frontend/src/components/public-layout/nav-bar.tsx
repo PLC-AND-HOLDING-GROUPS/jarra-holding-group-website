@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { IconX } from "@tabler/icons-react";
-import { usePathname } from "@/i18n/navigation"; // ✅ add this
+import { usePathname, Link } from "@/i18n/navigation"; // ✅ add this
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
@@ -78,31 +78,33 @@ export default function PublicNavbar() {
                         return (
                             <div key={`mobile-item-${idx}`} className="flex flex-col">
                                 {/* Top-level item */}
-                                <button
-                                    onClick={() => {
-                                        if (item.children) {
-                                            setOpenMobileIndex(isOpen ? null : idx);
-                                        } else {
-                                            setIsMobileMenuOpen(false);
-                                        }
-                                    }}
-                                    className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
+                                {item.children ? (
+                                    <button
+                                        onClick={() => setOpenMobileIndex(isOpen ? null : idx)}
+                                        className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
           ${isActive
-                                            ? "text-primary dark:text-white font-semibold border border-golden-dark30 bg-primary20"
-                                            : "text-muted dark:text-neutral-200 hover:text-primary hover:bg-primary10"
-                                        }`}
-                                >
-                                    <span>{item.name}</span>
-
-                                    {item.children && (
-                                        <span
-                                            className={`transition-transform ${isOpen ? "rotate-180" : ""
-                                                }`}
-                                        >
+                                                ? "text-primary dark:text-white font-semibold border border-golden-dark30 bg-primary20"
+                                                : "text-muted dark:text-neutral-200 hover:text-primary hover:bg-primary10"
+                                            }`}
+                                    >
+                                        <span>{item.name}</span>
+                                        <span className={`transition-transform ${isOpen ? "rotate-180" : ""}`}>
                                             <ChevronDown />
                                         </span>
-                                    )}
-                                </button>
+                                    </button>
+                                ) : (
+                                    <Link
+                                        href={item.link || "#"}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className={`flex w-full items-center justify-between text-lg font-medium px-3 py-2 rounded-lg transition-colors
+          ${isActive
+                                                ? "text-primary dark:text-white font-semibold border border-golden-dark30 bg-primary20"
+                                                : "text-muted dark:text-neutral-200 hover:text-primary hover:bg-primary10"
+                                            }`}
+                                    >
+                                        <span>{item.name}</span>
+                                    </Link>
+                                )}
 
                                 <AnimatePresence initial={false}>
                                     {item.children && isOpen && (
