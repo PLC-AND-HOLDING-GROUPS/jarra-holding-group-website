@@ -33,7 +33,7 @@ export const leadershipTree = {
       name: "Mr. Daniel Yohannes",
       title: "Director General – Mining Operations",
       image: "/habtamu-tegegn-profile.jpg",
-      fullDescription: "Mr. Daniel Yohannes is the Director General of Mining Operations at the Wollega Adventist Academy Alumni Association. He is responsible for overseeing and regulating mining operations across the country. With his extensive experience in the mining sector, Mr. Yohannes plays a key role in ensuring compliance with mining laws and regulations, promoting sustainable mining practices, and supporting the growth of the mining industry.",
+      fullDescription: "Mr. Daniel Yohannes is the Director General of Mining Operations at the Jarra Holding Group. He is responsible for overseeing and regulating mining operations across the country. With his extensive experience in the mining sector, Mr. Yohannes plays a key role in ensuring compliance with mining laws and regulations, promoting sustainable mining practices, and supporting the growth of the mining industry.",
     },
     // {
     //   id: "director-c",

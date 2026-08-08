@@ -7,7 +7,7 @@ import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import { AnimatePresence, motion } from "framer-motion";
 
 const items = [
-    { label: "WAAAMS Background", slug: "/about" },
+    { label: "Jarra Holding Group Background", slug: "/about" },
     { label: "Minister of Mines", slug: "/about/minister" },
     { label: "Mission, Vision and Values", slug: "/about/mission-vision-and-values" },
     { label: "Organizational Structure", slug: "/about/organizational-structure" },
@@ -64,15 +64,15 @@ export default function Layout({
 
     // Find active item for title & breadcrumb
     const activeItem = items.find((item) => item.slug === normalizedPathname);
-    const title = activeItem?.label ?? "Background of WAAAMS";
+    const title = activeItem?.label ?? "Background of Jarra Holding Group";
 
     return (
         <>
             {/* Hero / Page Header (shared across all administration pages) */}
             <PageHeader
-                title="About WAAAMS"
+                title="About Jarra Holding Group"
                 icon={<Quote />}
-                description="About the Wollega Adventist Academy Alumni Association"
+                description="About Jarra Holding Group"
             />
 
             <section className="mx-auto">

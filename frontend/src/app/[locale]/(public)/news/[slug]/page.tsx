@@ -12,7 +12,7 @@ import NewsLeftSide from '@/components/pages/news-page-components/NewsLeftSide';
 
 const NewsIdPage = () => {
     const params = useParams();
-    const newsId = params.newsId as string;
+    const slug = params.slug as string;
 
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
@@ -38,7 +38,7 @@ const NewsIdPage = () => {
     ]);
 
     // Find the news item
-    const newsItem = mockNewsData.find(item => item.id === newsId);
+    const newsItem = mockNewsData.find(item => item.id === slug);
 
     if (!newsItem) {
         return (

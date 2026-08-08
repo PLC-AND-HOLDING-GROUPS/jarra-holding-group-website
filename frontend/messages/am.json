@@ -2,14 +2,17 @@
     "nav": {
         "home": "መነሻ",
         "about": "ስለኛ",
+        "businesses": "ንግዶች",
+        "products": "ምርቶች",
         "services": "አገልግሎቶች",
+        "facilities": "መገልገያዎች",
         "news": "ዜና",
-        "contact": "እውቂያ",
-        "mining": "ማዕድን"
+        "careers": "ስራዎች",
+        "contact": "እውቂያ"
     },
     "hero": {
         "button": "ዕድሎችን ይፈልጉ",
         "button2": "ተጨማሪ ይወቁ",
-        "badge": "የማዕድን ሚኒስቴር"
+        "badge": "ጃራ ሆልዲንግ ግሩፕ"
     }
 }

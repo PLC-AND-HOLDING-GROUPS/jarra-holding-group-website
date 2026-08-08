@@ -4,8 +4,7 @@ import { GlobeIcon } from "@radix-ui/react-icons";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import clsx from "clsx";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Locale, useLocale, useTranslations } from "next-intl";
-import Image from "next/image";
+import { Locale, useLocale } from "next-intl";
 import { Link, useRouter, usePathname } from "@/i18n/navigation";
 
 import React, { useEffect, useRef, useState, useTransition } from "react";
@@ -407,8 +406,7 @@ export const NavbarLogo = () => {
                 height={50}
             />
             <div className="flex flex-col">
-                <span className="text-secondary font-semibold dark:text-white text-md -mt-[2px]">WAAAMS</span>
-                <span className="text-secondary font-semibold dark:text-white text-md">የማዕድን ሚኒስቴር</span>
+                <span className="text-secondary font-semibold dark:text-white text-md -mt-[2px]">Jarra Holding Group</span>
             </div>
         </Link>
     );

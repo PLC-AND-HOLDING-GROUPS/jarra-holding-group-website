@@ -17,27 +17,55 @@ const Footer = () => {
     return (
         <footer className="bg-footer-bg bg-blur-md text-footer">
             {/* Top section */}
-            <div className="max-w-7xl mx-auto px-6 py-6 md:py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-                {/* About */}
+            <div className="max-w-7xl mx-auto px-6 py-6 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Brand */}
                 <div className="flex justify-left items-start">
-                    <div className="flex flex-col gap- justify-center items-center" >
-                        <Image src="/waa-logo.png" alt="Logo" width={100} height={100} />
-                        <h3 className="text-base font-semibold text-primary mb-4">
-                            WAAAMS
+                    <div className="flex flex-col gap-2 justify-start items-start" >
+                        <Image src="/waa-logo.png" alt="Logo" width={100} height={100} className="mb-2" />
+                        <h3 className="text-lg font-semibold text-primary mb-2">
+                            Jarra Holding Group
                         </h3>
-
                     </div>
                 </div>
 
-                {/* Quick Links */}
+                {/* Company */}
                 <div>
                     <h3 className="text-lg font-semibold text-white mb-4">
-                        Quick Links
+                        Company
                     </h3>
                     <ul className="space-y-2 text-sm">
                         <li>
-                            <Link href="/mining" className="hover:text-primary">
-                                Mining Sector
+                            <Link href="/about" className="hover:text-primary">
+                                About
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/businesses" className="hover:text-primary">
+                                Businesses
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/careers" className="hover:text-primary">
+                                Careers
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/contact" className="hover:text-primary">
+                                Contact
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Explore */}
+                <div>
+                    <h3 className="text-lg font-semibold text-white mb-4">
+                        Explore
+                    </h3>
+                    <ul className="space-y-2 text-sm">
+                        <li>
+                            <Link href="/products" className="hover:text-primary">
+                                Products
                             </Link>
                         </li>
                         <li>
@@ -46,81 +74,16 @@ const Footer = () => {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/facilities" className="hover:text-primary">
+                                Facilities
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/news" className="hover:text-primary">
-                                News & Updates
-                            </Link>
-                        </li>
-
-                    </ul>
-                </div>
-
-                {/* Resources */}
-                <div>
-                    <h3 className="text-lg font-semibold text-white mb-4">
-                        Resources
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                        <li>
-                            <Link href="/mining/licensing-and-legislation" className="hover:text-primary">
-                                Licensing & Legislation
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/mining/data" className="hover:text-primary">
-                                Mining Data
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/mining/gemstones" className="hover:text-primary">
-                                Gemstones
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/mining/application-portal" className="hover:text-primary">
-                                Application Portal
+                                News
                             </Link>
                         </li>
                     </ul>
-                </div>
-
-                {/* Contact */}
-                <div>
-                    <h3 className="text-lg font-semibold text-white mb-4">
-                        Contact
-                    </h3>
-                    <ul className="space-y-3 text-sm">
-                        <li>
-                            <Link href="/offices/federal" className="hover:text-primary">
-                                Federal Office
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/offices/regional" className="hover:text-primary">
-                                Regional Offices
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/faq" className="hover:text-primary">
-                                FAQ
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/stakeholder-consultations" className="hover:text-primary">
-                                Stakeholder Consultations
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/tenders-and-vacancies" className="hover:text-primary">
-                                Tenders and Vacancies
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/feedback-and-complaints" className="hover:text-primary">
-                                Feedback and Complaints
-                            </Link>
-                        </li>
-                    </ul>
-
                 </div>
             </div>
 
@@ -150,7 +113,7 @@ const Footer = () => {
                     </div>
 
                     <p className="text-center w-full md:w-fit">
-                        © {new Date().getFullYear()} Wollega Adventist Academy Alumni Association. All rights
+                        © {new Date().getFullYear()} Jarra Holding Group. All rights
                         reserved.
                     </p>
 

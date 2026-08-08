@@ -22,21 +22,15 @@ export default function PublicNavbar() {
     const pathname = usePathname(); // current route
     const [openMobileIndex, setOpenMobileIndex] = useState<number | null>(null);
 
-    const navItems = [
+    const navItems: { name: string; link?: string; children?: any[] }[] = [
         { name: t("nav.home"), link: "/" },
-
-        {
-            name: t("nav.sector"),
-            children: [
-                { name: t("nav.mining"), link: "/mining" },
-                { name: t("nav.gie"), link: "/gie" },
-                { name: t("nav.midi"), link: "/midi" },
-            ],
-        },
-
         { name: t("nav.about"), link: "/about" },
+        { name: t("nav.businesses"), link: "/businesses" },
+        { name: t("nav.products"), link: "/products" },
         { name: t("nav.services"), link: "/services" },
+        { name: t("nav.facilities"), link: "/facilities" },
         { name: t("nav.news"), link: "/news" },
+        { name: t("nav.careers"), link: "/careers" },
         { name: t("nav.contact"), link: "/contact" },
     ];
 

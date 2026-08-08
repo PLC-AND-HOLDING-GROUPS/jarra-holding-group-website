@@ -29,7 +29,7 @@ const NewsPage = () => {
             <PageHeader
                 title="News"
                 icon={<MessageCircle />}
-                description="News and updates from the Wollega Adventist Academy Alumni Association"
+                description="News and updates from Jarra Holding Group"
             />
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -40,7 +40,7 @@ const NewsPage = () => {
                     </h1>
                     <div className="mt-2 h-1 w-12 bg-primary rounded-full" />
                     <p className="text-muted mt-4 max-w-2xl">
-                        Stay updated with the latest news and announcements from the Wollega Adventist Academy Alumni Association.
+                        Stay updated with the latest news and announcements from Jarra Holding Group.
 
                         Here you can find information about our activities, projects, and initiatives.
                     </p>

@@ -1,18 +1,18 @@
 {
     "nav": {
         "home": "Home",
-        "sector": "Sector",
-        "mining": "Mining",
-        "gie": "GIE",
-        "midi": "MIDI",
         "about": "About",
+        "businesses": "Businesses",
+        "products": "Products",
         "services": "Services",
+        "facilities": "Facilities",
         "news": "News",
+        "careers": "Careers",
         "contact": "Contact"
     },
     "hero": {
         "button": "Explore Opportunities",
         "button2": "Learn More",
-        "badge": "Minister of Mines"
+        "badge": "Jarra Holding Group"
     }
 }

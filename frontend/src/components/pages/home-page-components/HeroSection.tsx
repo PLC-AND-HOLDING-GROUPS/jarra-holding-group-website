@@ -31,8 +31,8 @@ const slides: Slide[] = [
             am: "ኢትዮጵያ፡ የአዲስ ዕድል ገፅታ",
         },
         description: {
-            en: "Welcome to the Wollega Adventist Academy Alumni Association, your gateway to Ethiopia’s abundant natural resources and investment opportunities.",
-            am: "ወደ የማዕድን ሚኒስቴር እንኳን ደህና መጡ፤ እዚህ በኢትዮጵያ ያሉ በጣም ባለሃብቶች ሀብቶችን ለማግኘት ዕድሎች ይገኛሉ።",
+            en: "Welcome to Jarra Holding Group, your gateway to Ethiopia’s abundant natural resources and investment opportunities.",
+            am: "ወደ ጃራ ሆልዲንግ ግሩፕ እንኳን ደህና መጡ፤ እዚህ በኢትዮጵያ ያሉ በጣም ባለሃብቶች ሀብቶችን ለማግኘት ዕድሎች ይገኛሉ።",
         },
         image: "/home-1.jpg",
         bg: "bg-base-200/60",
@@ -44,8 +44,8 @@ const slides: Slide[] = [
             am: "በእምነት ያስገቡ",
         },
         description: {
-            en: "WAAAMS guides investors through licenses, legislation, and geodata to make your investment journey seamless.",
-            am: "ሚኒስቴሩ በፈቃድ፣ ሕግና ጂዮ-ዳታ አገልግሎት በመስጠት የተጠቃሚ የሆነ የስራ ሂደት ይሰጣል።",
+            en: "Jarra Holding Group guides investors through licenses, legislation, and geodata to make your investment journey seamless.",
+            am: "ጃራ ሆልዲንግ ግሩፕ በፈቃድ፣ ሕግና ጂዮ-ዳታ አገልግሎት በመስጠት የተጠቃሚ የሆነ የስራ ሂደት ይሰጣል።",
         },
         image: "/home-2.jpg",
         bg: "bg-base-200/80",
@@ -70,8 +70,8 @@ const slides: Slide[] = [
             am: "የኢትዮጵያ ፈጣን እድገት ይጠብቃል",
         },
         description: {
-            en: "Join one of Africa’s fastest-growing economies and explore the Wollega Adventist Academy Alumni Association’ resources to maximize your impact.",
-            am: "በአፍሪካ ውስጥ ከፍ የሚደርስ ኢኮኖሚ ውስጥ ተሳትፎ አድርጉ እና ሚኒስቴሩ ያቀረበውን ሀብት እየተጠቀሙ ተፅዕኖ ከፍ ያድርጉ።",
+            en: "Join one of Africa’s fastest-growing economies and explore Jarra Holding Group's resources to maximize your impact.",
+            am: "በአፍሪካ ውስጥ ከፍ የሚደርስ ኢኮኖሚ ውስጥ ተሳትፎ አድርጉ እና የጃራ ሆልዲንግ ግሩፕ ያቀረበውን ሀብት እየተጠቀሙ ተፅዕኖ ከፍ ያድርጉ።",
         },
         image: "/home-4.jpg",
         bg: "bg-base-200",
