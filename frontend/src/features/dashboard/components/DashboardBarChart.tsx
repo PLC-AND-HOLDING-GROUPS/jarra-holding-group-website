@@ -10,7 +10,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 interface DashboardBarChartProps {
-  data: { date: string; messages: number }[];
+  data: { date: string; messages?: number }[];
   title: string;
   description: string;
 }

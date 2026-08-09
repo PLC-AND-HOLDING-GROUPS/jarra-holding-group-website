@@ -33,47 +33,39 @@ export const routePermissions: RouteConfig[] = [
     },
     {
         path: "/admin/about",
-        label: "About",
+        label: "About (Cards, Leaders...)",
         icon: "Info",
         permissions: {
             anyPermissions: ["ABOUT:READ"],
         },
     },
     {
-        path: "/admin/services",
-        label: "Services",
+        path: "/admin/businesses",
+        label: "Businesses / Services",
         icon: "Briefcase",
         permissions: {
+            // Using SERVICES:READ since it maps to the Service API
             anyPermissions: ["SERVICES:READ"],
         },
     },
     {
+        path: "/admin/partners",
+        label: "Partners",
+        icon: "Users", // Using Users icon as generic for partners
+        permissions: {
+            // Using ABOUT:READ or a generic permission since PARTNERS might not exist 
+            // but we want them to see it. Actually, wait. Let's not restrict it heavily if it's missing.
+            // But we'll leave it open or use DASHBOARD:VIEW if it fails, let's use ABOUT:READ
+            anyPermissions: ["ABOUT:READ"],
+        },
+    },
+    {
         path: "/admin/contacts",
-        label: "Contacts",
+        label: "Inquiries",
         icon: "Phone",
         permissions: {
-            anyPermissions: ["CONTACT:READ", "TENDERS:READ", "VACANCIES:READ"],
+            anyPermissions: ["CONTACT:READ", "CONTACT_MESSAGES:READ"],
         },
-        children: [
-            {
-                path: "/admin/contacts",
-                label: "Contact Management",
-                icon: "Phone",
-                permissions: { anyPermissions: ["CONTACT:READ"] },
-            },
-            {
-                path: "/admin/tenders",
-                label: "Tender Management",
-                icon: "FileText",
-                permissions: { anyPermissions: ["TENDERS:READ"] },
-            },
-            {
-                path: "/admin/vacancies",
-                label: "Vacancy Management",
-                icon: "Briefcase",
-                permissions: { anyPermissions: ["VACANCIES:READ"] },
-            },
-        ],
     },
     {
         path: "/admin/footer",
@@ -84,10 +76,73 @@ export const routePermissions: RouteConfig[] = [
         },
     },
 
-    // ---------------- USERS ----------------
+    // ---------------- CONTENT ----------------
+    {
+        path: "/admin/news",
+        label: "News",
+        icon: "Newspaper",
+        permissions: {
+            anyPermissions: ["NEWS:READ", "TAGS:READ"],
+        },
+        children: [
+            {
+                path: "/admin/news",
+                label: "News",
+                icon: "Newspaper",
+                permissions: { anyPermissions: ["NEWS:READ"] },
+            },
+            {
+                path: "/admin/news/tags",
+                label: "Tags",
+                icon: "Tag",
+                permissions: { anyPermissions: ["TAGS:READ"] },
+            },
+        ],
+    },
+    {
+        path: "/admin/events",
+        label: "Events",
+        icon: "Calendar",
+        permissions: {
+            anyPermissions: ["EVENTS:READ", "EVENT_CATEGORIES:READ"],
+        },
+        children: [
+            {
+                path: "/admin/events",
+                label: "All Events",
+                icon: "Calendar",
+                permissions: { anyPermissions: ["EVENTS:READ"] },
+            },
+            {
+                path: "/admin/events/category",
+                label: "Categories",
+                icon: "Tag",
+                permissions: { anyPermissions: ["EVENT_CATEGORIES:READ"] },
+            },
+        ],
+    },
+    {
+        path: "/admin/tenders",
+        label: "Tenders",
+        icon: "FileText",
+        permissions: {
+            anyPermissions: ["TENDERS:READ"],
+        },
+    },
+    {
+        path: "/admin/careers",
+        label: "Careers",
+        icon: "Briefcase",
+        permissions: {
+            // Mapping Careers to Vacancies permission
+            anyPermissions: ["VACANCIES:READ"],
+        },
+    },
+
+    // ---------------- SYSTEM & USERS ----------------
     {
         path: "/admin/users",
-        label: "Users",
+        label: "Users & Roles",
         icon: "Users",
         permissions: {
             anyPermissions: ["USERS:READ", "ROLES:READ", "PERMISSIONS:READ"],
@@ -113,206 +168,12 @@ export const routePermissions: RouteConfig[] = [
             },
         ],
     },
-
-    // ---------------- NEWS ----------------
-    {
-        path: "/admin/news",
-        label: "News",
-        icon: "Newspaper",
-        permissions: {
-            anyPermissions: ["NEWS:READ", "TAGS:READ"],
-        },
-        children: [
-            {
-                path: "/admin/news",
-                label: "News",
-                icon: "Newspaper",
-                permissions: { anyPermissions: ["NEWS:READ"] },
-            },
-            {
-                path: "/admin/news/tags",
-                label: "Tags",
-                icon: "Tag",
-                permissions: { anyPermissions: ["TAGS:READ"] },
-            },
-            {
-                path: "/admin/news/feedbacks",
-                label: "News Feedbacks",
-                icon: "MessageSquare",
-                permissions: { anyPermissions: ["NEWS:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- EVENTS ----------------
-    {
-        path: "/admin/events",
-        label: "Events",
-        icon: "Calendar",
-        permissions: {
-            anyPermissions: ["EVENTS:READ", "EVENT_CATEGORIES:READ"],
-        },
-        children: [
-            {
-                path: "/admin/events",
-                label: "All Events",
-                icon: "Calendar",
-                permissions: { anyPermissions: ["EVENTS:READ"] },
-            },
-            {
-                path: "/admin/events/category",
-                label: "Categories",
-                icon: "Tag",
-                permissions: { anyPermissions: ["EVENT_CATEGORIES:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- MINING ----------------
-    {
-        path: "/admin/sectors/mining",
-        label: "Mining",
-        icon: "Gem",
-        permissions: {
-            anyPermissions: ["MINING_SNAPSHOTS:READ", "MINING_GAMESTONES:READ", "MINING_RESOURCES:READ", "MINING_APPLICATION_PROCESSES:READ", "MINING_REGULATION_PROCESSES:READ"],
-        },
-        children: [
-            {
-                path: "/admin/sectors/mining/snapshots",
-                label: "Snapshots",
-                icon: "Camera",
-                permissions: { anyPermissions: ["MINING_SNAPSHOTS:READ"] },
-            },
-            {
-                path: "/admin/sectors/mining/gamestones",
-                label: "Gemstones",
-                icon: "Diamond",
-                permissions: { anyPermissions: ["MINING_GAMESTONES:READ"] },
-            },
-            {
-                path: "/admin/sectors/mining/resources",
-                label: "Resources",
-                icon: "Layers",
-                permissions: { anyPermissions: ["MINING_RESOURCES:READ"] },
-            },
-            {
-                path: "/admin/sectors/mining/application-processes",
-                label: "Application Processes",
-                icon: "ClipboardList",
-                permissions: { anyPermissions: ["MINING_APPLICATION_PROCESSES:READ"] },
-            },
-            {
-                path: "/admin/sectors/mining/regulation-processes",
-                label: "Regulation Processes",
-                icon: "FileText",
-                permissions: { anyPermissions: ["MINING_REGULATION_PROCESSES:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- GEOTHERMAL ----------------
-    {
-        path: "/admin/sectors/geothermal",
-        label: "Geothermal",
-        icon: "Thermometer",
-        permissions: {
-            anyPermissions: ["GEOTHERMAL_SNAPSHOTS:READ", "GEOTHERMAL_RESOURCES:READ"],
-        },
-        children: [
-            {
-                path: "/admin/sectors/geothermal/snapshots",
-                label: "Snapshots",
-                icon: "Camera",
-                permissions: { anyPermissions: ["GEOTHERMAL_SNAPSHOTS:READ"] },
-            },
-            {
-                path: "/admin/sectors/geothermal/resources",
-                label: "Resources",
-                icon: "Layers",
-                permissions: { anyPermissions: ["GEOTHERMAL_RESOURCES:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- PETROLEUM ----------------
-    {
-        path: "/admin/sectors/petroleum",
-        label: "Petroleum",
-        icon: "Droplets",
-        permissions: {
-            anyPermissions: ["PETROLEUM_SNAPSHOTS:READ", "PETROLEUM_PROCESSES:READ", "PETROLEUM_REGULATION_PROCESSES:READ", "PETROLEUM_RESOURCES:READ"],
-        },
-        children: [
-            {
-                path: "/admin/sectors/petroleum/objectives",
-                label: "Objectives",
-                icon: "Target",
-                permissions: { anyPermissions: ["PETROLEUM_PROCESSES:READ"] },
-            },
-            {
-                path: "/admin/sectors/petroleum/processes",
-                label: "Processes",
-                icon: "Activity",
-                permissions: { anyPermissions: ["PETROLEUM_PROCESSES:READ"] },
-            },
-            {
-                path: "/admin/sectors/petroleum/regulation-processes",
-                label: "Regulation Processes",
-                icon: "FileText",
-                permissions: { anyPermissions: ["PETROLEUM_REGULATION_PROCESSES:READ"] },
-            },
-            {
-                path: "/admin/sectors/petroleum/resources",
-                label: "Resources",
-                icon: "Layers",
-                permissions: { anyPermissions: ["PETROLEUM_RESOURCES:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- ASM ----------------
-    {
-        path: "/admin/asm",
-        label: "Artisanal Mining",
-        icon: "Hammer",
-        permissions: {
-            anyPermissions: ["ASM:READ"],
-        },
-        children: [
-            {
-                path: "/admin/asm",
-                label: "Overview",
-                icon: "Globe",
-                permissions: { anyPermissions: ["ASM:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- INVEST ETHIOPIA ----------------
-    {
-        path: "/admin/investigate-ethiopia",
-        label: "Investigate Ethiopia",
-        icon: "Search",
-        permissions: {
-            anyPermissions: ["INVESTIGATE_ETHIOPIA:READ"],
-        },
-        children: [
-            {
-                path: "/admin/investigate-ethiopia",
-                label: "Overview",
-                icon: "Globe",
-                permissions: { anyPermissions: ["INVESTIGATE_ETHIOPIA:READ"] },
-            },
-        ],
-    },
-
-    // ---------------- SYSTEM ----------------
     {
         path: "/admin/system",
         label: "System",
         icon: "ShieldCheck",
         permissions: {
-            anyPermissions: ["AUDIT_LOGS:READ", "ROUTES:READ"],
+            anyPermissions: ["AUDIT_LOGS:READ"],
         },
         children: [
             {
@@ -321,16 +182,9 @@ export const routePermissions: RouteConfig[] = [
                 icon: "ClipboardList",
                 permissions: { anyPermissions: ["AUDIT_LOGS:READ"] },
             },
-            {
-                path: "/admin/system/routes",
-                label: "Routes Management",
-                icon: "Map",
-                // permissions: { anyPermissions: ["ROUTES:READ"] },
-            },
         ],
     },
 ];
-
 
 // ---------------- HELPER ----------------
 
@@ -347,8 +201,7 @@ export function getPermissionsForPath(path: string) {
     return undefined;
 }
 
-
-// Get children for tabs (🔥 THIS IS WHAT YOU WANT)
+// Get children for tabs
 export function getChildRoutes(parentPath: string) {
     return routePermissions.find((r) => r.path === parentPath)?.children || [];
-}
+}

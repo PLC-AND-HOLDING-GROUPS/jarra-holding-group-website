@@ -84,9 +84,7 @@ export default function LeadershipAdminPage() {
                 const roots: LeaderNode[] = [];
                 leaderships.forEach((l: any) => {
                     if (l.parent_id && nodeMap[l.parent_id]) {
-                        if (!nodeMap[l.parent_id].children) {
-                            nodeMap[l.parent_id].children = [];
-                        }
+                        nodeMap[l.parent_id].children = nodeMap[l.parent_id].children || [];
                         nodeMap[l.parent_id].children!.push(nodeMap[l.leadership_id]);
                     } else {
                         roots.push(nodeMap[l.leadership_id]);
@@ -160,7 +158,7 @@ export default function LeadershipAdminPage() {
             title: node.title,
             description: node.fullDescription,
             parent_id: node.parent_id || null,
-            header: node.header || "Ministry of Mines",
+            header: node.header || "Jarra Holding Group",
             level: node.level,
             attachments: node.attachment_id ? [{ attachment_id: node.attachment_id }] : [],
         }).unwrap();
@@ -247,9 +245,9 @@ function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: 
                 </Collapsible>
             </Card>
 
-            {(node.children?.length ?? 0) > 0 && (
+            {node.children && node.children.length > 0 && (
                 <div className="ml-8 mt-4 border-l-2 border-gray-100 pl-6">
-                    {node.children!.map(child => (
+                    {node.children.map(child => (
                         <NodeEditor
                             key={child.id}
                             node={child}
