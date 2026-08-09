@@ -95,7 +95,7 @@ export default function TenderForm({
 
       <h1 className="text-2xl font-bold mb-6">{title}</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-lg border p-6">
+      <form onSubmit={handleSubmit} className="space-y-6 bg-card text-card-foreground rounded-lg border p-6">
         <div className="space-y-2">
           <Label htmlFor="title">Title *</Label>
           <Input

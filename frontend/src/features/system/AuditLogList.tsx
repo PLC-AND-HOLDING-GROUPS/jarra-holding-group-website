@@ -86,7 +86,7 @@ export default function AuditLogList() {
             header: "User",
             cell: ({ row }) => (
                 <div className="flex flex-col">
-                    <span className="font-semibold text-[#094C81]">
+                    <span className="font-semibold text-primary">
                         {row.original.user?.full_name || "System"}
                     </span>
                     <span className="text-xs text-gray-400">
@@ -116,7 +116,7 @@ export default function AuditLogList() {
             accessorKey: "model_name",
             header: "Resource",
             cell: ({ row }) => (
-                <span className="font-medium text-gray-700">
+                <span className="font-medium text-muted-foreground">
                     {row.getValue("model_name")}
                 </span>
             ),
@@ -125,7 +125,7 @@ export default function AuditLogList() {
             accessorKey: "record_id",
             header: "Record ID",
             cell: ({ row }) => (
-                <span className="text-xs text-gray-500 max-w-[120px] truncate block" title={row.getValue("record_id")}>
+                <span className="text-xs text-muted-foreground max-w-[120px] truncate block" title={row.getValue("record_id")}>
                     {row.getValue("record_id")}
                 </span>
             ),

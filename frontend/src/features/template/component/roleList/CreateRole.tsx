@@ -208,7 +208,7 @@ export default function CreateRole() {
       case "some":
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
       default:
-        return "bg-gray-100 text-gray-600 border-gray-200";
+        return "bg-gray-100 text-gray-600 border-border";
     }
   }, []);
 
@@ -291,7 +291,7 @@ export default function CreateRole() {
   }
 
   return (
-    <div className="w-full flex items-center justify-center bg-white rounded-lg p-4">
+    <div className="w-full flex items-center justify-center bg-card text-card-foreground rounded-lg p-4">
       <div className="w-full" onClick={(e) => e.stopPropagation()}>
         <CreateRoleHeader isEditMode={isEditMode} />
 

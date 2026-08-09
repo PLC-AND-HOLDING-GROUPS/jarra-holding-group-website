@@ -20,13 +20,13 @@ export const FooterActions: React.FC<FooterActionsProps> = ({
   const router = useRouter();
 
   return (
-    <div className="border-t border-gray-200 p-6">
+    <div className="border-t border-border p-6">
       <div className="flex items-center justify-end">
         <div className="flex items-center space-x-3">
           <Button
             type="button"
             variant="outline"
-            className="min-w-[150px] text-[#094C81] text-base bg-gray-200 hover:bg-gray-300"
+            className="min-w-[150px] text-primary text-base bg-gray-200 hover:bg-gray-300"
             onClick={() => router.push("/role")}
             disabled={isLoading}
           >

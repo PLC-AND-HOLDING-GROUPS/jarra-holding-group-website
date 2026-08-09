@@ -7,39 +7,39 @@
     --background: 0 0% 100%;
     --background-secondary: 210 17% 98%;
     --foreground: 217 33% 17%;
-
+    
     --card: 0 0% 100%;
     --card-foreground: 217 33% 17%;
-
+    
     --popover: 0 0% 100%;
     --popover-foreground: 217 33% 17%;
-
+    
     --primary: 190 100% 42%;
     --primary-hover: 190 100% 34%;
     --primary-foreground: 0 0% 100%;
-
+    
     --secondary: 202 100% 18%;
     --secondary-foreground: 0 0% 100%;
-
+    
     --muted: 215 16% 47%;
     --muted-foreground: 215 16% 47%;
-
+    
     --accent: 210 17% 98%;
     --accent-foreground: 202 100% 18%;
-
+    
     --heading: 202 100% 18%;
     --body: 217 33% 17%;
-
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
+    
     --border: 220 13% 91%;
     --input: 220 13% 91%;
     --ring: 190 100% 42%;
-
+    
     --footer: 213 27% 84%;
-    --footer-bg: 202 100% 18%;
-
+    --footer-bg: 0 0% 10%;
+    
     --radius: 0.625rem;
 
     --sidebar-background: 202 100% 18%;
@@ -58,38 +58,38 @@
     --background: 202 100% 10%;
     --background-secondary: 202 100% 14%;
     --foreground: 213 27% 84%;
-
+    
     --card: 202 100% 14%;
     --card-foreground: 213 27% 84%;
-
+    
     --popover: 202 100% 14%;
     --popover-foreground: 213 27% 84%;
-
+    
     --primary: 190 100% 42%;
     --primary-hover: 190 100% 34%;
     --primary-foreground: 0 0% 100%;
-
+    
     --secondary: 210 17% 98%;
     --secondary-foreground: 202 100% 18%;
-
+    
     --muted: 215 16% 47%;
     --muted-foreground: 215 16% 47%;
-
+    
     --accent: 202 100% 14%;
     --accent-foreground: 213 27% 84%;
-
+    
     --heading: 0 0% 100%;
     --body: 213 27% 84%;
-
+    
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-
+    
     --border: 202 100% 14%;
     --input: 202 100% 14%;
     --ring: 190 100% 42%;
-
+    
     --footer: 213 27% 84%;
-    --footer-bg: 202 100% 10%;
+    --footer-bg: 0 0% 5%;
 
     --sidebar-background: 202 100% 10%;
     --sidebar-foreground: 0 0% 100%;

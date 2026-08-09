@@ -117,8 +117,8 @@ export default function UserList() {
             header: "Name",
             cell: ({ row }) => (
                 <div className="flex flex-col">
-                    <span className="font-medium text-[#094C81]">{row.getValue("full_name")}</span>
-                    <span className="text-xs text-gray-500">{row.original.email}</span>
+                    <span className="font-medium text-primary">{row.getValue("full_name")}</span>
+                    <span className="text-xs text-muted-foreground">{row.original.email}</span>
                 </div>
             ),
         },
@@ -140,7 +140,7 @@ export default function UserList() {
                     <div className="flex flex-wrap gap-1 max-w-[200px]">
                         {roles.length > 0 ? (
                             roles.map((role) => (
-                                <Badge key={role.role_id} variant="secondary" className="text-[10px] px-1 h-5 bg-[#094C81]/10 text-[#094C81] border-none">
+                                <Badge key={role.role_id} variant="secondary" className="text-[10px] px-1 h-5 bg-[#094C81]/10 text-primary border-none">
                                     {role.name}
                                 </Badge>
                             ))
@@ -195,7 +195,7 @@ export default function UserList() {
                             title="Edit User"
                             onClick={() => router.push(`/admin/users/edit/${id}`)}
                         >
-                            <Edit className="h-4 w-4 text-[#094C81]" />
+                            <Edit className="h-4 w-4 text-primary" />
                         </Button>
                         <Button
                             variant="ghost"

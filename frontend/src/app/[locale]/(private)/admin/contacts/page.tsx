@@ -11,8 +11,8 @@ const AdminContactsPage = () => {
     return (
         <div className="mx-auto space-y-6">
             <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold text-[#073954]">Contacts Management</h1>
-                <p className="text-gray-500 text-lg">
+                <h1 className="text-2xl font-bold text-primary">Contacts Management</h1>
+                <p className="text-muted-foreground text-lg">
                     Manage your office contact information and view messages from the public.
                 </p>
             </div>

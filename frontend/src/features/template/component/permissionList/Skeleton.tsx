@@ -10,7 +10,7 @@ export const PermissionSkeleton: React.FC = () => (
       {[...Array(3)].map((_, i) => (
         <div
           key={i}
-          className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+          className="bg-card text-card-foreground border border-border rounded-lg p-6 shadow-sm"
         >
           <Skeleton className="h-8 w-20 mb-2" />
           <Skeleton className="h-6 w-12" />
@@ -20,9 +20,9 @@ export const PermissionSkeleton: React.FC = () => (
     {[...Array(3)].map((_, i) => (
       <div
         key={i}
-        className="border border-gray-200 rounded-lg overflow-hidden"
+        className="border border-border rounded-lg overflow-hidden"
       >
-        <div className="p-4 bg-gray-50">
+        <div className="p-4 bg-secondary text-secondary-foreground">
           <Skeleton className="h-6 w-32 mb-2" />
           <Skeleton className="h-4 w-48" />
         </div>

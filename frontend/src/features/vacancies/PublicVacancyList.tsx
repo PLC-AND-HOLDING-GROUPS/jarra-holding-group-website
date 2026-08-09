@@ -35,7 +35,7 @@ export default function PublicVacancyList() {
       {data.map((item) => (
         <div
           key={item.vacancy_id}
-          className="border border-gray-200 bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition"
+          className="border border-border bg-card text-card-foreground rounded-2xl p-6 shadow-sm hover:shadow-md transition"
         >
           <div className="flex items-start justify-between gap-3 mb-3">
             <h2 className="text-lg font-semibold text-golden-dark flex items-center gap-2">
@@ -51,15 +51,15 @@ export default function PublicVacancyList() {
             </p>
           )}
 
-          <p className="text-sm text-gray-500 mb-1">
+          <p className="text-sm text-muted-foreground mb-1">
             {EMPLOYMENT_TYPE_LABELS[item.employment_type]}
           </p>
 
-          <p className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+          <p className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
             <Calendar size={16} /> Published:{" "}
             {formatDateOnly(item.published_date)}
           </p>
-          <p className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+          <p className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
             <Calendar size={16} /> Deadline:{" "}
             {formatDateOnly(item.application_deadline)}
           </p>

@@ -115,7 +115,7 @@ const getIconComponent = (iconName?: string, label?: string) => {
 
   if (iconName && iconMap[iconName]) return iconMap[iconName];
   if (label && iconMap[label]) return iconMap[label];
-
+  
   return Tag; // Default fallback
 };
 

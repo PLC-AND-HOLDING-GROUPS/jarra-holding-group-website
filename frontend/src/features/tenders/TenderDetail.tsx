@@ -54,11 +54,11 @@ export default function TenderDetail() {
         <ArrowLeft size={14} /> Back to Tenders & Vacancies
       </Link>
 
-      <div className="bg-white rounded-2xl border shadow-sm p-6 md:p-8 space-y-6">
+      <div className="bg-card text-card-foreground rounded-2xl border shadow-sm p-6 md:p-8 space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <OpportunityStatusBadge displayStatus={tender.display_status} />
           {tender.reference_number && (
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-muted-foreground">
               Ref: {tender.reference_number}
             </span>
           )}

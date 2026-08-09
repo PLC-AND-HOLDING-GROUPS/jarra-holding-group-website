@@ -55,7 +55,7 @@ export default function VacancyDetail() {
         <ArrowLeft size={14} /> Back to Tenders & Vacancies
       </Link>
 
-      <div className="bg-white rounded-2xl border shadow-sm p-6 md:p-8 space-y-6">
+      <div className="bg-card text-card-foreground rounded-2xl border shadow-sm p-6 md:p-8 space-y-6">
         <OpportunityStatusBadge displayStatus={vacancy.display_status} />
 
         <h1 className="text-2xl md:text-3xl font-bold text-golden-dark">

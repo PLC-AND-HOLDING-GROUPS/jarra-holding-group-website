@@ -101,7 +101,7 @@ export default function AdminNewsFeedbackDetail() {
             header: "User",
             cell: ({ row }) => (
                 <div className="flex flex-col">
-                    <span className="font-semibold text-[#094C81]">{row.getValue("fullname")}</span>
+                    <span className="font-semibold text-primary">{row.getValue("fullname")}</span>
                     <span className="text-[10px] text-gray-400">
                         {new Date(row.original.created_at).toLocaleDateString()}
                     </span>
@@ -112,7 +112,7 @@ export default function AdminNewsFeedbackDetail() {
             accessorKey: "thought",
             header: "Comment",
             cell: ({ row }) => (
-                <p className="text-sm text-gray-700 max-w-[400px] line-clamp-3" title={row.getValue("thought")}>
+                <p className="text-sm text-muted-foreground max-w-[400px] line-clamp-3" title={row.getValue("thought")}>
                     {row.getValue("thought")}
                 </p>
             ),
@@ -194,7 +194,7 @@ export default function AdminNewsFeedbackDetail() {
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                         <div className="space-y-2 min-w-0">
                             <div className="flex flex-wrap items-center gap-2">
-                                <h3 className="text-lg font-bold text-[#094C81] truncate">
+                                <h3 className="text-lg font-bold text-primary truncate">
                                     {selectedNews.title}
                                 </h3>
                                 <Badge

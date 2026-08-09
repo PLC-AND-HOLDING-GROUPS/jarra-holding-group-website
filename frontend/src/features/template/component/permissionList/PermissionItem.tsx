@@ -21,9 +21,9 @@ export const PermissionItem: React.FC<PermissionItemProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between py-1 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+    <div className="flex items-center justify-between py-1 px-3 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
       <div className="flex items-center space-x-3 flex-1">
-        <span className="text-sm font-medium text-gray-700 capitalize">
+        <span className="text-sm font-medium text-muted-foreground capitalize">
           {permission.action.replace("_", " ")}
         </span>
       </div>

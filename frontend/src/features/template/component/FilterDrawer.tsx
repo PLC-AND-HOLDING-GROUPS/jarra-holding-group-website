@@ -174,7 +174,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
       {/* Drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-full bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out",
+          "fixed top-0 right-0 h-full bg-card text-card-foreground shadow-xl z-50 transform transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "translate-x-full",
           className
         )}
@@ -184,7 +184,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between p-6 border-b border-border">
             <h3 className="text-lg font-semibold text-gray-900">
               Filters
             </h3>
@@ -214,7 +214,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200">
+          <div className="flex items-center justify-end space-x-3 p-6 border-t border-border">
             <Button variant="outline" onClick={onClear} className="px-6">
               Clear
             </Button>
@@ -251,7 +251,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = ({
           <div key={field.key} className="space-y-2">
             <Label
               htmlFor={field.key}
-              className="text-xs font-medium text-gray-700 uppercase tracking-wide"
+              className="text-xs font-medium text-muted-foreground uppercase tracking-wide"
             >
               {field.label}
             </Label>
@@ -270,7 +270,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = ({
           <div key={field.key} className="space-y-2">
             <Label
               htmlFor={field.key}
-              className="text-xs font-medium text-gray-700 uppercase tracking-wide"
+              className="text-xs font-medium text-muted-foreground uppercase tracking-wide"
             >
               {field.label}
             </Label>
@@ -311,7 +311,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = ({
           <div key={field.key} className="space-y-2">
             <Label
               htmlFor={field.key}
-              className="text-xs font-medium text-gray-700 uppercase tracking-wide"
+              className="text-xs font-medium text-muted-foreground uppercase tracking-wide"
             >
               {field.label}
             </Label>
@@ -340,7 +340,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = ({
           <div key={field.key} className="space-y-2">
             <Label
               htmlFor={field.key}
-              className="text-xs font-medium text-gray-700 uppercase tracking-wide"
+              className="text-xs font-medium text-muted-foreground uppercase tracking-wide"
             >
               {field.label}
             </Label>
@@ -359,13 +359,13 @@ export const FilterPopover: React.FC<FilterPopoverProps> = ({
           <div key={field.key} className="space-y-2">
             <Label
               htmlFor={field.key}
-              className="text-xs font-medium text-gray-700 uppercase tracking-wide"
+              className="text-xs font-medium text-muted-foreground uppercase tracking-wide"
             >
               {field.label}
             </Label>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <Label className="text-xs text-gray-500">
+                <Label className="text-xs text-muted-foreground">
                   From
                 </Label>
                 <Input
@@ -380,7 +380,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = ({
                 />
               </div>
               <div>
-                <Label className="text-xs text-gray-500">
+                <Label className="text-xs text-muted-foreground">
                   To
                 </Label>
                 <Input

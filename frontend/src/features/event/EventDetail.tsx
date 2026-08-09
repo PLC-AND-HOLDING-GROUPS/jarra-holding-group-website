@@ -24,7 +24,7 @@ const EventDetail = () => {
     
     if (isError || !eventItem) {
         return (
-            <div className="min-h-screen bg-gray-50 py-12">
+            <div className="min-h-screen bg-secondary text-secondary-foreground py-12">
                 <div className="max-w-4xl mx-auto px-4 text-center">
                     <h1 className="text-2xl font-bold text-gray-800 mb-4">Event Not Found</h1>
                     <p className="text-gray-600">The requested event is not available or has been removed.</p>
@@ -48,7 +48,7 @@ const EventDetail = () => {
     const displayStatus = (eventItem as any).computed_status || eventItem.status;
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-secondary text-secondary-foreground">
             {/* Header */}
             <header className="max-w-7xl mx-auto px-4 py-6">
                 <button
@@ -61,7 +61,7 @@ const EventDetail = () => {
                     <span className={`px-3 py-1 text-xs font-semibold rounded-full text-white ${getStatusColor(displayStatus)}`}>
                          {(displayStatus || "").charAt(0).toUpperCase() + (displayStatus || "").slice(1)}
                     </span>
-                    <div className="flex items-center gap-1 text-gray-500 text-sm border-l md:pl-4 pl-0 border-transparent md:border-gray-300">
+                    <div className="flex items-center gap-1 text-muted-foreground text-sm border-l md:pl-4 pl-0 border-transparent md:border-border">
                         <Calendar size={14} className="text-golden-dark" />
                         <span>{formatLongDate(eventItem.start_time)}</span>
                     </div>
@@ -72,7 +72,7 @@ const EventDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-8">
-                        <article className="rounded-lg shadow-sm overflow-hidden bg-white px-2">
+                        <article className="rounded-lg shadow-sm overflow-hidden bg-card text-card-foreground px-2">
                             {/* Headline Media Gallery - Repurposed from News */}
                             <EventMediaGallery
                                 attachments={eventItem.attachments || []}
@@ -83,7 +83,7 @@ const EventDetail = () => {
                             <div className="p-4 md:p-6">
                                 <div className="mb-6 flex flex-wrap gap-2">
                                      {eventItem.category?.name && (
-                                         <span className="px-3 py-1 bg-[#094C81]/10 text-[#094C81] text-xs font-semibold rounded-md">
+                                         <span className="px-3 py-1 bg-[#094C81]/10 text-primary text-xs font-semibold rounded-md">
                                              {eventItem.category.name}
                                          </span>
                                      )}
@@ -91,13 +91,13 @@ const EventDetail = () => {
                                 <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900 leading-snug">{eventItem.title}</h1>
                                 
                                 {/* Event Quick Info Card */}
-                                <div className="bg-gray-50 rounded-xl p-5 mb-8 border border-gray-100 flex flex-col md:flex-row flex-wrap gap-y-4 gap-x-8">
+                                <div className="bg-secondary text-secondary-foreground rounded-xl p-5 mb-8 border border-gray-100 flex flex-col md:flex-row flex-wrap gap-y-4 gap-x-8">
                                     <div className="flex items-start gap-3">
-                                        <div className="mt-0.5 p-2 bg-white rounded-lg shadow-sm text-golden-dark">
+                                        <div className="mt-0.5 p-2 bg-card text-card-foreground rounded-lg shadow-sm text-golden-dark">
                                             <Clock size={18} />
                                         </div>
                                         <div>
-                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Time</p>
+                                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Time</p>
                                             <p className="text-sm font-medium text-gray-900">
                                                 {formatLongDate(eventItem.start_time)} at {formatTime(eventItem.start_time)}
                                             </p>
@@ -111,11 +111,11 @@ const EventDetail = () => {
                                     
                                     {eventItem.location && (
                                         <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-2 bg-white rounded-lg shadow-sm text-golden-dark">
+                                            <div className="mt-0.5 p-2 bg-card text-card-foreground rounded-lg shadow-sm text-golden-dark">
                                                 <MapPin size={18} />
                                             </div>
                                             <div>
-                                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Location</p>
+                                                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Location</p>
                                                 <p className="text-sm font-medium text-gray-900 max-w-[200px]">{eventItem.location}</p>
                                             </div>
                                         </div>
@@ -123,11 +123,11 @@ const EventDetail = () => {
 
                                     {eventItem.virtual_link && (
                                          <div className="flex items-start gap-3">
-                                         <div className="mt-0.5 p-2 bg-white rounded-lg shadow-sm text-golden-dark">
+                                         <div className="mt-0.5 p-2 bg-card text-card-foreground rounded-lg shadow-sm text-golden-dark">
                                              <Globe size={18} />
                                          </div>
                                          <div>
-                                             <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Virtual</p>
+                                             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Virtual</p>
                                              <a href={eventItem.virtual_link} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:underline max-w-[200px] block truncate">
                                                 Join Meeting
                                              </a>
@@ -137,11 +137,11 @@ const EventDetail = () => {
 
                                     {eventItem.organizer && (
                                         <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-2 bg-white rounded-lg shadow-sm text-golden-dark">
+                                            <div className="mt-0.5 p-2 bg-card text-card-foreground rounded-lg shadow-sm text-golden-dark">
                                                 <User size={18} />
                                             </div>
                                             <div>
-                                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Organizer</p>
+                                                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Organizer</p>
                                                 <p className="text-sm font-medium text-gray-900 max-w-[200px]">{eventItem.organizer}</p>
                                             </div>
                                         </div>

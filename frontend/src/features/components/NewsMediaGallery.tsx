@@ -205,7 +205,7 @@ const NewsMediaGallery: React.FC<NewsMediaGalleryProps> = ({
                                     className="fixed inset-0 z-40"
                                     onClick={() => setShowShareMenu(false)}
                                 />
-                                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg border py-1 min-w-[120px] z-50">
+                                <div className="absolute top-full right-0 mt-2 bg-card text-card-foreground rounded-lg shadow-lg border py-1 min-w-[120px] z-50">
                                     <button
                                         onClick={handleShare}
                                         className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors"

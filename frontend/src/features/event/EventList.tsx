@@ -242,7 +242,7 @@ export default function EventList() {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {paginatedData.map((item) => (
-                        <div key={item.event_id} className="bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-shadow relative overflow-hidden group">
+                        <div key={item.event_id} className="bg-card text-card-foreground rounded-xl shadow-sm border p-5 hover:shadow-md transition-shadow relative overflow-hidden group">
                             <div className="flex justify-between items-start mb-4">
                                 <Badge variant={item.status === 'published' ? 'default' : 'secondary'}>
                                     {item.status}
@@ -256,7 +256,7 @@ export default function EventList() {
                                     </Button>
                                 </div>
                             </div>
-                            <h3 className="text-lg font-bold text-[#073954] mb-2 line-clamp-2">{item.title}</h3>
+                            <h3 className="text-lg font-bold text-primary mb-2 line-clamp-2">{item.title}</h3>
                             <div className="space-y-2 text-sm text-gray-600">
                                 <div className="flex items-center gap-2">
                                     <CalendarIcon className="h-4 w-4 text-golden-dark" />

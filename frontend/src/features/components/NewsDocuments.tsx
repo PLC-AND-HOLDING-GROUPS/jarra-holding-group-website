@@ -30,16 +30,16 @@ const NewsDocuments: React.FC<NewsDocumentsProps> = ({ attachments }) => {
                         href={`${process.env.NEXT_PUBLIC_BASE}/uploads/${doc.attachment.file_path.replace(/^uploads[\\/]/, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+                        className="flex items-center gap-3 p-3 bg-secondary text-secondary-foreground rounded-lg hover:bg-gray-100 transition-colors group"
                     >
-                        <div className="p-2 bg-white rounded-lg">
+                        <div className="p-2 bg-card text-card-foreground rounded-lg">
                             {doc.attachment.file_name.endsWith('.pdf') ? (
                                 <FileText className="w-5 h-5 text-red-500" />
                             ) : (
                                 <File className="w-5 h-5 text-blue-500" />
                             )}
                         </div>
-                        <span className="text-sm text-gray-700 group-hover:text-blue-600 transition-colors">
+                        <span className="text-sm text-muted-foreground group-hover:text-blue-600 transition-colors">
                             {doc.attachment.file_name}
                         </span>
                     </a>

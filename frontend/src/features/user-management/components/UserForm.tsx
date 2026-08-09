@@ -308,7 +308,7 @@ const UserForm = ({ userId }: UserFormProps) => {
                         type="button"
                         variant="outline"
                         onClick={() => router.push("/admin/users")}
-                        className="bg-white border-golden-dark/20 text-golden-dark hover:bg-golden-dark/5"
+                        className="bg-card text-card-foreground border-golden-dark/20 text-golden-dark hover:bg-golden-dark/5"
                     >
                         Cancel
                     </Button>

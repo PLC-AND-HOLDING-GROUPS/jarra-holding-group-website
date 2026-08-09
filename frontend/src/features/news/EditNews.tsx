@@ -267,8 +267,8 @@ const EditNews = () => {
 
     return (
         <div className="min-h-screen w-full grid grid-cols-2 gap-10">
-            <div className="bg-white p-6 rounded-lg shadow overflow-y-auto space-y-6">
-                <h1 className="text-2xl font-bold mb-6 text-[#073954]">Edit News</h1>
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto space-y-6">
+                <h1 className="text-2xl font-bold mb-6 text-primary">Edit News</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
@@ -277,7 +277,7 @@ const EditNews = () => {
                                 id="status"
                                 value={status}
                                 onChange={(e) => setStatus(e.target.value as any)}
-                                className="w-full border border-gray-300 p-2 rounded-md bg-white text-sm"
+                                className="w-full border border-border p-2 rounded-md bg-card text-card-foreground text-sm"
                             >
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
@@ -293,7 +293,7 @@ const EditNews = () => {
                                     value={publishedAt}
                                     onChange={(e) => setPublishedAt(e.target.value)}
                                 />
-                                <p className="text-xs text-gray-500">{TIMEZONE_LABEL}</p>
+                                <p className="text-xs text-muted-foreground">{TIMEZONE_LABEL}</p>
                             </div>
                         )}
                     </div>
@@ -311,14 +311,14 @@ const EditNews = () => {
 
                     {/* Tags Popover */}
                     <div className="w-full space-y-2">
-                        <Label className="text-sm font-medium text-[#094C81]">
+                        <Label className="text-sm font-medium text-primary">
                             Tags <span className="text-red-500">*</span>
                         </Label>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <button
                                     type="button"
-                                    className="w-full max-h-28 min-h-12 h-fit border border-gray-300 p-2 rounded-md mt-1 text-[#094C81] bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#094C81] focus:ring-offset-2 transition-all duration-200"
+                                    className="w-full max-h-28 min-h-12 h-fit border border-border p-2 rounded-md mt-1 text-primary bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-[#094C81] focus:ring-offset-2 transition-all duration-200"
                                 >
                                     <div className="flex flex-wrap items-center gap-2 w-full">
                                         {selectedTags.length === 0 && (
@@ -337,7 +337,7 @@ const EditNews = () => {
                                             return (
                                                 <span
                                                     key={tagId}
-                                                    className="inline-flex items-center gap-1 rounded-md justify-center bg-[#094C81]/10 text-[#094C81] px-2 py-1 text-xs"
+                                                    className="inline-flex items-center gap-1 rounded-md justify-center bg-[#094C81]/10 text-primary px-2 py-1 text-xs"
                                                 >
                                                     <span className="truncate max-w-[120px]">
                                                         {tag.name}
@@ -365,7 +365,7 @@ const EditNews = () => {
                                 </button>
                             </PopoverTrigger>
                             <PopoverContent
-                                className="w-[300px] p-2 bg-white"
+                                className="w-[300px] p-2 bg-card text-card-foreground"
                                 align="start"
                             >
                                 <div className="max-h-64 overflow-y-auto">
@@ -378,7 +378,7 @@ const EditNews = () => {
                                                 onClick={() => {
                                                     setSelectedTags((prev) => [...prev, t.tag_id]);
                                                 }}
-                                                className="w-full text-left px-3 py-2 text-sm text-[#094C81] hover:bg-[#094C81]/10 rounded-md cursor-pointer transition-colors"
+                                                className="w-full text-left px-3 py-2 text-sm text-primary hover:bg-[#094C81]/10 rounded-md cursor-pointer transition-colors"
                                             >
                                                 <span className="block truncate">{t.name}</span>
                                             </button>
@@ -466,10 +466,10 @@ const EditNews = () => {
             </div>
 
             {/* Preview Section */}
-            <div className="bg-white p-6 rounded-lg shadow overflow-y-auto">
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto">
                 <h2 className="text-xl font-semibold mb-4 border-b pb-2">Live Preview</h2>
                 <h1 className="text-3xl font-bold mb-3">{title || "News Title Preview"}</h1>
-                <div className="text-sm text-gray-500 mb-4">
+                <div className="text-sm text-muted-foreground mb-4">
                     {author ? `By ${author}` : "By Author"} • {new Date().toLocaleDateString()}
                 </div>
 

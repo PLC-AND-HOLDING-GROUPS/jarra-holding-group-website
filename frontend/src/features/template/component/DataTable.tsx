@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
 								key={row.id}
 								data-state={row.getIsSelected() ? "selected" : undefined}
 								className={`
-                                    bg-white shadow-sm transition-shadow duration-200
+                                    bg-card text-card-foreground shadow-sm transition-shadow duration-200
                                     even:bg-[#F7F9FF]
                                     ${i === 0
 										? "first:rounded-t-lg"

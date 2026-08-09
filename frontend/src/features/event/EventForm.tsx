@@ -213,8 +213,8 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-sm border space-y-6 overflow-hidden">
-                <h1 className="text-2xl font-bold text-[#073954]">{pageTitle}</h1>
+            <div className="bg-card text-card-foreground p-6 rounded-xl shadow-sm border space-y-6 overflow-hidden">
+                <h1 className="text-2xl font-bold text-primary">{pageTitle}</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
                         <Label>Title *</Label>
@@ -262,7 +262,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                                 onChange={e => setStartTime(e.target.value)}
                                 required
                             />
-                            <p className="text-xs text-gray-500">{TIMEZONE_LABEL}</p>
+                            <p className="text-xs text-muted-foreground">{TIMEZONE_LABEL}</p>
                         </div>
                         <div className="space-y-2">
                             <Label>End Time *</Label>
@@ -272,7 +272,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                                 onChange={e => setEndTime(e.target.value)}
                                 required
                             />
-                            <p className="text-xs text-gray-500">{TIMEZONE_LABEL}</p>
+                            <p className="text-xs text-muted-foreground">{TIMEZONE_LABEL}</p>
                         </div>
                     </div>
 
@@ -310,7 +310,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                                 <CalendarIcon className="h-3.5 w-3.5" />
                                 Publication Window
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-muted-foreground">
                                 {status === "scheduled"
                                     ? "The event will automatically go live when Publish Start is reached."
                                     : "If left blank, the event is visible immediately with no expiry."}
@@ -387,7 +387,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                                                     );
                                                 }}
                                                 className={`p-2 rounded-md cursor-pointer text-sm ${selectedCategoryId === cat.event_category_id
-                                                        ? "bg-golden-dark/20 text-[#073954]"
+                                                        ? "bg-golden-dark/20 text-primary"
                                                         : "hover:bg-gray-100"
                                                     }`}
                                             >
@@ -431,7 +431,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                                     />
                                 </div>
                             ) : (
-                                <div className="h-64 bg-gray-50 animate-pulse rounded-md" />
+                                <div className="h-64 bg-secondary text-secondary-foreground animate-pulse rounded-md" />
                             )}
                         </div>
                     </div>
@@ -450,9 +450,9 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
 
             {/* Preview */}
             <div className="hidden lg:block space-y-6">
-                <div className="sticky top-6 bg-gray-50 border rounded-xl p-6 min-h-[600px]">
+                <div className="sticky top-6 bg-secondary text-secondary-foreground border rounded-xl p-6 min-h-[600px]">
                     <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-6">Live Preview</h2>
-                    <div className="bg-white rounded-xl shadow-md overflow-hidden border">
+                    <div className="bg-card text-card-foreground rounded-xl shadow-md overflow-hidden border">
                         <div className="relative group">
                             {headlineFiles.length > 0 && currentMedia ? (
                                 <>
@@ -498,7 +498,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                                     </Badge>
                                 )}
                             </div>
-                            <h1 className="text-2xl font-bold text-[#073954]">{title || "Event Title"}</h1>
+                            <h1 className="text-2xl font-bold text-primary">{title || "Event Title"}</h1>
                             <p className="text-gray-600 text-sm line-clamp-3">{description || "Event description preview will appear here..."}</p>
 
                             <div className="grid grid-cols-2 gap-4 py-4 border-y text-sm">

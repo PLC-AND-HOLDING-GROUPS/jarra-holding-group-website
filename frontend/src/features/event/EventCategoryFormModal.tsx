@@ -84,7 +84,7 @@ export function EventCategoryFormModal({
         <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
             <DialogContent className="sm:max-w-[400px]">
                 <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2 text-[#073954]">
+                    <DialogTitle className="flex items-center gap-2 text-primary">
                         <Tag className="h-5 w-5 text-golden-dark" />
                         {isEdit ? "Edit Category" : "New Event Category"}
                     </DialogTitle>

@@ -10,8 +10,8 @@ export default function AboutAdminPage() {
     return (
         <div className=" mx-auto space-y-6">
             <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold text-[#073954]">About Us Management</h1>
-                <p className="text-gray-500 text-lg">
+                <h1 className="text-2xl font-bold text-primary">About Us Management</h1>
+                <p className="text-muted-foreground text-lg">
                     Configure the ministry's background, leadership structure, and core principles.
                 </p>
             </div>

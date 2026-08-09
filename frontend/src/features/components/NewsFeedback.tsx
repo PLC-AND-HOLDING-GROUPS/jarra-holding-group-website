@@ -51,7 +51,7 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
 
     return (
         <div id="feedback-section" className="space-y-6">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-card text-card-foreground rounded-lg shadow-sm p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-gray-900">Article Feedback</h2>
@@ -101,7 +101,7 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
             </div>
 
             {feedbacks.length > 0 && (
-                <div className="bg-white rounded-lg shadow-sm p-6">
+                <div className="bg-card text-card-foreground rounded-lg shadow-sm p-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-6 pb-3 border-b">
                         Published Comments
                     </h3>

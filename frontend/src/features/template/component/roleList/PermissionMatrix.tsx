@@ -63,15 +63,15 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
 
   if (loadingPermissions) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div className="bg-card text-card-foreground border border-border rounded-lg shadow-sm">
         <div className="p-6 border-b">
-          <h3 className="text-xl font-bold text-[#094C81]">
+          <h3 className="text-xl font-bold text-primary">
             Permission Matrix
           </h3>
         </div>
         <div className="p-8 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="text-sm text-gray-500 mt-2">Loading permissions...</p>
+          <p className="text-sm text-muted-foreground mt-2">Loading permissions...</p>
         </div>
       </div>
     );
@@ -79,13 +79,13 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
 
   if (resourceGroups.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div className="bg-card text-card-foreground border border-border rounded-lg shadow-sm">
         <div className="p-6 border-b">
-          <h3 className="text-xl font-bold text-[#094C81]">
+          <h3 className="text-xl font-bold text-primary">
             Permission Matrix
           </h3>
         </div>
-        <div className="p-8 text-center text-gray-500">
+        <div className="p-8 text-center text-muted-foreground">
           No permissions available
         </div>
       </div>
@@ -93,19 +93,19 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div className="bg-card text-card-foreground border border-border rounded-lg shadow-sm">
       <div className="p-6 border-b">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-bold text-[#094C81]">
+          <h3 className="text-xl font-bold text-primary">
             Permission Matrix
           </h3>
           <div className="flex items-center space-x-2 text-sm">
-            <span className="text-[#094C81]">Selected:</span>
-            <span className="font-semibold text-[#094C81]">
+            <span className="text-primary">Selected:</span>
+            <span className="font-semibold text-primary">
               {getSelectedPermissionsCount()}
             </span>
-            <span className="text-[#094C81]">/</span>
-            <span className="text-[#094C81]">{getTotalPermissionsCount()}</span>
+            <span className="text-primary">/</span>
+            <span className="text-primary">{getTotalPermissionsCount()}</span>
           </div>
         </div>
       </div>
@@ -119,12 +119,12 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
             return (
               <div
                 key={group.resource}
-                className="border border-gray-200 rounded-lg self-start"
+                className="border border-border rounded-lg self-start"
               >
                 {/* Resource Header */}
                 <div
                   onClick={() => toggleResource(group.resource)}
-                  className="flex transition-all hover:bg-[#094C81]/10 duration-200 cursor-pointer items-center justify-between p-4 bg-gray-50 rounded-t-lg"
+                  className="flex transition-all hover:bg-[#094C81]/10 duration-200 cursor-pointer items-center justify-between p-4 bg-secondary text-secondary-foreground rounded-t-lg"
                 >
                   <div className="flex items-center space-x-3 flex-1">
                     <button
@@ -133,28 +133,28 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                       className="p-1 hover:bg-gray-200 rounded"
                     >
                       {isExpanded ? (
-                        <ChevronDown className="h-5 w-5 text-[#094C81] hover:text-[#073954]" />
+                        <ChevronDown className="h-5 w-5 text-primary hover:text-primary" />
                       ) : (
-                        <ChevronRight className="h-5 w-5 text-[#094C81] hover:text-[#073954]" />
+                        <ChevronRight className="h-5 w-5 text-primary hover:text-primary" />
                       )}
                     </button>
-                    <div className="p-2 text-[#094C81] bg-white rounded-lg shadow-sm">
+                    <div className="p-2 text-primary bg-card text-card-foreground rounded-lg shadow-sm">
                       {resourceIcons[group.resource] || (
                         <Shield className="h-4 w-4" />
                       )}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[#094C81] capitalize">
+                      <h3 className="font-semibold text-primary capitalize">
                         {group.resource.replace(/_/g, " ")}
                       </h3>
-                      <p className="text-sm text-[#094C81]">
+                      <p className="text-sm text-primary">
                         {group.permissions.length} permissions available
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <span
-                      className={`px-2 py-1 text-xs font-medium border rounded-full text-[#094C81] ${getSelectionStatusClass(
+                      className={`px-2 py-1 text-xs font-medium border rounded-full text-primary ${getSelectionStatusClass(
                         selectionStatus
                       )}`}
                     >
@@ -171,7 +171,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                       }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                        className={`inline-block h-4 w-4 transform rounded-full bg-card text-card-foreground transition-transform duration-200 ${
                           isAllSelected ? "translate-x-6" : "translate-x-1"
                         }`}
                       />
@@ -189,12 +189,12 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <div className="p-4 bg-white rounded-b-lg border-t border-gray-200">
+                      <div className="p-4 bg-card text-card-foreground rounded-b-lg border-t border-border">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           {group.permissions.map((permission) => (
                             <label
                               key={permission.permission_id}
-                              className="flex w-full items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+                              className="flex w-full items-center space-x-3 p-3 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors duration-150"
                             >
                               <div className="relative">
                                 <input
@@ -227,7 +227,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                                 </div>
                               </div>
 
-                              <span className="text-sm font-medium text-gray-700 capitalize">
+                              <span className="text-sm font-medium text-muted-foreground capitalize">
                                 {permission.action.replace(/_/g, " ")}
                               </span>
                             </label>

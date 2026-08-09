@@ -9,7 +9,7 @@ interface PermissionStatsProps {
 export const PermissionStats: React.FC<PermissionStatsProps> = ({ stats }) => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     {/* Total Card */}
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div className="bg-card text-card-foreground border border-border rounded-lg shadow-sm">
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div>
@@ -26,7 +26,7 @@ export const PermissionStats: React.FC<PermissionStatsProps> = ({ stats }) => (
     </div>
 
     {/* Active Card */}
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div className="bg-card text-card-foreground border border-border rounded-lg shadow-sm">
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div>
@@ -41,7 +41,7 @@ export const PermissionStats: React.FC<PermissionStatsProps> = ({ stats }) => (
     </div>
 
     {/* Inactive Card */}
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div className="bg-card text-card-foreground border border-border rounded-lg shadow-sm">
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div>

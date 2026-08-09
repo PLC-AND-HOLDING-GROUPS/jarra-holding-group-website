@@ -33,7 +33,7 @@ const NewsDetail = () => {
     if (isLoading) return <NewsDetailSkeleton />;
     if (isError || !newsItem)
         return (
-            <div className="min-h-screen bg-gray-50 py-12">
+            <div className="min-h-screen bg-secondary text-secondary-foreground py-12">
                 <div className="max-w-4xl mx-auto px-4 text-center">
                     <h1 className="text-2xl font-bold text-gray-800 mb-4">News Not Found</h1>
                     <p className="text-gray-600">The requested news article is not available.</p>
@@ -42,7 +42,7 @@ const NewsDetail = () => {
         );
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-secondary text-secondary-foreground">
             {/* Header */}
             <header className="max-w-7xl mx-auto px-4 py-6">
                 <button
@@ -52,12 +52,12 @@ const NewsDetail = () => {
                     <ArrowLeft size={14} /> Back to News
                 </button>
                 <div className="flex md:items-center flex-col md:flex-row md:gap-2 mt-1">
-                    <div className="flex items-center gap-1 text-gray-500 text-sm">
+                    <div className="flex items-center gap-1 text-muted-foreground text-sm">
                         <Calendar size={14} />
                         <span>{formatLongDate(newsItem.created_at)}</span>
                     </div>
-                    <span className="text-gray-500 text-sm hidden md:block">•</span>
-                    <div className="flex items-center gap-1 text-gray-500 text-sm">
+                    <span className="text-muted-foreground text-sm hidden md:block">•</span>
+                    <div className="flex items-center gap-1 text-muted-foreground text-sm">
                         <User size={14} />
                         <span>{newsItem.author}</span>
                     </div>
@@ -68,7 +68,7 @@ const NewsDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-8">
-                        <article className="rounded-lg shadow-sm overflow-hidden bg-white px-2">
+                        <article className="rounded-lg shadow-sm overflow-hidden bg-card text-card-foreground px-2">
                             {/* Headline Media Gallery */}
                             <NewsMediaGallery
                                 attachments={(newsItem.attachments as any) || []}
@@ -93,7 +93,7 @@ const NewsDetail = () => {
                                         {newsItem.tag_links?.map((tagLink: any) => (
                                             <span
                                                 key={tagLink.tag.tag_id}
-                                                className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 cursor-pointer"
+                                                className="px-3 py-1 bg-gray-100 text-muted-foreground text-sm rounded-full hover:bg-gray-200 cursor-pointer"
                                             >
                                                 #{tagLink.tag.name}
                                             </span>

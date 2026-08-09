@@ -102,7 +102,7 @@ export default function AdminFeedbackNewsList() {
                 <button
                     type="button"
                     onClick={() => router.push(`/admin/news/feedbacks/${row.original.news_id}`)}
-                    className="text-left font-semibold text-[#094C81] hover:underline"
+                    className="text-left font-semibold text-primary hover:underline"
                 >
                     {row.getValue("title")}
                 </button>
@@ -147,7 +147,7 @@ export default function AdminFeedbackNewsList() {
             cell: ({ row }) => {
                 const pending = row.getValue("pendingFeedbacks") as number;
                 return (
-                    <span className={pending > 0 ? "text-amber-600 font-semibold" : "text-gray-500"}>
+                    <span className={pending > 0 ? "text-amber-600 font-semibold" : "text-muted-foreground"}>
                         {pending}
                     </span>
                 );

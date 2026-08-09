@@ -56,19 +56,19 @@ export const TableLayout: React.FC<PageLayoutProps> = ({
   });
 
   return (
-    <div className="p-6 border rounded-lg bg-white shadow">
+    <div className="p-6 border rounded-lg bg-card text-card-foreground shadow">
       <div className="space-y-6">
         {/* Page Header - Title & Description */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           {title && description && (
             <div>
               {title && (
-                <h1 className="text-xl font-semibold text-[#073954]">
+                <h1 className="text-xl font-semibold text-primary">
                   {title}
                 </h1>
               )}
               {description && (
-                <p className="text-gray-500 text-base">{description}</p>
+                <p className="text-muted-foreground text-base">{description}</p>
               )}
             </div>
           )}
@@ -155,7 +155,7 @@ export const TableLayout: React.FC<PageLayoutProps> = ({
         </div>
 
         {/* Main Content */}
-        <div className="bg-white">{children}</div>
+        <div className="bg-card text-card-foreground">{children}</div>
       </div>
     </div>
   );
