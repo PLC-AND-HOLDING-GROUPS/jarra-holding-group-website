@@ -1,9 +1,10 @@
 const {
   User,
-  UserType,
   UserPosition,
   Role,
   UserRoles,
+  RolePermission,
+  Permission,
   sequelize,
 } = require("../../models");
 const { v4: uuidv4, validate: isUuid } = require("uuid");
@@ -12,27 +13,6 @@ const bcrypt = require("bcrypt");
 const { generateRandomPassword } = require("../../utils/password");
 const { sendEmail } = require("../../utils/sendEmail");
 
-const getUserTypes = async (req, res) => {
-  try {
-    const userTypes = await UserType.findAll({
-      attributes: ["name", "description", "created_at", "updated_at"],
-      order: [["name", "ASC"]],
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: "User types fetched successfully",
-      data: userTypes,
-    });
-  } catch (error) {
-    console.error("Error fetching user types:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch user types",
-      error: error.message,
-    });
-  }
-};
 const getUserPositions = async (req, res) => {
   try {
     const userPositions = await UserPosition.findAll({
@@ -64,7 +44,7 @@ const getUserPositions = async (req, res) => {
 const createUser = async (req, res) => {
   const t = await sequelize.transaction();
   try {
-    const { full_name, email, user_type_id, role_ids, phone_number } = req.body;
+    const { full_name, email, role_ids, phone_number } = req.body;
 
     // ====== Check existing email ======
     const existingUser = await User.findOne({
@@ -78,14 +58,6 @@ const createUser = async (req, res) => {
         .json({ success: false, message: "User already exists." });
     }
 
-    // ====== Validate user type ======
-    const userType = await UserType.findByPk(user_type_id, { transaction: t });
-    if (!userType) {
-      await t.rollback();
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid user type." });
-    }
 
     // ====== MULTIPLE ROLE VALIDATION ======
     if (role_ids && Array.isArray(role_ids) && role_ids.length > 0) {
@@ -104,8 +76,7 @@ const createUser = async (req, res) => {
     }
 
     // ====== Generate password ======
-    // const password = generateRandomPassword();
-    const password = "password";
+    const password = generateRandomPassword();
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // ====== Create User ======
@@ -116,7 +87,7 @@ const createUser = async (req, res) => {
         email,
         password: hashedPassword,
         phone_number,
-        user_type_id,
+
         is_first_logged_in: true,
         is_active: true,
         created_at: new Date(),
@@ -141,24 +112,34 @@ const createUser = async (req, res) => {
       await UserRoles.bulkCreate(roleAssignments, { transaction: t });
     }
 
-    await t.commit();
-
     // ====== Send welcome email ======
-    await sendEmail(
-      email,
-      `Welcome to ${process.env.APP_NAME}!`,
-      `
+    try {
+      await sendEmail(
+        email,
+        `Welcome to ${process.env.APP_NAME}!`,
+        `
       Dear ${full_name},
       Your account has been successfully created.
       Email: ${email}
       Temporary Password: ${password}
       Please change your password after first login.
     `
-    );
+      );
+    } catch (emailError) {
+      if (!t.finished) await t.commit();
+      console.error("Welcome email failed, but user was created:", emailError);
+      return res.status(201).json({
+        success: true,
+        message: `User registered successfully, but the welcome email could not be sent due to a network issue. Please provide this temporary password to the user manually: ${password}`,
+        data: user,
+      });
+    }
+
+    if (!t.finished) await t.commit();
 
     return res.status(201).json({
       success: true,
-      message: "User registered globally (no roles assigned yet)",
+      message: "User registered successfully and welcome email sent.",
       data: user,
     });
   } catch (error) {
@@ -178,7 +159,6 @@ const updateUser = async (req, res) => {
     const {
       full_name,
       email,
-      user_type_id,
       phone_number,
       is_active,
       role_ids,
@@ -210,18 +190,6 @@ const updateUser = async (req, res) => {
       }
     }
 
-    // ====== Validate user type ======
-    if (user_type_id) {
-      const userType = await UserType.findByPk(user_type_id, {
-        transaction: t,
-      });
-      if (!userType) {
-        await t.rollback();
-        return res
-          .status(400)
-          .json({ success: false, message: "Invalid user type." });
-      }
-    }
 
     // ====== Update user ======
     await user.update(
@@ -229,7 +197,6 @@ const updateUser = async (req, res) => {
         full_name: full_name ?? user.full_name,
         email: email ?? user.email,
         phone_number: phone_number ?? user.phone_number,
-        user_type_id: user_type_id ?? user.user_type_id,
         is_active: is_active ?? user.is_active,
         updated_at: new Date(),
       },
@@ -287,8 +254,6 @@ const updateUser = async (req, res) => {
 const getUsers = async (req, res) => {
   try {
     const {
-      // institute_id,
-      user_type_id,
       is_active,
       search, // optional: for name/email search
     } = req.query;
@@ -296,8 +261,6 @@ const getUsers = async (req, res) => {
     // ====== Build filters dynamically ======
     const whereClause = {};
 
-    // if (institute_id) whereClause.institute_id = institute_id;
-    if (user_type_id) whereClause.user_type_id = user_type_id;
     if (is_active !== undefined) whereClause.is_active = is_active === "true";
 
     if (search) {
@@ -311,13 +274,7 @@ const getUsers = async (req, res) => {
     // ====== Fetch users with associations ======
     const users = await User.findAll({
       where: whereClause,
-      include: [
-        {
-          model: UserType,
-          as: "userType",
-          attributes: ["user_type_id", "name"],
-        },
-      ],
+      include: [],
       order: [["created_at", "DESC"]],
     });
 
@@ -342,14 +299,8 @@ const getUserById = async (req, res) => {
 
     console.log("user_id: ", user_id);
 
-    // ====== Find user with relations ======
     const user = await User.findByPk(user_id, {
       include: [
-        {
-          model: UserType,
-          as: "userType",
-          attributes: ["user_type_id", "name"],
-        },
         {
           model: Role,
           as: "roles",
@@ -509,20 +460,29 @@ const resetUserPassword = async (req, res) => {
       { transaction: t }
     );
 
-    await t.commit();
-
     // Send email notification
-    await sendEmail(
-      user.email,
-      `Password Reset - ${process.env.APP_NAME}`,
-      `
+    try {
+      await sendEmail(
+        user.email,
+        `Password Reset - ${process.env.APP_NAME}`,
+        `
       Dear ${user.full_name},
       Your password has been reset successfully.
       Email: ${user.email}
       New Temporary Password: ${newPassword}
       Please change your password after logging in.
       `
-    );
+      );
+    } catch (emailError) {
+      if (!t.finished) await t.commit();
+      console.error("Reset password email failed, but password was changed:", emailError);
+      return res.status(200).json({
+        success: true,
+        message: `Password reset successfully, but the notification email failed. Please provide this new password to the user manually: ${newPassword}`,
+      });
+    }
+
+    if (!t.finished) await t.commit();
 
     return res.status(200).json({
       success: true,
@@ -530,7 +490,8 @@ const resetUserPassword = async (req, res) => {
         "Password reset successfully. The new password has been sent via email.",
     });
   } catch (error) {
-    await t.rollback();
+    if (!t.finished) await t.rollback();
+    console.error("Error resetting user password:", error);
     return res.status(500).json({
       success: false,
       message: "Error resetting user password",
@@ -559,13 +520,7 @@ const getProfile = async (req, res) => {
         "created_at",
         "updated_at",
       ],
-      include: [
-        {
-          model: UserType,
-          as: "userType",
-          attributes: ["user_type_id", "name", "description"],
-        },
-      ],
+      include: [],
     });
 
     if (!user)
@@ -574,6 +529,72 @@ const getProfile = async (req, res) => {
         .json({ success: false, message: "User not found" });
 
     return res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+const getUserPermissions = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+
+    const user = await User.findOne({
+      where: { user_id: userId },
+      include: [
+        {
+          model: Role,
+          as: "roles",
+          through: { attributes: [] },
+          include: [
+            {
+              model: RolePermission,
+              as: "rolePermissions",
+              include: [
+                {
+                  model: Permission,
+                  as: "permission",
+                  attributes: ["resource", "action"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const flattenedPermissions = [
+      ...new Set(
+        user.roles.flatMap((role) =>
+          role.rolePermissions
+            .filter((rp) => rp.permission?.resource && rp.permission?.action)
+            .map(
+              (rp) =>
+                `${rp.permission.resource.toUpperCase()}:${rp.permission.action.toUpperCase()}`
+            )
+        )
+      ),
+    ];
+
+    const roles = user.roles.map((r) => r.name);
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        permissions: flattenedPermissions,
+        roles: roles,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -593,6 +614,6 @@ module.exports = {
   toggleUserActiveStatus,
   resetUserPassword,
   getProfile,
-  getUserTypes,
   getUserPositions,
+  getUserPermissions,
 };

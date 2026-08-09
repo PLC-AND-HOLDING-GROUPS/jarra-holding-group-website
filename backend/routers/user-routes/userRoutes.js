@@ -9,12 +9,12 @@ const {
   toggleUserActiveStatus,
   resetUserPassword,
   getProfile,
-  getUserTypes,
   getUserPositions,
+  getUserPermissions,
 } = require("../../controllers/user/userController");
 
 // Middleware for authentication if needed (example)
-// const { authenticate } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../../middlewares/authMiddleware");
 
 /**
  * @swagger
@@ -23,17 +23,6 @@ const {
  *   description: User management and retrieval
  */
 
-/**
- * @swagger
- * /users/types:
- *   get:
- *     summary: Get all user types
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: List of user types
- */
-router.get("/types", getUserTypes);
 
 /**
  * @swagger
@@ -46,6 +35,21 @@ router.get("/types", getUserTypes);
  *         description: List of user positions
  */
 router.get("/positions", getUserPositions);
+
+/**
+ * @swagger
+ * /users/profile/permissions:
+ *   get:
+ *     summary: Get current logged in user's merged permissions
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of simplified permission strings (RESOURCE:ACTION)
+ */
+router.get("/profile/permissions", authenticateToken, getUserPermissions);
+
 
 /**
  * @swagger
@@ -104,7 +108,7 @@ router.get("/:id", getUserById);
  *       200:
  *         description: User profile
  */
-router.get("/profile/me", getProfile);
+router.get("/profile/me", authenticateToken, getProfile);
 
 /**
  * @swagger

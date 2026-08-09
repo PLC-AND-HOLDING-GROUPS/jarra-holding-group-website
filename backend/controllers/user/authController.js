@@ -1,6 +1,8 @@
-const { User, Role, RolePermission, Permission } = require("../../models");
+const { User, Role, RolePermission, Permission, AuditLog } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendEmail } = require("../../utils/sendEmail");
+const { Op } = require("sequelize");
 
 const login = async (req, res) => {
   try {
@@ -8,31 +10,6 @@ const login = async (req, res) => {
 
     const user = await User.findOne({
       where: { email },
-      include: [
-        // {
-        //   model: UserType,
-        //   as: "userType",
-        //   attributes: ["user_type_id", "name"],
-        // },
-        {
-          model: Role,
-          as: "roles",
-          through: { attributes: [] },
-          include: [
-            {
-              model: RolePermission,
-              as: "rolePermissions",
-              include: [
-                {
-                  model: Permission,
-                  as: "permission",
-                  attributes: ["permission_id", "resource", "action"],
-                },
-              ],
-            },
-          ],
-        },
-      ],
     });
 
     if (!user)
@@ -45,24 +22,12 @@ const login = async (req, res) => {
     if (!isMatch)
       return res.status(401).json({ message: "Invalid email or password" });
 
-    // ===== Clean roles + permissions for token use =====
-    const userRoles = user.roles.map((role) => ({
-      role_id: role.role_id,
-      name: role.name,
-      permissions: role.rolePermissions.map((rp) => ({
-        permission_id: rp.permission_id,
-        resource: rp.permission?.resource,
-        action: rp.permission?.action,
-      })),
-    }));
-
-    // ===== Generate JWT Token =====
+    // ===== Generate JWT Token (Lightweight) =====
     const token = jwt.sign(
       {
         user_id: user.user_id,
         email: user.email,
-        roles: userRoles.map((r) => r.name),
-        permissions: userRoles.flatMap((r) => r.permissions),
+        name: user.full_name,
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
@@ -87,7 +52,6 @@ const login = async (req, res) => {
           profile_image: user.profile_image,
           is_first_logged_in: user.is_first_logged_in,
         },
-        roles: userRoles,
       },
     });
   } catch (error) {
@@ -109,4 +73,155 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { login, logout };
+const requestOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+    // Include roles to check if Super Admin
+    const user = await User.findOne({ 
+      where: { email, is_active: true },
+      include: [{
+        model: Role,
+        as: "roles"
+      }]
+    });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Rate Limiting Check
+    if (user.reset_password_lock_until && user.reset_password_lock_until > new Date()) {
+      return res.status(429).json({ success: false, message: "Too many attempts. Please try again later." });
+    }
+
+    let attempts = user.reset_password_attempts || 0;
+    if (attempts >= 5) {
+      // Lock for 1 hour
+      await user.update({
+        reset_password_lock_until: new Date(Date.now() + 60 * 60 * 1000)
+      });
+      return res.status(429).json({ success: false, message: "Too many attempts. Account locked for 1 hour." });
+    }
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+
+    const hashedOtp = await bcrypt.hash(otp, 10);
+
+    await user.update({
+      reset_password_otp: hashedOtp,
+      reset_password_otp_expires: expiry,
+      reset_password_attempts: attempts + 1,
+    });
+
+    // Check if admin
+    const isAdmin = user.email === "admin@gmail.com" || user.roles.some(r => r.name === "Super Admin");
+    let targetEmail = email;
+    let subject = "Password Reset OTP";
+    let text = `Your OTP for password reset is: ${otp}. It will expire in 5 minutes.`;
+
+    if (isAdmin) {
+      targetEmail = "momsystemsupport@gmail.com";
+      text = `Admin password reset request detected.\nUse this OTP to reset the administrator account password: ${otp}\nIt will expire in 5 minutes.`;
+      
+      // Log Audit
+      await AuditLog.create({
+        user_id: user.user_id,
+        action: "ADMIN_PASSWORD_RESET_REQUEST",
+        model_name: "User",
+        record_id: user.user_id,
+        created_at: new Date(),
+      });
+    }
+
+    // Send email
+    await sendEmail(targetEmail, subject, text);
+
+    res.status(200).json({ success: true, message: "OTP sent successfully" });
+  } catch (error) {
+    console.error("Request OTP error:", error);
+    res.status(500).json({ success: false, message: "Failed to send OTP", error: error.message });
+  }
+};
+
+const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({
+      where: {
+        email,
+        reset_password_otp_expires: { [Op.gt]: new Date() },
+      },
+    });
+
+    if (!user || !user.reset_password_otp) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    const isValid = await bcrypt.compare(otp, user.reset_password_otp);
+    if (!isValid) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    res.status(200).json({ success: true, message: "OTP verified successfully" });
+  } catch (error) {
+    console.error("Verify OTP error:", error);
+    res.status(500).json({ success: false, message: "Failed to verify OTP", error: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    const user = await User.findOne({
+      where: {
+        email,
+        reset_password_otp_expires: { [Op.gt]: new Date() },
+      },
+      include: [{
+        model: Role,
+        as: "roles"
+      }]
+    });
+
+    if (!user || !user.reset_password_otp) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    const isValid = await bcrypt.compare(otp, user.reset_password_otp);
+    if (!isValid) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.update({
+      password: hashedPassword,
+      reset_password_otp: null,
+      reset_password_otp_expires: null,
+      reset_password_attempts: 0,
+      reset_password_lock_until: null,
+      is_first_logged_in: false,
+      password_changed_at: new Date(),
+      updated_at: new Date(),
+    });
+
+    const isAdmin = user.email === "admin@gmail.com" || user.roles.some(r => r.name === "Super Admin");
+    if (isAdmin) {
+      await AuditLog.create({
+        user_id: user.user_id,
+        action: "ADMIN_PASSWORD_RESET_COMPLETED",
+        model_name: "User",
+        record_id: user.user_id,
+        created_at: new Date(),
+      });
+    }
+
+    res.status(200).json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(500).json({ success: false, message: "Failed to reset password", error: error.message });
+  }
+};
+
+module.exports = { login, logout, requestOTP, verifyOTP, resetPassword };

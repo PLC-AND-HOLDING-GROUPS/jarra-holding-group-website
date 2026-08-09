@@ -5,82 +5,53 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const now = new Date();
 
-    const permissions = [
-      // Dashboard Access
-      { resource: "dashboard", action: "view" },
-
-      // User Management
-      { resource: "users", action: "create" },
-      { resource: "users", action: "read" },
-      { resource: "users", action: "update" },
-      { resource: "users", action: "delete" },
-      { resource: "users", action: "assign_role" },
-
-      // Permission Management
-      { resource: "permissions", action: "read" },
-      { resource: "permissions", action: "update" },
-
-      // Role Management
-      { resource: "roles", action: "create" },
-      { resource: "roles", action: "read" },
-      { resource: "roles", action: "update" },
-      { resource: "roles", action: "delete" },
-      { resource: "roles", action: "assign_permission" },
-
-      // Organization Management
-      { resource: "organizations", action: "create" },
-      { resource: "organizations", action: "read" },
-      { resource: "organizations", action: "update" },
-      { resource: "organizations", action: "delete" },
-
-      // Organization Structure
-      { resource: "organization_structures", action: "create" },
-      { resource: "organization_structures", action: "read" },
-      { resource: "organization_structures", action: "update" },
-      { resource: "organization_structures", action: "delete" },
-
-      // Project Management
-      { resource: "projects", action: "create" },
-      { resource: "projects", action: "read" },
-      { resource: "projects", action: "update" },
-      { resource: "projects", action: "delete" },
-      { resource: "projects", action: "assign_users" },
-
-      // Issue Management
-      { resource: "issues", action: "create" },
-      { resource: "issues", action: "read" },
-      { resource: "issues", action: "update" },
-      { resource: "issues", action: "delete" },
-      { resource: "issues", action: "assign" },
-      { resource: "issues", action: "accept" },
-      { resource: "issues", action: "resolve" },
-      { resource: "issues", action: "escalate" },
-      { resource: "issues", action: "view_own" },
-      { resource: "issues", action: "view_all" },
-
-      // Issue Priority & Category
-      { resource: "issue_priorities", action: "create" },
-      { resource: "issue_priorities", action: "read" },
-      { resource: "issue_priorities", action: "update" },
-      { resource: "issue_priorities", action: "delete" },
-
-      { resource: "issue_categories", action: "create" },
-      { resource: "issue_categories", action: "read" },
-      { resource: "issue_categories", action: "update" },
-      { resource: "issue_categories", action: "delete" },
-
-      // Issue Flow Management
-      { resource: "issue_flows", action: "create" },
-      { resource: "issue_flows", action: "read" },
-      { resource: "issue_flows", action: "update" },
-      { resource: "issue_flows", action: "delete" },
-
-      // Humnan Resource Management
-      { resource: "human_resources", action: "create" },
-      { resource: "human_resources", action: "read" },
-      { resource: "human_resources", action: "update" },
-      { resource: "human_resources", action: "delete" },
+    const crudActions = ["create", "read", "update", "delete"];
+    const resourcesWithActions = [
+      { resource: "dashboard", actions: ["view"] },
+      { resource: "users", actions: [...crudActions, "assign_role"] },
+      { resource: "roles", actions: [...crudActions, "assign_permission"] },
+      { resource: "permissions", actions: crudActions },
+      { resource: "news", actions: [...crudActions, "publish"] },
+      { resource: "events", actions: [...crudActions, "publish"] },
+      { resource: "event_categories", actions: crudActions },
+      { resource: "tags", actions: crudActions },
+      { resource: "hero", actions: crudActions },
+      { resource: "about", actions: crudActions },
+      { resource: "contact", actions: crudActions },
+      { resource: "opportunities", actions: [...crudActions, "publish"] },
+      { resource: "tenders", actions: [...crudActions, "publish"] },
+      { resource: "vacancies", actions: [...crudActions, "publish"] },
+      { resource: "contact_messages", actions: ["read", "update", "delete"] },
+      { resource: "footer", actions: crudActions },
+      { resource: "investigate_ethiopia", actions: crudActions },
+      { resource: "services", actions: crudActions },
+      { resource: "asm", actions: crudActions },
+      { resource: "mining_snapshots", actions: crudActions },
+      { resource: "mining_gamestones", actions: crudActions },
+      { resource: "mining_resources", actions: crudActions },
+      { resource: "mining_application_processes", actions: crudActions },
+      { resource: "mining_regulation_processes", actions: crudActions },
+      { resource: "geothermal_snapshots", actions: crudActions },
+      { resource: "geothermal_resources", actions: crudActions },
+      { resource: "petroleum_snapshots", actions: crudActions },
+      { resource: "petroleum_resources", actions: crudActions },
+      { resource: "petroleum_processes", actions: [...crudActions, "publish"] },
+      {
+        resource: "petroleum_regulation_processes",
+        actions: crudActions,
+      },
+      { resource: "attachments", actions: ["create", "read", "delete"] },
+      { resource: "audit_logs", actions: ["read", "delete"] },
+      { resource: "routes", actions: ["read", "update"] },
+      { resource: "navigation", actions: crudActions },
     ];
+
+    const permissions = resourcesWithActions.flatMap((r) =>
+      r.actions.map((action) => ({
+        resource: r.resource,
+        action: action,
+      })),
+    );
 
     for (const perm of permissions) {
       try {
@@ -95,12 +66,12 @@ module.exports = {
               updated_at: now,
             },
           ],
-          { ignoreDuplicates: true }
+          { ignoreDuplicates: true },
         );
       } catch (error) {
         if (error.name === "SequelizeUniqueConstraintError") {
           console.log(
-            `Permission ${perm.resource}:${perm.action} already exists, skipping...`
+            `Permission ${perm.resource}:${perm.action} already exists, skipping...`,
           );
           continue;
         }

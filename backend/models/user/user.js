@@ -5,11 +5,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // User belongs to UserType
-      User.belongsTo(models.UserType, {
-        foreignKey: "user_type_id",
-        as: "userType",
-      });
+
 
       User.belongsToMany(models.Role, {
         through: models.UserRoles,
@@ -58,6 +54,22 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       password_changed_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      reset_password_otp: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      reset_password_otp_expires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      reset_password_attempts: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      reset_password_lock_until: {
         type: DataTypes.DATE,
         allowNull: true,
       },

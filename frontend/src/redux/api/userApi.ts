@@ -1,5 +1,5 @@
 import { baseApi } from "../baseApi";
-import { UserType, UserPosition, User } from "../types/user";
+import { UserPosition, User } from "../types/user";
 import {
   CreateUserPayload,
   UpdateUserPayload,
@@ -13,7 +13,7 @@ export const userApi = baseApi.injectEndpoints({
      * --------------------------- */
     getUsers: builder.query<
       User[],
-      { user_type_id?: string; is_active?: boolean; search?: string } | void
+      { is_active?: boolean; search?: string } | void
     >({
       query: (params) =>
         params ? { url: "/users", params } : { url: "/users" },
@@ -107,14 +107,6 @@ export const userApi = baseApi.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    /** ---------------------------
-     * GET USER TYPES
-     * --------------------------- */
-    getUserTypes: builder.query<UserType[], void>({
-      query: () => "/users/types",
-      transformResponse: (response: any): UserType[] => response.data ?? [],
-      providesTags: ["User"],
-    }),
 
     /** ---------------------------
      * GET USER POSITIONS
@@ -124,6 +116,28 @@ export const userApi = baseApi.injectEndpoints({
       transformResponse: (response: any): UserPosition[] => response.data ?? [],
       providesTags: ["User"],
     }),
+
+    /** ---------------------------
+     * GET USER ROLES AND PERMISSIONS
+     * --------------------------- */
+    getUserRolesAndPermissions: builder.query<{ permissions: string[], roles: string[] }, void>({
+      query: () => "/users/profile/permissions",
+      transformResponse: (response: any) => response.data ?? { permissions: [], roles: [] },
+      providesTags: ["User"],
+    }),
+
+    // CHANGE PASSWORD
+
+    changePassword: builder.mutation<{ message: string }, { current_password: string; new_password: string; confirm_password: string; confirm_change?: boolean }>({
+      query: (body) => ({
+        url: `/change-password`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: any) => response,
+      invalidatesTags: ["User"],
+    }),
+
   }),
 });
 
@@ -136,6 +150,7 @@ export const {
   useDeleteUserMutation,
   useToggleUserStatusMutation,
   useResetUserPasswordMutation,
-  useGetUserTypesQuery,
   useGetUserPositionsQuery,
+  useGetUserRolesAndPermissionsQuery,
+  useChangePasswordMutation,
 } = userApi;

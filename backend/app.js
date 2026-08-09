@@ -6,7 +6,7 @@ const { Server } = require("socket.io");
 const path = require("path");
 const bodyParser = require("body-parser");
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env"), override: true });
 
 const { swaggerUi, swaggerSpec } = require("./swagger");
 
@@ -20,7 +20,66 @@ const authRoute = require("./routers/user-routes/authRoutes");
 const permissionRoute = require("./routers/user-routes/permissionRoutes");
 const changePasswordRoutes = require("./routers/user-routes/passwordChangeRoutes");
 
+// ================== News Routes ==========================
+const newsRoute = require("./routers/news/newsRoutes");
+const tagRoute = require("./routers/news/tagRoutes");
+
+// ================== Service Routes ==========================
+const serviceRoute = require("./routers/sevice/serviceRoutes");
+
+// ================== About Page Routes ==========================
+const backgroundRoute = require("./routers/about/backgroundRoutes");
+const leadershipRoute = require("./routers/about/leadershipRoutes");
+const strategyRoute = require("./routers/about/strategyRoutes");
+
+// ================== Contact Page Routes ==========================
+const federalOfficeRoute = require("./routers/contact/federalOfficeRoutes");
+const regionRoute = require("./routers/contact/regionRoutes");
+const regionalOfficeRoute = require("./routers/contact/regionalOfficeRoutes");
+const messageRoute = require("./routers/contact/messageRoutes");
+const tenderRoute = require("./routers/contact/tenderRoutes");
+const vacancyRoute = require("./routers/contact/vacancyRoutes");
+
+// ================== Footer Page Routes ==========================
+const socialMediaRoute = require("./routers/footer/socialMediaRoutes");
+const footerRoute = require("./routers/footer/footerRoutes");
+
+// ================== Hero Section Routes ==========================
+const cardRoute = require("./routers/hero/cardRoute");
+const sliderRoute = require("./routers/hero/sliderRoute");
+const partnerRoute = require("./routers/hero/partnerRoute");
+
+// ================== Sector Routes ==========================
+const gamestoneRoute = require("./routers/sectors/mining/gamestoneRoutes");
+const resourceRoute = require("./routers/sectors/resourceRoutes");
+const snapshotRoute = require("./routers/sectors/snapshotRoutes");
+const petroleumObjectiveRoute = require("./routers/sectors/petroleum/petroleumObjectiveRoutes");
+const petroleumProcessRoute = require("./routers/sectors/petroleum/petroleumProcessRoutes");
+const petroleumRegulationRoute = require("./routers/sectors/petroleum/petroleumProcessRegulationRoutes");
+const miningApplicationProcessRoute = require("./routers/sectors/mining/miningApplicationProcessRoutes");
+const miningRegulationProcessRoute = require("./routers/sectors/mining/miningRegulationProcessRoutes");
+
+// ================== ASM Routes ==========================
+const asmRoute = require("./routers/asm/asmRoutes");
+
+// ================== Investigate Ethiopia Routes ==========================
+const investigateEthiopiaRoute = require("./routers/investigate_ethiopia/investigateEthiopiaRoutes");
+
+// ================== Attachment Routes ==========================
+const attachmentRoute = require("./routers/attachement/attachementRoutes");
+
+// ================== Event Routes ==========================
+const eventRoute = require("./routers/event/eventRoutes");
+const eventCategoryRoute = require("./routers/event/eventCategoryRoutes");
+const { initEventScheduler } = require("./utils/eventScheduler");
+
+// ================== System Routes ==========================
+const auditLogRoute = require("./routers/system/auditLogRoutes");
+const dashboardRoute = require("./routers/system/dashboardRoutes");
+const routesRoute = require("./routers/route/routeRoute");
+
 const app = express();
+app.set("trust proxy", 1);
 const appServer = http.createServer(app);
 
 app.use(
@@ -64,6 +123,9 @@ app.use(
       res.set("Access-Control-Allow-Origin", "*");
       res.set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS");
       res.set("Access-Control-Allow-Headers", "Content-Type");
+      if (/\.(webp|jpe?g|png|gif|svg)$/i.test(filePath)) {
+        res.set("Cache-Control", "public, max-age=31536000, immutable");
+      }
     },
   }),
 );
@@ -96,6 +158,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ================== API Routes go here ==================
 
+// ================== User Routes ==========================
 app.use("/api/users", userRoute);
 app.use("/api/roles", roleRoute);
 app.use("/api/user-roles", userRoleRoute);
@@ -103,9 +166,66 @@ app.use("/api/auth", authRoute);
 app.use("/api/change-password", changePasswordRoutes);
 app.use("/api/permissions", permissionRoute);
 
+// ================== News Routes ==========================
+app.use("/api/news", newsRoute);
+app.use("/api/tags", tagRoute);
+
+// ================== Service Routes ==========================
+app.use("/api/services", serviceRoute);
+
+// ================== About Page Routes ==========================
+app.use("/api/backgrounds", backgroundRoute);
+app.use("/api/leadership", leadershipRoute);
+app.use("/api/strategy", strategyRoute);
+
+// ================== Contact Page Routes ==========================
+app.use("/api/federal-office", federalOfficeRoute);
+app.use("/api/region", regionRoute);
+app.use("/api/regional-offices", regionalOfficeRoute);
+app.use("/api/message", messageRoute);
+app.use("/api/tenders", tenderRoute);
+app.use("/api/vacancies", vacancyRoute);
+
+// ================== Footer Page Routes ==========================
+app.use("/api/social-media", socialMediaRoute);
+app.use("/api/footer", footerRoute);
+
+// ================== Hero Section Routes ==========================
+app.use("/api/cards", cardRoute);
+app.use("/api/sliders", sliderRoute);
+app.use("/api/partners", partnerRoute);
+
+// ================== Sector Routes ==========================
+app.use("/api/gamestones", gamestoneRoute);
+app.use("/api/resources", resourceRoute);
+app.use("/api/snapshots", snapshotRoute);
+app.use("/api/petroleum-objectives", petroleumObjectiveRoute);
+app.use("/api/petroleum-processes", petroleumProcessRoute);
+app.use("/api/petroleum-regulation-processes", petroleumRegulationRoute);
+app.use("/api/mining-application-processes", miningApplicationProcessRoute);
+app.use("/api/mining-regulation-processes", miningRegulationProcessRoute);
+
+// ================== ASM Routes ==========================
+app.use("/api/asm", asmRoute);
+
+// ================== Investigate Ethiopia Routes ==========================
+app.use("/api/investigate-ethiopia", investigateEthiopiaRoute);
+
+// ================== Api Attachment Routes =====================
+app.use("/api/attachments", attachmentRoute);
+
+// ================== Event Routes =====================
+app.use("/api/events", eventRoute);
+app.use("/api/event-categories", eventCategoryRoute);
+
+// ================== System Routes =====================
+app.use("/api/audit-logs", auditLogRoute);
+app.use("/api/dashboard-analytics", dashboardRoute);
+app.use("/api/routes", routesRoute);
+
 // ================== Root Endpoint ==================
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Jarra Holding Group API 🚀" });
+  res.json({ message: "Welcome to Issue Tracking System API 🚀" });
 });
 
 // ================== Error Handler ==================
@@ -121,6 +241,7 @@ app.use((err, req, res, next) => {
 const appPort = process.env.PORT || 4000;
 appServer.listen(appPort, () => {
   console.log(` App server running at http://localhost:${appPort}`);
+  initEventScheduler(); // Initialize the background scheduler
 });
 
 // ================== Socket.IO Setup ==================

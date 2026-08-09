@@ -1,6 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
-import { Role } from "./redux/types/auth";
 
 export default {
   providers: [
@@ -18,48 +17,56 @@ export default {
         try {
           // 🔥 FIX: Use the correct backend URL for Docker
           // In Docker, backend service is accessible via service name
-          // For external access, use the IP/domain
-          const backendUrl = process.env.NODE_ENV === "production"
-            ? `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`
-            : `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`;
+          const backendUrl =
+            process.env.NODE_ENV === "production"
+              ? "http://backend:4000/api/auth/login"
+              : `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`;
 
           console.log("Auth attempt to:", backendUrl);
+
+          // Add a timeout to prevent hanging requests
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
           const res = await fetch(backendUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "Accept": "application/json",
             },
             body: JSON.stringify({ email, password }),
+            signal: controller.signal,
           });
+
+          clearTimeout(timeoutId);
 
           console.log("Authorize response status:", res.status);
 
           if (!res.ok) {
-            console.log("Auth failed with status:", res.status);
+            const errorData = await res.json().catch(() => ({}));
+            console.error("Auth failed with status:", res.status, "Error:", errorData);
             return null;
           }
 
           const data = await res.json();
-          console.log("Auth response data:", data);
+          console.log("Auth response success:", data?.success);
 
-          if (!data?.success) {
-            console.log("Auth response not successful");
+          if (!data?.success || !data?.data?.user) {
+            console.error("Auth response missing user data");
             return null;
           }
 
           const user = data.data.user;
-          const roles = data.data?.roles ?? [];
           const token = data.token || data.data?.token;
 
           if (!token) {
-            console.log("No token in response");
+            console.error("No token in response");
             return null;
           }
 
           return {
             accessToken: token,
-            id: user.user_id,
+            id: String(user.user_id),
             email: user.email,
             name: user.full_name,
             phone_number: user.phone_number,
@@ -67,14 +74,14 @@ export default {
             is_first_logged_in: user.is_first_logged_in,
             sector: user.sector,
             department: user.department,
-            role: roles?.[0]?.name ?? null,
-            roles: roles ?? [],
-            permissions: data.roles?.flatMap((r: Role) =>
-              r.permissions.map((p: any) => p.name),
-            ),
           };
-        } catch (err) {
-          console.error("Authorize error:", err);
+
+        } catch (err: any) {
+          if (err.name === 'AbortError') {
+            console.error("Authorize request timed out after 10s");
+          } else {
+            console.error("Authorize error exception:", err.message || err);
+          }
           return null;
         }
       },
@@ -83,5 +90,4 @@ export default {
 
   // 🔥 ADD BASE PATH FOR DOCKER
   basePath: "/api/auth",
-
 } satisfies NextAuthConfig;

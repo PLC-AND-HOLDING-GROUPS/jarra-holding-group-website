@@ -16,7 +16,7 @@ const allowedTypes = [
   "image/png",
 ];
 
-const tempUploadDir = path.join(__dirname, "../public/uploads/temp");
+const tempUploadDir = path.join(__dirname, "../uploads/temp");
 if (!fs.existsSync(tempUploadDir))
   fs.mkdirSync(tempUploadDir, { recursive: true });
 
@@ -33,10 +33,22 @@ const storage = multer.diskStorage({
   },
 });
 
+// const fileFilter = (req, file, cb) => {
+//   if (allowedTypes.includes(file.mimetype)) cb(null, true);
+//   else cb(new Error(`Unsupported file format: ${file.originalname}`), false);
+// };
+
 const fileFilter = (req, file, cb) => {
-  if (allowedTypes.includes(file.mimetype)) cb(null, true);
-  else cb(new Error(`Unsupported file format: ${file.originalname}`), false);
+  if (
+    allowedTypes.includes(file.mimetype) ||
+    file.mimetype.startsWith("video/")
+  ) {
+    cb(null, true);
+  } else {
+    cb(new Error(`Unsupported file format: ${file.originalname}`), false);
+  }
 };
+
 
 const upload = multer({
   storage,
