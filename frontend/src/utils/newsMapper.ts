@@ -2,6 +2,31 @@
 import { getImageUrl } from "./fileUrl";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE;
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+
+export const convertDeltaToHtml = (content: any): string => {
+    if (!content) return "";
+    let parsedContent = content;
+
+    if (
+        typeof parsedContent === "string" &&
+        parsedContent.trim().startsWith("{") &&
+        parsedContent.includes('"ops"')
+    ) {
+        try {
+            parsedContent = JSON.parse(parsedContent);
+        } catch {
+            return parsedContent; // fallback
+        }
+    }
+
+    if (parsedContent?.ops) {
+        const converter = new QuillDeltaToHtmlConverter(parsedContent.ops, {});
+        return converter.convert();
+    }
+
+    return typeof parsedContent === "string" ? parsedContent : "";
+};
 export const extractExcerpt = (content: any, maxLength = 160) => {
     if (!content) return "";
 

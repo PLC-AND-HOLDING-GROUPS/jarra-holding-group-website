@@ -2,18 +2,13 @@
 
 import React from "react";
 import Marquee from "react-fast-marquee";
+import { useGetPartnersQuery } from "@/redux/api/partnerApi";
+import { extractHeadlineImage } from "@/utils/newsMapper";
 
-const logos = [
+const fallbackLogos = [
     "https://nomadsinn.com/momp/wp-content/uploads/2019/10/CIRDI-FOOTER1.png",
     "https://nomadsinn.com/momp/wp-content/uploads/2019/10/momplogo.png",
     "https://nomadsinn.com/momp/wp-content/uploads/2019/10/gse.jpeg",
-    // "/factory3.jpg",
-    // "/factory2.jpg",
-    // "/factory1.jpg",
-    // "/home-1.jpg",
-    // "/home-2.jpg",
-    // "/home-3.jpg",
-    // "/home-4.jpg",
 ];
 
 type PartnersSectionProps = {
@@ -21,6 +16,12 @@ type PartnersSectionProps = {
 };
 
 const PartnersSection: React.FC<PartnersSectionProps> = ({ speed = 50 }) => {
+    const { data: cmsPartners = [], isLoading } = useGetPartnersQuery();
+
+    const activeLogos = cmsPartners.length > 0 
+        ? cmsPartners.map(p => extractHeadlineImage(p.attachments || [])?.url).filter(Boolean) as string[]
+        : fallbackLogos;
+
     return (
         <section className="w-full max-w-7xl pb-28 overflow-hidden">
             {/* Header */}
@@ -42,7 +43,7 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ speed = 50 }) => {
                 gradient={false}
                 className="overflow-hidden"
             >
-                {logos.map((logo, index) => (
+                {activeLogos.map((logo, index) => (
                     <div
                         key={index}
                         className="mx-8 flex items-center justify-center md:min-w-[200px]"

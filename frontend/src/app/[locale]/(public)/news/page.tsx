@@ -5,24 +5,35 @@ import { MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import NewsCard from "@/components/pages/news-page-components/NewsCard";
-import { newsData } from "@/datas/news-mock-data";
-
-const categories = ["All News", "Projects", "Training", "Policy"];
+import { useGetNewsQuery } from "@/redux/api/newsApi";
+import { extractExcerpt, extractHeadlineImage, extractTags, calculateReadingTime } from "@/utils/newsMapper";
+import { format } from "date-fns";
+import { News } from "@/redux/types/news";
 
 const NewsPage = () => {
     const [activeCategory, setActiveCategory] = useState("All News");
 
-    const filteredNews =
-        activeCategory === "All News"
-            ? newsData
-            : newsData.filter((item) => item.category === activeCategory);
+    const { data: news = [], isLoading, isError } = useGetNewsQuery({ status: "published" });
 
-    const readingTime = (text: string) => {
-        const words = text.split(" ").length;
-        return Math.ceil(words / 200); // 200 wpm avg reading speed
-    };
+    // Derive categories from unique tags across all published news
+    const categories = useMemo(() => {
+        const uniqueTags = new Set<string>();
+        news.forEach((item) => {
+            const tags = extractTags(item.tag_links || []);
+            tags.forEach(tag => uniqueTags.add(tag));
+        });
+        return ["All News", ...Array.from(uniqueTags)];
+    }, [news]);
+
+    const filteredNews = useMemo(() => {
+        if (activeCategory === "All News") return news;
+        return news.filter((item) => {
+            const tags = extractTags(item.tag_links || []);
+            return tags.includes(activeCategory);
+        });
+    }, [news, activeCategory]);
 
     return (
         <>
@@ -47,46 +58,79 @@ const NewsPage = () => {
                 </div>
 
                 {/* Category Tabs with moving background effect */}
-                <div className="relative flex gap-4 mb-8 flex-wrap">
-                    {categories.map((cat) => {
-                        const isActive = activeCategory === cat;
-                        return (
-                            <div key={cat} className="relative z-10">
-                                <button
-                                    onClick={() => setActiveCategory(cat)}
-                                    className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? "text-white" : "text-muted hover:bg-primary20"
-                                        }`}
-                                >
-                                    {cat}
-                                </button>
-                                {/* Moving background */}
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="active-category"
-                                        className="absolute inset-0 bg-primary rounded-lg z-0"
-                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                    />
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
+                {!isLoading && categories.length > 1 && (
+                    <div className="relative flex gap-4 mb-8 flex-wrap">
+                        {categories.map((cat: string) => {
+                            const isActive = activeCategory === cat;
+                            return (
+                                <div key={cat} className="relative z-10">
+                                    <button
+                                        onClick={() => setActiveCategory(cat)}
+                                        className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? "text-white" : "text-muted hover:bg-primary20"
+                                            }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                    {/* Moving background */}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="active-category"
+                                            className="absolute inset-0 bg-primary rounded-lg z-0"
+                                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                        />
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <div key={i} className="animate-pulse bg-gray-200 h-96 rounded-2xl" />
+                        ))}
+                    </div>
+                )}
+
+                {/* Error State */}
+                {isError && (
+                    <div className="text-center py-20 text-red-500">
+                        Failed to load news. Please try again later.
+                    </div>
+                )}
+
+                {/* Empty State */}
+                {!isLoading && !isError && filteredNews.length === 0 && (
+                    <div className="text-center py-20 text-muted">
+                        No news available for the selected category.
+                    </div>
+                )}
 
                 {/* News grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredNews.map((item) => (
-                        <NewsCard
-                            key={item.id}
-                            id={item.id}
-                            title={item.title}
-                            excerpt={item.excerpt}
-                            image={item.image}
-                            date={item.date}
-                            category={item.category}
-                            tags={item.tags}
-                            readingTime={readingTime}
-                        />
-                    ))}
+                    {filteredNews.map((item: News) => {
+                        const tags = extractTags(item.tag_links || []);
+                        const excerpt = extractExcerpt(item.content, 120);
+                        const imageInfo = extractHeadlineImage(item.attachments || []);
+                        const imageUrl = imageInfo?.url || "/placeholder.jpg";
+                        const date = item.published_at ? format(new Date(item.published_at), "PPP") : "";
+
+                        return (
+                            <NewsCard
+                                key={item.news_id}
+                                id={item.news_id}
+                                title={item.title}
+                                excerpt={excerpt}
+                                image={imageUrl}
+                                date={date}
+                                category={tags[0] || "News"}
+                                tags={tags}
+                                readingTime={(t) => calculateReadingTime(item.content || "")}
+                            />
+                        );
+                    })}
                 </div>
             </section>
         </>

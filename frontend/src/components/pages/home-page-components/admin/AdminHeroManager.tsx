@@ -97,9 +97,9 @@ export default function AdminHeroManager() {
             await updateSlider({
                 id: slide.slider_id,
                 data: {
-                    title: slide.title,
-                    description: slide.description,
-                    attachment_id: slide.attachment_id,
+                    title: slide.title || undefined,
+                    description: slide.description || undefined,
+                    attachment_id: slide.attachment_id || undefined,
                     order: slide.order,
                 }
             }).unwrap();
@@ -308,7 +308,7 @@ export default function AdminHeroManager() {
                                         id={`slide-image-${index}`}
                                         label="Slide Image"
                                         value={slide.attachment_id ? [slide.attachment_id] : []}
-                                        onChange={(ids) => handleUpdateSlideField(index, 'attachment_id', ids[0] || "")}
+                                        onChange={(ids: string[]) => handleUpdateSlideField(index, 'attachment_id', ids[0] || undefined)}
                                         category="profile"
                                     />
                                 </div>

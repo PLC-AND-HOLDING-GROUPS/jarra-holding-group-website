@@ -84,8 +84,10 @@ export default function LeadershipAdminPage() {
                 const roots: LeaderNode[] = [];
                 leaderships.forEach((l: any) => {
                     if (l.parent_id && nodeMap[l.parent_id]) {
-                        nodeMap[l.parent_id].children = nodeMap[l.parent_id].children || [];
-                        nodeMap[l.parent_id].children.push(nodeMap[l.leadership_id]);
+                        if (!nodeMap[l.parent_id].children) {
+                            nodeMap[l.parent_id].children = [];
+                        }
+                        nodeMap[l.parent_id].children!.push(nodeMap[l.leadership_id]);
                     } else {
                         roots.push(nodeMap[l.leadership_id]);
                     }
@@ -161,7 +163,7 @@ export default function LeadershipAdminPage() {
             header: node.header || "Ministry of Mines",
             level: node.level,
             attachments: node.attachment_id ? [{ attachment_id: node.attachment_id }] : [],
-        });
+        }).unwrap();
 
         const updatedNode: LeaderNode = { ...node, leadership_id: created.leadership_id };
         setTree(prev => updateNodeRecursively(prev!, node.id, { leadership_id: updatedNode.leadership_id }));
@@ -181,8 +183,8 @@ export default function LeadershipAdminPage() {
                 description: updatedNode.fullDescription,
                 parent_id: updatedNode.parent_id,
                 header: updatedNode.header,
-                attachments: updatedNode.attachment_id
-                    ? [{ attachment_id: updatedNode.attachment_id }]
+                attachment_ids: updatedNode.attachment_id
+                    ? [updatedNode.attachment_id]
                     : [],
             },
         });
@@ -245,9 +247,9 @@ function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: 
                 </Collapsible>
             </Card>
 
-            {node.children?.length > 0 && (
+            {(node.children?.length ?? 0) > 0 && (
                 <div className="ml-8 mt-4 border-l-2 border-gray-100 pl-6">
-                    {node.children.map(child => (
+                    {node.children!.map(child => (
                         <NodeEditor
                             key={child.id}
                             node={child}

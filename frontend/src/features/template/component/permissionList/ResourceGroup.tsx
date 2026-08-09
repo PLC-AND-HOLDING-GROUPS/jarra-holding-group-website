@@ -29,44 +29,44 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
 
   const getSelectionStatusClass = () => {
     if (isAllActive) return "bg-green-100 text-green-800 border-green-200";
-    if (isSomeActive) return "bg-yellow-100 text-primary border-yellow-200";
-    return "bg-background-secondary text-muted border-border";
+    if (isSomeActive) return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    return "bg-gray-100 text-gray-600 border-gray-200";
   };
 
   return (
-    <div className="border border-border rounded-lg self-start">
+    <div className="border border-gray-200 rounded-lg self-start">
       {/* Resource Header */}
       <div
         onClick={() => onToggleExpand(group.resource)}
-        className="flex transition-all hover:bg-secondary/10 duration-200 cursor-pointer items-center justify-between p-4 bg-background-secondary rounded-t-lg"
+        className="flex transition-all hover:bg-[#094C81]/10 duration-200 cursor-pointer items-center justify-between p-4 bg-gray-50 rounded-t-lg"
       >
         <div className="flex items-center space-x-3 flex-1">
           <button
             type="button"
             onClick={() => onToggleExpand(group.resource)}
-            className="p-1 hover:bg-background-secondary rounded"
+            className="p-1 hover:bg-gray-200 rounded"
           >
             {group.isExpanded ? (
-              <ChevronDown className="h-5 w-5 text-secondary hover:text-[#073954] cursor-pointer" />
+              <ChevronDown className="h-5 w-5 text-[#094C81] hover:text-[#073954] cursor-pointer" />
             ) : (
-              <ChevronRight className="h-5 w-5 text-secondary hover:text-[#073954] cursor-pointer" />
+              <ChevronRight className="h-5 w-5 text-[#094C81] hover:text-[#073954] cursor-pointer" />
             )}
           </button>
-          <div className="p-2 text-secondary bg-white rounded-lg shadow-sm">
+          <div className="p-2 text-[#094C81] bg-white rounded-lg shadow-sm">
             {group.icon}
           </div>
           <div>
-            <h3 className="font-semibold text-secondary capitalize">
+            <h3 className="font-semibold text-[#094C81] capitalize">
               {group.resource.replace(/_/g, " ")}
             </h3>
-            <p className="text-sm text-secondary">
+            <p className="text-sm text-[#094C81]">
               {group.totalCount} permissions • {group.activeCount} active
             </p>
           </div>
         </div>
         <div className="flex items-center space-x-3">
           <span
-            className={`px-2 py-1 text-xs font-medium border rounded-full text-secondary ${getSelectionStatusClass()}`}
+            className={`px-2 py-1 text-xs font-medium border rounded-full text-[#094C81] ${getSelectionStatusClass()}`}
           >
             {getSelectionStatusText()}
           </span>
@@ -83,7 +83,7 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
             transition={{ duration: 0.25 }}
             className="overflow-hidden"
           >
-            <div className="p-4 bg-white rounded-b-lg border-t border-border">
+            <div className="p-4 bg-white rounded-b-lg border-t border-gray-200">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {group.permissions.map((permission) => (
                   <PermissionItem

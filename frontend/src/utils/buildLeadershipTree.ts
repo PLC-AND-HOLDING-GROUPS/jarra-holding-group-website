@@ -15,7 +15,7 @@ export function buildLeadershipTree(data: Leadership[]): LeadershipNode | null {
 
     // Step 1: create nodes
     data.forEach(item => {
-        const attachment = item.attachments?.attachment;
+        const attachment = item.attachments?.[0];
 
         map.set(item.leadership_id, {
             id: item.leadership_id,
@@ -23,7 +23,7 @@ export function buildLeadershipTree(data: Leadership[]): LeadershipNode | null {
             title: item.title,
             description: item.description,
             image: attachment?.file_path
-                ? getImageUrl(attachment, "large")
+                ? getImageUrl(attachment as any, "large")
                 : undefined,
             children: [],
         });

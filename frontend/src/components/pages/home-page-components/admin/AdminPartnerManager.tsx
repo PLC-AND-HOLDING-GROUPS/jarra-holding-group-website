@@ -23,7 +23,7 @@ export default function AdminPartnerManager() {
     const [partnerData, setPartnerData] = useState({
         title: "Our Partners",
         description: "",
-        attachments: [] as { attachment_id: string; category: string }[]
+        attachments: [] as { attachment_id: string; category: "document" | "logo" | "gallery" }[]
     });
 
     const existingPartner = partners && partners.length > 0 ? partners[0] : null;
@@ -35,7 +35,7 @@ export default function AdminPartnerManager() {
                 description: existingPartner.description || "",
                 attachments: existingPartner.attachments?.map((a: any) => ({
                     attachment_id: a.attachment_id || a.attachment?.attachment_id,
-                    category: a.category || "logo"
+                    category: (a.category as "document" | "logo" | "gallery") || "logo"
                 })) || []
             });
         }
@@ -151,7 +151,7 @@ export default function AdminPartnerManager() {
                                             id={`partner-logo-${index}`}
                                             label={`Partner Logo ${index + 1}`}
                                             value={logo.attachment_id ? [logo.attachment_id] : []}
-                                            onChange={(ids) => updateLogo(index, ids[0] || "")}
+                                            onChange={(ids: string[]) => updateLogo(index, ids[0] || "")}
                                             category="profile"
                                             className="w-full"
                                         />

@@ -41,7 +41,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Audit Logs Area Chart */}
         <DashboardAreaChart 
-          data={logsOverTime} 
+          data={logsOverTime as any} 
           title="System Activity" 
           description="Total audit logs recorded over the last 30 days"
         />
@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
         {/* Public Inquiries Bar Chart */}
         <DashboardBarChart 
-          data={contactsOverTime}
+          data={contactsOverTime as any}
           title="Public Engagement"
           description="Inbound contact messages from the portal"
         />

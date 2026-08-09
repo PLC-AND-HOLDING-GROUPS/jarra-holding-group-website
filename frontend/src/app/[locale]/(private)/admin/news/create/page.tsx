@@ -369,7 +369,7 @@ const CreateNews = () => {
     // Helper to get the correct URL for preview
     const getMediaUrl = (file: UploadedFileInfo) => {
         if (file.isBlob) return file.previewUrl; // Blob URL for new uploads
-        if (file.file_path) return getImageUrl(file, "large");
+        if (file.file_path) return getImageUrl(file as any, "large");
         return file.previewUrl;
     };
 

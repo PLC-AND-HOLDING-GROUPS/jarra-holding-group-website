@@ -7,6 +7,8 @@ import { Activity, ArrowRight, ChevronDown, InfoIcon, ThermometerSun, WavesArrow
 import { Button } from "../../ui/button";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import { useGetSlidersQuery } from "@/redux/api/sliderApi";
+import { getImageUrl } from "@/utils/fileUrl";
 
 // Define a type for multi-language text
 type LocalizedText = {
@@ -94,9 +96,21 @@ export default function HeroSection() {
         }
     }, [pathname]);
 
+    // Fetch sliders from CMS
+    const { data: cmsSliders = [], isLoading } = useGetSlidersQuery();
+    
+    // Map CMS sliders or fallback to static slides
+    const activeSlides = cmsSliders.length > 0 ? cmsSliders.map((s, idx) => ({
+        id: s.slider_id || idx,
+        title: { en: s.title, am: s.title }, // CMS doesn't have strict translation objects for title yet
+        description: { en: s.description || "", am: s.description || "" },
+        image: getImageUrl(s.attachment as any, "original") || "/placeholder.jpg",
+        bg: "bg-base-200/60"
+    })) : slides;
+
     // Go to next slide
-    const next = () => setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    const prev = () => setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    const next = () => setCurrent((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1));
+    const prev = () => setCurrent((prev) => (prev === 0 ? activeSlides.length - 1 : prev - 1));
 
     // Start automatic slide
     const startAutoSlide = () => {
@@ -110,14 +124,14 @@ export default function HeroSection() {
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [current]);
+    }, [current, activeSlides.length]);
 
     return (
         <div className="relative w-full h-[80vh] overflow-hidden bg-black">
 
-            {slides.map((slide, index) => {
+            {activeSlides.map((slide, index) => {
                 const isActive = index === current;
-                const isPrev = index === (current - 1 + slides.length) % slides.length;
+                const isPrev = index === (current - 1 + activeSlides.length) % activeSlides.length;
 
 
                 return (
@@ -194,7 +208,7 @@ export default function HeroSection() {
             {/* Pagination */}
             <div className="absolute px-4 max-w-7xl mx-auto w-full bottom-4 inset-x-0 flex justify-between items-center gap-3 z-30">
                 <div className="flex gap-1">
-                    {slides.map((_, idx) => (
+                    {activeSlides.map((_, idx) => (
                         <button
                             key={idx}
                             onClick={() => setCurrent(idx)}

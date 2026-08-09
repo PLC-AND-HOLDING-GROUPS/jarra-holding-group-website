@@ -5,69 +5,58 @@ import { ChevronLeft, ChevronRight, ArrowRight, ChevronDown } from "lucide-react
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Button } from "../../ui/button";
-
-type NewsItem = {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-    date: string;
-};
-const news: NewsItem[] = [
-    {
-        id: 1,
-        title: "Jarra Holding Group held a consultation forum with stakeholders",
-        description:
-            "Jarra Holding Group conducted a high-level consultation forum with regional and federal stakeholders to strengthen coordination, address sector challenges, and improve overall performance and policy alignment within the mining industry.",
-        image: "/home-1.jpg",
-        date: "2026-01-26",
-    },
-    {
-        id: 2,
-        title: "Mining sector reform progress review",
-        description:
-            "A comprehensive review meeting was held to assess progress, identify gaps, and discuss key challenges related to ongoing mining sector reforms aimed at improving efficiency, transparency, and investment attractiveness.",
-        image: "/home-2.jpg",
-        date: "2026-01-18",
-    },
-    {
-        id: 3,
-        title: "Capacity building workshop conducted",
-        description:
-            "A capacity building workshop was successfully conducted for mining sector professionals, focusing on technical skills, regulatory updates, and best practices to enhance institutional and operational effectiveness.",
-        image: "/home-3.jpg",
-        date: "2026-01-10",
-    },
-    {
-        id: 4,
-        title: "Regional mining coordination meeting",
-        description:
-            "Regional mining bureaus convened for a coordination meeting to align development strategies, share experiences, and strengthen collaboration for sustainable and well-regulated mineral resource development.",
-        image: "/home-4.jpg",
-        date: "2026-01-05",
-    }
-];
-
+import { useGetPaginatedNewsQuery } from "@/redux/api/newsApi";
+import { extractExcerpt, extractHeadlineImage } from "@/utils/newsMapper";
+import { format } from "date-fns";
+import Link from "next/link";
 
 export default function LatestNewsSection() {
     const [active, setActive] = useState(0);
 
+    // Fetch published news from CMS, max 6 items for the slider
+    const { data, isLoading, isError } = useGetPaginatedNewsQuery({ 
+        limit: 6, 
+        status: "published" 
+    });
+
+    const news = data?.items || [];
+
     // 🔁 Auto slide every 10s
     useEffect(() => {
+        if (news.length <= 1) return;
         const interval = setInterval(() => {
             setActive((prev) => (prev === news.length - 1 ? 0 : prev + 1));
         }, 10000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [news.length]);
 
-    const next = () =>
+    const next = () => {
+        if (news.length === 0) return;
         setActive((prev) => (prev === news.length - 1 ? 0 : prev + 1));
+    };
 
-    const prev = () =>
+    const prev = () => {
+        if (news.length === 0) return;
         setActive((prev) => (prev === 0 ? news.length - 1 : prev - 1));
+    };
+
+    if (isLoading) {
+        return (
+            <section className="w-full py-20 flex justify-center items-center">
+                <div className="animate-pulse bg-gray-200 h-96 w-full max-w-7xl rounded-3xl" />
+            </section>
+        );
+    }
+
+    if (isError || news.length === 0) {
+        return null;
+    }
 
     const item = news[active];
+    const imageInfo = extractHeadlineImage(item.attachments || []);
+    const imageUrl = imageInfo?.url || "/placeholder.jpg";
+    const excerpt = extractExcerpt(item.content, 200);
 
     return (
         <section className="w-full py-20">
@@ -84,25 +73,25 @@ export default function LatestNewsSection() {
                     </div>
                     {/* Creative "Find All News" Card */}
                     <div className="flex items-center">
-                        <a
+                        <Link
                             href="/news"
                             className="flex items-center gap-2 bg-primary hover:bg-primaryHover text-white px-2 md:px-5 py-2 md:py-3 rounded-md md:rounded-2xl  shadow-md transition-all transform "
                         >
                             <span className="font-medium text-xs md:text-base">Find All News</span>
                             <ArrowRight size={18} />
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
                 {/* Main Card */}
-                <div className="relative bg-white rounded-3xl shadow-sm overflow-hidden">
+                <div className="relative bg-white rounded-3xl shadow-sm overflow-hidden border">
                     <div className="grid grid-cols-1 md:grid-cols-2">
 
                         {/* Image */}
                         <div className="relative h-[250px] md:h-[370px]">
                             <Image
-                                src={item.image}
-                                alt={item.title}
+                                src={imageUrl}
+                                alt={item.title || "News Image"}
                                 fill
                                 className="object-cover"
                                 priority
@@ -110,7 +99,7 @@ export default function LatestNewsSection() {
 
                             {/* Date */}
                             <span className="absolute top-4 left-4 bg-white text-primary text-xs md:text-sm font-medium px-4 py-1 rounded-full shadow">
-                                {item.date}
+                                {item.published_at ? format(new Date(item.published_at), "PPP") : ""}
                             </span>
 
 
@@ -122,39 +111,48 @@ export default function LatestNewsSection() {
                                 {item.title}
                             </h3>
                             <p className="text-muted leading-relaxed text-sm md:text-base">
-                                {item.description}
+                                {excerpt}
                             </p>
 
-                            <Button className="mt-4 bg-primary hover:bg-primaryHover inline-flex items-center gap-2 w-fit px-6 py-3 rounded-md   text-white text-sm font-medium  transition">
-                                Read More <ArrowRight size={16} />
-                            </Button>
+                            <Link href={`/news/${item.news_id}`}>
+                                <Button className="mt-4 bg-primary hover:bg-primaryHover inline-flex items-center gap-2 w-fit px-6 py-3 rounded-md   text-white text-sm font-medium  transition">
+                                    Read More <ArrowRight size={16} />
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
 
-                {/* Thumbnails (6 images) */}
-                <div className="mt-6 flex w-full md:justify-center md:items-center gap-4 overflow-x-auto py-2 px-4 md:px-0 scroll-smooth snap-x snap-mandatory">
+                {/* Thumbnails (6 images max) */}
+                {news.length > 1 && (
+                    <div className="mt-6 flex w-full md:justify-center md:items-center gap-4 overflow-x-auto py-2 px-4 md:px-0 scroll-smooth snap-x snap-mandatory">
 
-                    {news.map((n, i) => (
-                        <button
-                            key={n.id}
-                            onClick={() => setActive(i)}
-                            className={clsx(
-                                "relative flex-shrink-0 w-28 h-20 rounded-xl overflow-hidden border transition",
-                                active === i
-                                    ? "border-primary ring-2 ring-primary/30"
-                                    : "border-transparent opacity-70 hover:opacity-100"
-                            )}
-                        >
-                            <Image
-                                src={n.image}
-                                alt={n.title}
-                                fill
-                                className="object-cover"
-                            />
-                        </button>
-                    ))}
-                </div>
+                        {news.map((n, i) => {
+                            const nImageInfo = extractHeadlineImage(n.attachments || []);
+                            const nImageUrl = nImageInfo?.url || "/placeholder.jpg";
+                            
+                            return (
+                                <button
+                                    key={n.news_id}
+                                    onClick={() => setActive(i)}
+                                    className={clsx(
+                                        "relative flex-shrink-0 w-28 h-20 rounded-xl overflow-hidden border transition",
+                                        active === i
+                                            ? "border-primary ring-2 ring-primary/30"
+                                            : "border-transparent opacity-70 hover:opacity-100"
+                                    )}
+                                >
+                                    <Image
+                                        src={nImageUrl}
+                                        alt={n.title || "Thumbnail"}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </section>
     );

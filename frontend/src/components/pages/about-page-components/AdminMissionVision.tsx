@@ -69,28 +69,28 @@ export default function AdminMissionVision() {
             if (sec.type === "mission") {
                 setMission(sec.content || "");
                 // Set attachment if it exists
-                if (sec.attachment_id) {
-                    setMissionAttachment([sec.attachment_id]);
+                if (sec.icon) {
+                    setMissionAttachment([sec.icon]);
                 }
             }
             else if (sec.type === "vision") {
                 setVision(sec.content || "");
                 // Set attachment if it exists
-                if (sec.attachment_id) {
-                    setVisionAttachment([sec.attachment_id]);
+                if (sec.icon) {
+                    setVisionAttachment([sec.icon]);
                 }
             }
             else if (sec.type === "core_values") {
                 // Set section attachment if it exists
-                if (sec.attachment_id) {
-                    setCoreValuesSectionAttachment([sec.attachment_id]);
+                if (sec.icon) {
+                    setCoreValuesSectionAttachment([sec.icon]);
                 }
 
                 // Map core values
                 const coreVals = sec.core_values?.map((v) => ({
                     title: v.title || "",
                     content: v.content || v.title || "",
-                    attachment_id: v.attachment_id, // Store the attachment_id for each core value
+                    attachment_id: v.icon || undefined, // Store the attachment_id for each core value
                 })) || [];
                 setValues(coreVals);
             }
@@ -117,22 +117,23 @@ export default function AdminMissionVision() {
             {
                 type: "mission" as const,
                 title: "Our Mission",
-                attachment_id: missionAttachment[0], // Use the first attachment ID
+                icon: missionAttachment[0], // Use the first attachment ID
                 content: mission,
             },
             {
                 type: "vision" as const,
                 title: "Our Vision",
-                attachment_id: visionAttachment[0], // Use the first attachment ID
+                icon: visionAttachment[0], // Use the first attachment ID
                 content: vision,
             },
             {
                 type: "core_values" as const,
                 title: "Core Values",
-                attachment_id: coreValuesSectionAttachment[0], // Use the first attachment ID for the section icon
+                icon: coreValuesSectionAttachment[0], // Use the first attachment ID for the section icon
                 core_values: values.map((v) => ({
                     title: v.title,
                     content: v.content || v.title,
+                    icon: v.attachment_id,
                 })),
             },
         ];
@@ -203,7 +204,7 @@ export default function AdminMissionVision() {
                                     id="mission-icon"
                                     label="Icon Image"
                                     value={missionAttachment}
-                                    onChange={(ids) => setMissionAttachment(ids)}
+                                    onChange={(ids: string[]) => setMissionAttachment(ids)}
                                     category="headline"
                                 />
                             </div>
@@ -224,7 +225,7 @@ export default function AdminMissionVision() {
                                     id="vision-icon"
                                     label="Icon Image"
                                     value={visionAttachment}
-                                    onChange={(ids) => setVisionAttachment(ids)}
+                                    onChange={(ids: string[]) => setVisionAttachment(ids)}
                                     category="headline"
                                 />
                             </div>
@@ -255,7 +256,7 @@ export default function AdminMissionVision() {
                                 id="core-values-section-icon"
                                 label="Section Icon Image"
                                 value={coreValuesSectionAttachment}
-                                onChange={(ids) => setCoreValuesSectionAttachment(ids)}
+                                onChange={(ids: string[]) => setCoreValuesSectionAttachment(ids)}
                                 category="headline"
                             />
                         </div>

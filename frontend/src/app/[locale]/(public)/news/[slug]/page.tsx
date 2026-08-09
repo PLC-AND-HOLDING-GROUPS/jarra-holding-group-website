@@ -1,17 +1,20 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Calendar, User, ChevronRight, MessageSquare, Star, MapPin, Users, Target, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { mockNewsData } from '@/datas/news-mock-data';
 import NewsLeftSide from '@/components/pages/news-page-components/NewsLeftSide';
+import { useGetNewsByIdQuery } from '@/redux/api/newsApi';
+import { convertDeltaToHtml, extractHeadlineImage, extractTags } from '@/utils/newsMapper';
+import { format } from 'date-fns';
 
 const NewsIdPage = () => {
     const params = useParams();
+    const router = useRouter();
     const slug = params.slug as string;
 
     const [rating, setRating] = useState(0);
@@ -37,21 +40,41 @@ const NewsIdPage = () => {
         }
     ]);
 
-    // Find the news item
-    const newsItem = mockNewsData.find(item => item.id === slug);
+    // Fetch the news item from CMS
+    const { data: newsItem, isLoading, isError } = useGetNewsByIdQuery(slug, {
+        skip: !slug
+    });
 
-    if (!newsItem) {
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-background-secondary py-12">
+                <div className="max-w-4xl mx-auto px-4">
+                    <div className="animate-pulse bg-gray-200 h-96 w-full rounded-3xl" />
+                </div>
+            </div>
+        );
+    }
+
+    if (isError || !newsItem) {
         return (
             <div className="min-h-screen bg-background-secondary py-12">
                 <div className="max-w-4xl mx-auto px-4">
                     <div className="text-center">
                         <h1 className="text-2xl font-bold text-heading mb-4">News Not Found</h1>
                         <p className="text-muted">The requested news article is not available.</p>
+                        <Button onClick={() => router.push('/news')} className="mt-4">Back to News</Button>
                     </div>
                 </div>
             </div>
         );
     }
+
+    const htmlContent = convertDeltaToHtml(newsItem.content);
+    const tags = extractTags(newsItem.tag_links || []);
+    const imageInfo = extractHeadlineImage(newsItem.attachments || []);
+    const imageUrl = imageInfo?.url || "/placeholder.jpg";
+    const dateFormatted = newsItem.published_at ? format(new Date(newsItem.published_at), 'PPP') : "";
+    const authorName = newsItem.author || "Admin";
 
     const handleSubmitFeedback = (e: React.FormEvent) => {
         e.preventDefault();
@@ -75,15 +98,6 @@ const NewsIdPage = () => {
         alert('Thank you for your feedback! Your comment has been submitted.');
     };
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
-
     return (
         <div className="min-h-screen bg-background-secondary">
             {/* Header */}
@@ -100,12 +114,12 @@ const NewsIdPage = () => {
                             <div className="flex md:items-center flex-col md:flex-row md:gap-2 mt-1">
                                 <div className="flex items-center gap-1 text-muted text-sm">
                                     <Calendar size={14} />
-                                    <span>{formatDate(newsItem.date)}</span>
+                                    <span>{dateFormatted}</span>
                                 </div>
                                 <span className="text-muted text-sm hidden md:block">•</span>
                                 <div className="flex items-center gap-1 text-muted text-sm">
                                     <User size={14} />
-                                    <span>{newsItem.author}</span>
+                                    <span>{authorName}</span>
                                 </div>
                             </div>
                         </div>
@@ -126,8 +140,8 @@ const NewsIdPage = () => {
                                 <div className="absolute inset-0 z-0">
                                     <div className="relative h-full w-full">
                                         <Image
-                                            src={newsItem.image}
-                                            alt={newsItem.title}
+                                            src={imageUrl}
+                                            alt={newsItem.title || "News Image"}
                                             fill
                                             className="object-cover"
                                             priority
@@ -147,14 +161,15 @@ const NewsIdPage = () => {
                             </div>
 
                             <div className="p-6">
+                                <h1 className="text-2xl lg:text-3xl font-bold text-heading mb-6">{newsItem.title}</h1>
                                 <div className="prose prose-lg max-w-none mb-8">
-                                    <div dangerouslySetInnerHTML={{ __html: newsItem.content }} />
+                                    <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                                 </div>
 
                                 {/* Tags */}
                                 <div className="flex flex-wrap gap-2 mb-8 pt-6 border-t">
                                     <span className="text-muted font-medium">Tags:</span>
-                                    {newsItem.tags.map((tag, index) => (
+                                    {tags.map((tag, index) => (
                                         <span
                                             key={index}
                                             className="px-3 py-1 bg-background-secondary text-muted text-sm rounded-full hover:bg-background-secondary cursor-pointer"
@@ -242,7 +257,7 @@ const NewsIdPage = () => {
                     </div>
                     {/* Sidebar */}
                     <div className="lg:col-span-1">
-                        <NewsLeftSide relatedNews={newsItem.relatedNews} />
+                        <NewsLeftSide relatedNews={[]} />
                     </div>
                 </div>
             </main>

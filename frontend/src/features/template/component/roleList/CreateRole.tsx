@@ -101,7 +101,7 @@ export default function CreateRole() {
 
       // Populate permission matrix with existing permissions
       if (role.rolePermissions && role.rolePermissions.length > 0) {
-        const matrix: PermissionMatrix = {};
+        const matrix: Record<string, Record<string, boolean>> = {};
 
         // Initialize all to false first
         resourceGroups.forEach((group) => {
@@ -113,7 +113,7 @@ export default function CreateRole() {
 
         // Set selected permissions to true
         role.rolePermissions.forEach((rp: any) => {
-          if (rp.permission && rp.is_active) {
+          if (rp.permission) {
             const permissionId = rp.permission.permission_id;
             const permission = resourceGroups
               .flatMap((g) => g.permissions)
@@ -206,9 +206,9 @@ export default function CreateRole() {
       case "all":
         return "bg-green-100 text-green-800 border-green-200";
       case "some":
-        return "bg-yellow-100 text-primary border-yellow-200";
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
       default:
-        return "bg-background-secondary text-muted border-border";
+        return "bg-gray-100 text-gray-600 border-gray-200";
     }
   }, []);
 
@@ -252,7 +252,7 @@ export default function CreateRole() {
         }).unwrap();
 
         toast.success("Role updated successfully!");
-        router.push("/role");
+        router.push("/admin/users/roles");
       } else {
         await createRole({
           name: name.trim(),
@@ -262,12 +262,12 @@ export default function CreateRole() {
 
         toast.success("Role created successfully!");
         resetForm();
-        router.push("/users/roles");
+        router.push("/admin/users/roles");
       }
     } catch (error: any) {
       toast.error(
         error?.data?.message ||
-          `Failed to ${isEditMode ? "update" : "create"} role`
+        `Failed to ${isEditMode ? "update" : "create"} role`
       );
     }
   };

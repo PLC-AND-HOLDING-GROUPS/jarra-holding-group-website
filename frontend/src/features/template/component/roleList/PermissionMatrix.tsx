@@ -14,13 +14,13 @@ import {
   Layers,
   Building,
 } from "lucide-react";
-import { Permission, ResourceGroup, PermissionMatrix as PermissionMatrixType } from "../../types/role";
+import { Permission, ResourceGroup } from "../../types/role";
 
 interface PermissionMatrixProps {
   loadingPermissions: boolean;
   resourceGroups: ResourceGroup[];
   expandedResource: string | null;
-  permissionMatrix: PermissionMatrixType;
+  permissionMatrix: Record<string, Record<string, boolean>>;
   toggleResource: (resource: string) => void;
   togglePermission: (resource: string, action: string) => void;
   selectAllInResource: (resource: string, select: boolean) => void;
@@ -63,15 +63,15 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
 
   if (loadingPermissions) {
     return (
-      <div className="bg-white border border-border rounded-lg shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="p-6 border-b">
-          <h3 className="text-xl font-bold text-secondary">
+          <h3 className="text-xl font-bold text-[#094C81]">
             Permission Matrix
           </h3>
         </div>
         <div className="p-8 text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-secondary mx-auto"></div>
-          <p className="text-sm text-muted mt-2">Loading permissions...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="text-sm text-gray-500 mt-2">Loading permissions...</p>
         </div>
       </div>
     );
@@ -79,13 +79,13 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
 
   if (resourceGroups.length === 0) {
     return (
-      <div className="bg-white border border-border rounded-lg shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="p-6 border-b">
-          <h3 className="text-xl font-bold text-secondary">
+          <h3 className="text-xl font-bold text-[#094C81]">
             Permission Matrix
           </h3>
         </div>
-        <div className="p-8 text-center text-muted">
+        <div className="p-8 text-center text-gray-500">
           No permissions available
         </div>
       </div>
@@ -93,19 +93,19 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
   }
 
   return (
-    <div className="bg-white border border-border rounded-lg shadow-sm">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
       <div className="p-6 border-b">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-bold text-secondary">
+          <h3 className="text-xl font-bold text-[#094C81]">
             Permission Matrix
           </h3>
           <div className="flex items-center space-x-2 text-sm">
-            <span className="text-secondary">Selected:</span>
-            <span className="font-semibold text-secondary">
+            <span className="text-[#094C81]">Selected:</span>
+            <span className="font-semibold text-[#094C81]">
               {getSelectedPermissionsCount()}
             </span>
-            <span className="text-secondary">/</span>
-            <span className="text-secondary">{getTotalPermissionsCount()}</span>
+            <span className="text-[#094C81]">/</span>
+            <span className="text-[#094C81]">{getTotalPermissionsCount()}</span>
           </div>
         </div>
       </div>
@@ -119,42 +119,42 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
             return (
               <div
                 key={group.resource}
-                className="border border-border rounded-lg self-start"
+                className="border border-gray-200 rounded-lg self-start"
               >
                 {/* Resource Header */}
                 <div
                   onClick={() => toggleResource(group.resource)}
-                  className="flex transition-all hover:bg-secondary/10 duration-200 cursor-pointer items-center justify-between p-4 bg-background-secondary rounded-t-lg"
+                  className="flex transition-all hover:bg-[#094C81]/10 duration-200 cursor-pointer items-center justify-between p-4 bg-gray-50 rounded-t-lg"
                 >
                   <div className="flex items-center space-x-3 flex-1">
                     <button
                       type="button"
                       onClick={() => toggleResource(group.resource)}
-                      className="p-1 hover:bg-background-secondary rounded"
+                      className="p-1 hover:bg-gray-200 rounded"
                     >
                       {isExpanded ? (
-                        <ChevronDown className="h-5 w-5 text-secondary hover:text-[#073954]" />
+                        <ChevronDown className="h-5 w-5 text-[#094C81] hover:text-[#073954]" />
                       ) : (
-                        <ChevronRight className="h-5 w-5 text-secondary hover:text-[#073954]" />
+                        <ChevronRight className="h-5 w-5 text-[#094C81] hover:text-[#073954]" />
                       )}
                     </button>
-                    <div className="p-2 text-secondary bg-white rounded-lg shadow-sm">
+                    <div className="p-2 text-[#094C81] bg-white rounded-lg shadow-sm">
                       {resourceIcons[group.resource] || (
                         <Shield className="h-4 w-4" />
                       )}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-secondary capitalize">
+                      <h3 className="font-semibold text-[#094C81] capitalize">
                         {group.resource.replace(/_/g, " ")}
                       </h3>
-                      <p className="text-sm text-secondary">
+                      <p className="text-sm text-[#094C81]">
                         {group.permissions.length} permissions available
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <span
-                      className={`px-2 py-1 text-xs font-medium border rounded-full text-secondary ${getSelectionStatusClass(
+                      className={`px-2 py-1 text-xs font-medium border rounded-full text-[#094C81] ${getSelectionStatusClass(
                         selectionStatus
                       )}`}
                     >
@@ -189,12 +189,12 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <div className="p-4 bg-white rounded-b-lg border-t border-border">
+                      <div className="p-4 bg-white rounded-b-lg border-t border-gray-200">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           {group.permissions.map((permission) => (
                             <label
                               key={permission.permission_id}
-                              className="flex w-full items-center space-x-3 p-3 border border-border rounded-lg hover:bg-background-secondary cursor-pointer transition-colors duration-150"
+                              className="flex w-full items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-150"
                             >
                               <div className="relative">
                                 <input
@@ -217,8 +217,8 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                                     permissionMatrix[group.resource]?.[
                                       permission.action
                                     ]
-                                      ? "bg-secondary border-secondary"
-                                      : "border-secondary"
+                                      ? "bg-[#094C81] border-[#094C81]"
+                                      : "border-[#094C81]"
                                   }`}
                                 >
                                   {permissionMatrix[group.resource]?.[
@@ -227,7 +227,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                                 </div>
                               </div>
 
-                              <span className="text-sm font-medium text-muted capitalize">
+                              <span className="text-sm font-medium text-gray-700 capitalize">
                                 {permission.action.replace(/_/g, " ")}
                               </span>
                             </label>
