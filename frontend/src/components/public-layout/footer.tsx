@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
     Mail,
@@ -10,7 +11,6 @@ import {
     Youtube,
     Instagram,
 } from "lucide-react";
-import Image from "next/image";
 import { IconBrandTelegram, IconBrandTiktok } from "@tabler/icons-react";
 
 const Footer = () => {
@@ -21,7 +21,9 @@ const Footer = () => {
                 {/* Brand */}
                 <div className="flex justify-left items-start">
                     <div className="flex flex-col gap-2 justify-start items-start" >
-                        <Image src="/waa-logo.png" alt="Logo" width={100} height={100} className="mb-2" />
+                        <Link href="/" className="inline-block">
+                            <Image src="/logo.png" alt="Logo" width={60} height={60} className="mb-2" />
+                        </Link>    
                         <h3 className="text-lg font-semibold text-primary mb-2">
                             Jarra Holding Group
                         </h3>

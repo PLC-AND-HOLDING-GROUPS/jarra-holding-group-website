@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { GlobeIcon } from "@radix-ui/react-icons";
 import { IconMenu2, IconX } from "@tabler/icons-react";
@@ -397,14 +398,14 @@ export const NavbarLogo = () => {
     return (
         <Link
             href="/"
-            className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+            className="flex items-center gap-2 hover:opacity-90 transition-opacity"
         >
-            <img
-                src="/waa-logo.png"
+            <Image
+                src="/logo.png"
                 alt="logo"
-                width={50}
-                height={50}
-            />
+                width={40}
+                height={40}
+                priority/>
             <div className="flex flex-col">
                 <span className="text-secondary font-semibold dark:text-white text-md -mt-[2px]">Jarra Holding Group</span>
             </div>

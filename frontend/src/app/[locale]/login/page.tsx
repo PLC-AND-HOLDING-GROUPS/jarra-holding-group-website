@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
@@ -51,9 +52,11 @@ export default function ExternalLogin() {
         {/* Left Section */}
         <div className="w-full bg-cover bg-center p-8 flex items-center justify-center">
           <div className="backdrop-blur-md p-6 rounded-xl text-center">
-            <img
-              src="/waa-logo.png"
+            <Image
+              src="/logo.png"
               alt="Organization Logo"
+              width={288}
+              height={288}
               className="h-72 mx-auto mb-3 rounded-xl p-2"
             />
           </div>
