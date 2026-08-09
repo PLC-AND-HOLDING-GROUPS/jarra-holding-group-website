@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
@@ -32,7 +32,7 @@ export default function ExternalLogin() {
     }
 
     if (result?.success) {
-      router.push("/dashboard");
+      router.push("/admin/dashboard");
     }
   };
 

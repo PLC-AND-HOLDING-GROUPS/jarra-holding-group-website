@@ -4,6 +4,7 @@ import "./globals.css";
 import ReduxProvider from "@/providers/ReduxProvider";
 import NextTopLoader from 'nextjs-toploader';
 import { NextIntlClientProvider } from 'next-intl';
+import AuthProvider from "@/providers/AuthProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -42,7 +43,9 @@ export default function RootLayout({
       >
         <NextTopLoader showSpinner={false} />
         <NextIntlClientProvider>
-          <ReduxProvider>{children}</ReduxProvider>
+          <AuthProvider>
+            <ReduxProvider>{children}</ReduxProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

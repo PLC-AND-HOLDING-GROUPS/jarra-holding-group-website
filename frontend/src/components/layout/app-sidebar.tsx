@@ -36,7 +36,7 @@ import {
 const navigationItems = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
@@ -84,7 +84,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <Link
-              href="/dashboard"
+              href="/admin/dashboard"
               className="flex items-center flex-col gap-2"
             >
               <div className="flex aspect-square p-3 group-data-[collapsible=icon]:aspect-square group-data-[collapsible=icon]:size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
