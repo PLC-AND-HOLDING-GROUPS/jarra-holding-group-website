@@ -7,14 +7,14 @@ const data = {
         icon: <Target className="w-16 h-16 text-[#003B5C]" strokeWidth={1.5} />,
         smallIcon: <Target className="w-5 h-5 text-[#003B5C]" strokeWidth={1.5} />,
         description:
-            "To generate, manage, and deliver geosciences data for society and business in a sustainable and responsible manner that supports the development of mineral resources in Ethiopia.",
+            "To build, manage, and scale a diverse portfolio of businesses in a sustainable and responsible manner that supports global economic growth.",
     },
     vision: {
         title2: "VISION",
         icon: <Lightbulb className="w-16 h-16 text-[#00B4D8]" strokeWidth={1.5} />,
         smallIcon: <Lightbulb className="w-5 h-5 text-[#00B4D8]" strokeWidth={1.5} />,
         description:
-            "To foresee the well developed Mineral Resources Contribution to the Foreign Currency Earnings increase by 10 fold, and be the backbone of the industry.",
+            "To be a globally recognized conglomerate that creates value across industries, increases investment returns, and serves as the backbone of modern business.",
     },
     values: {
         title2: "VALUES",

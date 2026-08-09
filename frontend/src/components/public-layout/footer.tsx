@@ -20,9 +20,9 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-6 py-6 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Brand */}
                 <div className="flex justify-left items-start">
-                    <div className="flex flex-col gap-2 justify-start items-start" >
+                    <div className="flex flex-col gap-2 justify-center items-center text-center w-full md:w-auto" >
                         <Link href="/" className="inline-block">
-                            <Image src="/logo.png" alt="Logo" width={60} height={60} className="mb-2" />
+                            <Image src="/logo.png" alt="Logo" width={60} height={60} className="mb-2 mx-auto" />
                         </Link>    
                         <h3 className="text-lg font-semibold text-primary mb-2">
                             Jarra Holding Group

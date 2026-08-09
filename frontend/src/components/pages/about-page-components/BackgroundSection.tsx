@@ -14,7 +14,7 @@ const BackgroundPage = () => {
                             <Building2 className="w-8 h-8 text-primary" />
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold text-heading">
-                            Ministry Background & <span className="text-primary">Import/Export</span>
+                            Company Background & <span className="text-primary">Import/Export</span>
                         </h1>
                     </div>
                     <p className="text-muted text-lg max-w-3xl mx-auto">

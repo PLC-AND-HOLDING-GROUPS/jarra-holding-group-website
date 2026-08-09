@@ -7,8 +7,8 @@ import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import { AnimatePresence, motion } from "framer-motion";
 
 const items = [
-    { label: "Jarra Holding Group Background", slug: "/about" },
-    { label: "Minister of Mines", slug: "/about/minister" },
+    { label: "Company Background", slug: "/about" },
+    { label: "Company Executives", slug: "/about/minister" },
     { label: "Mission, Vision and Values", slug: "/about/mission-vision-and-values" },
     { label: "Organizational Structure", slug: "/about/organizational-structure" },
 ];
@@ -81,7 +81,7 @@ export default function Layout({
                     <div className="flex">
                         <div>
                             <h1 className="text-2xl flex gap-1 flex-col font-serif text-teal-800 leading-tight">
-                                {title}
+                                {/* {title} */}
                                 <span className="text-primary h-1 w-1/2 bg-teal-800"></span>
                             </h1>
                         </div>
