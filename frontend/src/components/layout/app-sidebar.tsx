@@ -115,7 +115,7 @@ const getIconComponent = (iconName?: string, label?: string) => {
 
   if (iconName && iconMap[iconName]) return iconMap[iconName];
   if (label && iconMap[label]) return iconMap[label];
-  
+
   return Tag; // Default fallback
 };
 
@@ -150,13 +150,13 @@ const MenuItem = ({ item, pathname, isNested = false }: MenuItemProps) => {
         <SidebarMenuSubButton
           asChild
           isActive={isExactActive}
-          className="text-primary hover:bg-golden-metallic
+          className="text-white/80 hover:bg-white/5 hover:text-white transition-colors
             group-data-[collapsible=icon]:justify-center
-            data-[active=true]:bg-golden-metallic
-            data-[active=true]:text-primary"
+            data-[active=true]:bg-primary
+            data-[active=true]:text-primary-foreground"
         >
-          <Link href={item.path}>
-            <Icon className="h-4 w-4" />
+          <Link href={item.path} className="flex items-center gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-current opacity-70" />
             <span>{item.label}</span>
           </Link>
         </SidebarMenuSubButton>
@@ -173,10 +173,10 @@ const MenuItem = ({ item, pathname, isNested = false }: MenuItemProps) => {
         asChild
         isActive={isActive}
         tooltip={item.label}
-        className="text-primary hover:bg-golden-dark20 px-5 py-5
+        className="text-white/80 hover:bg-white/5 hover:text-white transition-colors px-5 py-5
           group-data-[collapsible=icon]:px-2
           group-data-[collapsible=icon]:justify-center
-          data-[active=true]:bg-golden-dark
+          data-[active=true]:bg-primary
           data-[active=true]:text-primary-foreground"
       >
         <Link
@@ -238,10 +238,10 @@ const CollapsibleSection = ({ route, pathname }: CollapsibleSectionProps) => {
           <SidebarMenuButton
             tooltip={route.label}
             isActive={isActive}
-            className="text-primary hover:bg-golden-metallic px-5 py-5
+            className="text-white/80 hover:bg-white/5 hover:text-white transition-colors px-5 py-5
               group-data-[collapsible=icon]:px-2
               group-data-[collapsible=icon]:justify-center
-              data-[active=true]:bg-golden-dark
+              data-[active=true]:bg-primary
               data-[active=true]:text-primary-foreground"
           >
             <Icon className="group-data-[collapsible=icon]:size-5" />
@@ -296,18 +296,15 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <Link href="/admin/dashboard" className="flex flex-col items-center">
               <Image
-                src="/logo-only.png"
-                alt="Ministry of Mines Logo"
+                src="/logo.png"
+                alt="Jarra Holding Group Logo"
                 width={100}
                 height={100}
                 className="mx-auto mb-1 rounded-xl p-2"
               />
               <div className="grid flex-1 text-center gap-1 text-sm leading-tight group-data-[collapsible=icon]:opacity-0">
                 <span className="truncate font-semibold text-golden-dark">
-                  Jarra Holding
-                </span>
-                <span className="truncate text-golden-dark">
-                  Portal Admin
+                  Jarra Holding Admin Portal
                 </span>
               </div>
             </Link>

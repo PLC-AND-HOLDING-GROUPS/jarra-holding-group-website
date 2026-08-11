@@ -252,7 +252,7 @@ export default function AdminContactRegionalOffices() {
         return (
             <Card className="shadow-sm border-gray-200">
                 <CardHeader className="bg-gray-50/50 border-b">
-                    <CardTitle className="text-xl font-bold text-[#073954]">
+                    <CardTitle className="text-xl font-bold text-primary">
                         {currentOffice?.id && offices.find(o => o.id === currentOffice.id) ? "Edit Regional Office" : "Add Regional Office"}
                     </CardTitle>
                 </CardHeader>
@@ -342,7 +342,7 @@ export default function AdminContactRegionalOffices() {
                     </div>
 
                     <div className="space-y-4 pt-4 border-t">
-                        <h4 className="font-semibold text-[#073954]">Licensing Contact (Optional)</h4>
+                        <h4 className="font-semibold text-primary">Licensing Contact (Optional)</h4>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="space-y-2">
                                 <Label>Contact Name</Label>

@@ -82,7 +82,7 @@ export default function AdminContactMessageDetail() {
                 <div className="rounded-lg border border-[#094C81]/15 bg-[#094C81]/5 p-6">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                         <div className="space-y-3 min-w-0">
-                            <h3 className="text-xl font-bold text-[#094C81] break-words">
+                            <h3 className="text-xl font-bold text-primary break-words">
                                 {message.subject}
                             </h3>
                             <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-600">
@@ -94,7 +94,7 @@ export default function AdminContactMessageDetail() {
                                     <Mail className="h-4 w-4" />
                                     <a
                                         href={`mailto:${message.email_address}`}
-                                        className="text-[#094C81] hover:underline break-all"
+                                        className="text-primary hover:underline break-all"
                                     >
                                         {message.email_address}
                                     </a>

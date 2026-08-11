@@ -126,7 +126,7 @@ export function EventCategoryFormModal({
                         <Button
                             type="submit"
                             disabled={isBusy || !name.trim()}
-                            className="bg-[#073954] hover:bg-[#094C81]"
+                            className="bg-sidebar-background hover:bg-sidebar-background/90 text-white"
                         >
                             {isBusy ? (
                                 <span className="flex items-center gap-2">

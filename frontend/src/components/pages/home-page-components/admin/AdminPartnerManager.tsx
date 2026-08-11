@@ -82,7 +82,7 @@ export default function AdminPartnerManager() {
     if (isFetching) {
         return (
             <div className="flex items-center justify-center p-12">
-                <Loader2 className="w-8 h-8 animate-spin text-golden-dark" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
         );
     }
@@ -91,13 +91,13 @@ export default function AdminPartnerManager() {
         <div className="space-y-6">
             <div className="flex justify-between items-center bg-white p-4 rounded-lg border shadow-sm">
                 <div>
-                    <h2 className="text-lg font-bold text-[#073954]">Partners Management</h2>
+                    <h2 className="text-lg font-bold text-primary">Partners Management</h2>
                     <p className="text-sm text-gray-500">Manage partner logos and the section header.</p>
                 </div>
                 <Button 
+                    variant="admin-primary"
                     onClick={handleSave} 
                     disabled={isUpdating || isCreating}
-                    className="bg-golden-dark hover:bg-golden-darkHover"
                 >
                     {isUpdating || isCreating ? (
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -110,7 +110,7 @@ export default function AdminPartnerManager() {
 
             <Card className="border-gray-200">
                 <CardHeader className="bg-gray-50/30 border-b">
-                    <CardTitle className="text-base font-semibold text-[#073954]">Section Header</CardTitle>
+                    <CardTitle className="text-base font-semibold text-primary">Section Header</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 space-y-4">
                     <div className="space-y-2">
@@ -134,8 +134,8 @@ export default function AdminPartnerManager() {
 
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h3 className="text-base font-bold text-[#073954]">Partner Logos</h3>
-                    <Button variant="outline" size="sm" onClick={addLogo} className="border-golden-dark text-golden-dark h-8">
+                    <h3 className="text-base font-bold text-primary">Partner Logos</h3>
+                    <Button variant="admin-primary" size="sm" onClick={addLogo} className="h-8">
                         <Plus className="w-4 h-4 mr-2" />
                         Add Logo
                     </Button>

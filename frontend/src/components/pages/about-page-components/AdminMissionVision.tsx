@@ -162,7 +162,7 @@ export default function AdminMissionVision() {
             <Card>
                 <CardContent className="space-y-6">
                     <div className="flex justify-between items-center">
-                        <CardTitle className="text-xl font-bold text-[#073954]">Title & Description</CardTitle>
+                        <CardTitle className="text-xl font-bold text-primary">Title & Description</CardTitle>
                         <Button
                             onClick={handleSave}
                             className="bg-golden-dark hover:bg-golden-darkHover"
@@ -187,13 +187,13 @@ export default function AdminMissionVision() {
             <Card>
                 <CardHeader>
                     <div className="flex justify-between items-center">
-                        <CardTitle className="text-xl font-bold text-[#073954]">Mission & Vision</CardTitle>
+                        <CardTitle className="text-xl font-bold text-primary">Mission & Vision</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <Card className="flex flex-col space-y-2 p-4">
-                            <CardTitle className="text-xl font-bold text-[#073954]">Mission</CardTitle>
+                            <CardTitle className="text-xl font-bold text-primary">Mission</CardTitle>
                             <div className="space-y-2">
                                 <ImageUploadField
                                     id="mission-icon"
@@ -214,7 +214,7 @@ export default function AdminMissionVision() {
                         </Card>
 
                         <Card className="flex flex-col space-y-2 p-4">
-                            <CardTitle className="text-xl font-bold text-[#073954]">Vision</CardTitle>
+                            <CardTitle className="text-xl font-bold text-primary">Vision</CardTitle>
                             <div className="space-y-2">
                                 <ImageUploadField
                                     id="vision-icon"
@@ -240,7 +240,7 @@ export default function AdminMissionVision() {
             <Card>
                 <CardHeader>
                     <div className="flex justify-between items-center">
-                        <CardTitle className="text-xl font-bold text-[#073954]">Core Values</CardTitle>
+                        <CardTitle className="text-xl font-bold text-primary">Core Values</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent>

@@ -20,55 +20,55 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
       value: summary.totalUsers,
       icon: Users,
       description: "Registered platform users",
-      gradient: "from-blue-500/20 to-blue-600/5",
+      gradient: "",
       border: "hover:border-blue-500/50",
-      iconBg: "bg-blue-500/10",
-      iconColor: "text-blue-500",
-      valueColor: "text-blue-700 dark:text-blue-400",
+      iconBg: "bg-blue-500/20",
+      iconColor: "text-blue-400",
+      valueColor: "text-white",
     },
     {
       title: "Active Roles",
       value: summary.activeRoles,
       icon: Shield,
       description: "Configured access levels",
-      gradient: "from-purple-500/20 to-purple-600/5",
+      gradient: "",
       border: "hover:border-purple-500/50",
-      iconBg: "bg-purple-500/10",
-      iconColor: "text-purple-500",
-      valueColor: "text-purple-700 dark:text-purple-400",
+      iconBg: "bg-purple-500/20",
+      iconColor: "text-purple-400",
+      valueColor: "text-white",
     },
     {
       title: "Audit Logs",
       value: summary.totalLogs,
       icon: Activity,
       description: "Total recorded system actions",
-      gradient: "from-orange-500/20 to-orange-600/5",
+      gradient: "",
       border: "hover:border-orange-500/50",
-      iconBg: "bg-orange-500/10",
-      iconColor: "text-orange-500",
-      valueColor: "text-orange-700 dark:text-orange-400",
+      iconBg: "bg-orange-500/20",
+      iconColor: "text-orange-400",
+      valueColor: "text-white",
     },
     {
       title: "Inquiries",
       value: summary.totalMessages,
       icon: MessageSquare,
       description: "Public contact messages",
-      gradient: "from-green-500/20 to-green-600/5",
+      gradient: "",
       border: "hover:border-green-500/50",
-      iconBg: "bg-green-500/10",
-      iconColor: "text-green-500",
-      valueColor: "text-green-700 dark:text-green-400",
+      iconBg: "bg-green-500/20",
+      iconColor: "text-green-400",
+      valueColor: "text-white",
     },
     {
       title: "News Articles",
       value: summary.totalNews,
       icon: Newspaper,
       description: "Published updates",
-      gradient: "from-pink-500/20 to-pink-600/5",
+      gradient: "",
       border: "hover:border-pink-500/50",
-      iconBg: "bg-pink-500/10",
-      iconColor: "text-pink-500",
-      valueColor: "text-pink-700 dark:text-pink-400",
+      iconBg: "bg-pink-500/20",
+      iconColor: "text-pink-400",
+      valueColor: "text-white",
     },
   ];
 
@@ -77,13 +77,13 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
       {stats.map((stat) => (
         <Card
           key={stat.title}
-          className={`group relative overflow-hidden shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${stat.gradient} ${stat.border}`}
+          className={`group relative overflow-hidden shadow-lg border-none bg-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${stat.border}`}
         >
           {/* Animated background effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 relative z-10">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-gray-300">
               {stat.title}
             </CardTitle>
             <div className={`p-2 rounded-lg ${stat.iconBg} transition-all duration-300 group-hover:scale-110 group-hover:rotate-6`}>
@@ -94,7 +94,7 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
             <div className={`text-2xl font-bold ${stat.valueColor} transition-all duration-300 group-hover:scale-105 origin-left`}>
               {stat.value.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">{stat.description}</p>
+            <p className="text-xs text-gray-400 mt-1">{stat.description}</p>
           </CardContent>
 
           {/* Bottom accent bar */}

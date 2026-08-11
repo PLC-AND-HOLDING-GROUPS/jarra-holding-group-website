@@ -47,7 +47,7 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full h-11 border border-border px-4 py-3 rounded-md focus:ring-2 focus:ring-[#094C81] focus:border-transparent transition-all duration-200 outline-none"
+              className="w-full h-11 border border-border px-4 py-3 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none"
             />
           </div>
 
@@ -63,7 +63,7 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({
               value={roleType}
               onValueChange={(value) => setRoleType(value)}
             >
-              <SelectTrigger className="h-11 border border-border px-4 py-3 rounded-md focus:ring-2 focus:ring-[#094C81] focus:border-transparent transition-all duration-200 outline-none">
+              <SelectTrigger className="h-11 border border-border px-4 py-3 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none">
                 <SelectValue placeholder="Select role type" />
               </SelectTrigger>
               <SelectContent>
@@ -86,7 +86,7 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full min-h-[44px] border border-border px-4 py-3 rounded-md focus:ring-2 focus:ring-[#094C81] focus:border-transparent transition-all duration-200 outline-none resize-none"
+              className="w-full min-h-[44px] border border-border px-4 py-3 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none resize-none"
             />
           </div>
         </div>

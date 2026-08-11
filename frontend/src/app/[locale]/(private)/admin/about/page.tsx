@@ -17,25 +17,16 @@ export default function AboutAdminPage() {
             </div>
 
             <Tabs defaultValue="leadership" className="w-full">
-                <TabsList className="grid max-w-lg grid-cols-3 mb-8 h-12 bg-golden-dark20 rounded-lg p-1">
-                    <TabsTrigger
-                        value="background"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                <TabsList className="grid max-w-lg grid-cols-3 mb-8 h-12">
+                    <TabsTrigger value="background">
                         Background
                     </TabsTrigger>
 
-                    <TabsTrigger
-                        value="leadership"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    <TabsTrigger value="leadership">
                         Leadership
                     </TabsTrigger>
 
-                    <TabsTrigger
-                        value="vision-mission"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    <TabsTrigger value="vision-mission">
                         Vision, Mission & Core
                     </TabsTrigger>
                 </TabsList>

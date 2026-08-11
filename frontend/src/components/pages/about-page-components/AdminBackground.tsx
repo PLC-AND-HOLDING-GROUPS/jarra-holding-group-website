@@ -126,7 +126,7 @@ export default function AdminBackground() {
         <Card>
             <CardHeader>
                 <div className="flex justify-between items-center">
-                    <CardTitle className="text-xl font-bold text-[#073954]">
+                    <CardTitle className="text-xl font-bold text-primary">
                         Edit Background Section
                     </CardTitle>
 

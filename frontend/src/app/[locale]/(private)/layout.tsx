@@ -21,12 +21,14 @@ export default function PrivateLayout({
   const title = breadcrumb.join(" / ");
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <Header title={title || "Dashboard"} />
-        <div className="p-6">{children}</div>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="admin-theme bg-background text-foreground min-h-screen flex w-full">
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <Header title={title || "Dashboard"} />
+          <div className="p-6">{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
   );
 }

@@ -250,7 +250,7 @@ export default function AdminFooterManager() {
             <Card className="shadow-sm border-gray-200">
                 <CardHeader className="bg-gray-50/50 border-b">
                     <div className="flex justify-between items-center">
-                        <CardTitle className="text-xl font-bold text-[#073954]">
+                        <CardTitle className="text-xl font-bold text-primary">
                             Footer Information
                         </CardTitle>
 
@@ -303,7 +303,7 @@ export default function AdminFooterManager() {
 
                     {/* TABS */}
                     <Tabs value={activeTab || "social"} onValueChange={setActiveTab}>
-                        <TabsList className="flex flex-wrap gap-2 mb-6 bg-gray-100/50 p-1">
+                        <TabsList className="flex flex-wrap gap-2 mb-6 p-1">
                             {footerData.sections.map((section) => (
                                 <TabsTrigger key={section.id} value={section.id}>
                                     {section.title} ({section.links.length})
@@ -381,7 +381,7 @@ function SectionEditor({
                     </Label>
 
                     <Input
-                        className="max-w-[200px] h-8 font-semibold text-[#073954]"
+                        className="max-w-[200px] h-8 font-semibold text-primary"
                         value={section.title}
                         onChange={(e) => updateTitle(e.target.value)}
                         placeholder="Enter section name"

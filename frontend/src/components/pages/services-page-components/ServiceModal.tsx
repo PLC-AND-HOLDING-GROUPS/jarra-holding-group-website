@@ -69,7 +69,7 @@ export default function ServiceModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold text-[#073954]">
+                    <DialogTitle className="text-xl font-bold text-primary">
                         {isEditing ? "Edit Service" : "Add Service"}
                     </DialogTitle>
                 </DialogHeader>

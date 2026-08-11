@@ -37,7 +37,7 @@ export default function AdminContactMessages() {
                 <button
                     type="button"
                     onClick={() => router.push(`/admin/contacts/messages/${row.original.message_id}`)}
-                    className="text-left font-medium text-[#094C81] hover:underline line-clamp-2"
+                    className="text-left font-medium text-primary hover:underline line-clamp-2"
                 >
                     {row.getValue("subject")}
                 </button>

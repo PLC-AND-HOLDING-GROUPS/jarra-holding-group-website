@@ -207,7 +207,7 @@ export default function PermissionList() {
                   placeholder="Search permissions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full md:w-64 pl-10 h-11 pr-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-[#094C81] focus:border-[#094C81] outline-none transition-colors text-sm text-muted-foreground"
+                  className="w-full md:w-64 pl-10 h-11 pr-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors text-sm text-muted-foreground"
                 />
               </div>
             </div>

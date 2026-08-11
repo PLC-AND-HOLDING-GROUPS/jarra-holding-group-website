@@ -13,12 +13,14 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "border border-primary bg-background shadow-sm text-secondary hover:bg-background-secondary hover:text-secondary dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary:
           "bg-secondary text-white hover:bg-secondary/90",
         ghost:
-          "hover:bg-background-secondary hover:text-secondary dark:hover:bg-accent/50",
+          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        "admin-action": "bg-sidebar-background text-sidebar-foreground hover:bg-sidebar-background/80 active:bg-primary active:text-primary-foreground",
+        "admin-primary": "bg-primary text-primary-foreground hover:bg-primary/90",
       },
       size: {
         default: "h-9 px-4 py-2",

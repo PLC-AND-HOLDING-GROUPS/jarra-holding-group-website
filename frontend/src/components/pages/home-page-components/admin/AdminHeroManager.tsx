@@ -148,7 +148,7 @@ export default function AdminHeroManager() {
     if (isFetching) {
         return (
             <div className="flex items-center justify-center p-12">
-                <Loader2 className="w-8 h-8 animate-spin text-golden-dark" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
         );
     }
@@ -157,15 +157,14 @@ export default function AdminHeroManager() {
         <div className="space-y-6">
             <div className="flex justify-between items-center bg-white p-4 rounded-lg border shadow-sm">
                 <div>
-                    <h2 className="text-lg font-bold text-[#073954]">Hero Slider Management</h2>
+                    <h2 className="text-lg font-bold text-primary">Hero Slider Management</h2>
                     <p className="text-sm text-gray-500">Manage the carousel slides on the home page.</p>
                 </div>
                 <div className="flex gap-2">
                     <Button 
-                        variant="outline" 
+                        variant="admin-primary" 
                         onClick={handleAddSlide} 
                         disabled={isCreating}
-                        className="border-golden-dark text-golden-dark hover:bg-golden-dark hover:text-white"
                     >
                         {isCreating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
                         Add Slide
@@ -176,7 +175,7 @@ export default function AdminHeroManager() {
             <Card className="border-gray-200">
                 <CardHeader className="bg-gray-50/50 border-b py-3 px-4 flex flex-row items-center justify-between space-y-0">
                     <div>
-                        <CardTitle className="text-base font-semibold text-[#073954]">
+                        <CardTitle className="text-base font-semibold text-primary">
                             Hero Call-to-Action Buttons
                         </CardTitle>
                         <p className="text-sm text-gray-500 mt-1">
@@ -184,10 +183,11 @@ export default function AdminHeroManager() {
                         </p>
                     </div>
                     <Button
+                        variant="admin-primary"
                         size="sm"
                         onClick={handleSaveHeroButtons}
                         disabled={isSavingButtons || isUpdating}
-                        className="bg-golden-dark hover:bg-golden-darkHover shrink-0"
+                        className="shrink-0"
                     >
                         {isSavingButtons ? (
                             <Loader2 className="w-4 h-4 mr-1 animate-spin" />
@@ -250,10 +250,10 @@ export default function AdminHeroManager() {
                     <Card key={slide.slider_id || index} className="border-gray-200 overflow-hidden">
                         <CardHeader className="bg-gray-50/50 border-b py-3 px-4 flex flex-row items-center justify-between space-y-0">
                             <div className="flex items-center gap-3">
-                                <div className="bg-golden-dark text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                                <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
                                     {index + 1}
                                 </div>
-                                <CardTitle className="text-base font-semibold text-[#073954]">
+                                <CardTitle className="text-base font-semibold text-primary">
                                     Slide {index + 1}
                                 </CardTitle>
                             </div>
@@ -263,7 +263,7 @@ export default function AdminHeroManager() {
                                     size="sm" 
                                     onClick={() => handleSaveSlide(index)}
                                     disabled={isUpdating}
-                                    className="text-golden-dark font-medium"
+                                    className="text-primary font-medium hover:text-primary hover:bg-primary/10"
                                 >
                                     <Save className="w-4 h-4 mr-1" />
                                     Save Slide

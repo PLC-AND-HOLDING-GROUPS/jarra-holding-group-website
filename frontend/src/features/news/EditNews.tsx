@@ -337,7 +337,7 @@ const EditNews = () => {
                                             return (
                                                 <span
                                                     key={tagId}
-                                                    className="inline-flex items-center gap-1 rounded-md justify-center bg-[#094C81]/10 text-primary px-2 py-1 text-xs"
+                                                    className="inline-flex items-center gap-1 rounded-md justify-center bg-primary/10 text-primary px-2 py-1 text-xs"
                                                 >
                                                     <span className="truncate max-w-[120px]">
                                                         {tag.name}
@@ -350,7 +350,7 @@ const EditNews = () => {
                                                                 prev.filter((id) => id !== tagId)
                                                             );
                                                         }}
-                                                        className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-[#094C81]/20 transition-colors"
+                                                        className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary/20 transition-colors"
                                                         aria-label={`Remove ${tag.name}`}
                                                     >
                                                         <XIcon className="h-3 w-3" />
@@ -378,7 +378,7 @@ const EditNews = () => {
                                                 onClick={() => {
                                                     setSelectedTags((prev) => [...prev, t.tag_id]);
                                                 }}
-                                                className="w-full text-left px-3 py-2 text-sm text-primary hover:bg-[#094C81]/10 rounded-md cursor-pointer transition-colors"
+                                                className="w-full text-left px-3 py-2 text-sm text-primary hover:bg-primary/10 rounded-md cursor-pointer transition-colors"
                                             >
                                                 <span className="block truncate">{t.name}</span>
                                             </button>
@@ -459,7 +459,7 @@ const EditNews = () => {
                         </div>
                     )}
 
-                    <Button type="submit" className="w-full bg-[#094C81] hover:bg-[#073954]">
+                    <Button type="submit" className="w-full bg-sidebar-background hover:bg-sidebar-background/90 text-white">
                         Update News
                     </Button>
                 </form>

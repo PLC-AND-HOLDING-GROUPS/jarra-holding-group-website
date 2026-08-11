@@ -17,27 +17,18 @@ const HeroSectionManagement = () => {
             </div>
 
             <Tabs defaultValue="hero" className="w-full">
-                <TabsList className="grid w-full max-w-md grid-cols-3 mb-8 h-12 bg-golden-dark20 rounded-lg p-1">
-                    <TabsTrigger
-                        value="hero"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                <TabsList className="grid w-full max-w-md grid-cols-3 mb-8 h-12">
+                    <TabsTrigger value="hero">
                         Hero Slider
                     </TabsTrigger>
 
-                    <TabsTrigger
-                        value="card"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    <TabsTrigger value="card">
                         Card Section
                     </TabsTrigger>
-                    <TabsTrigger
-                        value="partners"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    
+                    <TabsTrigger value="partners">
                         Partners
                     </TabsTrigger>
-
                 </TabsList>
 
                 <TabsContent value="hero">

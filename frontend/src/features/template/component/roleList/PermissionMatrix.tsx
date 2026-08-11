@@ -124,7 +124,7 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                 {/* Resource Header */}
                 <div
                   onClick={() => toggleResource(group.resource)}
-                  className="flex transition-all hover:bg-[#094C81]/10 duration-200 cursor-pointer items-center justify-between p-4 bg-secondary text-secondary-foreground rounded-t-lg"
+                  className="flex transition-all hover:bg-primary/10 duration-200 cursor-pointer items-center justify-between p-4 bg-secondary text-secondary-foreground rounded-t-lg"
                 >
                   <div className="flex items-center space-x-3 flex-1">
                     <button
@@ -217,8 +217,8 @@ export const PermissionMatrix: React.FC<PermissionMatrixProps> = ({
                                     permissionMatrix[group.resource]?.[
                                       permission.action
                                     ]
-                                      ? "bg-[#094C81] border-[#094C81]"
-                                      : "border-[#094C81]"
+                                      ? "bg-primary border-primary"
+                                      : "border-primary"
                                   }`}
                                 >
                                   {permissionMatrix[group.resource]?.[

@@ -440,7 +440,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                         <Button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-[#094C81] hover:bg-[#073954] cursor-pointer"
+                            className="w-full bg-sidebar-background hover:bg-sidebar-background/90 text-white cursor-pointer"
                         >
                             {isSubmitting ? "Saving..." : "Save Event"}
                         </Button>

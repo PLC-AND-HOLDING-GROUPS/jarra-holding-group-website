@@ -33,7 +33,7 @@ export function DashboardPieChart({ data, title, description }: DashboardPieChar
   const totalValue = data.reduce((acc, curr) => acc + curr.value, 0);
 
   return (
-    <Card className="flex flex-col shadow-sm border-none bg-background/50 backdrop-blur-sm">
+    <Card className="flex flex-col shadow-sm border-none bg-card">
       <CardHeader className="items-center pb-0">
         <CardTitle className="text-lg font-semibold">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -68,14 +68,14 @@ export function DashboardPieChart({ data, title, description }: DashboardPieChar
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-card-foreground text-3xl font-bold"
                         >
                           {totalValue.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
+                          className="fill-card-foreground opacity-70"
                         >
                           Total
                         </tspan>

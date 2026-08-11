@@ -348,7 +348,7 @@ export const EditFileUpload: React.FC<FileUploadFieldProps> = ({
                                         variant="ghost"
                                         size="icon"
                                         onClick={() => setPreviewFile(file)}
-                                        className="w-8 h-8 text-[#094C81] hover:bg-gray-200"
+                                        className="w-8 h-8 text-primary hover:bg-gray-200"
                                         title="Preview"
                                     >
                                         <Eye className="w-4 h-4" />

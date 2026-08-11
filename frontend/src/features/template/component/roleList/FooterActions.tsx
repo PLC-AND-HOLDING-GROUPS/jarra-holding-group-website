@@ -38,7 +38,7 @@ export const FooterActions: React.FC<FooterActionsProps> = ({
             disabled={
               isLoading || !name.trim() || selectedPermissionsCount === 0
             }
-            className="min-w-[150px] text-base bg-[#094C81] hover:bg-[#073954]"
+            className="min-w-[150px] text-base bg-sidebar-background hover:bg-sidebar-background/90 text-white"
           >
             {isLoading ? (
               <>

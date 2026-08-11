@@ -24,7 +24,7 @@ const chartConfig = {
 
 export function DashboardAreaChart({ data, title, description }: DashboardAreaChartProps) {
   return (
-    <Card className="shadow-sm border-none bg-background/50 backdrop-blur-sm">
+    <Card className="shadow-sm border-none bg-card">
       <CardHeader>
         <CardTitle className="text-lg font-semibold">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -58,6 +58,8 @@ export function DashboardAreaChart({ data, title, description }: DashboardAreaCh
               tickLine={false}
               axisLine={false}
               tickMargin={8}
+              stroke="currentColor"
+              opacity={0.7}
               tickFormatter={(value) => {
                 const date = new Date(value);
                 return date.toLocaleDateString("en-US", {

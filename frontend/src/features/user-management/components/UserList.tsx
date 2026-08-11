@@ -140,7 +140,7 @@ export default function UserList() {
                     <div className="flex flex-wrap gap-1 max-w-[200px]">
                         {roles.length > 0 ? (
                             roles.map((role) => (
-                                <Badge key={role.role_id} variant="secondary" className="text-[10px] px-1 h-5 bg-[#094C81]/10 text-primary border-none">
+                                <Badge key={role.role_id} variant="secondary" className="text-[10px] px-1 h-5 bg-primary/10 text-primary border-none">
                                     {role.name}
                                 </Badge>
                             ))

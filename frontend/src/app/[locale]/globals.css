@@ -100,6 +100,36 @@
     --sidebar-border: 202 100% 14%;
     --sidebar-ring: 190 100% 42%;
   }
+
+  .admin-theme {
+    --background: 216 19% 90%; /* Light gray workspace #e2e8f0 or #d9e0e7 */
+    --foreground: 215 28% 17%;
+    
+    --card: 216 19% 19%; /* Dark slate #242b35 */
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 216 19% 19%;
+    --popover-foreground: 0 0% 100%;
+    
+    --muted: 216 19% 25%;
+    --muted-foreground: 215 20% 65%;
+    
+    --border: 216 19% 25%;
+    --input: 216 19% 25%;
+    
+    --accent: 216 19% 25%;
+    --accent-foreground: 0 0% 100%;
+    
+    --sidebar-background: 216 19% 15%; /* Deep charcoal #222933 */
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-border: 216 19% 20%;
+    
+    --chart-1: 190 100% 42%; /* Cyan */
+    --chart-2: 215 100% 65%; /* Light blue */
+    --chart-3: 45 100% 50%;  /* Golden */
+    --chart-4: 150 70% 50%;  /* Green */
+    --chart-5: 280 80% 65%;  /* Purple */
+  }
 }
 
 @layer base {

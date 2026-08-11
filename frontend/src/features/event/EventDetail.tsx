@@ -83,7 +83,7 @@ const EventDetail = () => {
                             <div className="p-4 md:p-6">
                                 <div className="mb-6 flex flex-wrap gap-2">
                                      {eventItem.category?.name && (
-                                         <span className="px-3 py-1 bg-[#094C81]/10 text-primary text-xs font-semibold rounded-md">
+                                         <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-md">
                                              {eventItem.category.name}
                                          </span>
                                      )}

@@ -112,7 +112,7 @@ export default function AdminFederalContact() {
         <Card className="shadow-sm border-gray-200">
             <CardHeader className="bg-gray-50/50 border-b">
                 <div className="flex justify-between items-center">
-                    <CardTitle className="text-xl font-bold text-[#073954]">
+                    <CardTitle className="text-xl font-bold text-primary">
                         General Information
                     </CardTitle>
                     <Button

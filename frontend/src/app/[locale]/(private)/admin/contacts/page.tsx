@@ -18,33 +18,22 @@ const AdminContactsPage = () => {
             </div>
 
             <Tabs defaultValue="messages" className="w-full">
-                <TabsList className="grid max-w-2xl grid-cols-4 mb-8 h-12 bg-golden-dark20 rounded-lg p-1">
-                    <TabsTrigger
-                        value="messages"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                <TabsList className="grid max-w-2xl grid-cols-4 mb-8 h-12">
+                    <TabsTrigger value="messages">
                         Messages
                     </TabsTrigger>
 
-                    <TabsTrigger
-                        value="contact-info"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    <TabsTrigger value="contact-info">
                         Contact Details
                     </TabsTrigger>
-                    <TabsTrigger
-                        value="regions"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    
+                    <TabsTrigger value="regions">
                         Regions
                     </TabsTrigger>
-                    <TabsTrigger
-                        value="regional-offices"
-                        className="text-dark data-[state=active]:bg-golden-dark data-[state=active]:text-white rounded-md transition"
-                    >
+                    
+                    <TabsTrigger value="regional-offices">
                         Regional Offices
                     </TabsTrigger>
-
                 </TabsList>
 
                 <TabsContent value="messages">

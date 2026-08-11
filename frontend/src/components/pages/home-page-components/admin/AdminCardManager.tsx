@@ -63,7 +63,7 @@ export default function AdminCardManager() {
     if (isFetching) {
         return (
             <div className="flex items-center justify-center p-12">
-                <Loader2 className="w-8 h-8 animate-spin text-golden-dark" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
         );
     }
@@ -72,13 +72,13 @@ export default function AdminCardManager() {
         <div className="space-y-6">
             <div className="flex justify-between items-center bg-white p-4 rounded-lg border shadow-sm">
                 <div>
-                    <h2 className="text-lg font-bold text-[#073954]">Card Section Management</h2>
+                    <h2 className="text-lg font-bold text-primary">Card Section Management</h2>
                     <p className="text-sm text-gray-500">Edit the featured performance card content.</p>
                 </div>
                 <Button 
+                    variant="admin-primary"
                     onClick={handleSave} 
                     disabled={isUpdating || isCreating}
-                    className="bg-golden-dark hover:bg-golden-darkHover"
                 >
                     {isUpdating || isCreating ? (
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />

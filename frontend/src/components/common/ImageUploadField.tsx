@@ -165,7 +165,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             </Label>
 
             <div
-                className={`${fieldClass} flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-lg p-4 bg-gray-50 group hover:border-gray-300 transition-colors ${error ? "border-red-500" : ""
+                className={`${fieldClass} flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-4 bg-transparent group hover:border-primary transition-colors ${error ? "border-red-500" : ""
                     }`}
             >
                 {/* Hidden File Input */}
@@ -215,11 +215,11 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 ) : (
                     <div className="flex flex-col items-center gap-2 py-4">
                         {isUploading ? (
-                            <Loader2 className="h-10 w-10 text-gray-400 animate-spin" />
+                            <Loader2 className="h-10 w-10 text-primary animate-spin" />
                         ) : (
                             <>
-                                <ImageIcon className="h-10 w-10 text-gray-400" />
-                                <p className="text-xs text-gray-500">
+                                <ImageIcon className="h-10 w-10 text-primary" />
+                                <p className="text-xs text-primary">
                                     No image uploaded
                                 </p>
                             </>
@@ -233,7 +233,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="mt-2 h-8 text-xs gap-1"
+                        className="mt-2 h-8 text-xs gap-1 text-primary hover:bg-primary/10 hover:text-primary"
                         onClick={() => document.getElementById(id)?.click()}
                     >
                         <Upload className="h-3.5 w-3.5" />
@@ -247,7 +247,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="mt-2 h-8 text-xs gap-1 text-red-600 hover:bg-red-50"
+                        className="mt-2 h-8 text-xs gap-1 text-destructive hover:bg-destructive/10"
                         onClick={handleDelete}
                     >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -261,9 +261,9 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             {/* Preview Modal */}
             {previewFile && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] p-4 relative overflow-auto">
+                    <div className="bg-card text-card-foreground rounded-lg max-w-3xl w-full max-h-[90vh] p-4 relative overflow-auto">
                         <button
-                            className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-200"
+                            className="absolute top-2 right-2 p-2 rounded-full hover:bg-secondary"
                             onClick={() => setPreviewFile(null)}
                         >
                             <X className="w-5 h-5" />

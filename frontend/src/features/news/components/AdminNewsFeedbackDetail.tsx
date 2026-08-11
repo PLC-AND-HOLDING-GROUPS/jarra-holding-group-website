@@ -190,7 +190,7 @@ export default function AdminNewsFeedbackDetail() {
             ]}
         >
             {selectedNews && (
-                <div className="rounded-lg border border-[#094C81]/15 bg-[#094C81]/5 p-5 mb-6">
+                <div className="rounded-lg border border-primary/15 bg-primary/5 p-5 mb-6">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                         <div className="space-y-2 min-w-0">
                             <div className="flex flex-wrap items-center gap-2">

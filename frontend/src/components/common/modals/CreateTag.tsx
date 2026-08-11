@@ -63,12 +63,12 @@ const CreateTagModal = ({ isOpen, onClose }: CreateTagModalProps) => {
             <div className="bg-white p-6 rounded-2xl w-full max-w-[500px] shadow-2xl">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-[#094C81]">
+                    <h2 className="text-xl font-semibold text-primary">
                         Create Tag
                     </h2>
                     <button
                         onClick={handleClose}
-                        className="text-[#094C81] hover:text-gray-600 transition"
+                        className="text-primary hover:text-gray-600 transition"
                     >
                         <XIcon className="w-6 h-6 cursor-pointer" />
                     </button>

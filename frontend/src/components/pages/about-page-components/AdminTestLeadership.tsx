@@ -256,7 +256,7 @@ function NodeHeader({ node, isOpen, addChild, deleteNode }: any) {
                     </CollapsibleTrigger>
 
                     <div>
-                        <CardTitle className="text-base font-semibold text-[#073954]">
+                        <CardTitle className="text-base font-semibold text-primary">
                             {node.name || "Unnamed Leader"}
                         </CardTitle>
                         <p className="text-xs text-gray-500">

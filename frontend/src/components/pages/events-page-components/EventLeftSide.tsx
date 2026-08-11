@@ -24,7 +24,7 @@ const EventLeftSide = ({ relatedEvents }: EventSidebarProps) => {
         <div className="space-y-8">
             {/* Related Events Section */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-lg font-bold text-[#094C81] mb-6 pb-3 border-b flex items-center gap-2">
+                <h2 className="text-lg font-bold text-primary mb-6 pb-3 border-b flex items-center gap-2">
                     <div className="w-1.5 h-6 bg-golden-dark rounded-full"></div>
                     More Events
                 </h2>
