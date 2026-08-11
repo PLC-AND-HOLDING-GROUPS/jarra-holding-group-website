@@ -154,6 +154,7 @@ export default function HeroSection() {
                                 fill
                                 className="object-cover w-full"
                                 priority={isActive}
+                                unoptimized={true}
                             />
                             <div className="absolute inset-0 bg-black/40" />
 

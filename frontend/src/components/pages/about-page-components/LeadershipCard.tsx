@@ -24,6 +24,7 @@ export default function LeadershipCard({ person }: any) {
                     width={300}
                     height={300}
                     className="rounded-2xl object-cover shadow-2xl"
+                    unoptimized={true}
                 />
             </div>
 

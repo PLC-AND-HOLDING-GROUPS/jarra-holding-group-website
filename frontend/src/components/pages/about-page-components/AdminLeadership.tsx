@@ -19,6 +19,7 @@ import {
     useDeleteLeadershipMutation,
 } from "@/redux/api/leadershipApi";
 import { ImageUploadField, UploadedFileInfo } from "@/components/common/ImageUploadField";
+import { toast } from "sonner";
 
 export type LeaderNode = {
     id: string;
@@ -167,25 +168,32 @@ export default function LeadershipAdminPage() {
         setTree(prev => updateNodeRecursively(prev!, node.id, { leadership_id: updatedNode.leadership_id }));
     };
 
-    const updateNode = async (node: LeaderNode, updatedFields: Partial<LeaderNode>) => {
-        const updatedNode = { ...node, ...updatedFields };
-
+    const updateNode = (node: LeaderNode, updatedFields: Partial<LeaderNode>) => {
         setTree(prev => updateNodeRecursively(prev!, node.id, updatedFields));
+    };
+
+    const saveNode = async (node: LeaderNode) => {
         if (!node.leadership_id) return;
 
-        await updateLeadership({
-            id: node.leadership_id,
-            data: {
-                name: updatedNode.name,
-                title: updatedNode.title,
-                description: updatedNode.fullDescription,
-                parent_id: updatedNode.parent_id,
-                header: updatedNode.header,
-                attachment_ids: updatedNode.attachment_id
-                    ? [updatedNode.attachment_id]
-                    : [],
-            },
-        });
+        try {
+            await updateLeadership({
+                id: node.leadership_id,
+                data: {
+                    name: node.name,
+                    title: node.title,
+                    description: node.fullDescription,
+                    parent_id: node.parent_id,
+                    header: node.header,
+                    attachments: node.attachment_id
+                        ? [{ attachment_id: node.attachment_id }]
+                        : [],
+                },
+            }).unwrap();
+            toast.success("Card content saved successfully!");
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to save card content.");
+        }
     };
 
     const updateNodeRecursively = (node: LeaderNode, nodeId: string, updatedFields: Partial<LeaderNode>): LeaderNode => {
@@ -201,6 +209,7 @@ export default function LeadershipAdminPage() {
                 deleteNode={deleteNode}
                 updateNode={updateNode}
                 createNode={createNode}
+                saveNode={saveNode}
             />
         </div>
     );
@@ -215,9 +224,10 @@ type NodeEditorProps = {
     deleteNode: (id: string) => void;
     updateNode: (node: LeaderNode, fields: Partial<LeaderNode>) => void;
     createNode: (node: LeaderNode) => void;
+    saveNode: (node: LeaderNode) => void;
 };
 
-function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: NodeEditorProps) {
+function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode, saveNode }: NodeEditorProps) {
     const [isOpen, setIsOpen] = useState(true);
     const isNew = !node.leadership_id;
 
@@ -231,6 +241,7 @@ function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: 
                         addChildNode={addChildNode}
                         deleteNode={deleteNode}
                         createNode={createNode}
+                        saveNode={saveNode}
                         isNew={isNew}
                     />
                     <CollapsibleContent>
@@ -255,6 +266,7 @@ function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: 
                             deleteNode={deleteNode}
                             updateNode={updateNode}
                             createNode={createNode}
+                            saveNode={saveNode}
                         />
                     ))}
                 </div>
@@ -266,7 +278,7 @@ function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: 
 /* =====================================================
    NODE HEADER
 ===================================================== */
-function NodeHeader({ node, isOpen, addChildNode, deleteNode, createNode, isNew }: any) {
+function NodeHeader({ node, isOpen, addChildNode, deleteNode, createNode, saveNode, isNew }: any) {
     return (
         <CardHeader className="bg-golden-dark20 py-3">
             <div className="flex justify-between items-center">
@@ -308,14 +320,22 @@ function NodeHeader({ node, isOpen, addChildNode, deleteNode, createNode, isNew 
                             <Button
                                 variant="outline"
                                 size="sm"
+                                className="h-8 bg-green-600 text-white hover:bg-green-700 hover:text-white"
+                                onClick={(e) => { e.stopPropagation(); saveNode(node); }}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
                                 className="h-8 bg-golden-dark text-white hover:bg-golden-darkHover hover:text-white"
-                                onClick={() => addChildNode(node.id)}
+                                onClick={(e) => { e.stopPropagation(); addChildNode(node.id); }}
                             >
                                 <Plus className="h-3.5 w-3.5 mr-1" />
                                 Add Child
                             </Button>
                             {node.level !== 0 && (
-                                <Button variant="destructive" size="sm" onClick={() => deleteNode(node.id)}>
+                                <Button variant="destructive" size="sm" onClick={(e) => { e.stopPropagation(); deleteNode(node.id); }}>
                                     <Trash2 className="h-3.5 w-3.5 mr-1" />
                                     Delete
                                 </Button>

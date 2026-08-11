@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         port: "4000",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.mom.gov.et",
+        pathname: "/**",
+      },
     ],
   },
   /* config options here */

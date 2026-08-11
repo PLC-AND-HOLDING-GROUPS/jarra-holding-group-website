@@ -9,7 +9,7 @@ function buildTree(items: any[], parentId: string | null = null): any[] {
     return items
         .filter((item) => item.parent_id === parentId)
         .map((item) => {
-            const attachment = item.attachments?.[0]?.attachment;
+            const attachment = item.attachments?.attachment;
             return {
                 id: item.leadership_id,
                 level: item.level,

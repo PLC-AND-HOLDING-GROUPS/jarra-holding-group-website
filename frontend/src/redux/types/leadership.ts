@@ -16,7 +16,7 @@ export interface UpdateLeadershipPayload {
     title?: string;
     description?: string;
     level?: number;
-    attachment_ids?: string[];
+    attachments?: { attachment_id: string }[];
 }
 
 // Leadership type
