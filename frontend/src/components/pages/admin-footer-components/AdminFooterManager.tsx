@@ -248,7 +248,7 @@ export default function AdminFooterManager() {
     return (
         <div className="space-y-6">
             <Card className="shadow-sm border-gray-200">
-                <CardHeader className="bg-gray-50/50 border-b">
+                <CardHeader className="border-b">
                     <div className="flex justify-between items-center">
                         <CardTitle className="text-xl font-bold text-primary">
                             Footer Information
@@ -393,7 +393,7 @@ function SectionEditor({
                         variant="outline"
                         size="sm"
                         onClick={addLink}
-                        className="border-golden-dark text-golden-dark h-8"
+                        className="border-golden-dark bg-primary text-golden-dark h-8"
                     >
                         <Plus className="w-4 h-4 mr-2" />
                         Add Link

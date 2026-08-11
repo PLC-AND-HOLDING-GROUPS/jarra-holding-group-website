@@ -110,7 +110,7 @@ export default function AdminFederalContact() {
 
     return (
         <Card className="shadow-sm border-gray-200">
-            <CardHeader className="bg-gray-50/50 border-b">
+            <CardHeader className="border-b">
                 <div className="flex justify-between items-center">
                     <CardTitle className="text-xl font-bold text-primary">
                         General Information

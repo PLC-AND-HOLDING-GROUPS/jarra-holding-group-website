@@ -234,7 +234,7 @@ function NodeEditor({ node, addChildNode, deleteNode, updateNode, createNode }: 
                         isNew={isNew}
                     />
                     <CollapsibleContent>
-                        <CardContent className="px-4 space-y-6 bg-white py-6">
+                        <CardContent className="px-4 space-y-6 bg-card py-6">
                             <NodeBasicInfo node={node} updateNode={updateNode} />
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <NodeImageUpload node={node} updateNode={updateNode} />

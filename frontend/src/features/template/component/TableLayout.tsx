@@ -122,7 +122,7 @@ export const TableLayout: React.FC<PageLayoutProps> = ({
                 onChange={(e) =>
                   onViewModeChange(e.target.value as "table" | "card")
                 }
-                className="border rounded-lg px-3 py-2"
+                className="border rounded-lg px-3 py-2 bg-card"
               >
                 {viewModeOptions.includes("table") && <option value="table">Table View</option>}
                 {viewModeOptions.includes("card") && <option value="card">Card View</option>}

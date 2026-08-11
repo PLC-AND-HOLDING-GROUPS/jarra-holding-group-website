@@ -94,9 +94,9 @@ export default function AdminPartnerManager() {
                     <h2 className="text-lg font-bold text-primary">Partners Management</h2>
                     <p className="text-sm text-gray-500">Manage partner logos and the section header.</p>
                 </div>
-                <Button 
+                <Button
                     variant="admin-primary"
-                    onClick={handleSave} 
+                    onClick={handleSave}
                     disabled={isUpdating || isCreating}
                 >
                     {isUpdating || isCreating ? (
@@ -143,8 +143,8 @@ export default function AdminPartnerManager() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {partnerData.attachments.map((logo, index) => (
-                        <Card key={index} className="border-gray-100 shadow-none bg-gray-50/20">
-                            <CardContent className="p-4 space-y-4">
+                        <Card key={index} className="border-gray-100 bg-card shadow-none">
+                            <CardContent className="px-4">
                                 <div className="flex flex-col items-center">
                                     <div className="w-full relative">
                                         <ImageUploadField
@@ -153,13 +153,13 @@ export default function AdminPartnerManager() {
                                             value={logo.attachment_id ? [logo.attachment_id] : []}
                                             onChange={(ids) => updateLogo(index, ids[0] || "")}
                                             category="profile"
-                                            className="w-full"
+                                            className="w-full pt-4"
                                         />
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            onClick={() => removeLogo(index)} 
-                                            className="text-destructive h-8 w-8 absolute top-0 right-0"
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => removeLogo(index)}
+                                            className="text-destructive h-8 w-8 absolute top-0 right-0 z-10 shadow-sm"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
@@ -168,9 +168,18 @@ export default function AdminPartnerManager() {
                             </CardContent>
                         </Card>
                     ))}
-                    {partnerData.attachments.length === 0 && (
-                        <p className="col-span-full text-center text-gray-500 py-10 border-2 border-dashed rounded-xl">No partner logos added yet.</p>
-                    )}
+                    {/*                     
+                    <Card 
+                        className="border-gray-200 border-dashed shadow-none bg-gray-50/20 hover:bg-gray-50/50 cursor-pointer transition-colors flex items-center justify-center min-h-[200px]"
+                        onClick={addLogo}
+                    >
+                        <CardContent className="p-4 flex flex-col items-center justify-center space-y-3 m-0">
+                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <Plus className="w-5 h-5 text-primary" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-600">Add New Logo</p>
+                        </CardContent>
+                    </Card> */}
                 </div>
             </div>
         </div>

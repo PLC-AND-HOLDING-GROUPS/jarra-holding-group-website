@@ -161,9 +161,9 @@ export default function AdminHeroManager() {
                     <p className="text-sm text-gray-500">Manage the carousel slides on the home page.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button 
-                        variant="admin-primary" 
-                        onClick={handleAddSlide} 
+                    <Button
+                        variant="admin-primary"
+                        onClick={handleAddSlide}
                         disabled={isCreating}
                     >
                         {isCreating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
@@ -173,7 +173,7 @@ export default function AdminHeroManager() {
             </div>
 
             <Card className="border-gray-200">
-                <CardHeader className="bg-gray-50/50 border-b py-3 px-4 flex flex-row items-center justify-between space-y-0">
+                <CardHeader className="border-b py-3 px-4 flex flex-row items-center justify-between space-y-0">
                     <div>
                         <CardTitle className="text-base font-semibold text-primary">
                             Hero Call-to-Action Buttons
@@ -248,7 +248,7 @@ export default function AdminHeroManager() {
             <div className="grid grid-cols-1 gap-6">
                 {slides.map((slide, index) => (
                     <Card key={slide.slider_id || index} className="border-gray-200 overflow-hidden">
-                        <CardHeader className="bg-gray-50/50 border-b py-3 px-4 flex flex-row items-center justify-between space-y-0">
+                        <CardHeader className="border-b py-3 px-4 flex flex-row items-center justify-between space-y-0">
                             <div className="flex items-center gap-3">
                                 <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
                                     {index + 1}
@@ -258,9 +258,9 @@ export default function AdminHeroManager() {
                                 </CardTitle>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm" 
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     onClick={() => handleSaveSlide(index)}
                                     disabled={isUpdating}
                                     className="text-primary font-medium hover:text-primary hover:bg-primary/10"
@@ -268,10 +268,10 @@ export default function AdminHeroManager() {
                                     <Save className="w-4 h-4 mr-1" />
                                     Save Slide
                                 </Button>
-                                <Button 
-                                    variant="ghost" 
-                                    size="icon" 
-                                    onClick={() => slide.slider_id && handleRemoveSlide(slide.slider_id)} 
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => slide.slider_id && handleRemoveSlide(slide.slider_id)}
                                     disabled={isDeleting}
                                     className="text-destructive h-8 w-8"
                                 >

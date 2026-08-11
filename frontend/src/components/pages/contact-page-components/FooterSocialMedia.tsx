@@ -194,7 +194,7 @@ export default function FooterSocialMedia({
 
     return (
         <Card className="shadow-sm border-gray-200">
-            <CardHeader className="bg-gray-50/50 border-b">
+            <CardHeader className="border-b">
                 <div className="flex justify-between items-center">
                     <CardTitle className="text-xl font-bold text-primary">
                         Social Media Links
@@ -204,7 +204,7 @@ export default function FooterSocialMedia({
                             variant="outline"
                             size="sm"
                             onClick={addSocialLink}
-                            className="border-golden-dark text-golden-dark hover:bg-golden-dark/10"
+                            className="bg-primary  text-white hover:bg-golden-dark/10"
                             disabled={isLoading_}
                         >
                             <Plus className="w-4 h-4 mr-2" />
@@ -213,7 +213,7 @@ export default function FooterSocialMedia({
                         <Button
                             onClick={handleSave}
                             size="sm"
-                            className="bg-golden-dark hover:bg-golden-darkHover"
+                            className="bg-primary hover:bg-golden-darkHover"
                             disabled={isLoading_}
                         >
                             {isSaving ? (
