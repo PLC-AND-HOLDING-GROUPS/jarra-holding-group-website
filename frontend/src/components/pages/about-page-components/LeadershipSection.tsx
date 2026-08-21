@@ -4,6 +4,7 @@ import { useGetLeadershipsQuery } from "@/redux/api/leadershipApi";
 import HierarchyNode from "./HierarchyNode";
 import { useMemo } from "react";
 import { getImageUrl } from "@/utils/fileUrl";
+import SplitTitle from "@/components/common/SplitTitle";
 
 function buildTree(items: any[], parentId: string | null = null): any[] {
     return items
@@ -46,14 +47,30 @@ export default function LeadershipSection() {
         );
     }
 
+    let sectionTitle = "Corporate Leadership Structure";
+    let sectionDescription = "Interactive organizational hierarchy";
+    
+    if (rootNodes.length > 0 && leaderships.length > 0) {
+        const root = leaderships.find(l => !l.parent_id);
+        if (root && root.header) {
+            try {
+                const parsed = JSON.parse(root.header);
+                if (parsed.title) sectionTitle = parsed.title;
+                if (parsed.description) sectionDescription = parsed.description;
+            } catch {
+                sectionTitle = root.header;
+            }
+        }
+    }
+
     return (
         <div className="min-h-screen py-12 md:px-4 space-y-4">
             <div className="max-w-7xl mx-auto text-center mb-12">
-                <h1 className="md:text-4xl text-2xl font-bold text-teal-900">
-                    Corporate Leadership Structure
+                <h1 className="md:text-4xl text-2xl font-bold">
+                    <SplitTitle title={sectionTitle} />
                 </h1>
                 <p className="text-muted mt-2">
-                    Interactive organizational hierarchy
+                    {sectionDescription}
                 </p>
             </div>
 

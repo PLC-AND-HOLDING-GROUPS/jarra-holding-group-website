@@ -5,10 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     class Background extends Model {
         static associate(models) {
             // For core values only
-            Background.hasMany(models.BackgroundAttachment, {
-                foreignKey: "background_id",
-                as: "attachments",
-            });
         }
     }
 
@@ -33,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             content: {
                 type: DataTypes.TEXT,
-                allowNull: false,
+                allowNull: true,
+                defaultValue: "",
             },
         },
         {

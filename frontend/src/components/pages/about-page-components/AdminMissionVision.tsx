@@ -26,7 +26,7 @@ export default function AdminMissionVision() {
     // State for sections
     const [mission, setMission] = useState("");
     const [vision, setVision] = useState("");
-    const [values, setValues] = useState<{ title: string; content?: string; attachment_id?: string }[]>([]);
+    const [values, setValues] = useState<{ title: string }[]>([]);
 
     // Individual attachment states for mission, vision, and core values section icon
     const [missionAttachment, setMissionAttachment] = useState<string[]>([]);
@@ -82,30 +82,21 @@ export default function AdminMissionVision() {
                 if ((sec as any).attachment_id) {
                     setCoreValuesSectionAttachment([(sec as any).attachment_id]);
                 }
-
-                const coreVals = sec.core_values?.map((v) => ({
+                const coreVals = sec.core_values?.map((v: any) => ({
                     title: v.title || "",
-                    content: v.content || v.title || "",
-                    attachment_id: (v as any).attachment_id,
                 })) || [];
                 setValues(coreVals);
             }
         });
     }, [strategiesData]);
 
-    // Core value handlers
-    const addValue = () => setValues([...values, { title: "", content: "" }]);
-
+    const addValue = () => setValues([...values, { title: "" }]);
     const removeValue = (index: number) => setValues(values.filter((_, i) => i !== index));
-
     const updateValue = (index: number, text: string) => {
         const newValues = [...values];
         newValues[index].title = text;
-        newValues[index].content = text; // content should match title based on your payload example
         setValues(newValues);
     };
-
-
 
     // Save handler
     const handleSave = async () => {
@@ -126,9 +117,9 @@ export default function AdminMissionVision() {
                 type: "core_values" as const,
                 title: "Core Values",
                 attachment_id: coreValuesSectionAttachment[0], // Use the first attachment ID for the section icon
-                core_values: values.map((v) => ({
+                core_values: values.filter(v => v.title.trim() !== "").map((v) => ({
                     title: v.title,
-                    content: v.content || v.title,
+                    content: v.title,
                 })),
             },
         ];
@@ -256,39 +247,32 @@ export default function AdminMissionVision() {
                             />
                         </div>
 
-                        {/* Right side - Values List */}
+                        {/* Right side - Content */}
                         <div className="flex-1 space-y-4">
-                            {/* Add button at top right */}
-                            <div className="flex justify-end">
-                                <Button variant="outline" onClick={addValue} size="sm">
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    Add Value
+                            <div className="flex justify-between items-center mb-2">
+                                <Label>Core Value Points</Label>
+                                <Button variant="outline" onClick={addValue} size="sm" className="h-8">
+                                    <Plus className="w-4 h-4 mr-2" /> Add Point
                                 </Button>
                             </div>
-
-                            {/* Values list */}
-                            <div className="space-y-4">
-                                {values.map((value, index) => (
-                                    <div key={index} className="flex gap-2 items-start">
-                                        <div className="flex-1 space-y-2">
-                                            <Textarea
-                                                value={value.title}
-                                                onChange={(e) => updateValue(index, e.target.value)}
-                                                className="w-full"
-                                                placeholder="Core value description"
-                                            />
-                                        </div>
-                                        <Button
-                                            variant="destructive"
-                                            size="icon"
-                                            onClick={() => removeValue(index)}
-                                            className="shrink-0"
-                                        >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {values.map((val, idx) => (
+                                    <div key={idx} className="flex gap-2 items-center bg-gray-50 p-2 rounded-md border border-gray-100">
+                                        <Input 
+                                            value={val.title} 
+                                            onChange={(e) => updateValue(idx, e.target.value)} 
+                                            placeholder="e.g. Integrity" 
+                                            className="h-8 bg-white"
+                                        />
+                                        <Button variant="destructive" size="icon" onClick={() => removeValue(idx)} className="h-8 w-8 shrink-0">
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 ))}
                             </div>
+                            {values.length === 0 && (
+                                <p className="text-sm text-gray-500 italic">No value points added yet.</p>
+                            )}
                         </div>
                     </div>
                 </CardContent>

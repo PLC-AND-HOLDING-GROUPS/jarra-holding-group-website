@@ -44,6 +44,10 @@ export default function LeadershipAdminPage() {
     const [tree, setTree] = useState<LeaderNode | null>(null);
     const [editingNodeId, setEditingNodeId] = useState<string | null>(null);
     const [draftNode, setDraftNode] = useState<LeaderNode | null>(null);
+    
+    // Section Header State
+    const [sectionTitle, setSectionTitle] = useState("Corporate Leadership Structure");
+    const [sectionDescription, setSectionDescription] = useState("Interactive organizational hierarchy");
 
     const generateId = () => `leader-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
@@ -92,7 +96,18 @@ export default function LeadershipAdminPage() {
                     }
                 });
 
-                setTree(roots[0] || null);
+                const root = roots[0];
+                if (root && root.header) {
+                    try {
+                        const parsed = JSON.parse(root.header);
+                        if (parsed.title) setSectionTitle(parsed.title);
+                        if (parsed.description) setSectionDescription(parsed.description);
+                    } catch {
+                        setSectionTitle(root.header);
+                    }
+                }
+
+                setTree(root || null);
             }
         }
     }, [leaderships, isLoading]);
@@ -154,12 +169,15 @@ export default function LeadershipAdminPage() {
     };
 
     const createNode = async (node: LeaderNode) => {
+        const isRoot = !node.parent_id;
+        const headerValue = isRoot ? JSON.stringify({ title: sectionTitle, description: sectionDescription }) : "Leader";
+
         const created = await createLeadership({
             name: node.name,
             title: node.title,
             description: node.fullDescription,
             parent_id: node.parent_id || null,
-            header: node.header || "Jarra Holding Group",
+            header: headerValue,
             level: node.level,
             attachments: node.attachment_id ? [{ attachment_id: node.attachment_id }] : [],
         }).unwrap();
@@ -183,7 +201,6 @@ export default function LeadershipAdminPage() {
                     title: node.title,
                     description: node.fullDescription,
                     parent_id: node.parent_id,
-                    header: node.header,
                     attachments: node.attachment_id
                         ? [{ attachment_id: node.attachment_id }]
                         : [],
@@ -201,8 +218,59 @@ export default function LeadershipAdminPage() {
         return { ...node, children: node.children?.map(child => updateNodeRecursively(child, nodeId, updatedFields)) };
     };
 
+    const saveSectionHeader = async () => {
+        const root = leaderships?.find((l: any) => !l.parent_id);
+        if (!root) {
+            toast.error("Please create a root leader first to save the section header.");
+            return;
+        }
+        
+        try {
+            await updateLeadership({
+                id: root.leadership_id,
+                data: {
+                    header: JSON.stringify({ title: sectionTitle, description: sectionDescription })
+                }
+            }).unwrap();
+            toast.success("Section Header saved successfully!");
+        } catch (error) {
+            toast.error("Failed to save section header.");
+        }
+    };
+
     return (
-        <div className="py-6 mx-auto">
+        <div className="py-6 mx-auto space-y-8">
+            <Card>
+                <CardContent className="space-y-6 pt-6">
+                    <div className="flex justify-between items-center">
+                        <CardTitle className="text-xl font-bold text-primary">Section Title & Description</CardTitle>
+                        <Button
+                            onClick={saveSectionHeader}
+                            className="bg-golden-dark hover:bg-golden-darkHover"
+                        >
+                            Save Section Info
+                        </Button>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input 
+                            value={sectionTitle} 
+                            onChange={(e) => setSectionTitle(e.target.value)} 
+                            placeholder="e.g. Corporate Leadership Structure"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Description</Label>
+                        <Textarea 
+                            value={sectionDescription} 
+                            onChange={(e) => setSectionDescription(e.target.value)} 
+                            placeholder="e.g. Interactive organizational hierarchy"
+                        />
+                    </div>
+                </CardContent>
+            </Card>
+
             <NodeEditor
                 node={tree}
                 addChildNode={addChildNode}

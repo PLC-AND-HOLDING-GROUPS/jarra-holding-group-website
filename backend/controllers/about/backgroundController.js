@@ -14,13 +14,13 @@ const { v4: uuidv4, validate: isUuid } = require("uuid");
 const createBackground = async (req, res) => {
     const t = await sequelize.transaction();
     try {
-        const { title, description, icon, content, attachments } = req.body;
+        const { title, description, icon } = req.body;
 
-        if (!title || !content) {
+        if (!title) {
             await t.rollback();
             return res.status(400).json({
                 success: false,
-                message: "Title and content are required.",
+                message: "Title is required.",
             });
         }
 
@@ -30,22 +30,10 @@ const createBackground = async (req, res) => {
                 title,
                 description,
                 icon,
-                content,
+                content: "",
             },
             { transaction: t }
         );
-
-        // Attachments
-        if (Array.isArray(attachments) && attachments.length > 0) {
-            const attachmentRows = attachments.map(({ attachment_id }) => ({
-                background_attachment_id: uuidv4(),
-                background_id: background.background_id,
-                attachment_id,
-                created_at: new Date(),
-            }));
-
-            await BackgroundAttachment.bulkCreate(attachmentRows, { transaction: t });
-        }
 
         await t.commit();
         return res.status(201).json({
@@ -70,13 +58,6 @@ const createBackground = async (req, res) => {
 const getAllBackgrounds = async (req, res) => {
     try {
         const backgrounds = await Background.findAll({
-            include: [
-                {
-                    model: BackgroundAttachment,
-                    as: "attachments",
-                    include: [{ model: Attachment, as: "attachment" }],
-                },
-            ],
             order: [["created_at", "DESC"]],
         });
 
@@ -106,15 +87,7 @@ const getBackgroundById = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid background ID." });
         }
 
-        const background = await Background.findByPk(id, {
-            include: [
-                {
-                    model: BackgroundAttachment,
-                    as: "attachments",
-                    include: [{ model: Attachment, as: "attachment" }],
-                },
-            ],
-        });
+        const background = await Background.findByPk(id);
 
         if (!background) {
             return res.status(404).json({ success: false, message: "Background not found." });
@@ -142,7 +115,7 @@ const updateBackground = async (req, res) => {
     const t = await sequelize.transaction();
     try {
         const { id } = req.params;
-        const { title, description, icon, content, attachment_ids } = req.body;
+        const { title, description, icon } = req.body;
 
         const background = await Background.findByPk(id, { transaction: t });
         if (!background) {
@@ -150,21 +123,7 @@ const updateBackground = async (req, res) => {
             return res.status(404).json({ success: false, message: "Background not found." });
         }
 
-        await background.update({ title, description, icon, content }, { transaction: t });
-
-        // Update attachments if provided
-        if (Array.isArray(attachment_ids)) {
-            await BackgroundAttachment.destroy({ where: { background_id: id }, transaction: t });
-
-            const attachmentRows = attachment_ids.map((attachment_id) => ({
-                background_attachment_id: uuidv4(),
-                background_id: id,
-                attachment_id,
-                created_at: new Date(),
-            }));
-
-            await BackgroundAttachment.bulkCreate(attachmentRows, { transaction: t });
-        }
+        await background.update({ title, description, icon, content: "" }, { transaction: t });
 
         await t.commit();
         return res.status(200).json({

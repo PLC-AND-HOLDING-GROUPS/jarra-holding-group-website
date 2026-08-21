@@ -31,9 +31,6 @@ export default function AdminBackground() {
     // Form state
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [frontImage, setFrontImage] = useState<string[]>([]);
-    const [backImage, setBackImage] = useState<string[]>([]);
     const [backgroundId, setBackgroundId] = useState<string | null>(null);
     const [icon, setIcon] = useState<string>("Info");
 
@@ -45,31 +42,12 @@ export default function AdminBackground() {
             setBackgroundId(background.background_id);
             setTitle(background.title || "Ministry Background");
             setSubtitle(background.description || "Established to regulate and develop Ethiopia's mineral and petroleum resources for sustainable economic growth and national development.");
-            setDescription(background.content || "The world is changing faster than ever before, business is no exception...");
-
             setIcon(background.icon || "Info");
-            // Map attachments if they exist
-            if (background.attachments && background.attachments.length > 0) {
-                // Assuming front image is first attachment, back image is second
-                // You might want to add a type field to distinguish them in the backend
-                const attachments = background.attachments;
-
-                if (attachments[0]) {
-                    setFrontImage([attachments[0].attachment_id]);
-                }
-
-                if (attachments[1]) {
-                    setBackImage([attachments[1].attachment_id]);
-                }
-            }
         } else {
             // Set default values for new background
             setTitle("Ministry Background");
             setSubtitle("Established to regulate and develop Ethiopia's mineral and petroleum resources for sustainable economic growth and national development.");
-            setDescription("The world is changing faster than ever before, business is no exception...");
-            setFrontImage([]);
             setIcon("Info");
-            setBackImage([]);
             setBackgroundId(null);
         }
     }, [backgrounds]);
@@ -79,11 +57,6 @@ export default function AdminBackground() {
             title,
             description: subtitle,
             icon: icon ?? "Info",
-            content: description,
-            attachments: [
-                ...frontImage.map((id) => ({ attachment_id: id })),
-                ...backImage.map((id) => ({ attachment_id: id })),
-            ],
         };
 
         try {
@@ -95,8 +68,6 @@ export default function AdminBackground() {
                         title,
                         description: subtitle,
                         icon: icon ?? "Info",
-                        content: description,
-                        attachment_ids: [...frontImage, ...backImage],
                     },
                 }).unwrap();
                 toast.success("Background updated successfully");
@@ -177,47 +148,10 @@ export default function AdminBackground() {
                     />
                 </div>
 
-                {/* CONTENT */}
-                <div className="space-y-2">
-                    <Label htmlFor="description">Main Content</Label>
-                    <Textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="min-h-[200px]"
-                        placeholder="Enter main content"
-                    />
-                </div>
+                {/* CONTENT REMOVED */}
+                {/* ATTACHMENTS REMOVED */}
 
-                {/* ATTACHMENTS */}
-                <div className="space-y-2">
-                    <Label>Attachments</Label>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ImageUploadField
-                            id="front-image"
-                            label="Front Page"
-                            value={frontImage}
-                            onChange={(ids) => setFrontImage(ids)}
-                            category="headline"
-                        />
-
-                        <ImageUploadField
-                            id="back-image"
-                            label="Back Page"
-                            value={backImage}
-                            onChange={(ids) => setBackImage(ids)}
-                            category="footer"
-                        />
-                    </div>
-                </div>
-
-                {/* Hidden indicator for debugging (optional) */}
-                {backgroundId && (
-                    <div className="text-xs text-gray-400">
-                        Background ID: {backgroundId}
-                    </div>
-                )}
             </CardContent>
         </Card>
     );

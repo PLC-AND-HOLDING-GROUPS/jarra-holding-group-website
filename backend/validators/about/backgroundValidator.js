@@ -23,10 +23,6 @@ const createBackgroundSchema = Joi.object({
     }),
     description: Joi.string().optional(),
     icon: Joi.string().required(),
-    content: Joi.string().required().messages({
-        "string.empty": "Content is required.",
-    }),
-    attachments: Joi.array().items(attachmentSchema).optional().default([]),
 });
 
 // ================= UPDATE BACKGROUND =================
@@ -34,8 +30,6 @@ const updateBackgroundSchema = Joi.object({
     title: Joi.string().min(5).optional(),
     description: Joi.string().optional(),
     icon: Joi.string().optional(),
-    content: Joi.string().optional(),
-    attachment_ids: Joi.array().items(uuidSchema).optional(),
 });
 
 // ================= MIDDLEWARES =================

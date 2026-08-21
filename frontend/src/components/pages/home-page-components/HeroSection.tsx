@@ -25,61 +25,6 @@ export type Slide = {
     bg: string;
 };
 
-const slides: Slide[] = [
-    {
-        id: 1,
-        title: {
-            en: "A New Horizon of Opportunity",
-            am: "ኢትዮጵያ፡ የአዲስ ዕድል ገፅታ",
-        },
-        description: {
-            en: "Welcome to Jarra Holding Group, your gateway to Ethiopia’s abundant natural resources and investment opportunities.",
-            am: "ወደ ጃራ ሆልዲንግ ግሩፕ እንኳን ደህና መጡ፤ እዚህ በኢትዮጵያ ያሉ በጣም ባለሃብቶች ሀብቶችን ለማግኘት ዕድሎች ይገኛሉ።",
-        },
-        image: "/home-1.jpg",
-        bg: "bg-base-200/60",
-    },
-    {
-        id: 2,
-        title: {
-            en: "Invest with Confidence",
-            am: "በእምነት ያስገቡ",
-        },
-        description: {
-            en: "Jarra Holding Group guides investors through licenses, legislation, and geodata to make your investment journey seamless.",
-            am: "ጃራ ሆልዲንግ ግሩፕ በፈቃድ፣ ሕግና ጂዮ-ዳታ አገልግሎት በመስጠት የተጠቃሚ የሆነ የስራ ሂደት ይሰጣል።",
-        },
-        image: "/home-2.jpg",
-        bg: "bg-base-200/80",
-    },
-    {
-        id: 3,
-        title: {
-            en: "Unlock Natural Wealth",
-            am: "የኢትዮጵያ ተፈጥሮ ሀብትን ይክፈቱ",
-        },
-        description: {
-            en: "From mining to geothermal energy and petroleum, Ethiopia offers a wide range of opportunities for visionary investors.",
-            am: "ከማዕድን እስከ ጂዮ-ርማል ኃይል እና ነዳጅ ሀብቶች ድረስ፣ ኢትዮጵያ ለራዕይ ያላቸው ተቀባዮች ብዙ ዕድሎች ትሰጣለች።",
-        },
-        image: "/home-3.jpg",
-        bg: "bg-base-200",
-    },
-    {
-        id: 4,
-        title: {
-            en: "Rapid Growth Awaits You",
-            am: "የኢትዮጵያ ፈጣን እድገት ይጠብቃል",
-        },
-        description: {
-            en: "Join one of Africa’s fastest-growing economies and explore Jarra Holding Group's resources to maximize your impact.",
-            am: "በአፍሪካ ውስጥ ከፍ የሚደርስ ኢኮኖሚ ውስጥ ተሳትፎ አድርጉ እና የጃራ ሆልዲንግ ግሩፕ ያቀረበውን ሀብት እየተጠቀሙ ተፅዕኖ ከፍ ያድርጉ።",
-        },
-        image: "/home-4.jpg",
-        bg: "bg-base-200",
-    },
-];
-
 
 export default function HeroSection() {
     const [current, setCurrent] = useState(0);
@@ -99,14 +44,14 @@ export default function HeroSection() {
     // Fetch sliders from CMS
     const { data: cmsSliders = [], isLoading } = useGetSlidersQuery();
     
-    // Map CMS sliders or fallback to static slides
-    const activeSlides = cmsSliders.length > 0 ? cmsSliders.map((s, idx) => ({
+    // Map CMS sliders
+    const activeSlides = cmsSliders.map((s, idx) => ({
         id: s.slider_id || idx,
-        title: { en: s.title, am: s.title }, // CMS doesn't have strict translation objects for title yet
+        title: { en: s.title, am: s.title },
         description: { en: s.description || "", am: s.description || "" },
         image: getImageUrl(s.attachment as any, "original") || "/placeholder.jpg",
         bg: "bg-base-200/60"
-    })) : slides;
+    }));
 
     // Go to next slide
     const next = () => setCurrent((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1));
@@ -120,11 +65,21 @@ export default function HeroSection() {
     };
 
     useEffect(() => {
-        startAutoSlide();
+        if (activeSlides.length > 0) {
+            startAutoSlide();
+        }
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
     }, [current, activeSlides.length]);
+
+    if (isLoading) {
+        return <div className="w-full h-[80vh] bg-black/10 animate-pulse"></div>;
+    }
+
+    if (activeSlides.length === 0) {
+        return null;
+    }
 
     return (
         <div className="relative w-full h-[80vh] overflow-hidden bg-black">
