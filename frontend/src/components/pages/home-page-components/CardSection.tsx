@@ -16,7 +16,7 @@ const CardSection = () => {
     const image = getImageUrl(cmsCards[0]?.attachment as any, "original") || "/home-5.jpg";
 
     return (
-        <section className="w-full flex justify-center md:px-4 mb-20">
+        <section className="w-full flex justify-center md:px-4 mb-20 pt-2">
             <div
                 className="relative w-full max-w-7xl md:rounded-3xl  overflow-hidden shadow-xl"
             >

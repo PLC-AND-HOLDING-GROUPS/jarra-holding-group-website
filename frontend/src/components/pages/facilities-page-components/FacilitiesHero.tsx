@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { Package, ArrowDown } from "lucide-react";
+import { Building2, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import GridBackground from "@/components/ui/grid-background";
 
-export default function ProductHero() {
+export default function FacilitiesHero() {
     const handleScroll = () => {
-        const gridElement = document.getElementById("product-grid");
+        const gridElement = document.getElementById("facility-grid");
         if (gridElement) {
             gridElement.scrollIntoView({ behavior: "smooth" });
         }
@@ -17,15 +17,15 @@ export default function ProductHero() {
         <GridBackground>
             <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 text-center flex flex-col items-center mt-10">
                 <span className="font-bold border rounded-xl border-gray-500 bg-background-secondary0/40 text-primary w-[72px] h-[72px] flex items-center justify-center mb-6">
-                    <Package className="w-10 h-10" strokeWidth={1.5} />
+                    <Building2 className="w-10 h-10" strokeWidth={1.5} />
                 </span>
                 
                 <h1 className="text-3xl md:text-5xl font-bold text-primary mb-6 tracking-tight">
-                    Our Product <span className="text-primary/70">Portfolio</span>
+                    Our Physical <span className="text-primary/70">Footprint</span>
                 </h1>
                 
                 <p className="text-primary text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed">
-                    Jarra Holding Group offers a comprehensive and diverse range of products across agriculture, chemicals, manufacturing, and industrial sectors. Explore our catalog or send an inquiry for specific sourcing and trading needs.
+                    Jarra Holding Group’s presence is supported by substantial physical facilities and infrastructure across strategic locations. Explore our corporate, industrial, and operational sites that form the foundation of our organization.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
@@ -34,7 +34,7 @@ export default function ProductHero() {
                         onClick={handleScroll}
                         className="bg-primary hover:bg-primary/90 text-white min-w-[200px] h-12 text-base font-semibold shadow-md"
                     >
-                        Explore Products
+                        Explore Facilities
                         <ArrowDown className="ml-2 w-4 h-4" />
                     </Button>
                 </div>

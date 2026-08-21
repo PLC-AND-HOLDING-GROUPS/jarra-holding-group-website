@@ -39,7 +39,7 @@ export default function ExternalLogin() {
   return (
     <div className="min-h-screen bg-[#F9FBFC]  flex items-center justify-center px-4">
       <div className="w-full relative max-w-6xl min-h-[80vh] shadow-2xl rounded-2xl border border-[#DCE7F1] overflow-hidden flex flex-col lg:flex-row">
-        
+
         {/* Back Button */}
         <Button
           onClick={() => router.push("/")}
