@@ -16,7 +16,7 @@ exports.getPageHeaderByIdentifier = async (req, res) => {
         });
 
         if (!pageHeader) {
-            return res.status(404).json({ message: "Page header not found." });
+            return res.status(200).json(null);
         }
 
         res.status(200).json(pageHeader);

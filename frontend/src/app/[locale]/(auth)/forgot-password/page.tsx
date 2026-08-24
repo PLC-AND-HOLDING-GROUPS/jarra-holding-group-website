@@ -110,16 +110,16 @@ export default function ForgotPasswordPage() {
           onClick={() => step === 1 ? router.push(AUTH_LOGIN) : setStep((prev) => (prev - 1) as any)}
           className="cursor-pointer shadow-none z-50 bg-transparent hover:bg-slate-100 p-2 top-4 left-4 absolute flex items-center gap-1"
         >
-          <ArrowLeftIcon className="w-5 h-5 text-golden-dark" />
-          <span className="text-sm text-golden-dark font-medium">Back</span>
+          <ArrowLeftIcon className="w-5 h-5 text-[#0C4A6E]" />
+          <span className="text-sm text-[#0C4A6E] font-medium">Back</span>
         </Button>
 
-        <div className="w-full bg-[#F9FBFC] p-8 flex items-center justify-center border-b lg:border-b-0 lg:border-r border-[#DCE7F1]">
-          <div className="text-center">
+        <div className="w-full bg-cover bg-center p-8 flex items-center justify-center">
+          <div className="backdrop-blur-md p-6 rounded-xl text-center">
             <img
-              src="/logo-mom.png"
+              src="/logo.png"
               alt="Organization Logo"
-              className="h-64 lg:h-96 mx-auto mb-6 p-2"
+              className="h-72 mx-auto mb-3 rounded-xl p-2"
             />
           </div>
         </div>
@@ -130,11 +130,11 @@ export default function ForgotPasswordPage() {
             {step === 1 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
-                  <div className="bg-golden-light/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Mail className="h-8 w-8 text-golden-dark" />
+                  <div className="bg-[#0C4A6E]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Mail className="h-8 w-8 text-[#0C4A6E]" />
                   </div>
-                  <h1 className="text-3xl font-bold text-golden-dark mb-2">Forgot Password?</h1>
-                  <p className="text-sm text-golden-dark/70">Enter your email and we'll send you an OTP to reset your password.</p>
+                  <h1 className="text-3xl font-bold text-[#0C4A6E] mb-2">Forgot Password?</h1>
+                  <p className="text-sm text-[#0C4A6E]/70">Enter your email and we'll send you an OTP to reset your password.</p>
                 </div>
 
                 <Form {...emailForm}>
@@ -144,9 +144,9 @@ export default function ForgotPasswordPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-golden-dark">Email Address</FormLabel>
+                          <FormLabel className="text-[#0C4A6E]">Email Address</FormLabel>
                           <FormControl>
-                            <Input placeholder="example@gov.et" {...field} className="h-14 border-golden-dark focus:ring-0" />
+                            <Input placeholder="example@gov.et" {...field} className="h-14 border-blue-300 focus:ring-0" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -154,7 +154,7 @@ export default function ForgotPasswordPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-golden-dark hover:bg-golden-dark/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
+                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
                       disabled={requesting}
                     >
                       {requesting ? "Sending OTP..." : "Send OTP"}
@@ -167,11 +167,11 @@ export default function ForgotPasswordPage() {
             {step === 2 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
-                  <div className="bg-golden-light/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <ShieldCheck className="h-8 w-8 text-golden-dark" />
+                  <div className="bg-[#0C4A6E]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <ShieldCheck className="h-8 w-8 text-[#0C4A6E]" />
                   </div>
-                  <h1 className="text-3xl font-bold text-golden-dark mb-2">Verify OTP</h1>
-                  <p className="text-sm text-golden-dark/70">Enter the 6-digit code sent to <span className="font-bold">{email}</span></p>
+                  <h1 className="text-3xl font-bold text-[#0C4A6E] mb-2">Verify OTP</h1>
+                  <p className="text-sm text-[#0C4A6E]/70">Enter the 6-digit code sent to <span className="font-bold">{email}</span></p>
                 </div>
 
                 <Form {...otpForm}>
@@ -181,9 +181,9 @@ export default function ForgotPasswordPage() {
                       name="otp"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-golden-dark">6-Digit OTP</FormLabel>
+                          <FormLabel className="text-[#0C4A6E]">6-Digit OTP</FormLabel>
                           <FormControl>
-                            <Input placeholder="123456" maxLength={6} {...field} className="h-14 text-center text-2xl tracking-[1em] border-golden-dark focus:ring-0" />
+                            <Input placeholder="123456" maxLength={6} {...field} className="h-14 text-center text-2xl tracking-[1em] border-blue-300 focus:ring-0" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -191,13 +191,13 @@ export default function ForgotPasswordPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-golden-dark hover:bg-golden-dark/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
+                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
                       disabled={verifying}
                     >
                       {verifying ? "Verifying..." : "Verify OTP"}
                     </Button>
-                    <p className="text-center text-sm text-golden-dark/70 mt-4">
-                      Didn't receive code? <button type="button" onClick={() => onEmailSubmit({ email })} className="text-golden-dark font-bold hover:underline">Resend</button>
+                    <p className="text-center text-sm text-[#0C4A6E]/70 mt-4">
+                      Didn't receive code? <button type="button" onClick={() => onEmailSubmit({ email })} className="text-[#0C4A6E] font-bold hover:underline">Resend</button>
                     </p>
                   </form>
                 </Form>
@@ -207,11 +207,11 @@ export default function ForgotPasswordPage() {
             {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
-                  <div className="bg-golden-light/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Lock className="h-8 w-8 text-golden-dark" />
+                  <div className="bg-[#0C4A6E]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Lock className="h-8 w-8 text-[#0C4A6E]" />
                   </div>
-                  <h1 className="text-3xl font-bold text-golden-dark mb-2">New Password</h1>
-                  <p className="text-sm text-golden-dark/70">Set a strong password to secure your account.</p>
+                  <h1 className="text-3xl font-bold text-[#0C4A6E] mb-2">New Password</h1>
+                  <p className="text-sm text-[#0C4A6E]/70">Set a strong password to secure your account.</p>
                 </div>
 
                 <Form {...resetForm}>
@@ -221,14 +221,14 @@ export default function ForgotPasswordPage() {
                       name="newPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-golden-dark">New Password</FormLabel>
+                          <FormLabel className="text-[#0C4A6E]">New Password</FormLabel>
                           <div className="relative">
                             <FormControl>
                               <Input
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
                                 {...field}
-                                className="h-14 border-golden-dark focus:ring-0 pr-10"
+                                className="h-14 border-blue-300 focus:ring-0 pr-10"
                               />
                             </FormControl>
                             <button
@@ -236,7 +236,7 @@ export default function ForgotPasswordPage() {
                               onClick={() => setShowPassword(!showPassword)}
                               className="absolute top-1/2 right-3 -translate-y-1/2"
                             >
-                              {showPassword ? <EyeIcon className="h-5 w-5 text-golden-dark" /> : <EyeOffIcon className="h-5 w-5 text-golden-dark" />}
+                              {showPassword ? <EyeIcon className="h-5 w-5 text-[#0C4A6E]" /> : <EyeOffIcon className="h-5 w-5 text-[#0C4A6E]" />}
                             </button>
                           </div>
                           <FormMessage />
@@ -248,13 +248,13 @@ export default function ForgotPasswordPage() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-golden-dark">Confirm Password</FormLabel>
+                          <FormLabel className="text-[#0C4A6E]">Confirm Password</FormLabel>
                           <FormControl>
                             <Input
                               type={showPassword ? "text" : "password"}
                               placeholder="••••••••"
                               {...field}
-                              className="h-14 border-golden-dark focus:ring-0"
+                              className="h-14 border-blue-300 focus:ring-0"
                             />
                           </FormControl>
                           <FormMessage />
@@ -263,7 +263,7 @@ export default function ForgotPasswordPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-golden-dark hover:bg-golden-dark/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
+                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
                       disabled={resetting}
                     >
                       {resetting ? "Resetting..." : "Reset Password"}

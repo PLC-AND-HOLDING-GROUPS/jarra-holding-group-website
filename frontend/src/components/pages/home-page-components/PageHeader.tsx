@@ -27,9 +27,9 @@ const PageHeader = ({ title, icon, description, pageIdentifier }: { title?: stri
         <div className="relative w-full overflow-hidden bg-slate-950">
             {bgImage && (
                 <div 
-                    className="absolute inset-0 z-0 opacity-20 mix-blend-overlay pointer-events-none" 
+                    className="absolute inset-0 z-0 opacity-40 pointer-events-none" 
                     style={{
-                        backgroundImage: `url(${getFileUrl(bgImage)})`,
+                        backgroundImage: `url('${getFileUrl(bgImage)}')`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}

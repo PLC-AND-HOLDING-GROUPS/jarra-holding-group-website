@@ -116,14 +116,8 @@ export default function InteractiveGrid({ children, className }: InteractiveGrid
   }, []);
 
   return (
-    <div ref={containerRef} className={cn("relative flex min-h-[35vh] w-full items-center justify-center overflow-hidden bg-black", className)}>
-      {/* Background Image Underlay (Preserving original look) */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-40"
-        style={{
-          backgroundImage: `url('/home-4.jpg')`,
-        }}
-      />
+    <div ref={containerRef} className={cn("relative flex min-h-[35vh] w-full items-center justify-center overflow-hidden bg-transparent", className)}>
+      {/* Background image is handled by parent (PageHeader) */}
 
       {/* Animated Canvas Layer */}
       <canvas

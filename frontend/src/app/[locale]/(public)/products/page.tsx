@@ -1,7 +1,8 @@
 import React from "react";
 import { getTranslations } from "next-intl/server";
+import { Package } from "lucide-react";
 
-import ProductHero from "@/components/pages/product-page-components/ProductHero";
+import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import ProductGrid from "@/components/pages/product-page-components/ProductGrid";
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
@@ -14,7 +15,12 @@ export async function generateMetadata({ params: { locale } }: { params: { local
 export default function ProductsPage() {
     return (
         <main className="min-h-screen bg-slate-50 flex flex-col">
-            <ProductHero />
+            <PageHeader
+                pageIdentifier="products"
+                title="Our Product Portfolio"
+                icon={<Package />}
+                description="Jarra Holding Group offers a comprehensive and diverse range of products across agriculture, chemicals, manufacturing, and industrial sectors. Explore our catalog or send an inquiry for specific sourcing and trading needs."
+            />
             <ProductGrid />
         </main>
     );

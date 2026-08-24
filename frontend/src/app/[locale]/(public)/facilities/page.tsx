@@ -1,7 +1,8 @@
 import React from "react";
 import { getTranslations } from "next-intl/server";
+import { Building2 } from "lucide-react";
 
-import FacilitiesHero from "@/components/pages/facilities-page-components/FacilitiesHero";
+import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import EditorialIntro from "@/components/pages/facilities-page-components/EditorialIntro";
 import FacilityEditorialShowcase from "@/components/pages/facilities-page-components/FacilityEditorialShowcase";
 import PhysicalFootprint from "@/components/pages/facilities-page-components/PhysicalFootprint";
@@ -16,7 +17,12 @@ export async function generateMetadata({ params: { locale } }: { params: { local
 export default function FacilitiesPage() {
     return (
         <main className="min-h-screen bg-white flex flex-col">
-            <FacilitiesHero />
+            <PageHeader
+                pageIdentifier="facilities"
+                title="Our Physical Footprint"
+                icon={<Building2 />}
+                description="Jarra Holding Group’s presence is supported by substantial physical facilities and infrastructure across strategic locations. Explore our corporate, industrial, and operational sites that form the foundation of our organization."
+            />
             <EditorialIntro />
             <FacilityEditorialShowcase />
             <PhysicalFootprint />

@@ -3,16 +3,16 @@ import { baseApi } from "../baseApi";
 export const pageHeaderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllPageHeaders: builder.query<any, void>({
-      query: () => "/api/page-headers",
+      query: () => "/page-headers",
       providesTags: ["PageHeader"],
     }),
     getPageHeaderByIdentifier: builder.query<any, string>({
-      query: (identifier) => `/api/page-headers/${identifier}`,
+      query: (identifier) => `/page-headers/${identifier}`,
       providesTags: (result, error, arg) => [{ type: "PageHeader", id: arg }],
     }),
     updatePageHeader: builder.mutation<any, { identifier: string; body: any }>({
       query: ({ identifier, body }) => ({
-        url: `/api/page-headers/${identifier}`,
+        url: `/page-headers/${identifier}`,
         method: "PUT",
         body,
       }),

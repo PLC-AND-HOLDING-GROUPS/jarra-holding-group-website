@@ -47,12 +47,12 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ speed = 50 }) => {
                 {activeLogos.map((logo, index) => (
                     <div
                         key={index}
-                        className="mx-8 flex items-center justify-center md:min-w-[200px]"
+                        className="mx-6 flex items-center justify-center md:min-w-[150px]"
                     >
                         <img
                             src={logo}
                             alt={`Partner ${index + 1}`}
-                            className="h-24 md:h-36 w-auto object-contain cursor-pointer"
+                            className="h-16 md:h-24 w-auto object-contain cursor-pointer"
                         />
                     </div>
                 ))}
