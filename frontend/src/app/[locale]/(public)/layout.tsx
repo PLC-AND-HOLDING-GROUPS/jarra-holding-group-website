@@ -13,9 +13,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="relative bg-[#f7f9fc] w-full">
+        <div className="relative bg-[#f7f9fc] w-full min-h-screen flex flex-col">
             <PublicNavbar />
-            <div className="">
+            <div className="flex-grow">
                 {children}
             </div>
             <Footer />
