@@ -77,6 +77,9 @@ export const baseApi = createApi({
     "Vacancy",
     "Route",
     "PageHeader",
+    "Product",
+    "ProductCategory",
+    "ProductInquiry",
   ],
   endpoints: () => ({}),
 });

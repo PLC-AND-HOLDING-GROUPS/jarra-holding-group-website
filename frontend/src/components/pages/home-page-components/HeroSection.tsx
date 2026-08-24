@@ -45,7 +45,9 @@ export default function HeroSection() {
     const { data: cmsSliders = [], isLoading } = useGetSlidersQuery();
     
     // Map CMS sliders
-    const activeSlides = cmsSliders.map((s, idx) => ({
+    const activeSlides = [...cmsSliders]
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        .map((s, idx) => ({
         id: s.slider_id || idx,
         title: { en: s.title, am: s.title },
         description: { en: s.description || "", am: s.description || "" },

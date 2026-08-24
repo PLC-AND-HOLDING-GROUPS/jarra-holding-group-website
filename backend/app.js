@@ -79,6 +79,11 @@ const dashboardRoute = require("./routers/system/dashboardRoutes");
 const routesRoute = require("./routers/route/routeRoute");
 const pageHeaderRoute = require("./routers/system/pageHeaderRoutes");
 
+// ================== Product Routes ==========================
+const productRoute = require("./routers/product/productRoutes");
+const productCategoryRoute = require("./routers/product/productCategoryRoutes");
+const productInquiryRoute = require("./routers/product/productInquiryRoutes");
+
 const app = express();
 app.set("trust proxy", 1);
 const appServer = http.createServer(app);
@@ -224,6 +229,11 @@ app.use("/api/audit-logs", auditLogRoute);
 app.use("/api/dashboard-analytics", dashboardRoute);
 app.use("/api/routes", routesRoute);
 app.use("/api/page-headers", pageHeaderRoute);
+
+// ================== Product Routes =====================
+app.use("/api/products", productRoute);
+app.use("/api/product-categories", productCategoryRoute);
+app.use("/api/product-inquiries", productInquiryRoute);
 
 // ================== Root Endpoint ==================
 app.get("/", (req, res) => {

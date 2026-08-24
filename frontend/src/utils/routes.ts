@@ -130,6 +130,34 @@ export const routePermissions: RouteConfig[] = [
         ],
     },
     {
+        path: "/admin/products",
+        label: "Products",
+        icon: "Briefcase",
+        permissions: {
+            anyPermissions: ["SERVICES:READ"],
+        },
+        children: [
+            {
+                path: "/admin/products",
+                label: "All Products",
+                icon: "Briefcase",
+                permissions: { anyPermissions: ["SERVICES:READ"] },
+            },
+            {
+                path: "/admin/products/categories",
+                label: "Categories",
+                icon: "Tag",
+                permissions: { anyPermissions: ["SERVICES:READ"] },
+            },
+            {
+                path: "/admin/products/inquiries",
+                label: "Inquiries",
+                icon: "MessageSquare",
+                permissions: { anyPermissions: ["SERVICES:READ"] },
+            },
+        ],
+    },
+    {
         path: "/admin/tenders",
         label: "Tenders",
         icon: "FileText",

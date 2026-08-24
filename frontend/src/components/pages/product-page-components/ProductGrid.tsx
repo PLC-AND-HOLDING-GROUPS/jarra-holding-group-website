@@ -3,23 +3,27 @@
 import React, { useState, useMemo } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { mockCategories, mockProducts, Product } from "@/datas/mockProducts";
+import { useGetProductsQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
+import { Product, ProductCategory } from "@/redux/types/product";
 import ProductCard from "./ProductCard";
 
 export default function ProductGrid() {
     const [searchTerm, setSearchTerm] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("all");
 
+    const { data: products = [] } = useGetProductsQuery();
+    const { data: categories = [] } = useGetCategoriesQuery();
+
     const filteredProducts = useMemo(() => {
-        return mockProducts.filter((product) => {
-            const matchesCategory = activeCategory === "all" || product.categoryId === activeCategory;
+        return products.filter((product) => {
+            const matchesCategory = activeCategory === "all" || product.category_id === activeCategory;
             const searchLower = searchTerm.toLowerCase();
             const matchesSearch = product.name.toLowerCase().includes(searchLower) || 
-                                  product.shortDescription.toLowerCase().includes(searchLower);
+                                  product.short_description.toLowerCase().includes(searchLower);
             
             return matchesCategory && matchesSearch;
         });
-    }, [searchTerm, activeCategory]);
+    }, [searchTerm, activeCategory, products]);
 
     return (
         <div id="product-grid" className="py-16 bg-white min-h-[600px]">
@@ -39,12 +43,12 @@ export default function ProductGrid() {
                         >
                             All Products
                         </button>
-                        {mockCategories.map((cat) => (
+                        {categories.map((cat: ProductCategory) => (
                             <button
-                                key={cat.id}
-                                onClick={() => setActiveCategory(cat.id)}
+                                key={cat.category_id}
+                                onClick={() => setActiveCategory(cat.category_id)}
                                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors whitespace-nowrap ${
-                                    activeCategory === cat.id 
+                                    activeCategory === cat.category_id 
                                     ? "bg-primary text-white shadow-md" 
                                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                                 }`}

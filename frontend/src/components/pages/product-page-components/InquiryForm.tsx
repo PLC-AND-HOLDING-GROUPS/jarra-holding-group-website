@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Product } from "@/datas/mockProducts";
+import { Product } from "@/redux/types/product";
+import { useSubmitInquiryMutation } from "@/redux/api/productApi";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 
 export default function InquiryForm({ product }: { product: Product }) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitInquiry, { isLoading: isSubmitting }] = useSubmitInquiryMutation();
     const [isSuccess, setIsSuccess] = useState(false);
     
     // Form state
@@ -57,13 +58,16 @@ export default function InquiryForm({ product }: { product: Product }) {
         
         if (!validateForm()) return;
         
-        setIsSubmitting(true);
-        
-        // Simulate network request
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        setIsSubmitting(false);
-        setIsSuccess(true);
+        try {
+            await submitInquiry({
+                product_id: product.product_id,
+                ...formData
+            }).unwrap();
+            setIsSuccess(true);
+        } catch (error) {
+            console.error("Failed to submit inquiry:", error);
+            // Optionally set a form error state here
+        }
     };
 
     if (isSuccess) {

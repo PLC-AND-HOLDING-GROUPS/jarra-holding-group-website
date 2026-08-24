@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Save, Plus, Trash2, Loader2 } from "lucide-react";
+import { Save, Plus, Trash2, Loader2, ArrowUp, ArrowDown } from "lucide-react";
 import {
     useGetSlidersQuery,
     useCreateSliderMutation,
@@ -43,9 +43,10 @@ export default function AdminHeroManager() {
 
     useEffect(() => {
         if (slidersData) {
-            setSlides(slidersData);
+            const sortedSlides = [...slidersData].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+            setSlides(sortedSlides);
 
-            const firstSlide = slidersData[0];
+            const firstSlide = sortedSlides[0];
             if (firstSlide) {
                 setHeroButtons({
                     button_name: firstSlide.button_name || DEFAULT_HERO_BUTTONS.button_name,
@@ -107,6 +108,60 @@ export default function AdminHeroManager() {
         } catch (error) {
             console.error("Failed to update slide", error);
             toast.error(`Failed to update slide ${index + 1}.`);
+        }
+    };
+
+    const handleMoveUp = async (index: number) => {
+        if (index === 0) return;
+        const currentSlide = slides[index];
+        const prevSlide = slides[index - 1];
+        if (!currentSlide.slider_id || !prevSlide.slider_id) return;
+
+        const currentOrder = currentSlide.order ?? index;
+        const prevOrder = prevSlide.order ?? (index - 1);
+
+        try {
+            await Promise.all([
+                updateSlider({
+                    id: currentSlide.slider_id,
+                    data: { order: prevOrder }
+                }).unwrap(),
+                updateSlider({
+                    id: prevSlide.slider_id,
+                    data: { order: currentOrder }
+                }).unwrap()
+            ]);
+            toast.success("Order updated!");
+        } catch (error) {
+            console.error("Failed to reorder", error);
+            toast.error("Failed to reorder slides.");
+        }
+    };
+
+    const handleMoveDown = async (index: number) => {
+        if (index === slides.length - 1) return;
+        const currentSlide = slides[index];
+        const nextSlide = slides[index + 1];
+        if (!currentSlide.slider_id || !nextSlide.slider_id) return;
+
+        const currentOrder = currentSlide.order ?? index;
+        const nextOrder = nextSlide.order ?? (index + 1);
+
+        try {
+            await Promise.all([
+                updateSlider({
+                    id: currentSlide.slider_id,
+                    data: { order: nextOrder }
+                }).unwrap(),
+                updateSlider({
+                    id: nextSlide.slider_id,
+                    data: { order: currentOrder }
+                }).unwrap()
+            ]);
+            toast.success("Order updated!");
+        } catch (error) {
+            console.error("Failed to reorder", error);
+            toast.error("Failed to reorder slides.");
         }
     };
 
@@ -258,6 +313,26 @@ export default function AdminHeroManager() {
                                 </CardTitle>
                             </div>
                             <div className="flex items-center gap-2">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleMoveUp(index)}
+                                    disabled={isUpdating || index === 0}
+                                    className="h-8 w-8 text-gray-500 hover:text-primary"
+                                    title="Move Up"
+                                >
+                                    <ArrowUp className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleMoveDown(index)}
+                                    disabled={isUpdating || index === slides.length - 1}
+                                    className="h-8 w-8 text-gray-500 hover:text-primary"
+                                    title="Move Down"
+                                >
+                                    <ArrowDown className="w-4 h-4" />
+                                </Button>
                                 <Button
                                     variant="ghost"
                                     size="sm"

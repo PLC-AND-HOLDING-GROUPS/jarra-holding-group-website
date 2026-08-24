@@ -29,6 +29,12 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             },
 
+            order: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+            },
+
             button_name: {
                 type: DataTypes.STRING(100),
                 allowNull: true,

@@ -2,33 +2,45 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getCategoryById } from "@/datas/mockProducts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, CheckCircle2 } from "lucide-react";
 import InquiryForm from "@/components/pages/product-page-components/InquiryForm";
 import ProductImageGallery from "@/components/pages/product-page-components/ProductImageGallery";
 
+async function getProduct(slug: string) {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/${slug}`, {
+            next: { revalidate: 60 } // Revalidate every minute
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.data;
+    } catch (e) {
+        return null;
+    }
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string, locale: string }> }) {
     const { slug } = await params;
-    const product = getProductBySlug(slug);
+    const product = await getProduct(slug);
     if (!product) return { title: "Product Not Found" };
     
     return {
         title: `${product.name} - Jarra Holding Group`,
-        description: product.shortDescription
+        description: product.short_description
     };
 }
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string, locale: string }> }) {
     const { slug, locale } = await params;
-    const product = getProductBySlug(slug);
+    const product = await getProduct(slug);
     
     if (!product) {
         notFound();
     }
 
-    const category = getCategoryById(product.categoryId);
+    const category = product.category;
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -60,7 +72,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         
                         {/* Hero Image / Gallery */}
                         <ProductImageGallery 
-                            images={product.images || [product.image]} 
+                            images={product.attachments?.map((a: any) => a.attachment?.url) || []} 
                             title={product.name} 
                             status={product.status} 
                         />
@@ -80,7 +92,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                             
                             <div className="prose prose-slate max-w-none">
                                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                    {product.fullDescription}
+                                    {product.full_description}
                                 </p>
                             </div>
 
