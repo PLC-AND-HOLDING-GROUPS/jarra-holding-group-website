@@ -257,12 +257,12 @@ export default function AdminMissionVision() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {values.map((val, idx) => (
-                                    <div key={idx} className="flex gap-2 items-center bg-gray-50 p-2 rounded-md border border-gray-100">
-                                        <Input 
-                                            value={val.title} 
-                                            onChange={(e) => updateValue(idx, e.target.value)} 
-                                            placeholder="e.g. Integrity" 
-                                            className="h-8 bg-white"
+                                    <div key={idx} className="flex gap-2 items-center bg-transparent p-2 rounded-md border border-gray-100">
+                                        <Input
+                                            value={val.title}
+                                            onChange={(e) => updateValue(idx, e.target.value)}
+                                            placeholder="e.g. Integrity"
+                                            className="h-8 bg-transparent"
                                         />
                                         <Button variant="destructive" size="icon" onClick={() => removeValue(idx)} className="h-8 w-8 shrink-0">
                                             <Trash2 className="w-4 h-4" />

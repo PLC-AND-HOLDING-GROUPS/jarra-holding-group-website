@@ -75,7 +75,7 @@ const EventDetail = () => {
                         <article className="rounded-lg shadow-sm overflow-hidden bg-card text-card-foreground px-2">
                             {/* Headline Media Gallery - Repurposed from News */}
                             <EventMediaGallery
-                                attachments={eventItem.attachments || []}
+                                attachments={(eventItem.attachments || []).map((a: any) => ({ ...a.attachment, category: "headline" }))}
                                 title={eventItem.title}
                             />
 
@@ -155,7 +155,7 @@ const EventDetail = () => {
                                 </div>
 
                                 {/* Footer Documents */}
-                                <NewsDocuments attachments={eventItem.attachments || []} />
+                                <NewsDocuments attachments={(eventItem.attachments || []).map((a: any) => ({ ...a.attachment, category: "headline" }))} />
                             </div>
                         </article>
                     </div>

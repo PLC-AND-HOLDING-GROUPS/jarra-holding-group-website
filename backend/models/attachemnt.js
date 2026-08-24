@@ -110,6 +110,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "attachment_id",
         as: "vacancies",
       });
+      Attachment.hasMany(models.PageHeader, {
+        foreignKey: "attachment_id",
+        as: "pageHeaders",
+      });
     }
   }
 

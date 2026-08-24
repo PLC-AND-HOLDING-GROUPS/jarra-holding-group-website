@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Quote } from "lucide-react";
+import { Quote, BriefcaseBusiness } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -34,9 +34,10 @@ export default function Layout({
         <>
             {/* Hero / Page Header (shared across all administration pages) */}
             <PageHeader
-                title="Our Businesses"
-                icon={<Quote />}
-                description="Connecting trade, logistics, warehousing, and distribution"
+                pageIdentifier="businesses"
+                title="Jarra Holding Group Businesses"
+                icon={<BriefcaseBusiness />}
+                description="Jarra Holding Group Businesses"
             />
 
             {/* Main container with relative positioning for overlay */}

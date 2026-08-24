@@ -23,14 +23,14 @@ export default function ProductCard({ product }: { product: Product }) {
     };
 
     return (
-        <Card className="group flex flex-col h-full overflow-hidden hover:shadow-xl transition-all duration-300 border-border bg-card">
+        <Card className="group flex flex-col h-full overflow-hidden hover:shadow-xl transition-all duration-300 border-border bg-card pt-0">
             {/* Image Container */}
             <div className="relative w-full h-56 bg-slate-100 overflow-hidden">
-                <Image 
-                    src={product.image} 
-                    alt={product.name} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3 flex flex-col gap-2">
                     {category && (
@@ -54,7 +54,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <p className="text-sm text-muted-foreground line-clamp-3 mb-4 flex-grow">
                     {product.shortDescription}
                 </p>
-                
+
                 {/* Specifications Preview (if any) */}
                 {product.specifications && Object.keys(product.specifications).length > 0 && (
                     <div className="mt-auto grid grid-cols-2 gap-x-2 gap-y-1 mb-2 pt-4 border-t border-border">
@@ -73,12 +73,6 @@ export default function ProductCard({ product }: { product: Product }) {
                 <Link href={`/products/${product.slug}`} className="flex-1">
                     <Button variant="outline" className="w-full text-sm h-10 border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors">
                         View Details
-                    </Button>
-                </Link>
-                <Link href={`/products/${product.slug}#inquiry`} className="flex-1">
-                    <Button className="w-full text-sm h-10 bg-primary hover:bg-primary/90 text-white shadow-sm transition-all group-hover:shadow-md">
-                        <MessageSquare className="w-4 h-4 mr-2" />
-                        Inquire
                     </Button>
                 </Link>
             </CardFooter>

@@ -57,6 +57,7 @@ export default function AdminBackground() {
             title,
             description: subtitle,
             icon: icon ?? "Info",
+            content: "",
         };
 
         try {

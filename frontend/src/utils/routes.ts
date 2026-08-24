@@ -32,6 +32,14 @@ export const routePermissions: RouteConfig[] = [
         },
     },
     {
+        path: "/admin/page-headers",
+        label: "Page Headers",
+        icon: "Layers",
+        permissions: {
+            anyPermissions: ["PAGE_HEADERS:READ"],
+        },
+    },
+    {
         path: "/admin/about",
         label: "About (Cards, Leaders...)",
         icon: "Info",

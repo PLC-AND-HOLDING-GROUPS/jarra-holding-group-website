@@ -77,6 +77,7 @@ const { initEventScheduler } = require("./utils/eventScheduler");
 const auditLogRoute = require("./routers/system/auditLogRoutes");
 const dashboardRoute = require("./routers/system/dashboardRoutes");
 const routesRoute = require("./routers/route/routeRoute");
+const pageHeaderRoute = require("./routers/system/pageHeaderRoutes");
 
 const app = express();
 app.set("trust proxy", 1);
@@ -222,6 +223,7 @@ app.use("/api/event-categories", eventCategoryRoute);
 app.use("/api/audit-logs", auditLogRoute);
 app.use("/api/dashboard-analytics", dashboardRoute);
 app.use("/api/routes", routesRoute);
+app.use("/api/page-headers", pageHeaderRoute);
 
 // ================== Root Endpoint ==================
 app.get("/", (req, res) => {

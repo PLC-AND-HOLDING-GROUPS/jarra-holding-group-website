@@ -76,6 +76,7 @@ export const baseApi = createApi({
     "Tender",
     "Vacancy",
     "Route",
+    "PageHeader",
   ],
   endpoints: () => ({}),
 });

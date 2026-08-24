@@ -6,7 +6,7 @@ import { TableLayout } from "@/features/template/component/TableLayout";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2, Plus, FileCheck, Map, FlaskConical, Droplets, TrendingUp, ShieldCheck } from "lucide-react";
-import { Service } from "./AdminServicesList";
+import { Service } from "@/redux/types/service";
 
 const iconMap: Record<string, any> = {
     licensing: FileCheck,
@@ -39,23 +39,23 @@ export default function ServiceTable({
     const columns: ColumnDef<Service>[] = [
         { accessorKey: "title", header: "Title" },
         {
-            accessorKey: "description",
+            accessorKey: "content",
             header: "Description",
             cell: ({ row }) => (
-                <div className="max-w-[300px] truncate" title={row.original.description}>
-                    {row.original.description}
+                <div className="max-w-[300px] truncate" title={row.original.content}>
+                    {row.original.content}
                 </div>
             )
         },
         {
-            accessorKey: "iconName",
+            accessorKey: "icon",
             header: "Icon",
             cell: ({ row }) => {
-                const Icon = iconMap[row.original.iconName] || FileCheck;
+                const Icon = iconMap[row.original.icon] || FileCheck;
                 return (
                     <div className="flex items-center gap-2">
                         <Icon className="w-4 h-4 text-golden-dark" />
-                        <span className="capitalize">{row.original.iconName}</span>
+                        <span className="capitalize">{row.original.icon}</span>
                     </div>
                 );
             }
@@ -68,7 +68,7 @@ export default function ServiceTable({
                     <Button variant="ghost" size="icon" onClick={() => onEdit(row.original)} title="Edit">
                         <Edit2 className="w-4 h-4 text-blue-600" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => onDelete(row.original.id)} title="Delete" className="text-destructive">
+                    <Button variant="ghost" size="icon" onClick={() => onDelete(row.original.service_id)} title="Delete" className="text-destructive">
                         <Trash2 className="w-4 h-4" />
                     </Button>
                 </div>

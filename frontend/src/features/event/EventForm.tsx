@@ -118,8 +118,8 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
             // Category - handle both old link structure and new direct field
             if (initialData.event_category_id) {
                 setSelectedCategoryId(initialData.event_category_id);
-            } else if (initialData.category_links && initialData.category_links.length > 0) {
-                setSelectedCategoryId(initialData.category_links[0].event_category_id);
+            } else if ((initialData as any).category_links && (initialData as any).category_links.length > 0) {
+                setSelectedCategoryId((initialData as any).category_links[0].event_category_id);
             }
 
             // Attachments
@@ -404,6 +404,7 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                         <Label>Event Media</Label>
                         <EditFileUpload
                             id="event-media"
+                            label="Event Media"
                             accept="image/*"
                             multiple
                             value={attachments.map(a => a.attachment_id)}
@@ -457,9 +458,9 @@ export default function EventForm({ initialData, onSubmit, isLoading: isSubmitti
                             {headlineFiles.length > 0 && currentMedia ? (
                                 <>
                                     {currentMedia.file_type === 'video' ? (
-                                        <video src={currentMedia.previewUrl} className="w-full h-48 object-cover rounded-md bg-black" controls />
+                                        <video src={currentMedia.previewUrl || ""} className="w-full h-48 object-cover rounded-md bg-black" controls />
                                     ) : (
-                                        <img src={currentMedia.previewUrl} className="w-full h-48 object-cover rounded-md" alt="Preview" />
+                                        <img src={currentMedia.previewUrl || ""} className="w-full h-48 object-cover rounded-md" alt="Preview" />
                                     )}
                                     
                                     {headlineFiles.length > 1 && (

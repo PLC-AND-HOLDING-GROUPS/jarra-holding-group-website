@@ -70,6 +70,7 @@ export default function Layout({
         <>
             {/* Hero / Page Header (shared across all administration pages) */}
             <PageHeader
+                pageIdentifier="about"
                 title="About Jarra Holding Group"
                 icon={<Quote />}
                 description="About Jarra Holding Group"

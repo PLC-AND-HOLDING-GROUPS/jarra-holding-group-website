@@ -38,6 +38,7 @@ const NewsPage = () => {
     return (
         <>
             <PageHeader
+                pageIdentifier="news"
                 title="News"
                 icon={<MessageCircle />}
                 description="News and updates from Jarra Holding Group"
