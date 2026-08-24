@@ -25,13 +25,14 @@ import {
 
 const PAGE_OPTIONS = [
   { value: "about", label: "About Page" },
-  { value: "asm", label: "ASM Page" },
+  { value: "businesses", label: "Businesses Page" },
+  { value: "careers", label: "Careers Page" },
   { value: "contact", label: "Contact Page" },
-  { value: "events", label: "Events Page" },
+  { value: "facilities", label: "Facilities Page" },
   { value: "news", label: "News Page" },
+  { value: "products", label: "Products Page" },
+  { value: "sectors", label: "Sectors Page" },
   { value: "services", label: "Services Page" },
-  { value: "investigate_ethiopia", label: "Investigating in Ethiopia" },
-  { value: "sectors", label: "Sectors" },
 ];
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";

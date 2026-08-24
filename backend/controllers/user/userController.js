@@ -511,7 +511,6 @@ const getProfile = async (req, res) => {
         "full_name",
         "email",
         "phone_number",
-        "position",
         "profile_image",
         "is_first_logged_in",
         "last_login_at",
