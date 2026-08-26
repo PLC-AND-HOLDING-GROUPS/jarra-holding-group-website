@@ -18,7 +18,7 @@ export interface Product {
     product_id: string;
     name: string;
     slug: string;
-    category_id: string;
+    short_description: string;
     short_description: string;
     full_description: string;
     status: string;
@@ -26,7 +26,7 @@ export interface Product {
     specifications: Record<string, string>;
     applications: string[];
     created_at: string;
-    category?: ProductCategory;
+    categories?: ProductCategory[];
     attachments?: ProductAttachment[];
 }
 
@@ -47,7 +47,7 @@ export interface ProductInquiry {
 export interface CreateProductPayload {
     name: string;
     slug: string;
-    category_id: string;
+    category_ids: string[];
     short_description: string;
     full_description: string;
     status: string;

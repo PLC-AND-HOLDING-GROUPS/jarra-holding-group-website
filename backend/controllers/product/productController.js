@@ -7,14 +7,14 @@ exports.getAllProducts = async (req, res) => {
     try {
         const { category } = req.query; // optional filter by category slug
         
-        let includeCategory = { model: ProductCategory, as: "category" };
+        let includeCategories = { model: ProductCategory, as: "categories" };
         if (category && category !== "all") {
-            includeCategory.where = { slug: category };
+            includeCategories.where = { slug: category };
         }
 
         const products = await Product.findAll({
             include: [
-                includeCategory,
+                includeCategories,
                 { 
                     model: ProductAttachment, 
                     as: "attachments",
@@ -49,7 +49,7 @@ exports.getProduct = async (req, res) => {
         const product = await Product.findOne({
             where: whereClause,
             include: [
-                { model: ProductCategory, as: "category" },
+                { model: ProductCategory, as: "categories" },
                 { 
                     model: ProductAttachment, 
                     as: "attachments",
@@ -73,17 +73,22 @@ exports.getProduct = async (req, res) => {
 exports.createProduct = async (req, res) => {
     const t = await sequelize.transaction();
     try {
-        const { name, slug, category_id, short_description, full_description, status, publish_status, specifications, applications, attachments } = req.body;
+        const { name, slug, category_ids, short_description, full_description, status, publish_status, specifications, applications, attachments } = req.body;
 
         const product = await Product.create(
             {
-                name, slug, category_id, short_description, full_description, status,
+                name, slug, short_description, full_description, status,
                 publish_status: publish_status || 'draft',
                 specifications: specifications || {},
                 applications: applications || []
             },
             { transaction: t }
         );
+
+        // Associate multiple categories
+        if (Array.isArray(category_ids) && category_ids.length > 0) {
+            await product.setCategories(category_ids, { transaction: t });
+        }
 
         // Handle attachments (Array of { attachment_id, category: 'main' | 'gallery' })
         if (Array.isArray(attachments) && attachments.length > 0) {
@@ -100,7 +105,7 @@ exports.createProduct = async (req, res) => {
         
         const createdProduct = await Product.findByPk(product.product_id, {
             include: [
-                { model: ProductCategory, as: "category" },
+                { model: ProductCategory, as: "categories" },
                 { model: ProductAttachment, as: "attachments", include: [{ model: Attachment, as: "attachment" }] }
             ]
         });
@@ -123,17 +128,21 @@ exports.updateProduct = async (req, res) => {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
-        const { name, slug, category_id, short_description, full_description, status, publish_status, specifications, applications, attachments } = req.body;
+        const { name, slug, category_ids, short_description, full_description, status, publish_status, specifications, applications, attachments } = req.body;
 
         await product.update(
             {
-                name, slug, category_id, short_description, full_description, status,
+                name, slug, short_description, full_description, status,
                 publish_status: publish_status !== undefined ? publish_status : product.publish_status,
                 specifications: specifications !== undefined ? specifications : product.specifications,
                 applications: applications !== undefined ? applications : product.applications
             },
             { transaction: t }
         );
+
+        if (category_ids) {
+            await product.setCategories(category_ids, { transaction: t });
+        }
 
         // Update attachments if provided
         if (attachments) {
@@ -156,7 +165,7 @@ exports.updateProduct = async (req, res) => {
 
         const updatedProduct = await Product.findByPk(product.product_id, {
             include: [
-                { model: ProductCategory, as: "category" },
+                { model: ProductCategory, as: "categories" },
                 { model: ProductAttachment, as: "attachments", include: [{ model: Attachment, as: "attachment" }] }
             ]
         });

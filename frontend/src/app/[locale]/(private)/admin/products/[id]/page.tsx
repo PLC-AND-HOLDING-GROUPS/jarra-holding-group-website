@@ -3,20 +3,19 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Eye, FileIcon, Trash2, Upload, X, XIcon, Plus } from "lucide-react";
+import { Eye, FileIcon, Trash2, Upload, X, XIcon, Plus } from "lucide-react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useCreateProductMutation, useGetCategoriesQuery } from "@/redux/api/productApi";
+import { useUpdateProductMutation, useGetProductByIdOrSlugQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
 import {
     useUploadAttachmentsMutation,
     useDeleteAttachmentMutation,
     useGetAttachmentsQuery,
 } from "@/redux/api/attachementApi";
-import { getFileType as getFileTypeUtil, getFileUrl, getImageUrl } from "@/utils/fileUrl";
+import { getFileUrl, getImageUrl } from "@/utils/fileUrl";
 import "quill/dist/quill.snow.css";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { useParams, useRouter } from "next/navigation";
 
 // Dynamic import for Quill
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -239,7 +238,17 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
     );
 };
 
-export default function CreateProduct() {
+export default function EditProduct() {
+    const params = useParams<{ id: string }>();
+    const productId = params?.id;
+    const router = useRouter();
+
+    const { data: product, isLoading: isProductLoading } = useGetProductByIdOrSlugQuery(productId || "", {
+        skip: !productId,
+    });
+    const [updateProduct] = useUpdateProductMutation();
+    const { data: categories = [] } = useGetCategoriesQuery();
+
     const [name, setName] = useState("");
     const [slug, setSlug] = useState("");
     const [categoryIds, setCategoryIds] = useState<string[]>([]);
@@ -260,10 +269,35 @@ export default function CreateProduct() {
     const [documentFiles, setDocumentFiles] = useState<UploadedFileInfo[]>([]);
     const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
-    const router = useRouter();
-
-    const [createProduct] = useCreateProductMutation();
-    const { data: categories = [] } = useGetCategoriesQuery();
+    // Load initial data
+    useEffect(() => {
+        if (product) {
+            setName(product.name || "");
+            setSlug(product.slug || "");
+            setCategoryIds(product.categories?.map((c: any) => c.category_id) || []);
+            setShortDescription(product.short_description || "");
+            setFullDescriptionHtml(product.full_description || "");
+            setStatus((product.status as any) || "Available");
+            setPublishStatus(product.publish_status || "draft");
+            
+            if (product.specifications && Object.keys(product.specifications).length > 0) {
+                const specs = Object.entries(product.specifications).map(([key, value]) => ({ key, value }));
+                setSpecifications(specs);
+            } else {
+                setSpecifications([{key: "", value: ""}]);
+            }
+            
+            setApplications(product.applications || []);
+            
+            if (product.attachments) {
+                const formattedAttachments = product.attachments.map(a => ({
+                    attachment_id: a.attachment_id,
+                    category: a.category as "image" | "document"
+                }));
+                setProductAttachments(formattedAttachments);
+            }
+        }
+    }, [product]);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -299,7 +333,7 @@ export default function CreateProduct() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name || categoryIds.length === 0 || !fullDescriptionHtml) {
+        if (!name || categoryIds.length === 0 || !fullDescriptionHtml || !productId) {
             toast.error("Please fill all required fields");
             return;
         }
@@ -313,28 +347,27 @@ export default function CreateProduct() {
         });
 
         try {
-            const result = await createProduct({
-                name,
-                slug,
-                category_ids: categoryIds,
-                short_description: shortDescription,
-                full_description: fullDescriptionHtml,
-                status,
-                publish_status: publishStatus,
-                specifications: specsRecord,
-                applications,
-                attachments: productAttachments,
+            await updateProduct({
+                id: productId,
+                data: {
+                    name,
+                    slug,
+                    category_ids: categoryIds,
+                    short_description: shortDescription,
+                    full_description: fullDescriptionHtml,
+                    status,
+                    publish_status: publishStatus,
+                    specifications: specsRecord,
+                    applications,
+                    attachments: productAttachments,
+                }
             }).unwrap();
 
-            toast.success("Product Created Successfully!");
-            
-            // Redirect to edit page instead of clearing form
-            if (result.data?.product_id) {
-                router.push(`/admin/products/${result.data.product_id}`);
-            }
+            toast.success("Product Updated Successfully!");
+            router.push("/admin/products");
         } catch (error) {
             console.error(error);
-            toast.error("Failed to create product");
+            toast.error("Failed to update product");
         }
     };
 
@@ -364,11 +397,22 @@ export default function CreateProduct() {
         return file.previewUrl;
     };
 
+    if (isProductLoading) {
+        return <div className="p-10 flex items-center justify-center">Loading product data...</div>;
+    }
+
+    if (!product) {
+        return <div className="p-10 flex items-center justify-center text-red-500">Product not found.</div>;
+    }
+
     return (
         <div className="min-h-screen w-full grid grid-cols-2 gap-10">
             {/* Form */}
             <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto space-y-6">
-                <h1 className="text-2xl font-bold mb-6 text-primary">Create Product</h1>
+                <div className="flex items-center justify-between mb-6">
+                    <h1 className="text-2xl font-bold text-primary">Edit Product</h1>
+                    <Button variant="outline" onClick={() => router.push("/admin/products")}>Cancel</Button>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
@@ -480,7 +524,14 @@ export default function CreateProduct() {
                                 ...prev.filter(a => a.category !== "image"),
                                 ...ids.map(id => ({ attachment_id: id, category: "image" as const })),
                             ]);
-                            if (files) setImageFiles(files);
+                            if (files) {
+                                // Add files that are not already in imageFiles
+                                setImageFiles(prev => {
+                                    const existingIds = new Set(prev.map(f => f.attachment_id));
+                                    const newFiles = files.filter(f => !existingIds.has(f.attachment_id));
+                                    return [...prev, ...newFiles];
+                                });
+                            }
                             setCurrentMediaIndex(0);
                         }}
                         multiple
@@ -498,7 +549,13 @@ export default function CreateProduct() {
                                 ...prev.filter(a => a.category !== "document"),
                                 ...ids.map(id => ({ attachment_id: id, category: "document" as const })),
                             ]);
-                            if (files) setDocumentFiles(files);
+                            if (files) {
+                                setDocumentFiles(prev => {
+                                    const existingIds = new Set(prev.map(f => f.attachment_id));
+                                    const newFiles = files.filter(f => !existingIds.has(f.attachment_id));
+                                    return [...prev, ...newFiles];
+                                });
+                            }
                         }}
                         multiple
                         showPreview
@@ -515,7 +572,7 @@ export default function CreateProduct() {
                         />
                     </div>
 
-                    <Button type="submit">Create Product</Button>
+                    <Button type="submit">Update Product</Button>
                 </form>
             </div >
 

@@ -5,6 +5,8 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
+    unoptimized: true,
+    domains: ["localhost", "127.0.0.1"],
     remotePatterns: [
       {
         protocol: "http",
@@ -13,8 +15,9 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        protocol: "https",
-        hostname: "www.mom.gov.et",
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "4000",
         pathname: "/**",
       },
     ],

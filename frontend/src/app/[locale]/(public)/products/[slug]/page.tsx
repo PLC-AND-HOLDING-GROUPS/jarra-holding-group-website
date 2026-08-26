@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, CheckCircle2 } from "lucide-react";
 import InquiryForm from "@/components/pages/product-page-components/InquiryForm";
 import ProductImageGallery from "@/components/pages/product-page-components/ProductImageGallery";
+import { getImageUrl } from "@/utils/fileUrl";
 
 async function getProduct(slug: string) {
     try {
@@ -40,7 +41,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         notFound();
     }
 
-    const category = product.category;
+    // Categories
+    const categories = product.categories || [];
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -51,6 +53,17 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             default: return 'bg-gray-100 text-gray-800 border-gray-200';
         }
     };
+
+    // Filter image attachments and map to URLs
+    const imageUrls = product.attachments
+        ?.filter((a: any) => a.category === "image" || a.category === "main" || a.category === "gallery")
+        .map((a: any) => getImageUrl(a.attachment))
+        .filter((url: string) => url !== "") || [];
+
+    // Fallback placeholder if no images
+    if (imageUrls.length === 0) {
+        imageUrls.push("/logo-only.png");
+    }
 
     return (
         <main className="min-h-screen bg-slate-50 pb-20">
@@ -72,7 +85,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         
                         {/* Hero Image / Gallery */}
                         <ProductImageGallery 
-                            images={product.attachments?.map((a: any) => a.attachment?.url) || []} 
+                            images={imageUrls} 
                             title={product.name} 
                             status={product.status} 
                         />
@@ -80,21 +93,30 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         {/* Title & Description */}
                         <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-border">
                             <div className="mb-4">
-                                {category && (
-                                    <Badge variant="secondary" className="mb-3">
-                                        {category.name}
-                                    </Badge>
+                                {categories.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                        {categories.map((cat: any) => (
+                                            <Badge key={cat.category_id} variant="secondary">
+                                                {cat.name}
+                                            </Badge>
+                                        ))}
+                                    </div>
                                 )}
                                 <h1 className="text-3xl md:text-4xl font-bold text-heading">
                                     {product.name}
                                 </h1>
                             </div>
                             
-                            <div className="prose prose-slate max-w-none">
-                                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                                    {product.full_description}
+                            {product.short_description && (
+                                <p className="text-lg text-muted-foreground mb-6 leading-relaxed font-medium">
+                                    {product.short_description}
                                 </p>
-                            </div>
+                            )}
+
+                            <div 
+                                className="prose prose-slate max-w-none text-muted-foreground leading-relaxed mb-6 break-words overflow-hidden"
+                                dangerouslySetInnerHTML={{ __html: product.full_description }}
+                            />
 
                             {/* Specifications */}
                             {product.specifications && Object.keys(product.specifications).length > 0 && (

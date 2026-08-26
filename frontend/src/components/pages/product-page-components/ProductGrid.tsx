@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { useGetProductsQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
 import { Product, ProductCategory } from "@/redux/types/product";
 import ProductCard from "./ProductCard";
+import { useParams } from "next/navigation";
 
 export default function ProductGrid() {
+    const params = useParams();
+    const locale = (params?.locale as string) || "en";
     const [searchTerm, setSearchTerm] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("all");
 
@@ -16,7 +19,7 @@ export default function ProductGrid() {
 
     const filteredProducts = useMemo(() => {
         return products.filter((product) => {
-            const matchesCategory = activeCategory === "all" || product.category_id === activeCategory;
+            const matchesCategory = activeCategory === "all" || product.categories?.some((c: any) => c.category_id === activeCategory);
             const searchLower = searchTerm.toLowerCase();
             const matchesSearch = product.name.toLowerCase().includes(searchLower) || 
                                   product.short_description.toLowerCase().includes(searchLower);
@@ -77,7 +80,7 @@ export default function ProductGrid() {
                 {filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {filteredProducts.map((product: Product) => (
-                            <ProductCard key={product.id} product={product} />
+                            <ProductCard key={product.product_id} product={product} locale={locale} />
                         ))}
                     </div>
                 ) : (

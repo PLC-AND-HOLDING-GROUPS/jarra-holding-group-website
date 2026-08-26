@@ -57,9 +57,7 @@ const createBackground = async (req, res) => {
 // ===========================
 const getAllBackgrounds = async (req, res) => {
     try {
-        const backgrounds = await Background.findAll({
-            order: [["created_at", "DESC"]],
-        });
+        const backgrounds = await Background.findAll();
 
         return res.status(200).json({
             success: true,

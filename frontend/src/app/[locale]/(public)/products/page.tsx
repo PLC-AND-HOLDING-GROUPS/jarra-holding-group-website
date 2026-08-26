@@ -5,7 +5,8 @@ import { Package } from "lucide-react";
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import ProductGrid from "@/components/pages/product-page-components/ProductGrid";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
         title: t("products") || "Products - Jarra Holding Group",

@@ -4,9 +4,11 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Product extends Model {
         static associate(models) {
-            Product.belongsTo(models.ProductCategory, {
-                foreignKey: "category_id",
-                as: "category",
+            Product.belongsToMany(models.ProductCategory, {
+                through: "product_categories_map",
+                foreignKey: "product_id",
+                otherKey: "category_id",
+                as: "categories",
             });
 
             Product.hasMany(models.ProductAttachment, {
@@ -37,10 +39,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 unique: true,
             },
-            category_id: {
-                type: DataTypes.UUID,
-                allowNull: false,
-            },
+            // category_id removed in favor of through-table
             short_description: {
                 type: DataTypes.TEXT,
                 allowNull: false,

@@ -4,8 +4,10 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class ProductCategory extends Model {
         static associate(models) {
-            ProductCategory.hasMany(models.Product, {
+            ProductCategory.belongsToMany(models.Product, {
+                through: "product_categories_map",
                 foreignKey: "category_id",
+                otherKey: "product_id",
                 as: "products",
             });
         }

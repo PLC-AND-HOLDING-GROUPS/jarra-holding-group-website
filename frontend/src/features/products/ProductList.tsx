@@ -59,15 +59,7 @@ export default function ProductList() {
                 </div>
             ),
         },
-        {
-            accessorKey: "category.name",
-            header: "Category",
-            cell: ({ row }) => (
-                <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">
-                    {row.original.category?.name || "N/A"}
-                </span>
-            ),
-        },
+
         {
             accessorKey: "publish_status",
             header: "Publish Status",
