@@ -64,6 +64,11 @@ export const productApi = baseApi.injectEndpoints({
             transformResponse: (res: any) => res.data ?? [],
             providesTags: ["ProductInquiry"],
         }),
+        getInquiryById: builder.query<ProductInquiry, string>({
+            query: (id) => `/product-inquiries/${id}`,
+            transformResponse: (res: any) => res.data,
+            providesTags: (_r, _e, id) => [{ type: "ProductInquiry", id }],
+        }),
         submitInquiry: builder.mutation<ProductInquiry, CreateProductInquiryPayload>({
             query: (body) => ({ url: "/product-inquiries", method: "POST", body }),
             invalidatesTags: ["ProductInquiry"],
@@ -75,6 +80,10 @@ export const productApi = baseApi.injectEndpoints({
         deleteInquiry: builder.mutation<{ message: string }, string>({
             query: (id) => ({ url: `/product-inquiries/${id}`, method: "DELETE" }),
             invalidatesTags: ["ProductInquiry"],
+        }),
+        replyToInquiry: builder.mutation<ProductInquiry, { id: string; subject: string; message: string }>({
+            query: ({ id, subject, message }) => ({ url: `/product-inquiries/${id}/reply`, method: "POST", body: { subject, message } }),
+            invalidatesTags: (_r, _e, { id }) => [{ type: "ProductInquiry", id }, "ProductInquiry"],
         }),
     }),
 });
@@ -91,7 +100,9 @@ export const {
     useUpdateProductMutation,
     useDeleteProductMutation,
     useGetInquiriesQuery,
+    useGetInquiryByIdQuery,
     useSubmitInquiryMutation,
     useUpdateInquiryStatusMutation,
     useDeleteInquiryMutation,
+    useReplyToInquiryMutation,
 } = productApi;

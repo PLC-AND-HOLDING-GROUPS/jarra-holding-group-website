@@ -76,3 +76,25 @@ exports.deleteInquiry = async (req, res) => {
         return res.status(500).json({ success: false, message: "Failed to delete inquiry" });
     }
 };
+
+// Reply to inquiry
+const { sendEmail } = require("../../utils/sendEmail");
+exports.replyToInquiry = async (req, res) => {
+    try {
+        const { subject, message } = req.body;
+        const inquiry = await ProductInquiry.findByPk(req.params.id);
+        
+        if (!inquiry) return res.status(404).json({ success: false, message: "Inquiry not found" });
+        
+        // Send email
+        await sendEmail(inquiry.email, subject, message);
+        
+        // Update status to replied
+        await inquiry.update({ status: "replied" });
+        
+        return res.status(200).json({ success: true, message: "Reply sent successfully", data: inquiry });
+    } catch (error) {
+        console.error("Reply to Inquiry Error:", error);
+        return res.status(500).json({ success: false, message: "Failed to send reply", error: error.message });
+    }
+};

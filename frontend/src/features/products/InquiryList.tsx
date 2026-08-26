@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Trash2, CheckCircle2 } from "lucide-react";
+import { Trash2, CheckCircle2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 import { DataTable } from "@/features/template/component/DataTable";
 import { TableLayout } from "@/features/template/component/TableLayout";
@@ -16,6 +17,7 @@ import { ProductInquiry } from "@/redux/types/product";
 export default function InquiryList() {
     const { data = [], isLoading } = useGetInquiriesQuery();
     const [deleteInquiry] = useDeleteInquiryMutation();
+    const router = useRouter();
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -97,6 +99,14 @@ export default function InquiryList() {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex items-center gap-1">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        title="View Inquiry"
+                        onClick={() => router.push(`/admin/products/inquiries/${row.original.inquiry_id}`)}
+                    >
+                        <Eye className="h-4 w-4 text-primary" />
+                    </Button>
                     <ComponentGuard action="delete" subject="ProductInquiry">
                         <Button
                             variant="ghost"

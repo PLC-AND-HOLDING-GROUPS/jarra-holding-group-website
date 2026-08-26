@@ -251,9 +251,7 @@ export default function CreateProduct() {
     // Dynamic specifications
     const [specifications, setSpecifications] = useState<{key: string, value: string}[]>([{key: "", value: ""}]);
     
-    // Applications
-    const [applicationInput, setApplicationInput] = useState("");
-    const [applications, setApplications] = useState<string[]>([]);
+    // Applications removed as requested
     
     const [productAttachments, setProductAttachments] = useState<ProductAttachmentInput[]>([]);
     const [imageFiles, setImageFiles] = useState<UploadedFileInfo[]>([]);
@@ -282,20 +280,7 @@ export default function CreateProduct() {
         setSpecifications(specifications.filter((_, i) => i !== index));
     };
 
-    const handleAddApplication = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const val = applicationInput.trim();
-            if (val && !applications.includes(val)) {
-                setApplications([...applications, val]);
-                setApplicationInput("");
-            }
-        }
-    };
 
-    const removeApplication = (app: string) => {
-        setApplications(applications.filter((a) => a !== app));
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -322,7 +307,6 @@ export default function CreateProduct() {
                 status,
                 publish_status: publishStatus,
                 specifications: specsRecord,
-                applications,
                 attachments: productAttachments,
             }).unwrap();
 
@@ -452,23 +436,7 @@ export default function CreateProduct() {
                         <Button type="button" variant="outline" size="sm" onClick={addSpecification} className="mt-2 text-xs"><Plus className="h-3 w-3 mr-1" /> Add Spec</Button>
                     </div>
 
-                    <div className="space-y-2">
-                        <Label>Applications</Label>
-                        <div className="flex flex-wrap gap-2 mb-2">
-                            {applications.map((app, i) => (
-                                <span key={i} className="inline-flex items-center gap-1 rounded-md bg-secondary text-secondary-foreground px-2 py-1 text-xs">
-                                    {app}
-                                    <button type="button" onClick={() => removeApplication(app)} className="hover:text-red-500"><XIcon className="h-3 w-3" /></button>
-                                </span>
-                            ))}
-                        </div>
-                        <Input 
-                            value={applicationInput} 
-                            onChange={e => setApplicationInput(e.target.value)} 
-                            onKeyDown={handleAddApplication} 
-                            placeholder="Type application and hit enter (e.g. Construction)" 
-                        />
-                    </div>
+
 
                     <FileUploadField
                         id="product-images"
@@ -597,16 +565,6 @@ export default function CreateProduct() {
                     </div>
                 )}
 
-                {applications.length > 0 && (
-                    <div className="mb-6">
-                        <h3 className="font-semibold text-lg mb-2">Applications</h3>
-                        <div className="flex flex-wrap gap-2">
-                            {applications.map((app, i) => (
-                                <span key={i} className="text-sm border border-border px-3 py-1 rounded-full bg-card shadow-sm">{app}</span>
-                            ))}
-                        </div>
-                    </div>
-                )}
 
                 <div className="mt-8 border-t pt-6">
                     <h3 className="font-semibold text-lg mb-4">Description</h3>

@@ -137,20 +137,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 </div>
                             )}
 
-                            {/* Applications */}
-                            {product.applications && product.applications.length > 0 && (
-                                <div className="mt-8">
-                                    <h3 className="text-xl font-bold text-heading mb-4">Common Applications</h3>
-                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        {product.applications.map((app, index) => (
-                                            <li key={index} className="flex items-center text-muted-foreground">
-                                                <CheckCircle2 className="w-5 h-5 text-primary/60 mr-3 flex-shrink-0" />
-                                                <span>{app}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
+
                         </div>
                     </div>
 

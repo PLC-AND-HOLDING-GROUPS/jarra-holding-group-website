@@ -8,5 +8,6 @@ router.get("/:id", productInquiryController.getInquiryById);
 router.post("/", productInquiryController.submitInquiry);
 router.put("/:id/status", productInquiryController.updateInquiryStatus);
 router.delete("/:id", productInquiryController.deleteInquiry);
+router.post("/:id/reply", productInquiryController.replyToInquiry);
 
 module.exports = router;
