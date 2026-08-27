@@ -1,0 +1,11 @@
+- `[x]` Create components for the Services page
+  - `[x]` `ServicesOverview.tsx` (WHAT WE DO)
+  - `[x]` `CoreServicesGrid.tsx` (Core Services - 6 static cards)
+  - `[x]` `ServiceExperience.tsx` (From Source to Market timeline)
+  - `[x]` `MultiSectorCapability.tsx` (One Partner. Multiple Sectors map)
+  - `[x]` `WhyJarraHoldings.tsx` (Why Partner with Jarra Holdings? values)
+  - `[x]` `ScaleAndCapability.tsx` (Scale & Capability Statistics counters)
+  - `[x]` `SustainabilityVision.tsx` (Building Sustainable Business Connections)
+  - `[x]` `ServicesCTA.tsx` (Final CTA)
+- `[x]` Update `frontend/src/app/[locale]/(public)/services/page.tsx` to assemble the new components and remove `ClientServices`.
+- `[x]` Verify layouts, styling, responsiveness, and animations.

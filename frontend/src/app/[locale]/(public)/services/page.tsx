@@ -3,7 +3,12 @@ import { getTranslations } from "next-intl/server";
 import { Settings } from "lucide-react";
 
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
-import ClientServices from "@/components/pages/services-page-components/ClientServices";
+import ServicesOverview from "@/components/pages/services-page-components/ServicesOverview";
+import CoreServicesGrid from "@/components/pages/services-page-components/CoreServicesGrid";
+import ServiceExperience from "@/components/pages/services-page-components/ServiceExperience";
+import MultiSectorCapability from "@/components/pages/services-page-components/MultiSectorCapability";
+import WhyJarraHoldings from "@/components/pages/services-page-components/WhyJarraHoldings";
+import ServicesCTA from "@/components/pages/services-page-components/ServicesCTA";
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
     const t = await getTranslations({ locale, namespace: "nav" });
@@ -21,9 +26,13 @@ export default function ServicesPage() {
                 icon={<Settings />}
                 description="Explore the professional services offered by Jarra Holding Group to our partners and clients globally."
             />
-            <div className="py-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
-                <ClientServices />
-            </div>
+            
+            <ServicesOverview />
+            <CoreServicesGrid />
+            <ServiceExperience />
+            <MultiSectorCapability />
+            <WhyJarraHoldings />
+            <ServicesCTA />
         </main>
     );
 }
