@@ -1,14 +1,14 @@
 "use client";
 
 import React from 'react'
-import AdminServicesList from '@/components/pages/services-page-components/AdminServicesList'
 
-const ServicesPage = () => {
+const BusinessesPage = () => {
     return (
         <div className="mx-auto space-y-6">
-            <AdminServicesList />
+            <h1 className="text-2xl font-bold">Businesses Management</h1>
+            <p className="text-muted-foreground">Manage businesses here. (Content coming soon)</p>
         </div>
     )
 }
 
-export default ServicesPage
+export default BusinessesPage

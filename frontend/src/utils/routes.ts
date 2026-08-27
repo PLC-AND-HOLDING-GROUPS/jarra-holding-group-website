@@ -49,10 +49,18 @@ export const routePermissions: RouteConfig[] = [
     },
     {
         path: "/admin/businesses",
-        label: "Businesses / Services",
+        label: "Businesses",
         icon: "Briefcase",
         permissions: {
-            // Using SERVICES:READ since it maps to the Service API
+            // Placeholder permission, maybe use something else later if a BUSINESSES API is added
+            anyPermissions: ["SERVICES:READ"],
+        },
+    },
+    {
+        path: "/admin/services",
+        label: "Services",
+        icon: "Settings",
+        permissions: {
             anyPermissions: ["SERVICES:READ"],
         },
     },
