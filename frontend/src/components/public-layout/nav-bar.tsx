@@ -29,7 +29,7 @@ export default function PublicNavbar() {
         { name: t("nav.products"), link: "/products" },
         { name: t("nav.services"), link: "/services" },
         { name: t("nav.facilities"), link: "/facilities" },
-        { name: t("nav.news"), link: "/news" },
+
         { name: t("nav.careers"), link: "/careers" },
         { name: t("nav.contact"), link: "/contact" },
     ];

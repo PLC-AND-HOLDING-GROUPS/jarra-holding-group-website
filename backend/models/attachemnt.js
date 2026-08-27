@@ -4,11 +4,6 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Attachment extends Model {
     static associate(models) {
-      // Junction: Attachment ↔ NewsAttachment
-      Attachment.hasMany(models.NewsAttachment, {
-        foreignKey: "attachment_id",
-        as: "newsAttachments",
-      });
 
       Attachment.hasMany(models.BackgroundAttachment, {
         foreignKey: "attachment_id",
@@ -35,25 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         as: "cards",
       });
 
-      Attachment.hasMany(models.Gamestone, {
-        foreignKey: "attachment_id",
-        as: "gamestones",
-      });
-
-      Attachment.hasMany(models.GamestoneAttachment, {
-        foreignKey: "attachment_id",
-        as: "gamestoneAttachments",
-      });
-
-      Attachment.hasMany(models.ResourceAttachment, {
-        foreignKey: "attachment_id",
-        as: "resourceAttachments",
-      });
-
-      Attachment.hasMany(models.Snapshot, {
-        foreignKey: "attachment_id",
-        as: "snapshots",
-      });
 
       Attachment.hasMany(models.ASMAttachment, {
         foreignKey: "attachment_id",
@@ -70,42 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "investigationStrategies",
       });
 
-      Attachment.hasMany(models.PetroleumAttachment, {
-        foreignKey: "attachment_id",
-        as: "petroleumAttachments",
-      });
 
-      Attachment.hasMany(models.ProcessBlockAttachment, {
-        foreignKey: "attachment_id",
-        as: "processBlockAttachments",
-      });
-
-      Attachment.hasMany(models.Step, {
-        foreignKey: "attachment_id",
-        as: "steps",
-      });
-      Attachment.hasMany(models.PetroleumRegulationAttachment, {
-        foreignKey: "attachment_id",
-        as: "petroleumRegulationAttachment",
-      });
-
-      Attachment.hasMany(models.MiningGuidelineAttachment, {
-        foreignKey: "attachment_id",
-        as: "miningGuidelineAttachments",
-      });
-
-      Attachment.hasMany(models.MiningFramework, {
-        foreignKey: "attachment_id",
-        as: "miningFramework",
-      });
-      Attachment.hasMany(models.EventAttachment, {
-        foreignKey: "attachment_id",
-        as: "eventAttachment",
-      });
-      Attachment.hasMany(models.Tender, {
-        foreignKey: "attachment_id",
-        as: "tenders",
-      });
       Attachment.hasMany(models.Vacancy, {
         foreignKey: "attachment_id",
         as: "vacancies",

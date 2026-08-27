@@ -5,7 +5,7 @@ import { DashboardStats } from "@/features/dashboard/components/DashboardStats";
 import { DashboardAreaChart } from "@/features/dashboard/components/DashboardAreaChart";
 import { DashboardBarChart } from "@/features/dashboard/components/DashboardBarChart";
 import { DashboardPieChart } from "@/features/dashboard/components/DashboardPieChart";
-import { NewsInteractionsTable } from "@/features/dashboard/components/NewsInteractionsTable";
+
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
@@ -31,7 +31,7 @@ export default function DashboardPage() {
     );
   }
 
-  const { summary, logsOverTime, contactsOverTime, actionsBreakdown, rolesDistribution, newsInteractions } = data.data;
+  const { summary, logsOverTime, contactsOverTime, actionsBreakdown, rolesDistribution } = data.data;
 
   return (
     <main className="flex-1 space-y-6 pb-12">
@@ -69,7 +69,7 @@ export default function DashboardPage() {
       </div>
 
       {/* News Performance Table (Replaced Chart) */}
-      <NewsInteractionsTable data={newsInteractions} />
+
     </main>
   );
 }

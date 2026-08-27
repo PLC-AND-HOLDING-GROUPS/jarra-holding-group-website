@@ -86,50 +86,6 @@ export const routePermissions: RouteConfig[] = [
 
     // ---------------- CONTENT ----------------
     {
-        path: "/admin/news",
-        label: "News",
-        icon: "Newspaper",
-        permissions: {
-            anyPermissions: ["NEWS:READ", "TAGS:READ"],
-        },
-        children: [
-            {
-                path: "/admin/news",
-                label: "News",
-                icon: "Newspaper",
-                permissions: { anyPermissions: ["NEWS:READ"] },
-            },
-            {
-                path: "/admin/news/tags",
-                label: "Tags",
-                icon: "Tag",
-                permissions: { anyPermissions: ["TAGS:READ"] },
-            },
-        ],
-    },
-    {
-        path: "/admin/events",
-        label: "Events",
-        icon: "Calendar",
-        permissions: {
-            anyPermissions: ["EVENTS:READ", "EVENT_CATEGORIES:READ"],
-        },
-        children: [
-            {
-                path: "/admin/events",
-                label: "All Events",
-                icon: "Calendar",
-                permissions: { anyPermissions: ["EVENTS:READ"] },
-            },
-            {
-                path: "/admin/events/category",
-                label: "Categories",
-                icon: "Tag",
-                permissions: { anyPermissions: ["EVENT_CATEGORIES:READ"] },
-            },
-        ],
-    },
-    {
         path: "/admin/products",
         label: "Products",
         icon: "Briefcase",
@@ -156,14 +112,6 @@ export const routePermissions: RouteConfig[] = [
                 permissions: { anyPermissions: ["SERVICES:READ"] },
             },
         ],
-    },
-    {
-        path: "/admin/tenders",
-        label: "Tenders",
-        icon: "FileText",
-        permissions: {
-            anyPermissions: ["TENDERS:READ"],
-        },
     },
     {
         path: "/admin/careers",
