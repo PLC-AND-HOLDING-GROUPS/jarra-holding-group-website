@@ -53,7 +53,7 @@ export default function ExternalLogin() {
         <div className="w-full bg-cover bg-center p-8 flex items-center justify-center">
           <div className="backdrop-blur-md p-6 rounded-xl text-center">
             <Image
-              src="/logo.png"
+              src="/jarra-logo.png"
               alt="Organization Logo"
               width={288}
               height={288}

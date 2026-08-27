@@ -62,7 +62,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
     // Fallback placeholder if no images
     if (imageUrls.length === 0) {
-        imageUrls.push("/logo-only.png");
+        imageUrls.push("/jarra-logo.png");
     }
 
     return (

@@ -5,7 +5,7 @@ export const SITE_NAME = "Ministry of Mines – Ethiopia";
 export const DEFAULT_DESCRIPTION =
   "Official website of the Ministry of Mines, Ethiopia. Regulating and developing the mineral, petroleum, and geothermal sectors for sustainable national growth.";
 
-const DEFAULT_OG_IMAGE = "/logo-only.png";
+const DEFAULT_OG_IMAGE = "/jarra-logo.png";
 
 /** Canonical public site URL (no trailing slash). */
 export function getSiteUrl(): string {
@@ -99,9 +99,9 @@ export function getRootMetadata(): Metadata {
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "32x32" },
-        { url: "/logo-only.png", type: "image/png", sizes: "512x512" },
+        { url: "/favicon_io/android-chrome-512x512.png", type: "image/png", sizes: "512x512" },
       ],
-      apple: "/logo-only.png",
+      apple: "/favicon_io/apple-touch-icon.png",
     },
     openGraph: {
       type: "website",

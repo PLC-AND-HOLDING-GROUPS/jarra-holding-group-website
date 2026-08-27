@@ -56,20 +56,10 @@ export const routePermissions: RouteConfig[] = [
             anyPermissions: ["SERVICES:READ"],
         },
     },
-    {
-        path: "/admin/partners",
-        label: "Partners",
-        icon: "Users", // Using Users icon as generic for partners
-        permissions: {
-            // Using ABOUT:READ or a generic permission since PARTNERS might not exist 
-            // but we want them to see it. Actually, wait. Let's not restrict it heavily if it's missing.
-            // But we'll leave it open or use DASHBOARD:VIEW if it fails, let's use ABOUT:READ
-            anyPermissions: ["ABOUT:READ"],
-        },
-    },
+
     {
         path: "/admin/contacts",
-        label: "Inquiries",
+        label: "Contacts",
         icon: "Phone",
         permissions: {
             anyPermissions: ["CONTACT:READ", "CONTACT_MESSAGES:READ"],

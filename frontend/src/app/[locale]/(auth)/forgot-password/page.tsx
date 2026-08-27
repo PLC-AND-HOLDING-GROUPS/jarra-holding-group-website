@@ -117,7 +117,7 @@ export default function ForgotPasswordPage() {
         <div className="w-full bg-cover bg-center p-8 flex items-center justify-center">
           <div className="backdrop-blur-md p-6 rounded-xl text-center">
             <img
-              src="/logo.png"
+              src="/jarra-logo.png"
               alt="Organization Logo"
               className="h-72 mx-auto mb-3 rounded-xl p-2"
             />

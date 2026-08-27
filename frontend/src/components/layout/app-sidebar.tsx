@@ -296,7 +296,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <Link href="/admin/dashboard" className="flex flex-col items-center">
               <Image
-                src="/logo.png"
+                src="/jarra-logo.png"
                 alt="Jarra Holding Group Logo"
                 width={100}
                 height={100}

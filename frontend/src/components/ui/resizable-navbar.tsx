@@ -401,7 +401,7 @@ export const NavbarLogo = () => {
             className="flex items-center gap-2 hover:opacity-90 transition-opacity"
         >
             <Image
-                src="/logo.png"
+                src="/jarra-logo.png"
                 alt="logo"
                 width={40}
                 height={40}
