@@ -307,14 +307,15 @@ export default function CreateProduct() {
                 status,
                 publish_status: publishStatus,
                 specifications: specsRecord,
+                applications: [],
                 attachments: productAttachments,
             }).unwrap();
 
             toast.success("Product Created Successfully!");
             
             // Redirect to edit page instead of clearing form
-            if (result.data?.product_id) {
-                router.push(`/admin/products/${result.data.product_id}`);
+            if (result?.product_id) {
+                router.push(`/admin/products/${result.product_id}`);
             }
         } catch (error) {
             console.error(error);
