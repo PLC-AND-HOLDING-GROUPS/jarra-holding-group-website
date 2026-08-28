@@ -86,19 +86,6 @@ const operationsData = [
 const OverviewPage = () => {
     return (
         <div className='w-7xl mx-auto'>
-            {/* Header with Stats */}
-            <div className='bg-gradient-to-r from-gray-200 to-gray-100 rounded-2xl p-8 mb-10 text-black shadow-lg'>
-                <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6'>
-                    <div>
-                        <h1 className='text-4xl font-bold mb-4'>
-                            Jarra at a Glance
-                        </h1>
-                        <p className='text-heading max-w-2xl'>
-                            An overview of Jarra Holding Group's integrated business network and commercial operations.
-                        </p>
-                    </div>
-                </div>
-            </div>
 
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
                 {/* Left Column - Main Content */}
