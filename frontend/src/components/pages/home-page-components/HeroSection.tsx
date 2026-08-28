@@ -43,17 +43,17 @@ export default function HeroSection() {
 
     // Fetch sliders from CMS
     const { data: cmsSliders = [], isLoading } = useGetSlidersQuery();
-    
+
     // Map CMS sliders
     const activeSlides = [...cmsSliders]
         .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
         .map((s, idx) => ({
-        id: s.slider_id || idx,
-        title: { en: s.title, am: s.title },
-        description: { en: s.description || "", am: s.description || "" },
-        image: getImageUrl(s.attachment as any, "original") || "/placeholder.jpg",
-        bg: "bg-base-200/60"
-    }));
+            id: s.slider_id || idx,
+            title: { en: s.title, am: s.title },
+            description: { en: s.description || "", am: s.description || "" },
+            image: getImageUrl(s.attachment as any, "original") || "/placeholder.jpg",
+            bg: "bg-base-200/60"
+        }));
 
     // Go to next slide
     const next = () => setCurrent((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1));

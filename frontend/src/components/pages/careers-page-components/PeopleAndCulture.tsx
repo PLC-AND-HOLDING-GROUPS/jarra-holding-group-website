@@ -1,132 +1,117 @@
 "use client";
 
 import React from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Users, Lightbulb, ShieldCheck, Target } from "lucide-react";
+
+const features = [
+    {
+        icon: <Users className="w-6 h-6" />,
+        title: "Collaborative Culture",
+        description: "We foster an environment where teamwork and shared goals drive our success across all sectors.",
+    },
+    {
+        icon: <Lightbulb className="w-6 h-6" />,
+        title: "Innovative Thinking",
+        description: "Embracing new ideas and creative solutions to overcome challenges and improve our operations.",
+    },
+    {
+        icon: <ShieldCheck className="w-6 h-6" />,
+        title: "Integrity & Trust",
+        description: "Operating with the highest ethical standards, building trust with our partners and communities.",
+    },
+    {
+        icon: <Target className="w-6 h-6" />,
+        title: "Competency & Excellence",
+        description: "Committing to continuous learning and achieving excellence in everything we do.",
+    },
+];
 
 export default function PeopleAndCulture() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    });
-
-    const y1 = useTransform(scrollYProgress, [0, 1], [0, -40]);
-    const y2 = useTransform(scrollYProgress, [0, 1], [0, 40]);
-
     return (
-        <section ref={containerRef} className="py-24 bg-white relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 md:px-8 mb-16 text-center">
-                <motion.h2 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-5xl font-bold text-slate-900 mb-6"
-                >
-                    People Power Our <span className="text-primary">Progress</span>
-                </motion.h2>
-                <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                    className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed"
-                >
-                    The strength of a growing multi-sector organization depends on capable, collaborative, and innovative people. Knowledge, competency, and integrity form the foundation of our culture.
-                </motion.p>
-            </div>
+        <section className="py-24 bg-slate-50 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 md:px-8">
 
-            {/* Word Cloud Photography Replacement */}
-            <div className="relative max-w-[95%] mx-auto rounded-3xl overflow-hidden shadow-2xl bg-[#030e21] border border-cyan-900/30">
-                {/* Glowing Background Effects */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
-                <div className="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-cyan-500/10 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute top-0 right-1/4 w-1/3 h-1/3 bg-blue-400/10 blur-[80px] rounded-full pointer-events-none" />
+                <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
 
-                {/* Word Cloud Container */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="flex flex-col items-center justify-center font-sans uppercase w-full py-16 md:py-24 px-2 md:px-4 select-none relative z-10"
-                >
-                    {/* Top Section */}
-                    <motion.div style={{ y: y1 }} className="flex items-end justify-center w-full gap-2 md:gap-4 mb-2 md:mb-3">
-                        {/* Top Left Cluster */}
-                        <div className="flex flex-col items-end gap-0 md:gap-1">
-                            <div className="flex items-baseline gap-2 md:gap-3">
-                                <span className="text-cyan-600 font-medium text-base md:text-2xl lg:text-3xl">Knowledge</span>
-                                <span className="text-cyan-400 font-bold text-xl md:text-4xl lg:text-5xl">Collaborative</span>
-                            </div>
-                            <div className="flex items-baseline gap-2 md:gap-3">
-                                <span className="text-cyan-600 font-medium text-xs md:text-lg lg:text-xl">Capable</span>
-                                <span className="text-cyan-500 font-black text-3xl md:text-6xl lg:text-7xl tracking-tight leading-none">Culture</span>
-                            </div>
-                        </div>
-
-                        {/* Top Right Cluster */}
-                        <div className="flex items-end gap-1 md:gap-2 ml-2 md:ml-4 lg:ml-6">
-                            <div className="flex gap-1 h-full pb-1">
-                                <span className="text-cyan-700 font-bold text-lg md:text-2xl lg:text-3xl tracking-widest" style={{ writingMode: 'vertical-rl' }}>GROW</span>
-                                <span className="text-cyan-500 font-black text-2xl md:text-5xl lg:text-6xl tracking-widest" style={{ writingMode: 'vertical-rl' }}>FUTURE</span>
-                            </div>
-                            <div className="flex flex-col justify-end gap-0 md:gap-1 pb-1">
-                                <span className="text-cyan-400 font-bold text-lg md:text-3xl lg:text-4xl">Progress</span>
-                                <span className="text-white font-bold text-xl md:text-4xl lg:text-5xl tracking-wide leading-none">Competency</span>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Center Main Word */}
-                    <div className="z-20 relative my-2 md:my-4">
-                        <motion.h1 
-                            initial={{ filter: 'blur(10px)', opacity: 0, scale: 1.1 }}
-                            whileInView={{ filter: 'blur(0px)', opacity: 1, scale: 1 }}
-                            transition={{ duration: 1.2, delay: 0.2 }}
-                            className="text-white font-black text-[13vw] sm:text-[11vw] md:text-[8rem] lg:text-[11rem] xl:text-[13rem] leading-[0.8] tracking-tighter drop-shadow-2xl"
+                    {/* Left Side: Images & Visuals */}
+                    <div className="w-full lg:w-1/2 relative h-[500px] md:h-[600px]">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="absolute top-0 left-0 w-4/5 h-4/5 rounded-3xl overflow-hidden shadow-2xl z-10"
                         >
-                            LEADERSHIP
-                        </motion.h1>
+                            <Image
+                                src="/home-4.jpg"
+                                alt="Our People"
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-slate-900/10 mix-blend-multiply" />
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="absolute bottom-0 right-0 w-3/5 h-2/3 rounded-3xl overflow-hidden shadow-xl border-8 border-slate-50 z-20"
+                        >
+                            <Image
+                                src="/home-2.jpg"
+                                alt="Company Culture"
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                        </motion.div>
+
+                        {/* Decorative Element */}
+                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl -z-10" />
+                        <div className="absolute top-10 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl -z-10" />
                     </div>
 
-                    {/* Bottom Section */}
-                    <motion.div style={{ y: y2 }} className="flex items-start justify-center w-full gap-2 md:gap-4 mt-2 md:mt-3">
-                        {/* Bottom Left Cluster */}
-                        <div className="flex flex-col gap-0 md:gap-1 items-end">
-                            <div className="flex items-baseline gap-2 md:gap-3">
-                                <span className="text-cyan-400 font-bold text-xl md:text-3xl lg:text-4xl">Learn</span>
-                                <span className="text-white/80 font-medium text-xs md:text-base lg:text-xl">Quality</span>
-                            </div>
-                            <div className="flex items-start gap-2 md:gap-3">
-                                <span className="text-cyan-500 font-black text-3xl md:text-5xl lg:text-[5rem] tracking-tight leading-none">Innovative</span>
-                            </div>
-                        </div>
+                    {/* Right Side: Text & Features */}
+                    <div className="w-full lg:w-1/2">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <span className="text-sm font-bold text-primary tracking-widest uppercase mb-4 block">Our Culture</span>
+                            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                                People Power Our <span className="text-primary">Progress</span>
+                            </h2>
+                            <p className="text-lg text-slate-600 mb-10 leading-relaxed">
+                                The strength of a growing multi-sector organization depends on capable, collaborative, and innovative people. Knowledge, competency, and integrity form the foundation of our culture.
+                            </p>
+                        </motion.div>
 
-                        {/* Vertical Divider word in bottom section */}
-                        <div className="flex items-start h-full pt-1">
-                            <span className="text-cyan-700 font-bold text-xl md:text-3xl lg:text-4xl tracking-widest" style={{ writingMode: 'vertical-rl' }}>POWER</span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {features.map((feature, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.1 * index }}
+                                    className="flex flex-col gap-3 group"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                                        {feature.icon}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-900">{feature.title}</h3>
+                                    <p className="text-slate-600 leading-relaxed text-sm">
+                                        {feature.description}
+                                    </p>
+                                </motion.div>
+                            ))}
                         </div>
+                    </div>
 
-                        {/* Bottom Right Cluster */}
-                        <div className="flex items-start gap-2 md:gap-4 ml-2 md:ml-4">
-                            <div className="flex flex-col gap-0 md:gap-1">
-                                <div className="flex items-baseline gap-2 md:gap-3">
-                                     <span className="text-white font-bold text-2xl md:text-4xl lg:text-5xl">Contribute</span>
-                                     <span className="text-white/70 font-medium text-xs md:text-base lg:text-lg">People</span>
-                                </div>
-                                <div className="flex items-baseline gap-2 md:gap-3">
-                                    <span className="text-cyan-400 font-bold text-lg md:text-2xl lg:text-3xl">Integrity</span>
-                                    <span className="text-white font-medium text-base md:text-xl lg:text-2xl">Excellence</span>
-                                </div>
-                            </div>
-                            <div className="flex gap-1 h-full pt-1">
-                                <span className="text-cyan-500 font-bold text-lg md:text-2xl lg:text-3xl tracking-widest" style={{ writingMode: 'vertical-rl' }}>DRIVE</span>
-                                <span className="text-cyan-600 font-medium text-base md:text-xl lg:text-2xl tracking-widest" style={{ writingMode: 'vertical-rl' }}>VISION</span>
-                            </div>
-                        </div>
-                    </motion.div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );
