@@ -5,7 +5,8 @@ import { Mail } from "lucide-react";
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import ContactForm from "@/components/pages/contact-page-components/ContactForm";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
         title: t("contact") || "Contact Us - Jarra Holding Group",

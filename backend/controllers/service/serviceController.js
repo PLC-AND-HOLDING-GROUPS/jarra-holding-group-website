@@ -63,7 +63,10 @@ const createService = async (req, res) => {
 const getAllServices = async (req, res) => {
     try {
         const services = await Service.findAll({
-            order: [["created_at", "DESC"]],
+            order: [
+                ["order", "ASC"],
+                ["created_at", "DESC"],
+            ],
         });
 
         return res.status(200).json({
@@ -215,10 +218,42 @@ const deleteService = async (req, res) => {
     }
 };
 
+// ===========================
+// REORDER SERVICES
+// ===========================
+const reorderServices = async (req, res) => {
+    const t = await sequelize.transaction();
+    try {
+        const { services } = req.body;
+
+        if (!Array.isArray(services)) {
+            await t.rollback();
+            return res.status(400).json({ success: false, message: "Invalid payload format." });
+        }
+
+        for (const item of services) {
+            if (item.id && typeof item.order === 'number') {
+                await Service.update(
+                    { order: item.order },
+                    { where: { service_id: item.id }, transaction: t }
+                );
+            }
+        }
+
+        await t.commit();
+        return res.status(200).json({ success: true, message: "Services reordered successfully." });
+    } catch (error) {
+        if (!t.finished) await t.rollback();
+        console.error("Reorder Services Error:", error);
+        return res.status(500).json({ success: false, message: "Failed to reorder services" });
+    }
+};
+
 module.exports = {
     createService,
     getAllServices,
     getServiceById,
     updateService,
     deleteService,
+    reorderServices,
 };

@@ -7,7 +7,8 @@ import EditorialIntro from "@/components/pages/facilities-page-components/Editor
 import FacilityEditorialShowcase from "@/components/pages/facilities-page-components/FacilityEditorialShowcase";
 import PhysicalFootprint from "@/components/pages/facilities-page-components/PhysicalFootprint";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
         title: t("facilities") || "Facilities - Jarra Holding Group",

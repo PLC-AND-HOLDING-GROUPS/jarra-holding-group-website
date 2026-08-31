@@ -2,8 +2,9 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { useGetServiceExperienceQuery } from "@/redux/api/serviceApi";
 
-const steps = [
+const defaultSteps = [
     { num: "01", title: "Understand", desc: "Understand customer and market requirements." },
     { num: "02", title: "Source", desc: "Identify appropriate products and supply channels." },
     { num: "03", title: "Trade", desc: "Manage import, export, and trading activities." },
@@ -12,6 +13,16 @@ const steps = [
 ];
 
 export default function ServiceExperience() {
+    const { data: experience, isLoading } = useGetServiceExperienceQuery();
+
+    if (isLoading) {
+        return <div className="py-24 text-center">Loading experience...</div>;
+    }
+
+    const heading = experience?.heading || "From Source to Market";
+    const subheading = experience?.subheading || "Our integrated approach ensures reliability at every step of the commercial supply chain.";
+    const steps = (experience?.steps && experience.steps.length > 0) ? experience.steps : defaultSteps;
+
     return (
         <section className="py-24 bg-white text-slate-900 overflow-hidden border-t border-slate-200">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -21,9 +32,9 @@ export default function ServiceExperience() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">From Source to Market</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4">{heading}</h2>
                     <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                        Our integrated approach ensures reliability at every step of the commercial supply chain.
+                        {subheading}
                     </p>
                 </motion.div>
 

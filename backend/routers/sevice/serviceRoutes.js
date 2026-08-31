@@ -14,11 +14,13 @@ const {
     getServiceById,
     updateService,
     deleteService,
+    reorderServices,
 } = require("../../controllers/service/serviceController");
 
 // ===========================
 // Service CRUD
 // ===========================
+router.put("/reorder", authenticateToken, reorderServices);
 router.post("/", authenticateToken, validateCreateService, createService);
 router.get("/", getAllServices);
 router.get("/:id", getServiceById);

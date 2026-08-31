@@ -52,17 +52,30 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
     const [currentImage, setCurrentImage] = useState<UploadedFileInfo | null>(null);
     const [previewFile, setPreviewFile] = useState<UploadedFileInfo | null>(null);
 
-    // Initialize with existing attachment ID from backend
     useEffect(() => {
-        if (!attachmentsResponse || value.length === 0) {
+        if (value.length === 0) {
             setCurrentImage(null);
             return;
         }
 
-        const all = attachmentsResponse.attachments || [];
         const attachmentId = value[0]; // Take first ID only
 
+        if (!attachmentsResponse) {
+            // If attachments are still loading but we have a URL-like value, show it
+            if (attachmentId.startsWith("/") || attachmentId.startsWith("http")) {
+                setCurrentImage((prev) => prev?.attachment_id === attachmentId ? prev : {
+                    attachment_id: attachmentId,
+                    file_name: attachmentId.split("/").pop() || "image",
+                    previewUrl: attachmentId,
+                    category,
+                });
+            }
+            return;
+        }
+
+        const all = attachmentsResponse.attachments || [];
         const found = all.find((a) => a.attachment_id === attachmentId);
+        
         if (found) {
             const imageInfo = {
                 attachment_id: found.attachment_id,
@@ -73,7 +86,21 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             };
             setCurrentImage(imageInfo);
         } else {
-            setCurrentImage(null);
+            setCurrentImage((prev) => {
+                if (prev && prev.attachment_id === attachmentId) {
+                    return prev;
+                }
+                // Support legacy placeholder URLs
+                if (attachmentId.startsWith("/") || attachmentId.startsWith("http")) {
+                    return {
+                        attachment_id: attachmentId,
+                        file_name: attachmentId.split("/").pop() || "image",
+                        previewUrl: attachmentId,
+                        category,
+                    };
+                }
+                return null;
+            });
         }
     }, [attachmentsResponse, value, category]);
 

@@ -132,7 +132,7 @@ export default function ServiceModal({
                     <Button
                         onClick={handleSave}
                         disabled={creating || updating}
-                        className="bg-golden-dark hover:bg-golden-darkHover text-white"
+                        className="bg-primary hover:bg-primary/80 text-white font-semibold"
                     >
                         {isEditing ? "Update Service" : "Save Service"}
                     </Button>

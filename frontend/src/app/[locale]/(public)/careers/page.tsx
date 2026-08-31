@@ -5,7 +5,8 @@ import Introduction from "@/components/pages/careers-page-components/Introductio
 import PeopleAndCulture from "@/components/pages/careers-page-components/PeopleAndCulture";
 import CurrentOpportunities from "@/components/pages/careers-page-components/CurrentOpportunities";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
         title: t("careers") || "Careers - Jarra Holding Group",

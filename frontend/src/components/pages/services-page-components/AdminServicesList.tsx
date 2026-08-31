@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Edit, Trash, Plus } from "lucide-react";
+import { Eye, Edit, Trash, Plus, ArrowUp, ArrowDown } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import type { FilterField, ActionButton } from "@/types/tableLayout";
 import {
     useGetServicesQuery,
     useDeleteServiceMutation,
+    useReorderServicesMutation,
 } from "@/redux/api/serviceApi";
 import { Service } from "@/redux/types/service";
 
@@ -28,6 +29,7 @@ export default function AdminServicesList() {
     /* API */
     const { data = [], isLoading, isError } = useGetServicesQuery();
     const [deleteService] = useDeleteServiceMutation();
+    const [reorderServices] = useReorderServicesMutation();
 
     /* Modal */
     const [isModalOpen, setModalOpen] = useState(false);
@@ -100,6 +102,31 @@ export default function AdminServicesList() {
             header: "Actions",
             cell: ({ row }) => {
                 const service = row.original;
+                const index = data.findIndex(s => s.service_id === service.service_id);
+
+                const handleMoveUp = async () => {
+                    if (index > 0) {
+                        const newServices = [...data];
+                        const temp = newServices[index];
+                        newServices[index] = newServices[index - 1];
+                        newServices[index - 1] = temp;
+                        
+                        const payload = newServices.map((s, i) => ({ id: s.service_id, order: i }));
+                        await reorderServices({ services: payload });
+                    }
+                };
+
+                const handleMoveDown = async () => {
+                    if (index < data.length - 1) {
+                        const newServices = [...data];
+                        const temp = newServices[index];
+                        newServices[index] = newServices[index + 1];
+                        newServices[index + 1] = temp;
+                        
+                        const payload = newServices.map((s, i) => ({ id: s.service_id, order: i }));
+                        await reorderServices({ services: payload });
+                    }
+                };
 
                 return (
                     <div className="flex items-center gap-1">
@@ -135,6 +162,31 @@ export default function AdminServicesList() {
                                 <Trash className="h-4 w-4 text-destructive" />
                             </Button>
                         </ComponentGuard>
+                        
+                        {!search && (
+                            <>
+                                <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={handleMoveUp}
+                                        disabled={index === 0}
+                                    >
+                                        <ArrowUp className="h-4 w-4" />
+                                    </Button>
+                                </ComponentGuard>
+                                <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={handleMoveDown}
+                                        disabled={index === data.length - 1}
+                                    >
+                                        <ArrowDown className="h-4 w-4" />
+                                    </Button>
+                                </ComponentGuard>
+                            </>
+                        )}
                     </div>
                 );
             },

@@ -16,19 +16,19 @@ const WORD_KEYS = [
     { key: "top_left_2", label: "Top Left 2 (e.g. Investment)" },
     { key: "top_left_3", label: "Top Left 3 (e.g. Quality)" },
     { key: "top_left_4", label: "Top Left 4 (e.g. Integrity)" },
-    
+
     { key: "top_right_1", label: "Top Right 1 (Vertical - e.g. VALUE)" },
     { key: "top_right_2", label: "Top Right 2 (Vertical - e.g. GROWTH)" },
     { key: "top_right_3", label: "Top Right 3 (e.g. Innovation)" },
     { key: "top_right_4", label: "Top Right 4 (e.g. Collaboration)" },
-    
+
     { key: "center", label: "Center Main Word (e.g. IMPACT)" },
-    
+
     { key: "bottom_left_1", label: "Bottom Left 1 (e.g. Empowerment)" },
     { key: "bottom_left_2", label: "Bottom Left 2 (e.g. Community)" },
     { key: "bottom_left_3", label: "Bottom Left 3 (e.g. Development)" },
     { key: "bottom_left_4", label: "Bottom Left 4 (Vertical - e.g. PROGRESS)" },
-    
+
     { key: "bottom_right_1", label: "Bottom Right 1 (e.g. Customer)" },
     { key: "bottom_right_2", label: "Bottom Right 2 (e.g. Value)" },
     { key: "bottom_right_3", label: "Bottom Right 3 (e.g. Competency)" },
@@ -117,7 +117,7 @@ export default function AdminCanvasManager() {
                     </CardHeader>
                     <CardContent className="p-6 space-y-6">
                         <div className="space-y-4">
-                            <h3 className="font-medium text-sm text-gray-700 uppercase tracking-wider">Top Section</h3>
+                            <h3 className="font-medium text-sm text-primary uppercase tracking-wider">Top Section</h3>
                             <div className="space-y-2">
                                 <Label>Title Prefix</Label>
                                 <Input
@@ -148,7 +148,7 @@ export default function AdminCanvasManager() {
                         <hr />
 
                         <div className="space-y-4">
-                            <h3 className="font-medium text-sm text-gray-700 uppercase tracking-wider">Vision Section</h3>
+                            <h3 className="font-medium text-sm text-primary uppercase tracking-wider">Vision Section</h3>
                             <div className="space-y-2">
                                 <Label>Vision Title</Label>
                                 <Input
@@ -177,21 +177,21 @@ export default function AdminCanvasManager() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
-                        <p className="text-sm text-gray-500 mb-6">
+                        <p className="text-sm text-white mb-6">
                             Edit the words that appear in the dynamic canvas. The layout positions are fixed to ensure the design remains intact.
                         </p>
-                        
+
                         <div className="space-y-6">
                             {/* Grouping by region for better UX */}
                             {["top_left", "top_right", "center", "bottom_left", "bottom_right"].map((region) => (
-                                <div key={region} className="p-4 border rounded-lg bg-gray-50 space-y-4">
-                                    <h4 className="font-medium text-sm text-gray-700 uppercase">
+                                <div key={region} className="p-4 border rounded-lg space-y-4">
+                                    <h4 className="font-medium text-sm text-primary uppercase">
                                         {region.replace("_", " ")}
                                     </h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {WORD_KEYS.filter(k => k.key.startsWith(region)).map((w) => (
                                             <div key={w.key} className="space-y-1">
-                                                <Label className="text-xs text-gray-600">{w.label}</Label>
+                                                <Label className="text-xs text-white">{w.label}</Label>
                                                 <Input
                                                     value={words[w.key] || ""}
                                                     onChange={(e) => handleWordChange(w.key, e.target.value)}

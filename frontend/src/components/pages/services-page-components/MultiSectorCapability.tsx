@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useGetServiceCapabilityQuery } from "@/redux/api/serviceApi";
+import { useGetAttachmentsQuery } from "@/redux/api/attachementApi";
+import { getImageUrl } from "@/utils/fileUrl";
 
-const sectors = [
+const defaultSectors = [
     {
         id: "agriculture",
         name: "AGRICULTURE",
@@ -45,7 +48,43 @@ const sectors = [
 ];
 
 export default function MultiSectorCapability() {
-    const [activeSector, setActiveSector] = useState(sectors[0]);
+    const { data: capability, isLoading } = useGetServiceCapabilityQuery();
+    const { data: attachmentsResponse } = useGetAttachmentsQuery();
+    
+    const sectors = (capability?.capabilities && capability.capabilities.length > 0) ? capability.capabilities : defaultSectors;
+    const [activeSector, setActiveSector] = useState(sectors[0] || defaultSectors[0]);
+
+    const getSectorBg = (sectorImage?: string) => {
+        if (!sectorImage) return "url('/home-1.jpg')";
+        
+        // If it's an attachment ID
+        const attachments = attachmentsResponse?.attachments || [];
+        const found = attachments.find(a => a.attachment_id === sectorImage);
+        if (found) {
+            const url = getImageUrl(found, "large");
+            if (url) return `url('${url}')`;
+        }
+        
+        // If it's a legacy URL (like /factory.jpg)
+        if (sectorImage.startsWith("/") || sectorImage.startsWith("http")) {
+            return `url('${sectorImage}')`;
+        }
+        
+        return "url('/home-1.jpg')";
+    };
+
+    useEffect(() => {
+        if (sectors.length > 0) {
+            setActiveSector(sectors[0]);
+        }
+    }, [capability]);
+
+    if (isLoading) {
+        return <div className="py-24 text-center">Loading capabilities...</div>;
+    }
+
+    const heading = capability?.heading || "One Partner. Multiple Sectors.";
+    const subheading = capability?.subheading || "Jarra Holdings operates as a multi-sector company with activities spanning import, export, trading, and supply across key economic pillars.";
 
     return (
         <section className="py-24 bg-white">
@@ -57,7 +96,7 @@ export default function MultiSectorCapability() {
                         viewport={{ once: true }}
                         className="text-3xl md:text-5xl font-bold text-slate-900 mb-6"
                     >
-                        One Partner. Multiple Sectors.
+                        {heading}
                     </motion.h2>
                     <motion.p 
                         initial={{ opacity: 0, y: 10 }}
@@ -66,7 +105,7 @@ export default function MultiSectorCapability() {
                         transition={{ delay: 0.1 }}
                         className="text-lg text-slate-600 max-w-2xl"
                     >
-                        Jarra Holdings operates as a multi-sector company with activities spanning import, export, trading, and supply across key economic pillars.
+                        {subheading}
                     </motion.p>
                 </div>
 
@@ -101,8 +140,8 @@ export default function MultiSectorCapability() {
                                             <div className="rounded-xl p-6 relative overflow-hidden group shadow-sm">
                                                 {/* Background Image with Overlay for Mobile */}
                                                 <div 
-                                                    className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-                                                    style={{ backgroundImage: "url('/home-1.jpg')" }}
+                                                    className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500" 
+                                                    style={{ backgroundImage: getSectorBg(sector.image) }}
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/50" />
                                                 
@@ -123,10 +162,17 @@ export default function MultiSectorCapability() {
                     <div className="hidden lg:block lg:w-2/3">
                         <div className="rounded-2xl p-8 md:p-12 h-full flex flex-col justify-center relative overflow-hidden group shadow-xl">
                             {/* Background Image with Overlay */}
-                            <div 
-                                className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-                                style={{ backgroundImage: "url('/home-1.jpg')" }}
-                            />
+                            <AnimatePresence mode="wait">
+                                <motion.div 
+                                    key={activeSector.id}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+                                    style={{ backgroundImage: getSectorBg(activeSector.image) }}
+                                />
+                            </AnimatePresence>
                             <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/50" />
                             
                             <AnimatePresence mode="wait">

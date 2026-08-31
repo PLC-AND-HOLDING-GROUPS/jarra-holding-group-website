@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useGetSlidersQuery } from "@/redux/api/sliderApi";
 import { getImageUrl } from "@/utils/fileUrl";
+import Link from "next/link";
 
 // Define a type for multi-language text
 type LocalizedText = {
@@ -21,6 +22,10 @@ export type Slide = {
     id: number;
     title: LocalizedText;
     description: LocalizedText;
+    button_name: LocalizedText;
+    button_url: string;
+    button2_name: LocalizedText;
+    button2_url: string;
     image: string;
     bg: string;
 };
@@ -51,6 +56,10 @@ export default function HeroSection() {
             id: s.slider_id || idx,
             title: { en: s.title, am: s.title },
             description: { en: s.description || "", am: s.description || "" },
+            button_name: { en: s.button_name || t("hero.button"), am: s.button_name || t("hero.button") },
+            button_url: s.button_url || "/investigating-in-ethiopia",
+            button2_name: { en: s.button2_name || t("hero.button2"), am: s.button2_name || t("hero.button2") },
+            button2_url: s.button2_url || "/services",
             image: getImageUrl(s.attachment as any, "original") || "/placeholder.jpg",
             bg: "bg-base-200/60"
         }));
@@ -134,12 +143,16 @@ export default function HeroSection() {
                                         {slide.description[locale]}
                                     </p>
                                     <div className="flex flex-col sm:flex-row gap-4 mt-4 w-fit">
-                                        <Button className="bg-primary z-30 w-full sm:w-fit hover:bg-primaryHover h-12  text-base flex items-center justify-center">
-                                            {t("hero.button")} <ArrowRight className="w-4 h-4 " />
-                                        </  Button>
-                                        <Button className="bg-white z-30 text-primary w-full sm:w-fit h-12  text-base hover:bg-white/80">
-                                            <Activity className="w-4 h-4 " />  {t("hero.button2")}
-                                        </Button>
+                                        <Link href={slide.button_url}>
+                                            <Button className="bg-primary z-30 w-full sm:w-fit hover:bg-primaryHover h-12  text-base flex items-center justify-center">
+                                                {slide.button_name[locale]} <ArrowRight className="w-4 h-4 " />
+                                            </Button>
+                                        </Link>
+                                        <Link href={slide.button2_url}>
+                                            <Button className="bg-white z-30 text-primary w-full sm:w-fit h-12  text-base hover:bg-white/80">
+                                                <Activity className="w-4 h-4 " />  {slide.button2_name[locale]}
+                                            </Button>
+                                        </Link>
                                     </div>
 
                                 </div>

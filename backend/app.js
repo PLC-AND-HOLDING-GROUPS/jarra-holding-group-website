@@ -23,6 +23,10 @@ const changePasswordRoutes = require("./routers/user-routes/passwordChangeRoutes
 
 // ================== Service Routes ==========================
 const serviceRoute = require("./routers/sevice/serviceRoutes");
+const serviceOverviewRoute = require("./routers/sevice/serviceOverviewRoutes");
+const serviceExperienceRoute = require("./routers/sevice/serviceExperienceRoutes");
+const serviceCapabilityRoute = require("./routers/sevice/serviceCapabilityRoutes");
+const serviceWhyUsRoute = require("./routers/sevice/serviceWhyUsRoutes");
 
 // ================== About Page Routes ==========================
 const backgroundRoute = require("./routers/about/backgroundRoutes");
@@ -160,6 +164,10 @@ app.use("/api/permissions", permissionRoute);
 
 // ================== Service Routes ==========================
 app.use("/api/services", serviceRoute);
+app.use("/api/service-overview", serviceOverviewRoute);
+app.use("/api/service-experience", serviceExperienceRoute);
+app.use("/api/service-capability", serviceCapabilityRoute);
+app.use("/api/service-why-us", serviceWhyUsRoute);
 
 // ================== About Page Routes ==========================
 app.use("/api/backgrounds", backgroundRoute);

@@ -10,7 +10,8 @@ import MultiSectorCapability from "@/components/pages/services-page-components/M
 import WhyJarraHoldings from "@/components/pages/services-page-components/WhyJarraHoldings";
 import ServicesCTA from "@/components/pages/services-page-components/ServicesCTA";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
         title: t("services") || "Services - Jarra Holding Group",
