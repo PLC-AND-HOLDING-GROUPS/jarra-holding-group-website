@@ -186,4 +186,4 @@ export function getPermissionsForPath(path: string) {
 // Get children for tabs
 export function getChildRoutes(parentPath: string) {
     return routePermissions.find((r) => r.path === parentPath)?.children || [];
-}
+}
