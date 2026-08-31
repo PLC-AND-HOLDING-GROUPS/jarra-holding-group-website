@@ -100,7 +100,7 @@ const getIconComponent = (iconName?: string, label?: string) => {
     Search,
     // Legacy maps based on labels if needed
     Dashboard: LayoutDashboard,
-    "Hero Section": ImageIcon,
+    "Home Page": ImageIcon,
     About: Info,
     Services: Briefcase,
     Contacts: Phone,

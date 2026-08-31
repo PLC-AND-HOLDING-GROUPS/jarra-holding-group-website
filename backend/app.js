@@ -44,6 +44,8 @@ const footerRoute = require("./routers/footer/footerRoutes");
 const cardRoute = require("./routers/hero/cardRoute");
 const sliderRoute = require("./routers/hero/sliderRoute");
 const partnerRoute = require("./routers/hero/partnerRoute");
+const purposeRoute = require("./routers/hero/purposeRoute");
+const canvasRoute = require("./routers/hero/canvasRoute");
 
 
 // ================== ASM Routes ==========================
@@ -179,6 +181,8 @@ app.use("/api/footer", footerRoute);
 app.use("/api/cards", cardRoute);
 app.use("/api/sliders", sliderRoute);
 app.use("/api/partners", partnerRoute);
+app.use("/api/purpose", purposeRoute);
+app.use("/api/canvas", canvasRoute);
 
 
 // ================== ASM Routes ==========================

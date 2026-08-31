@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import type { DisplayStatus } from "@/redux/types/tender";
+export type DisplayStatus = "open" | "closed" | "draft" | "published" | "cancelled" | "archived" | string;
 
 export function OpportunityStatusBadge({
   displayStatus,

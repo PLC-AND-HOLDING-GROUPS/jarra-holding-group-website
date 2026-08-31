@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import {
   Wheat,
   HardHat,
@@ -81,7 +81,7 @@ const flowSteps = [
   }
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -89,7 +89,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
@@ -112,9 +112,9 @@ export default function ImportExport() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.02),transparent_50%)]"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -134,64 +134,64 @@ export default function ImportExport() {
 
         {/* Central Trade Visualization (Desktop: 3 columns, Mobile: Stacked) */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 mb-24 relative">
-          
+
           {/* Desktop Connecting Lines (Background of columns) */}
           <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
-             {/* Left to Center Line */}
-             <svg className="absolute left-[25%] top-1/2 w-[25%] h-24 -translate-y-1/2 overflow-visible">
-               <motion.path 
-                 d="M0,48 C50,48 50,0 100,0" 
-                 fill="none" 
-                 stroke="url(#exportGradient)" 
-                 strokeWidth="2"
-                 strokeDasharray="4 4"
-                 initial={{ pathLength: 0, opacity: 0 }}
-                 whileInView={{ pathLength: 1, opacity: 0.5 }}
-                 viewport={{ once: true }}
-                 transition={{ duration: 1.5, ease: "easeInOut" }}
-               />
-               <motion.circle 
-                 cx="100" cy="0" r="4" fill="#0F172A" 
-                 initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.5 }}
-               />
-             </svg>
-             
-             {/* Center to Right Line */}
-             <svg className="absolute left-[50%] top-1/2 w-[25%] h-24 -translate-y-1/2 overflow-visible">
-               <motion.path 
-                 d="M0,0 C50,0 50,48 100,48" 
-                 fill="none" 
-                 stroke="url(#importGradient)" 
-                 strokeWidth="2"
-                 strokeDasharray="4 4"
-                 initial={{ pathLength: 0, opacity: 0 }}
-                 whileInView={{ pathLength: 1, opacity: 0.5 }}
-                 viewport={{ once: true }}
-                 transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-               />
-               <motion.circle 
-                 cx="0" cy="0" r="4" fill="#0F172A" 
-                 initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}
-               />
-             </svg>
+            {/* Left to Center Line */}
+            <svg className="absolute left-[25%] top-1/2 w-[25%] h-24 -translate-y-1/2 overflow-visible">
+              <motion.path
+                d="M0,48 C50,48 50,0 100,0"
+                fill="none"
+                stroke="url(#exportGradient)"
+                strokeWidth="2"
+                strokeDasharray="4 4"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.5 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+              />
+              <motion.circle
+                cx="100" cy="0" r="4" fill="#0F172A"
+                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.5 }}
+              />
+            </svg>
 
-             {/* SVG Gradients */}
-             <svg className="w-0 h-0 absolute">
-               <defs>
-                 <linearGradient id="exportGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="#0F172A" stopOpacity="0" />
-                   <stop offset="100%" stopColor="#0F172A" stopOpacity="1" />
-                 </linearGradient>
-                 <linearGradient id="importGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="#0F172A" stopOpacity="1" />
-                   <stop offset="100%" stopColor="#0F172A" stopOpacity="0" />
-                 </linearGradient>
-               </defs>
-             </svg>
+            {/* Center to Right Line */}
+            <svg className="absolute left-[50%] top-1/2 w-[25%] h-24 -translate-y-1/2 overflow-visible">
+              <motion.path
+                d="M0,0 C50,0 50,48 100,48"
+                fill="none"
+                stroke="url(#importGradient)"
+                strokeWidth="2"
+                strokeDasharray="4 4"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.5 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
+              />
+              <motion.circle
+                cx="0" cy="0" r="4" fill="#0F172A"
+                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}
+              />
+            </svg>
+
+            {/* SVG Gradients */}
+            <svg className="w-0 h-0 absolute">
+              <defs>
+                <linearGradient id="exportGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#0F172A" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#0F172A" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="importGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#0F172A" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#0F172A" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
 
           {/* LEFT: EXPORT */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -200,16 +200,16 @@ export default function ImportExport() {
           >
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8 shadow-sm relative overflow-hidden h-full">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full pointer-events-none"></div>
-              
+
               <div className="inline-flex items-center gap-2 text-primary font-bold tracking-widest text-xs uppercase mb-6 px-3 py-1 bg-primary/10 rounded-full">
                 <Plane className="w-4 h-4" />
                 EXPORT
               </div>
-              
+
               <h3 className="text-2xl font-bold text-slate-900 mb-4 leading-tight">
                 Taking Ethiopian Commodities to Global Markets
               </h3>
-              
+
               <p className="text-slate-600 text-sm mb-8 leading-relaxed">
                 Jarra Holdings exports Ethiopian agricultural commodities, connecting locally sourced products with international markets.
               </p>
@@ -222,10 +222,10 @@ export default function ImportExport() {
                   </h4>
                   <div className="h-px w-full bg-slate-200 mb-3 group-hover:bg-primary/30 transition-colors"></div>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Guji <span className="mx-1.5 text-slate-300">•</span> 
-                    Yirgacheffe <span className="mx-1.5 text-slate-300">•</span> 
-                    Sidama <span className="mx-1.5 text-slate-300">•</span> 
-                    Arsi <span className="mx-1.5 text-slate-300">•</span> 
+                    Guji <span className="mx-1.5 text-slate-300">•</span>
+                    Yirgacheffe <span className="mx-1.5 text-slate-300">•</span>
+                    Sidama <span className="mx-1.5 text-slate-300">•</span>
+                    Arsi <span className="mx-1.5 text-slate-300">•</span>
                     Limmu <span className="mx-1.5 text-slate-300">•</span>
                     Jimma <span className="mx-1.5 text-slate-300">•</span>
                     Nekemte
@@ -238,9 +238,9 @@ export default function ImportExport() {
                   </h4>
                   <div className="h-px w-full bg-slate-200 mb-3 group-hover:bg-primary/30 transition-colors"></div>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Soybean <span className="mx-1.5 text-slate-300">•</span> 
-                    Sesame <span className="mx-1.5 text-slate-300">•</span> 
-                    Haricot Bean <span className="mx-1.5 text-slate-300">•</span> 
+                    Soybean <span className="mx-1.5 text-slate-300">•</span>
+                    Sesame <span className="mx-1.5 text-slate-300">•</span>
+                    Haricot Bean <span className="mx-1.5 text-slate-300">•</span>
                     Niger Seed
                   </p>
                 </div>
@@ -249,11 +249,11 @@ export default function ImportExport() {
           </motion.div>
 
           {/* CENTER: JARRA HOLDINGS */}
-          <motion.div 
+          <motion.div
             style={{ y: yCenter }}
             className="w-full lg:w-1/3 flex justify-center items-center z-20 py-8 lg:py-0"
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               viewport={{ once: true }}
@@ -262,7 +262,7 @@ export default function ImportExport() {
             >
               {/* Spinning decorative ring */}
               <div className="absolute inset-[-12px] rounded-full border border-slate-200 border-dashed animate-[spin_20s_linear_infinite]"></div>
-              
+
               <Globe2 className="w-8 h-8 text-white/50 mb-3" />
               <h3 className="text-white font-bold text-2xl text-center leading-none tracking-wider mb-2">
                 JARRA<br />HOLDINGS
@@ -274,25 +274,25 @@ export default function ImportExport() {
           </motion.div>
 
           {/* RIGHT: IMPORT */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             className="w-full lg:w-1/3 z-10 flex flex-col"
           >
-             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl relative overflow-hidden h-full text-white">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl relative overflow-hidden h-full text-white">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full pointer-events-none"></div>
-              
+
               <div className="inline-flex items-center gap-2 text-white font-bold tracking-widest text-xs uppercase mb-6 px-3 py-1 bg-white/10 rounded-full">
                 <Ship className="w-4 h-4" />
                 IMPORT
               </div>
-              
+
               <h3 className="text-2xl font-bold text-white mb-4 leading-tight">
                 Sourcing Essential Goods for Growing Markets
               </h3>
-              
+
               <p className="text-slate-400 text-sm mb-8 leading-relaxed">
                 Jarra Holdings imports agricultural, construction, industrial, automotive, and electrical goods to respond to market needs across Ethiopia.
               </p>
@@ -302,7 +302,7 @@ export default function ImportExport() {
                 {importCategories.map((cat) => {
                   const Icon = cat.icon;
                   return (
-                    <motion.div 
+                    <motion.div
                       key={cat.id}
                       onMouseEnter={() => setHoveredImport(cat.id)}
                       onMouseLeave={() => setHoveredImport(null)}
@@ -313,7 +313,7 @@ export default function ImportExport() {
                         <h4 className="text-[11px] font-bold tracking-wider uppercase mb-1 text-white">{cat.name}</h4>
                         <p className="text-[10px] text-slate-400 leading-tight line-clamp-2">{cat.description}</p>
                       </div>
-                      
+
                       {/* Subtle hover highlight */}
                       <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${hoveredImport === cat.id ? 'w-full' : 'w-0'}`}></div>
                     </motion.div>
@@ -326,9 +326,9 @@ export default function ImportExport() {
 
         {/* 4-Step Flow & Stats */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20 items-center">
-          
+
           {/* Stats */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -339,7 +339,7 @@ export default function ImportExport() {
               <div className="text-sm font-semibold text-slate-600 mb-1">Export Performance</div>
               <div className="text-xs text-slate-500">Including 500 MT of Coffee Volume</div>
             </div>
-            
+
             <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 flex-1">
               <div className="text-3xl font-bold text-primary mb-1">$20M+</div>
               <div className="text-sm font-semibold text-slate-800">Annual Import Value</div>
@@ -347,7 +347,7 @@ export default function ImportExport() {
           </motion.div>
 
           {/* Flow */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -356,7 +356,7 @@ export default function ImportExport() {
           >
             {/* Background pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
               {flowSteps.map((step, idx) => (
                 <div key={idx} className="relative">
@@ -366,7 +366,7 @@ export default function ImportExport() {
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 border-t border-r border-slate-500 rotate-45"></div>
                     </div>
                   )}
-                  
+
                   <div className="text-primary font-mono text-sm mb-3">{step.num}</div>
                   <h4 className="text-sm font-bold tracking-wider mb-2">{step.title}</h4>
                   <p className="text-xs text-slate-400 leading-relaxed pr-4">{step.desc}</p>
@@ -378,7 +378,7 @@ export default function ImportExport() {
         </div>
 
         {/* CTA */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

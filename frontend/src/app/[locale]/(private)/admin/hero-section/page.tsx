@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AdminHeroManager from "@/components/pages/home-page-components/admin/AdminHeroManager";
 import AdminCardManager from "@/components/pages/home-page-components/admin/AdminCardManager";
 import AdminPartnerManager from "@/components/pages/home-page-components/admin/AdminPartnerManager";
+import AdminPurposeManager from "@/components/pages/home-page-components/admin/AdminPurposeManager";
+import AdminCanvasManager from "@/components/pages/home-page-components/admin/AdminCanvasManager";
 
 const HeroSectionManagement = () => {
     return (
@@ -17,13 +19,21 @@ const HeroSectionManagement = () => {
             </div>
 
             <Tabs defaultValue="hero" className="w-full">
-                <TabsList className="grid w-full max-w-md grid-cols-3 mb-8 h-12">
+                <TabsList className="grid w-full max-w-4xl grid-cols-5 mb-8 h-12">
                     <TabsTrigger value="hero">
                         Hero Slider
                     </TabsTrigger>
 
+                    <TabsTrigger value="purpose">
+                        Purpose
+                    </TabsTrigger>
+
+                    <TabsTrigger value="canvas">
+                        Canvas
+                    </TabsTrigger>
+
                     <TabsTrigger value="card">
-                        Card Section
+                        Card List
                     </TabsTrigger>
                     
                     <TabsTrigger value="partners">
@@ -33,6 +43,14 @@ const HeroSectionManagement = () => {
 
                 <TabsContent value="hero">
                     <AdminHeroManager />
+                </TabsContent>
+
+                <TabsContent value="purpose">
+                    <AdminPurposeManager />
+                </TabsContent>
+
+                <TabsContent value="canvas">
+                    <AdminCanvasManager />
                 </TabsContent>
 
                 <TabsContent value="card">

@@ -25,7 +25,7 @@ export const routePermissions: RouteConfig[] = [
     },
     {
         path: "/admin/hero-section",
-        label: "Hero Section",
+        label: "Home Page",
         icon: "Image",
         permissions: {
             anyPermissions: ["HERO:READ"],

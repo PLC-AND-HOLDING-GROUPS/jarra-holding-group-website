@@ -2,9 +2,11 @@
 
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useGetCanvasQuery } from "@/redux/api/canvasApi";
 
 export default function PurposeAndImpact() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const { data: canvas } = useGetCanvasQuery();
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -13,6 +15,8 @@ export default function PurposeAndImpact() {
 
     const y1 = useTransform(scrollYProgress, [0, 1], [0, -40]);
     const y2 = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
+    const words = canvas?.words || {};
 
     return (
         <section
@@ -27,9 +31,9 @@ export default function PurposeAndImpact() {
                     viewport={{ once: true }}
                     className="text-3xl md:text-5xl font-bold text-slate-900 mb-6"
                 >
-                    Creating Value.{" "}
+                    {canvas?.title_prefix || "Creating Value."}{" "}
                     <span className="text-primary">
-                        Driving Sustainable Growth.
+                        {canvas?.title_highlight || "Driving Sustainable Growth."}
                     </span>
                 </motion.h2>
 
@@ -40,10 +44,7 @@ export default function PurposeAndImpact() {
                     transition={{ delay: 0.1 }}
                     className="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed"
                 >
-                    Jarra Holdings is a multi-sector company committed to
-                    sustainable investment, economic empowerment, market
-                    development, and creating lasting value for shareholders,
-                    customers, and communities.
+                    {canvas?.description || "Jarra Holdings is a multi-sector company committed to sustainable investment, economic empowerment, market development, and creating lasting value for shareholders, customers, and communities."}
                 </motion.p>
             </div>
 
@@ -73,21 +74,21 @@ export default function PurposeAndImpact() {
                         <div className="flex flex-col items-end gap-0 md:gap-1">
                             <div className="flex items-baseline gap-2 md:gap-3">
                                 <span className="text-cyan-600 font-medium text-base md:text-2xl lg:text-3xl">
-                                    Sustainable
+                                    {words.top_left_1 || "Sustainable"}
                                 </span>
 
                                 <span className="text-cyan-400 font-bold text-xl md:text-4xl lg:text-5xl">
-                                    Investment
+                                    {words.top_left_2 || "Investment"}
                                 </span>
                             </div>
 
                             <div className="flex items-baseline gap-2 md:gap-3">
                                 <span className="text-cyan-600 font-medium text-xs md:text-lg lg:text-xl">
-                                    Quality
+                                    {words.top_left_3 || "Quality"}
                                 </span>
 
                                 <span className="text-cyan-500 font-black text-3xl md:text-6xl lg:text-7xl tracking-tight leading-none">
-                                    Integrity
+                                    {words.top_left_4 || "Integrity"}
                                 </span>
                             </div>
                         </div>
@@ -99,24 +100,24 @@ export default function PurposeAndImpact() {
                                     className="text-cyan-700 font-bold text-lg md:text-2xl lg:text-3xl tracking-widest"
                                     style={{ writingMode: "vertical-rl" }}
                                 >
-                                    VALUE
+                                    {words.top_right_1 || "VALUE"}
                                 </span>
 
                                 <span
                                     className="text-cyan-500 font-black text-2xl md:text-5xl lg:text-6xl tracking-widest"
                                     style={{ writingMode: "vertical-rl" }}
                                 >
-                                    GROWTH
+                                    {words.top_right_2 || "GROWTH"}
                                 </span>
                             </div>
 
                             <div className="flex flex-col justify-end gap-0 md:gap-1 pb-1">
                                 <span className="text-cyan-400 font-bold text-lg md:text-3xl lg:text-4xl">
-                                    Innovation
+                                    {words.top_right_3 || "Innovation"}
                                 </span>
 
                                 <span className="text-white font-bold text-xl md:text-4xl lg:text-5xl tracking-wide leading-none">
-                                    Collaboration
+                                    {words.top_right_4 || "Collaboration"}
                                 </span>
                             </div>
                         </div>
@@ -141,7 +142,7 @@ export default function PurposeAndImpact() {
                             }}
                             className="text-white font-black text-[13vw] sm:text-[11vw] md:text-[8rem] lg:text-[11rem] xl:text-[13rem] leading-[0.8] tracking-tighter drop-shadow-2xl"
                         >
-                            IMPACT
+                            {words.center || "IMPACT"}
                         </motion.h1>
                     </div>
 
@@ -154,17 +155,17 @@ export default function PurposeAndImpact() {
                         <div className="flex flex-col gap-0 md:gap-1 items-end">
                             <div className="flex items-baseline gap-2 md:gap-3">
                                 <span className="text-cyan-400 font-bold text-xl md:text-3xl lg:text-4xl">
-                                    Empowerment
+                                    {words.bottom_left_1 || "Empowerment"}
                                 </span>
 
                                 <span className="text-white/80 font-medium text-xs md:text-base lg:text-xl">
-                                    Community
+                                    {words.bottom_left_2 || "Community"}
                                 </span>
                             </div>
 
                             <div className="flex items-start gap-2 md:gap-3">
                                 <span className="text-cyan-500 font-black text-3xl md:text-5xl lg:text-[5rem] tracking-tight leading-none">
-                                    Development
+                                    {words.bottom_left_3 || "Development"}
                                 </span>
                             </div>
                         </div>
@@ -175,7 +176,7 @@ export default function PurposeAndImpact() {
                                 className="text-cyan-700 font-bold text-xl md:text-3xl lg:text-4xl tracking-widest"
                                 style={{ writingMode: "vertical-rl" }}
                             >
-                                PROGRESS
+                                {words.bottom_left_4 || "PROGRESS"}
                             </span>
                         </div>
 
@@ -184,21 +185,21 @@ export default function PurposeAndImpact() {
                             <div className="flex flex-col gap-0 md:gap-1">
                                 <div className="flex items-baseline gap-2 md:gap-3">
                                     <span className="text-white font-bold text-2xl md:text-4xl lg:text-5xl">
-                                        Customer
+                                        {words.bottom_right_1 || "Customer"}
                                     </span>
 
                                     <span className="text-white/70 font-medium text-xs md:text-base lg:text-lg">
-                                        Value
+                                        {words.bottom_right_2 || "Value"}
                                     </span>
                                 </div>
 
                                 <div className="flex items-baseline gap-2 md:gap-3">
                                     <span className="text-cyan-400 font-bold text-lg md:text-2xl lg:text-3xl">
-                                        Competency
+                                        {words.bottom_right_3 || "Competency"}
                                     </span>
 
                                     <span className="text-white font-medium text-base md:text-xl lg:text-2xl">
-                                        Excellence
+                                        {words.bottom_right_4 || "Excellence"}
                                     </span>
                                 </div>
                             </div>
@@ -209,14 +210,14 @@ export default function PurposeAndImpact() {
                                     className="text-cyan-500 font-bold text-lg md:text-2xl lg:text-3xl tracking-widest"
                                     style={{ writingMode: "vertical-rl" }}
                                 >
-                                    INNOVATION
+                                    {words.bottom_right_5 || "INNOVATION"}
                                 </span>
 
                                 <span
                                     className="text-cyan-600 font-medium text-base md:text-xl lg:text-2xl tracking-widest"
                                     style={{ writingMode: "vertical-rl" }}
                                 >
-                                    FUTURE
+                                    {words.bottom_right_6 || "FUTURE"}
                                 </span>
                             </div>
                         </div>
@@ -233,12 +234,11 @@ export default function PurposeAndImpact() {
                 className="max-w-4xl mx-auto mt-12 px-4 text-center"
             >
                 <p className="text-sm font-semibold tracking-[0.25em] text-primary uppercase mb-3">
-                    Our Vision
+                    {canvas?.vision_title || "Our Vision"}
                 </p>
 
                 <p className="text-xl md:text-2xl font-semibold text-slate-900">
-                    To be a leading community-based conglomerate in Africa by
-                    2030.
+                    {canvas?.vision_description || "To be a leading community-based conglomerate in Africa by 2030."}
                 </p>
             </motion.div>
         </section>

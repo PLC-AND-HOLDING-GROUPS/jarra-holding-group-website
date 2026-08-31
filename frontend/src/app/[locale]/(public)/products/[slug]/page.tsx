@@ -129,7 +129,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                                     {key}
                                                 </div>
                                                 <div className="font-medium text-heading">
-                                                    {value}
+                                                    {String(value)}
                                                 </div>
                                             </div>
                                         ))}
