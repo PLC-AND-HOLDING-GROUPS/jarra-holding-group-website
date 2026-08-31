@@ -69,6 +69,8 @@ export const baseApi = createApi({
     "ProductInquiry",
     "Canvas",
     "Purpose",
+    "News",
+    "Event",
   ],
   endpoints: () => ({}),
 });

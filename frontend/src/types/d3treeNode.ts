@@ -4,7 +4,7 @@ export interface D3TreeNode {
     name: string;
     attributes: {
         sector_node_id: string;
-        description: string;
+        description?: string;
         parent_id: string | null;
         level?: number;
         is_active?: boolean;

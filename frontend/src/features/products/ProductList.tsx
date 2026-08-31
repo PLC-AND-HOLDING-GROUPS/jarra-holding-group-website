@@ -110,7 +110,7 @@ export default function ProductList() {
                     >
                         <Edit className="h-4 w-4 text-primary" />
                     </Button>
-                    <ComponentGuard action="delete" subject="Product">
+                    <ComponentGuard anyPermissions={["PRODUCT:DELETE"]}>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -135,7 +135,7 @@ export default function ProductList() {
             icon: <Plus className="w-4 h-4" />,
             onClick: () => router.push("/admin/products/create"),
             variant: "default",
-            permission: { action: "create", subject: "Product" },
+            permissions: ["PRODUCT:CREATE"],
         },
     ];
 

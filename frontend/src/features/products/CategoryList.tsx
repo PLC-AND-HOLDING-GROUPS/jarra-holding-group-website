@@ -148,7 +148,7 @@ export default function CategoryList() {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex items-center gap-1">
-                    <ComponentGuard action="update" subject="ProductCategory">
+                    <ComponentGuard anyPermissions={["PRODUCTCATEGORY:UPDATE"]}>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -158,7 +158,7 @@ export default function CategoryList() {
                             <Edit className="h-4 w-4 text-primary" />
                         </Button>
                     </ComponentGuard>
-                    <ComponentGuard action="delete" subject="ProductCategory">
+                    <ComponentGuard anyPermissions={["PRODUCTCATEGORY:DELETE"]}>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -183,7 +183,7 @@ export default function CategoryList() {
             icon: <Plus className="w-4 h-4" />,
             onClick: () => setIsCreateModalOpen(true),
             variant: "default",
-            permission: { action: "create", subject: "ProductCategory" },
+            permissions: ["PRODUCTCATEGORY:CREATE"],
         },
     ];
 

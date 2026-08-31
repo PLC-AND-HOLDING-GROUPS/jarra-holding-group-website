@@ -107,7 +107,7 @@ export default function InquiryList() {
                     >
                         <Eye className="h-4 w-4 text-primary" />
                     </Button>
-                    <ComponentGuard action="delete" subject="ProductInquiry">
+                    <ComponentGuard anyPermissions={["PRODUCTINQUIRY:DELETE"]}>
                         <Button
                             variant="ghost"
                             size="icon"

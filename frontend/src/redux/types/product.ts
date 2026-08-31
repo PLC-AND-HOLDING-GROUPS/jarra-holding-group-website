@@ -19,7 +19,6 @@ export interface Product {
     name: string;
     slug: string;
     short_description: string;
-    short_description: string;
     full_description: string;
     status: string;
     publish_status: "draft" | "published" | "archived";
