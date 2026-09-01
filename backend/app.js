@@ -28,6 +28,11 @@ const serviceExperienceRoute = require("./routers/sevice/serviceExperienceRoutes
 const serviceCapabilityRoute = require("./routers/sevice/serviceCapabilityRoutes");
 const serviceWhyUsRoute = require("./routers/sevice/serviceWhyUsRoutes");
 
+// ================== Facility Routes ==========================
+const facilityRoute = require("./routers/facility/facilityRoutes");
+const facilityOverviewRoute = require("./routers/facility/facilityOverviewRoutes");
+const facilityFootprintRoute = require("./routers/facility/facilityFootprintRoutes");
+
 // ================== About Page Routes ==========================
 const backgroundRoute = require("./routers/about/backgroundRoutes");
 const leadershipRoute = require("./routers/about/leadershipRoutes");
@@ -168,6 +173,11 @@ app.use("/api/service-overview", serviceOverviewRoute);
 app.use("/api/service-experience", serviceExperienceRoute);
 app.use("/api/service-capability", serviceCapabilityRoute);
 app.use("/api/service-why-us", serviceWhyUsRoute);
+
+// ================== Facility Routes ==========================
+app.use("/api/facilities", facilityRoute);
+app.use("/api/facility-overview", facilityOverviewRoute);
+app.use("/api/facility-footprint", facilityFootprintRoute);
 
 // ================== About Page Routes ==========================
 app.use("/api/backgrounds", backgroundRoute);
