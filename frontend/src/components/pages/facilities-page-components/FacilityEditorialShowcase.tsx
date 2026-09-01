@@ -10,7 +10,7 @@ export default function FacilityEditorialShowcase() {
     return (
         <section className="py-24 bg-slate-50 border-t border-border">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
-                
+
                 <div className="mb-20 text-center">
                     <h2 className="text-3xl md:text-4xl font-bold text-heading">Featured Facilities</h2>
                     <div className="w-24 h-1 bg-primary mx-auto mt-6" />
@@ -24,13 +24,13 @@ export default function FacilityEditorialShowcase() {
 
                         return (
                             <div key={facility.id} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                                
+
                                 {/* Image Column */}
                                 <div className={`relative w-full aspect-[4/3] shadow-xl rounded-xl overflow-hidden ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-                                    <Image 
-                                        src={facility.image} 
-                                        alt={facility.name} 
-                                        fill 
+                                    <Image
+                                        src={facility.image}
+                                        alt={facility.name}
+                                        fill
                                         className="object-cover hover:scale-105 transition-transform duration-700"
                                     />
                                 </div>
@@ -40,30 +40,22 @@ export default function FacilityEditorialShowcase() {
                                     <div className="mb-4 text-primary font-bold text-6xl md:text-8xl opacity-10 font-serif leading-none">
                                         {displayIndex}
                                     </div>
-                                    
+
                                     <div className="uppercase tracking-widest text-sm font-semibold text-muted-foreground mb-4">
                                         {type?.name} Facility — {facility.location}
                                     </div>
-                                    
+
                                     <h3 className="text-3xl md:text-4xl font-bold text-heading mb-6">
                                         {facility.name}
                                     </h3>
-                                    
+
                                     <p className="text-lg text-muted-foreground leading-relaxed mb-8 border-l-2 border-primary/20 pl-6">
                                         {facility.shortDescription}
                                     </p>
-                                    
-                                    <div>
-                                        <Link 
-                                            href={`/facilities/${facility.slug}`}
-                                            className="group inline-flex items-center text-lg font-semibold text-primary hover:text-primary/80 transition-colors"
-                                        >
-                                            Explore Facility 
-                                            <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-2" />
-                                        </Link>
-                                    </div>
+
+
                                 </div>
-                                
+
                             </div>
                         );
                     })}

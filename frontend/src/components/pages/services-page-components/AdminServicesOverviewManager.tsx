@@ -119,7 +119,7 @@ export default function AdminServicesOverviewManager() {
                                     value={card.name}
                                     onChange={(e) => {
                                         const newCards = [...cards];
-                                        newCards[index].name = e.target.value;
+                                        newCards[index] = { ...newCards[index], name: e.target.value };
                                         setCards(newCards);
                                     }}
                                 />
@@ -130,7 +130,7 @@ export default function AdminServicesOverviewManager() {
                                     value={card.icon}
                                     onChange={(val) => {
                                         const newCards = [...cards];
-                                        newCards[index].icon = val;
+                                        newCards[index] = { ...newCards[index], icon: val };
                                         setCards(newCards);
                                     }}
                                 />
