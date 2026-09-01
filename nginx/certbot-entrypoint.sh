@@ -1,21 +1,18 @@
 #!/bin/sh
 # Certbot entrypoint
-# - Issues a certificate on the very first run (no cert exists yet)
-# - Waits for Nginx to be ready before issuing
-# - Runs a renewal loop every 12 hours after that
 
-DOMAIN="${CERTBOT_DOMAIN:-www.waaams.org}"
+DOMAIN="${CERTBOT_DOMAIN}"
 EMAIL="${CERTBOT_EMAIL}"
 CERT_PATH="/etc/letsencrypt/live/${DOMAIN}/fullchain.pem"
 
-# ── Validate required env var ─────────────────────────────────────────────────
+# Validate required env var
 if [ -z "$EMAIL" ]; then
     echo "[certbot] ERROR: CERTBOT_EMAIL environment variable is not set."
-    echo "[certbot] Add CERTBOT_EMAIL=your@email.com to your .env file."
-    exit 1
+    echo "[certbot] Using default: admin@${DOMAIN}"
+    EMAIL="admin@${DOMAIN}"
 fi
 
-# ── First-time certificate issuance ───────────────────────────────────────────
+# First-time certificate issuance
 if [ ! -f "$CERT_PATH" ]; then
     echo "[certbot] ================================================"
     echo "[certbot] No certificate found for ${DOMAIN}."
@@ -45,7 +42,7 @@ if [ ! -f "$CERT_PATH" ]; then
     echo "[certbot] ================================================"
 fi
 
-# ── Auto-renewal loop (every 12 hours) ───────────────────────────────────────
+# Auto-renewal loop (every 12 hours)
 echo "[certbot] Starting auto-renewal loop (checks every 12 hours)..."
 trap exit TERM
 while :; do
