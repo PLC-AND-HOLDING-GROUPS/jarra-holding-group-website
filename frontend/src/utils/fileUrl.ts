@@ -1,5 +1,5 @@
 export const getFileUrl = (filePath: string) => {
-    const apiBase = process.env.NEXT_PUBLIC_FILE_URL || "http://localhost:4000";
+    const apiBase = process.env.NEXT_PUBLIC_FILE_URL || process.env.NEXT_PUBLIC_BASE || "http://localhost:4000";
     return `${apiBase}/${filePath.replace(/\\/g, "/")}`;
 };
 

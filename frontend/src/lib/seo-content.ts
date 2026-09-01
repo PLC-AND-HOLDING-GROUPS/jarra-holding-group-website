@@ -1,69 +1,64 @@
 /** Static SEO copy keyed by public path (without locale prefix). */
 export const PAGE_SEO: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "Ministry of Mines – Ethiopia",
+    title: "Jarra Holding Group",
     description:
-      "Promoting responsible mining and petroleum development in Ethiopia. Explore services, investment opportunities, news, and contact information.",
+      "Official website of Jarra Holding Group. Explore our businesses, services, and investment opportunities.",
   },
   "/about": {
-    title: "About the Ministry",
+    title: "About Us",
     description:
-      "Learn about the Ministry of Mines, its leadership, mission, vision, and role in regulating Ethiopia's mineral and energy resources.",
+      "Learn about Jarra Holding Group, our leadership, mission, vision, and role in driving sustainable growth.",
   },
   "/services": {
     title: "Our Services",
     description:
-      "Mineral licensing, geological information, laboratory services, petroleum support, and investment promotion from the Ministry of Mines.",
+      "Comprehensive services and solutions provided by Jarra Holding Group.",
   },
-  "/investigating-in-ethiopia": {
-    title: "Investing in Ethiopia",
+  "/products": {
+    title: "Our Products",
     description:
-      "Discover investment opportunities in Ethiopia's mining, petroleum, and geothermal sectors with the Ministry of Mines.",
+      "Explore the diverse range of high-quality products offered by Jarra Holding Group.",
   },
-  "/news": {
-    title: "News & Updates",
+  "/facilities": {
+    title: "Our Facilities",
     description:
-      "Latest news, announcements, and updates from the Ministry of Mines, Ethiopia.",
+      "State-of-the-art facilities and operational centers of Jarra Holding Group.",
   },
-  "/events": {
-    title: "Events",
+  "/careers": {
+    title: "Careers",
     description:
-      "Upcoming workshops, seminars, and events hosted by the Ministry of Mines, Ethiopia.",
+      "Join the team at Jarra Holding Group. Explore current job vacancies and career opportunities.",
   },
   "/contact": {
     title: "Contact Us",
     description:
-      "Contact the Ministry of Mines Federal Office. Find address, email, phone, and inquiry options.",
+      "Contact Jarra Holding Group. Find our address, email, phone, and inquiry options.",
   },
-  "/contact/regional-offices": {
-    title: "Regional Offices",
+  "/businesses": {
+    title: "Our Businesses",
     description:
-      "Find Ministry of Mines regional office locations and contact details across Ethiopia.",
+      "Discover the various sectors and businesses operating under Jarra Holding Group.",
   },
-  "/contact/tenders-and-vacancies": {
-    title: "Tenders and Vacancies",
+  "/businesses/overview": {
+    title: "Businesses Overview",
     description:
-      "Browse current tenders and job vacancies published by the Ministry of Mines, Ethiopia.",
+      "An overview of Jarra Holding Group's industrial sectors and operational divisions.",
   },
-  "/mining": {
-    title: "Mining Sector",
+  "/businesses/import-export": {
+    title: "Import & Export",
     description:
-      "Overview of Ethiopia's mining sector, licensing, data, gemstones, and application processes.",
+      "Import and export operations, logistics, and global trade solutions by Jarra Holding Group.",
   },
-  "/geothermal": {
-    title: "Geothermal Sector",
+  "/businesses/trading": {
+    title: "Trading",
     description:
-      "Geothermal resources, research, laboratories, and training programs under the Ministry of Mines.",
+      "Strategic trading and commodity exchange divisions within Jarra Holding Group.",
   },
-  "/petroleum": {
-    title: "Petroleum Sector",
+  "/businesses/warehousing": {
+    title: "Warehousing",
     description:
-      "Petroleum legislation, resources, and application guidance from the Ministry of Mines, Ethiopia.",
-  },
-  "/asm": {
-    title: "Artisanal & Small-Scale Mining",
-    description:
-      "Information on artisanal and small-scale mining (ASM) programs and support in Ethiopia.",
+      "Secure and scalable warehousing solutions provided by Jarra Holding Group.",
   },
 };
 

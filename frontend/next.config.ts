@@ -6,8 +6,19 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
     unoptimized: true,
-    domains: ["localhost", "127.0.0.1"],
+    domains: ["localhost", "127.0.0.1", "jarra.system.com.et", "backend"],
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "jarra.system.com.et",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "backend",
+        port: "4000",
+        pathname: "/**",
+      },
       {
         protocol: "http",
         hostname: "localhost",

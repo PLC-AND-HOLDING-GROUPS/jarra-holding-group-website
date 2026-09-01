@@ -110,7 +110,7 @@ export default function AdminServicesList() {
                         const temp = newServices[index];
                         newServices[index] = newServices[index - 1];
                         newServices[index - 1] = temp;
-                        
+
                         const payload = newServices.map((s, i) => ({ id: s.service_id, order: i }));
                         await reorderServices({ services: payload });
                     }
@@ -122,7 +122,7 @@ export default function AdminServicesList() {
                         const temp = newServices[index];
                         newServices[index] = newServices[index + 1];
                         newServices[index + 1] = temp;
-                        
+
                         const payload = newServices.map((s, i) => ({ id: s.service_id, order: i }));
                         await reorderServices({ services: payload });
                     }
@@ -130,7 +130,7 @@ export default function AdminServicesList() {
 
                 return (
                     <div className="flex items-center gap-1">
-                        <Button
+                        {/* <Button
                             variant="ghost"
                             size="icon"
                             onClick={() =>
@@ -138,7 +138,7 @@ export default function AdminServicesList() {
                             }
                         >
                             <Eye className="h-4 w-4" />
-                        </Button>
+                        </Button> */}
 
                         <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>
                             <Button
@@ -162,7 +162,7 @@ export default function AdminServicesList() {
                                 <Trash className="h-4 w-4 text-destructive" />
                             </Button>
                         </ComponentGuard>
-                        
+
                         {!search && (
                             <>
                                 <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>

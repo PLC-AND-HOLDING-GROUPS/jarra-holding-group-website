@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { routing } from "@/i18n/routing";
 
-export const SITE_NAME = "Ministry of Mines – Ethiopia";
+export const SITE_NAME = "Jarra Holding Group";
 export const DEFAULT_DESCRIPTION =
-  "Official website of the Ministry of Mines, Ethiopia. Regulating and developing the mineral, petroleum, and geothermal sectors for sustainable national growth.";
+  "Official website of Jarra Holding Group.";
 
 const DEFAULT_OG_IMAGE = "/jarra-logo.png";
 
@@ -18,7 +18,7 @@ export function getSiteUrl(): string {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
-  return "https://www.mom.gov.et";
+  return "https://jarra.system.com.et";
 }
 
 export type PageSeoInput = {
