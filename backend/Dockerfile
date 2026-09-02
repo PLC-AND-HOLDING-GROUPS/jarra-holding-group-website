@@ -4,7 +4,7 @@ FROM node:20-slim
 WORKDIR /app
 
 # Install build dependencies for native modules (like bcrypt)
-RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
 COPY package*.json ./
