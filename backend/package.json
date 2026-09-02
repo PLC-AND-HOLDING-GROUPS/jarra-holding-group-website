@@ -16,7 +16,9 @@
     "db:reset:seed": "sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all",
     "db:fresh": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all",
     "seed": "sequelize-cli db:seed:all",
-    "seed:undo": "sequelize-cli db:seed:undo:all"
+    "seed:undo": "sequelize-cli db:seed:undo:all",
+    "db:dump": "docker exec jarra_postgres pg_dump -U postgres -d jarra_website -f /tmp/init_data.sql && docker cp jarra_postgres:/tmp/init_data.sql ./init_data.sql",
+    "db:restore": "docker cp ./init_data.sql jarra_postgres_prod:/tmp/init_data.sql && docker exec jarra_postgres_prod psql -U postgres -d jarra_website -f /tmp/init_data.sql"
   },
   "keywords": [],
   "author": "",
