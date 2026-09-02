@@ -39,6 +39,12 @@ module.exports = {
           { replacements: { roleId: SUPER_ADMIN_ROLE_ID, permId } },
         );
 
+        const [roles] = await queryInterface.sequelize.query(
+          `SELECT role_id FROM roles WHERE role_id = :roleId LIMIT 1;`,
+          { replacements: { roleId: SUPER_ADMIN_ROLE_ID } }
+        );
+        if (!roles?.length) continue;
+
         if (!existing?.length) {
           await queryInterface.bulkInsert("role_permissions", [
             {
