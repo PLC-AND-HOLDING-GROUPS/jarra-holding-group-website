@@ -1,17 +1,17 @@
-FROM node:20-slim
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
 # Install build dependencies for native modules (like bcrypt)
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache python3 make g++ libc6-compat
 
 # Copy package files
 COPY package*.json ./
 # Delete lockfile to bypass Windows-generated lockfile restricting optional dependencies
 RUN rm -f package-lock.json
 
-# Install dependencies
+# Install dependencies natively (it will automatically detect arm64 or x64)
 RUN npm install
 
 # Copy the rest of the application code
