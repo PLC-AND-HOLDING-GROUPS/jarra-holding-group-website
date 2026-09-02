@@ -2,13 +2,18 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // 1. Add the order column if it doesn't exist
-    const { addColumnIfNotExists } = require("./lib/migration-utils");
-    await addColumnIfNotExists(queryInterface, "sliders", "order", {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    });
+    // 1. Add the order column if it doesn't exist (using try/catch to bypass Sequelize describeTable caching bugs)
+    try {
+      await queryInterface.addColumn("sliders", "order", {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      });
+    } catch (e) {
+      if (!e.message.includes('already exists')) {
+        throw e;
+      }
+    }
 
     // 2. Fetch all existing sliders ordered by created_at
     const [sliders] = await queryInterface.sequelize.query(

@@ -2,12 +2,17 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const { addColumnIfNotExists } = require("./lib/migration-utils");
-    await addColumnIfNotExists(queryInterface, "services", "order", {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    });
+    try {
+      await queryInterface.addColumn("services", "order", {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      });
+    } catch (e) {
+      if (!e.message.includes('already exists')) {
+        throw e;
+      }
+    }
   },
 
   async down(queryInterface, Sequelize) {
