@@ -8,11 +8,11 @@ RUN apk add --no-cache python3 make g++ libc6-compat
 
 # Copy package files
 COPY package*.json ./
+# Delete lockfile to bypass Windows-generated lockfile restricting optional dependencies
+RUN rm -f package-lock.json
 
 # Install dependencies
 RUN npm install
-# Force npm to download the correct Alpine (musl) binaries for sharp regardless of package-lock.json
-RUN npm rm sharp && npm install --os=linux --libc=musl --cpu=x64 sharp
 
 # Copy the rest of the application code
 COPY . .
