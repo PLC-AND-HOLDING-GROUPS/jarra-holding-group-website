@@ -11,7 +11,8 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-RUN npm install @img/sharp-linuxmusl-x64
+# Force npm to download the correct Alpine (musl) binaries for sharp regardless of package-lock.json
+RUN npm rm sharp && npm install --os=linux --libc=musl --cpu=x64 sharp
 
 # Copy the rest of the application code
 COPY . .
