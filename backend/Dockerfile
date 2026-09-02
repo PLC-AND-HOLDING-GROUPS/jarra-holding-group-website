@@ -12,9 +12,6 @@ COPY package*.json ./
 # Install dependencies (using the lockfile for speed)
 RUN npm install
 
-# FORCE install the native Linux Alpine (musl) binaries for both x64 and arm64 processors to bypass ALL cross-platform bugs
-RUN npm install --force @img/sharp-linuxmusl-x64@0.35.3 @img/sharp-linuxmusl-arm64@0.35.3
-
 # Copy the rest of the application code
 COPY . .
 
