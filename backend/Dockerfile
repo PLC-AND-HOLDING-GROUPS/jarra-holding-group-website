@@ -1,18 +1,19 @@
-FROM node:20-slim
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install build dependencies for native modules (like bcrypt). Noninteractive prevents 40-minute freezes!
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+# Install build dependencies for native modules (like bcrypt)
+RUN apk add --no-cache python3 make g++ libc6-compat
 
 # Copy package files
 COPY package*.json ./
-# Delete lockfile to avoid cross-platform locking issues
-RUN rm -f package-lock.json
 
-# Install dependencies natively
+# Install dependencies (using the lockfile for speed)
 RUN npm install
+
+# FORCE install the native Linux Alpine (musl) binaries for both x64 and arm64 processors to bypass ALL cross-platform bugs
+RUN npm install --force @img/sharp-linuxmusl-x64@0.35.3 @img/sharp-linuxmusl-arm64@0.35.3
 
 # Copy the rest of the application code
 COPY . .
