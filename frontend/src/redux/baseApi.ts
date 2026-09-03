@@ -10,7 +10,8 @@ const rawBaseQuery = fetchBaseQuery({
   prepareHeaders: async (headers) => {
     const session: any = await getSession();
     if (session?.accessToken) {
-      headers.set("authorization", `Bearer ${session.accessToken}`);
+      // Use X-Authorization instead of Authorization to prevent conflicts with Nginx Basic Auth
+      headers.set("x-authorization", `Bearer ${session.accessToken}`);
     }
     headers.set("content-type", "application/json");
     headers.set("accept", "application/json");

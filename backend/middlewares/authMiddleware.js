@@ -3,7 +3,8 @@ const db = require("../models");
 const auditContext = require("../utils/auditContext");
 
 const authenticateToken = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
+  // Support both custom X-Authorization and standard Authorization headers
+  const authHeader = req.headers["x-authorization"] || req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
 
   if (!token) {
