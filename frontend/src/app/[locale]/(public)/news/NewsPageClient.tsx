@@ -1,10 +1,9 @@
 "use client";
 
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
-import { MessageCircle } from "lucide-react";
+import { Search, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useMemo } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useState, useMemo } from "react";
 import { useGetPaginatedNewsQuery } from "@/redux/api/newsApi";
 import { useGetTagsQuery } from "@/redux/api/tagApi";
 import NewsCard from "@/components/pages/news-page-components/NewsCard";
@@ -20,29 +19,27 @@ import Pagination from "@/components/common/Pagination";
 import { useTranslations } from "next-intl";
 import { SkeletonMediaCard, TagFilterSkeleton } from "@/components/skeletons";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 
 const PAGE_SIZE = 9;
 const ALL_NEWS = "All News";
 
 export default function NewsPageClient() {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
     const t = useTranslations("empty_state");
-
     const { data: tagsData = [] } = useGetTagsQuery();
 
-    const activeTag = searchParams.get("tag") ?? ALL_NEWS;
-    const pageParam = parseInt(searchParams.get("page") ?? "1", 10);
-    const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
+    const [searchTerm, setSearchTerm] = useState("");
+    const [activeTag, setActiveTag] = useState<string>(ALL_NEWS);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const queryArgs = useMemo(
         () => ({
             page: currentPage,
             limit: PAGE_SIZE,
             ...(activeTag !== ALL_NEWS ? { tag: activeTag } : {}),
+            ...(searchTerm ? { search: searchTerm } : {}),
         }),
-        [currentPage, activeTag],
+        [currentPage, activeTag, searchTerm],
     );
 
     const { data, isLoading, isFetching, isError } =
@@ -52,40 +49,13 @@ export default function NewsPageClient() {
     const pagination = data?.pagination;
     const totalPages = pagination?.totalPages ?? 1;
 
-    const updateSearchParams = useCallback(
-        (next: { tag?: string; page?: number }) => {
-            const params = new URLSearchParams(searchParams.toString());
-
-            if (next.tag !== undefined) {
-                if (next.tag === ALL_NEWS) params.delete("tag");
-                else params.set("tag", next.tag);
-            }
-
-            if (next.page !== undefined) {
-                if (next.page <= 1) params.delete("page");
-                else params.set("page", String(next.page));
-            }
-
-            const query = params.toString();
-            router.push(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
-        },
-        [router, pathname, searchParams],
-    );
-
-    // If the server reports fewer pages than the requested page (e.g. after
-    // switching tags), snap back to page 1 without a manual reload.
-    useEffect(() => {
-        if (pagination && currentPage > pagination.totalPages) {
-            updateSearchParams({ page: 1 });
-        }
-    }, [pagination, currentPage, updateSearchParams]);
-
     const handleTagChange = (tag: string) => {
-        updateSearchParams({ tag, page: 1 });
+        setActiveTag(tag);
+        setCurrentPage(1);
     };
 
     const handlePageChange = (page: number) => {
-        updateSearchParams({ page });
+        setCurrentPage(page);
         if (typeof window !== "undefined") {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -157,31 +127,48 @@ export default function NewsPageClient() {
                     </p>
                 </div>
 
-                <div className="relative flex gap-4 mb-8 flex-wrap">
-                    {tagNames.map((tag) => {
-                        const isActive = activeTag === tag;
-                        return (
-                            <div key={tag} className="relative z-10">
-                                <button
-                                    onClick={() => handleTagChange(tag)}
-                                    className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                        isActive
-                                            ? "text-white"
-                                            : "text-gray-700 hover:bg-primary/20"
-                                    }`}
-                                >
-                                    {tag}
-                                </button>
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="active-category"
-                                        className="absolute inset-0 bg-primary rounded-lg z-0"
-                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                    />
-                                )}
-                            </div>
-                        );
-                    })}
+                <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-8">
+                    <div className="flex flex-wrap gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+                        {tagNames.map((tag) => {
+                            const isActive = activeTag === tag;
+                            return (
+                                <div key={tag} className="relative z-10">
+                                    <button
+                                        onClick={() => handleTagChange(tag)}
+                                        className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            isActive
+                                                ? "text-white"
+                                                : "text-gray-700 hover:bg-primary/20"
+                                        }`}
+                                    >
+                                        {tag}
+                                    </button>
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="active-category"
+                                            className="absolute inset-0 bg-primary rounded-lg z-0"
+                                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                        />
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="relative w-full md:w-72">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Search className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                        <Input
+                            type="text"
+                            placeholder="Search news..."
+                            value={searchTerm}
+                            onChange={(e) => {
+                                setSearchTerm(e.target.value);
+                                setCurrentPage(1); // Reset page on search
+                            }}
+                            className="pl-10 h-11 w-full bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-full"
+                        />
+                    </div>
                 </div>
 
                 <div
