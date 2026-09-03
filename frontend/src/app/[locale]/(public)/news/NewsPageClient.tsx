@@ -97,9 +97,10 @@ export default function NewsPageClient() {
         return (
             <>
                 <PageHeader
+                    pageIdentifier="news"
                     title="News"
                     icon={<MessageCircle />}
-                    description="News and updates from the Ministry of Mines"
+                    description="News and updates from Jarra Holding Group"
                 />
                 <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     <div className="mb-8 space-y-4">
@@ -122,9 +123,10 @@ export default function NewsPageClient() {
         return (
             <>
                 <PageHeader
+                    pageIdentifier="news"
                     title="News"
                     icon={<MessageCircle />}
-                    description="News and updates from the Ministry of Mines"
+                    description="News and updates from Jarra Holding Group"
                 />
                 <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     <PublicEmptyState
@@ -139,17 +141,18 @@ export default function NewsPageClient() {
     return (
         <>
             <PageHeader
+                pageIdentifier="news"
                 title="News"
                 icon={<MessageCircle />}
-                description="News and updates from the Ministry of Mines"
+                description="News and updates from Jarra Holding Group"
             />
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="mb-8">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-golden-dark">News</h1>
-                    <div className="mt-2 h-1 w-12 bg-golden-dark rounded-full" />
+                    <h1 className="text-2xl sm:text-3xl font-bold text-primary">News</h1>
+                    <div className="mt-2 h-1 w-12 bg-primary rounded-full" />
                     <p className="text-gray-600 mt-4 max-w-2xl">
-                        Stay updated with the latest news and announcements from the Ministry of Mines.
+                        Stay updated with the latest news and announcements from Jarra Holding Group.
                         Here you can find information about our activities, projects, and initiatives.
                     </p>
                 </div>
@@ -164,7 +167,7 @@ export default function NewsPageClient() {
                                     className={`relative z-10 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                         isActive
                                             ? "text-white"
-                                            : "text-gray-700 hover:bg-golden-dark20"
+                                            : "text-gray-700 hover:bg-primary/20"
                                     }`}
                                 >
                                     {tag}
@@ -172,7 +175,7 @@ export default function NewsPageClient() {
                                 {isActive && (
                                     <motion.div
                                         layoutId="active-category"
-                                        className="absolute inset-0 bg-golden-dark rounded-lg z-0"
+                                        className="absolute inset-0 bg-primary rounded-lg z-0"
                                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                     />
                                 )}

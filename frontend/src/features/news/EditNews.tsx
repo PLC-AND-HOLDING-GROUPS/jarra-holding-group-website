@@ -267,8 +267,8 @@ const EditNews = () => {
 
     return (
         <div className="min-h-screen w-full grid grid-cols-2 gap-10">
-            <div className="bg-white p-6 rounded-lg shadow overflow-y-auto space-y-6">
-                <h1 className="text-2xl font-bold mb-6 text-[#073954]">Edit News</h1>
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto space-y-6">
+                <h1 className="text-2xl font-bold mb-6 text-primary">Edit News</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
@@ -277,7 +277,7 @@ const EditNews = () => {
                                 id="status"
                                 value={status}
                                 onChange={(e) => setStatus(e.target.value as any)}
-                                className="w-full border border-gray-300 p-2 rounded-md bg-white text-sm"
+                                className="w-full border border-border p-2 rounded-md bg-card text-card-foreground text-sm"
                             >
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
@@ -293,7 +293,7 @@ const EditNews = () => {
                                     value={publishedAt}
                                     onChange={(e) => setPublishedAt(e.target.value)}
                                 />
-                                <p className="text-xs text-gray-500">{TIMEZONE_LABEL}</p>
+                                <p className="text-xs text-muted-foreground">{TIMEZONE_LABEL}</p>
                             </div>
                         )}
                     </div>
@@ -311,18 +311,18 @@ const EditNews = () => {
 
                     {/* Tags Popover */}
                     <div className="w-full space-y-2">
-                        <Label className="text-sm font-medium text-[#094C81]">
+                        <Label className="text-sm font-medium text-primary">
                             Tags <span className="text-red-500">*</span>
                         </Label>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <button
                                     type="button"
-                                    className="w-full max-h-28 min-h-12 h-fit border border-gray-300 p-2 rounded-md mt-1 text-[#094C81] bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#094C81] focus:ring-offset-2 transition-all duration-200"
+                                    className="w-full max-h-28 min-h-12 h-fit border border-border p-2 rounded-md mt-1 text-primary bg-card hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200"
                                 >
                                     <div className="flex flex-wrap items-center gap-2 w-full">
                                         {selectedTags.length === 0 && (
-                                            <span className="text-sm w-full justify-between text-gray-400 flex items-center gap-2">
+                                            <span className="text-sm w-full justify-between text-muted-foreground flex items-center gap-2">
                                                 Select Tags
                                                 <ChevronDown className="h-4 w-4 ml-auto" />
                                             </span>
@@ -337,7 +337,7 @@ const EditNews = () => {
                                             return (
                                                 <span
                                                     key={tagId}
-                                                    className="inline-flex items-center gap-1 rounded-md justify-center bg-[#094C81]/10 text-[#094C81] px-2 py-1 text-xs"
+                                                    className="inline-flex items-center gap-1 rounded-md justify-center bg-primary/10 text-primary px-2 py-1 text-xs"
                                                 >
                                                     <span className="truncate max-w-[120px]">
                                                         {tag.name}
@@ -350,7 +350,7 @@ const EditNews = () => {
                                                                 prev.filter((id) => id !== tagId)
                                                             );
                                                         }}
-                                                        className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-[#094C81]/20 transition-colors"
+                                                        className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary/20 transition-colors"
                                                         aria-label={`Remove ${tag.name}`}
                                                     >
                                                         <XIcon className="h-3 w-3" />
@@ -359,13 +359,13 @@ const EditNews = () => {
                                             );
                                         })}
                                         {selectedTags.length > 0 && (
-                                            <ChevronDown className="h-4 w-4 ml-auto text-gray-400" />
+                                            <ChevronDown className="h-4 w-4 ml-auto text-muted-foreground" />
                                         )}
                                     </div>
                                 </button>
                             </PopoverTrigger>
                             <PopoverContent
-                                className="w-[300px] p-2 bg-white"
+                                className="w-[300px] p-2 bg-card text-card-foreground"
                                 align="start"
                             >
                                 <div className="max-h-64 overflow-y-auto">
@@ -378,7 +378,7 @@ const EditNews = () => {
                                                 onClick={() => {
                                                     setSelectedTags((prev) => [...prev, t.tag_id]);
                                                 }}
-                                                className="w-full text-left px-3 py-2 text-sm text-[#094C81] hover:bg-[#094C81]/10 rounded-md cursor-pointer transition-colors"
+                                                className="w-full text-left px-3 py-2 text-sm text-primary hover:bg-primary/10 rounded-md cursor-pointer transition-colors"
                                             >
                                                 <span className="block truncate">{t.name}</span>
                                             </button>
@@ -386,7 +386,7 @@ const EditNews = () => {
                                     {tagsData.filter(
                                         (t: any) => !selectedTags.includes(t.tag_id)
                                     ).length === 0 && (
-                                            <div className="px-3 py-2 text-sm text-gray-400 text-center">
+                                            <div className="px-3 py-2 text-sm text-muted-foreground text-center">
                                                 All tags selected
                                             </div>
                                         )}
@@ -455,21 +455,21 @@ const EditNews = () => {
                     {/* Show loading state while content is being prepared */}
                     {!isContentLoaded && (
                         <div className="h-64 flex items-center justify-center border rounded-md">
-                            <p className="text-gray-400">Loading content...</p>
+                            <p className="text-muted-foreground">Loading content...</p>
                         </div>
                     )}
 
-                    <Button type="submit" className="w-full bg-[#094C81] hover:bg-[#073954]">
+                    <Button type="submit" className="w-full">
                         Update News
                     </Button>
                 </form>
             </div>
 
             {/* Preview Section */}
-            <div className="bg-white p-6 rounded-lg shadow overflow-y-auto">
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto">
                 <h2 className="text-xl font-semibold mb-4 border-b pb-2">Live Preview</h2>
                 <h1 className="text-3xl font-bold mb-3">{title || "News Title Preview"}</h1>
-                <div className="text-sm text-gray-500 mb-4">
+                <div className="text-sm text-muted-foreground mb-4">
                     {author ? `By ${author}` : "By Author"} • {new Date().toLocaleDateString()}
                 </div>
 
@@ -529,7 +529,7 @@ const EditNews = () => {
 
                 {/* Show placeholder when no media */}
                 {headlineFiles.length === 0 && (
-                    <div className="w-full h-72 bg-gray-100 rounded-lg mb-4 flex items-center justify-center text-gray-400">
+                    <div className="w-full h-72 bg-secondary rounded-lg mb-4 flex items-center justify-center text-muted-foreground">
                         No media uploaded
                     </div>
                 )}
@@ -540,7 +540,7 @@ const EditNews = () => {
                         {selectedTags.map((tagId) => {
                             const tag = tagsData.find((t: any) => t.tag_id === tagId);
                             return tag ? (
-                                <span key={tagId} className="text-xs bg-gray-200 px-3 py-1 rounded-full">
+                                <span key={tagId} className="text-xs bg-secondary text-secondary-foreground px-3 py-1 rounded-full">
                                     {tag.name}
                                 </span>
                             ) : null;
@@ -562,7 +562,7 @@ const EditNews = () => {
                         <h3 className="font-semibold mb-2">Attached Documents:</h3>
                         <ul className="space-y-2">
                             {footerFiles.map(doc => (
-                                <li key={doc.attachment_id} className="border w-fit py-2 px-3 rounded-lg flex items-center gap-2">
+                                <li key={doc.attachment_id} className="border border-border w-fit py-2 px-3 rounded-lg flex items-center gap-2 bg-secondary text-secondary-foreground">
                                     <FileIcon className="w-4 h-4" />
                                     <a
                                         href={doc.isBlob ? doc.previewUrl! : getFileUrl(doc.file_path!)}

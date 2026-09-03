@@ -28,8 +28,8 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
         <div className="space-y-8">
             {/* Related News Section */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-lg font-bold text-[#094C81] mb-6 pb-3 border-b flex items-center gap-2">
-                    <div className="w-1.5 h-6 bg-golden-dark rounded-full"></div>
+                <h2 className="text-lg font-bold text-primary mb-6 pb-3 border-b flex items-center gap-2">
+                    <div className="w-1.5 h-6 bg-primary rounded-full"></div>
                     Related News
                 </h2>
 
@@ -68,7 +68,7 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
                                         </div>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-semibold text-gray-900 group-hover:text-golden-dark mb-1 line-clamp-2 text-sm leading-snug">
+                                        <h3 className="font-semibold text-gray-900 group-hover:text-primary mb-1 line-clamp-2 text-sm leading-snug">
                                             {item.title}
                                         </h3>
                                         <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
 
                 <a
                     href="/news"
-                    className="mt-6 flex items-center justify-center gap-2 text-golden-dark hover:text-golden-darkHover font-semibold text-sm py-2 border border-golden-dark/20 rounded-lg hover:bg-golden-dark/5 transition-colors"
+                    className="mt-6 flex items-center justify-center gap-2 text-primary hover:text-primary/90 font-semibold text-sm py-2 border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors"
                 >
                     View All News
                     <ChevronRight size={14} />
@@ -99,8 +99,8 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
             {/* Published Feedbacks Section */}
             {feedbacks.length > 0 && (
                 <div className="bg-white rounded-lg shadow-sm p-6">
-                    <h2 className="text-lg font-bold text-[#094C81] mb-6 pb-3 border-b flex items-center gap-2">
-                        <div className="w-1.5 h-6 bg-golden-dark rounded-full"></div>
+                    <h2 className="text-lg font-bold text-primary mb-6 pb-3 border-b flex items-center gap-2">
+                        <div className="w-1.5 h-6 bg-primary rounded-full"></div>
                         Recent Feedbacks
                     </h2>
 
@@ -109,7 +109,7 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
                             <div key={item.news_feedback_id} className="group">
                                 <div className="flex gap-3">
                                     <div className="flex-shrink-0">
-                                        <div className="w-8 h-8 rounded-full bg-golden-dark/10 flex items-center justify-center text-golden-dark border border-golden-dark/20">
+                                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                                             <UserCircle2 size={18} />
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
                                 const feedbackSection = document.getElementById('feedback-section');
                                 if (feedbackSection) feedbackSection.scrollIntoView({ behavior: 'smooth' });
                             }}
-                            className="mt-6 flex items-center justify-center gap-2 text-golden-dark hover:text-golden-darkHover font-semibold text-sm w-full py-2 border border-golden-dark/20 rounded-lg hover:bg-golden-dark/5 transition-colors"
+                            className="mt-6 flex items-center justify-center gap-2 text-primary hover:text-primary/90 font-semibold text-sm w-full py-2 border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors"
                         >
                             View All Feedbacks ({feedbacks.length})
                             <ChevronRight size={14} />

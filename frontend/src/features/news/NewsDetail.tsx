@@ -47,7 +47,7 @@ const NewsDetail = () => {
             <header className="max-w-7xl mx-auto px-4 py-6">
                 <button
                     onClick={() => window.history.back()}
-                    className="flex items-center gap-2 py-2 text-gray-600 hover:text-golden-dark"
+                    className="flex items-center gap-2 py-2 text-gray-600 hover:text-primary"
                 >
                     <ArrowLeft size={14} /> Back to News
                 </button>

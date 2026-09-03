@@ -101,8 +101,8 @@ export default function AdminNewsFeedbackDetail() {
             header: "User",
             cell: ({ row }) => (
                 <div className="flex flex-col">
-                    <span className="font-semibold text-[#094C81]">{row.getValue("fullname")}</span>
-                    <span className="text-[10px] text-gray-400">
+                    <span className="font-semibold text-primary">{row.getValue("fullname")}</span>
+                    <span className="text-[10px] text-muted-foreground">
                         {new Date(row.original.created_at).toLocaleDateString()}
                     </span>
                 </div>
@@ -112,7 +112,7 @@ export default function AdminNewsFeedbackDetail() {
             accessorKey: "thought",
             header: "Comment",
             cell: ({ row }) => (
-                <p className="text-sm text-gray-700 max-w-[400px] line-clamp-3" title={row.getValue("thought")}>
+                <p className="text-sm text-foreground max-w-[400px] line-clamp-3" title={row.getValue("thought")}>
                     {row.getValue("thought")}
                 </p>
             ),
@@ -190,11 +190,11 @@ export default function AdminNewsFeedbackDetail() {
             ]}
         >
             {selectedNews && (
-                <div className="rounded-lg border border-[#094C81]/15 bg-[#094C81]/5 p-5 mb-6">
+                <div className="rounded-lg border border-border bg-secondary p-5 mb-6">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                         <div className="space-y-2 min-w-0">
                             <div className="flex flex-wrap items-center gap-2">
-                                <h3 className="text-lg font-bold text-[#094C81] truncate">
+                                <h3 className="text-lg font-bold text-primary truncate">
                                     {selectedNews.title}
                                 </h3>
                                 <Badge
@@ -209,7 +209,7 @@ export default function AdminNewsFeedbackDetail() {
                                     {selectedNews.status.charAt(0).toUpperCase() + selectedNews.status.slice(1)}
                                 </Badge>
                             </div>
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                                 {selectedNews.author && <span>By {selectedNews.author}</span>}
                                 <span>Created {formatDate(selectedNews.created_at)}</span>
                                 {selectedNews.published_at && (
@@ -217,7 +217,7 @@ export default function AdminNewsFeedbackDetail() {
                                 )}
                             </div>
                             <div className="flex flex-wrap gap-3 text-sm">
-                                <span className="text-gray-600">
+                                <span className="text-muted-foreground">
                                     <strong>{feedbacks.length}</strong> total feedback
                                     {feedbacks.length === 1 ? "" : "s"}
                                 </span>

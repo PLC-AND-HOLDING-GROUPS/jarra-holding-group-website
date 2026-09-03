@@ -68,7 +68,7 @@ export const TableLayout: React.FC<PageLayoutProps> = ({
                 </h1>
               )}
               {description && (
-                <p className="text-muted-foreground text-base">{description}</p>
+                <p className="text-foreground text-base">{description}</p>
               )}
             </div>
           )}

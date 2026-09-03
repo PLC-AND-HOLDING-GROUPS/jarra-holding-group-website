@@ -9,9 +9,10 @@ function NewsPageFallback() {
     return (
         <>
             <PageHeader
+                pageIdentifier="news"
                 title="News"
                 icon={<MessageCircle />}
-                description="News and updates from the Ministry of Mines"
+                description="News and updates from Jarra Holding Group"
             />
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="mb-8 space-y-4">

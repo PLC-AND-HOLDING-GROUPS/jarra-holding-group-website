@@ -19,8 +19,8 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
     const [successMessage, setSuccessMessage] = useState("");
 
     const [recordFeedback, { isLoading }] = useRecordNewsFeedbackMutation();
-    const { data: feedbackCount } = useGetNewsFeedbackCountQuery(newsId);
-    const { data: feedbacks = [] } = useGetNewsFeedbacksQuery({ news_id: newsId });
+    const { data: feedbackCount } = useGetNewsFeedbackCountQuery(newsId, { pollingInterval: 15000, refetchOnFocus: true });
+    const { data: feedbacks = [] } = useGetNewsFeedbacksQuery({ news_id: newsId }, { pollingInterval: 15000, refetchOnFocus: true });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -77,7 +77,7 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
                         placeholder="Full Name"
                         value={fullname}
                         onChange={(e) => setFullname(e.target.value)}
-                        className="focus-visible:ring-golden-dark"
+                        className="focus-visible:ring-primary"
                     />
 
                     <Textarea
@@ -85,14 +85,14 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
                         value={thought}
                         onChange={(e) => setThought(e.target.value)}
                         rows={4}
-                        className="focus-visible:ring-golden-dark"
+                        className="focus-visible:ring-primary"
                     />
 
                     <div className="flex justify-end">
                         <Button
                             type="submit"
                             disabled={isLoading}
-                            className="bg-golden-dark hover:bg-golden-darkHover text-white px-8"
+                            className="bg-primary hover:bg-primary/90 text-white px-8"
                         >
                             {isLoading ? "Submitting..." : "Post Comment"}
                         </Button>
@@ -109,7 +109,7 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
                         {feedbacks.map((item) => (
                             <div key={item.news_feedback_id} className="flex gap-4">
                                 <div className="flex-shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-golden-dark/10 flex items-center justify-center text-golden-dark border border-golden-dark/20">
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                                         <UserCircle2 size={22} />
                                     </div>
                                 </div>

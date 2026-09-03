@@ -236,7 +236,7 @@ const NewsMediaGallery: React.FC<NewsMediaGalleryProps> = ({
                             key={idx}
                             onClick={() => setActiveIndex(idx)}
                             className={`flex-shrink-0 h-20 w-28 rounded-lg overflow-hidden border-2 transition-all ${idx === activeIndex
-                                ? 'border-golden-dark scale-105'
+                                ? 'border-primary scale-105'
                                 : 'border-transparent opacity-70 hover:opacity-100'
                                 }`}
                         >
