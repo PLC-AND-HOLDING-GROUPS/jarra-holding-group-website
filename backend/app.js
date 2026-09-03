@@ -78,6 +78,10 @@ const productRoute = require("./routers/product/productRoutes");
 const productCategoryRoute = require("./routers/product/productCategoryRoutes");
 const productInquiryRoute = require("./routers/product/productInquiryRoutes");
 
+// ================== News Routes ==========================
+const newsRoute = require("./routers/news/newsRoutes");
+const tagRoute = require("./routers/news/tagRoutes");
+
 const app = express();
 app.set("trust proxy", 1);
 const appServer = http.createServer(app);
@@ -223,6 +227,10 @@ app.use("/api/page-headers", pageHeaderRoute);
 app.use("/api/products", productRoute);
 app.use("/api/product-categories", productCategoryRoute);
 app.use("/api/product-inquiries", productInquiryRoute);
+
+// ================== News Routes =====================
+app.use("/api/news", newsRoute);
+app.use("/api/tags", tagRoute);
 
 // ================== Root Endpoint ==================
 app.get("/", (req, res) => {

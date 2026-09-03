@@ -128,6 +128,34 @@ export const routePermissions: RouteConfig[] = [
             anyPermissions: ["VACANCIES:READ"],
         },
     },
+    {
+        path: "/admin/news",
+        label: "News Management",
+        icon: "FileText",
+        permissions: {
+            anyPermissions: ["NEWS:READ"], // Ensure this exists or use a generic one like "SERVICES:READ" for now
+        },
+        children: [
+            {
+                path: "/admin/news",
+                label: "All News",
+                icon: "List",
+                permissions: { anyPermissions: ["NEWS:READ"] },
+            },
+            {
+                path: "/admin/news/tags",
+                label: "Tags",
+                icon: "Tag",
+                permissions: { anyPermissions: ["NEWS:READ"] },
+            },
+            {
+                path: "/admin/news/feedbacks",
+                label: "Feedbacks",
+                icon: "MessageSquare",
+                permissions: { anyPermissions: ["NEWS:READ"] },
+            },
+        ],
+    },
 
     // ---------------- SYSTEM & USERS ----------------
     {
