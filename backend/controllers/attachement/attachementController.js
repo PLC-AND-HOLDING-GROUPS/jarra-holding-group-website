@@ -89,6 +89,21 @@ const deleteAttachment = async (req, res) => {
         }
 
         removeAttachmentFiles(file);
+
+        // Dynamically find all models that have `attachment_id` and delete or nullify related records
+        const db = require("../../models");
+        for (const modelName of Object.keys(db)) {
+            const model = db[modelName];
+            // Ensure the model is not the Attachment model itself and it has the attachment_id attribute
+            if (model.name !== "Attachment" && model.rawAttributes && model.rawAttributes.attachment_id) {
+                if (model.rawAttributes.attachment_id.allowNull === true) {
+                    await model.update({ attachment_id: null }, { where: { attachment_id } });
+                } else {
+                    await model.destroy({ where: { attachment_id } });
+                }
+            }
+        }
+
         await file.destroy();
 
         return res.status(200).json({
