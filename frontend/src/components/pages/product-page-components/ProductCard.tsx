@@ -146,7 +146,7 @@ export default function ProductCard({ product, locale = "en" }: { product: Produ
             {/* Actions */}
             <CardFooter className="p-2 pt-0 mt-auto flex gap-2">
                 <Button variant="outline" asChild className="w-full text-sm h-10 border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors flex-1">
-                    <Link href={`/${locale}/products/${product.slug}`}>
+                    <Link href={`/${locale}/products/${product.product_id}`}>
                         View Details
                     </Link>
                 </Button>
