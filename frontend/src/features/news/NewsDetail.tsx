@@ -71,7 +71,7 @@ const NewsDetail = () => {
                         <article className="rounded-lg shadow-sm overflow-hidden bg-white px-2">
                             {/* Headline Media Gallery */}
                             <NewsMediaGallery
-                                attachments={newsItem.attachments || []}
+                                attachments={(newsItem.attachments as any) || []}
                                 title={newsItem.title}
                                 news_id={newsId}
                                 initialLikes={newsItem.metadata?.like_count || 0}
@@ -102,7 +102,7 @@ const NewsDetail = () => {
                                 )}
 
                                 {/* Footer Documents */}
-                                <NewsDocuments attachments={newsItem.attachments || []} />
+                                <NewsDocuments attachments={(newsItem.attachments as any) || []} />
                             </div>
                         </article>
 
@@ -113,7 +113,7 @@ const NewsDetail = () => {
                     {/* Sidebar */}
                     <div className="lg:col-span-1">
                         <NewsLeftSide
-                            relatedNews={mapRelatedNews(newsItem.relatedNews)}
+                            relatedNews={mapRelatedNews((newsItem as any).relatedNews)}
                             feedbacks={feedbacks}
                         />
                     </div>

@@ -233,7 +233,7 @@ const NewsMediaGallery: React.FC<NewsMediaGalleryProps> = ({
                 <div className="flex gap-2 overflow-x-auto p-3">
                     {headlineMedia.map((media, idx) => (
                         <button
-                            key={media.id}
+                            key={idx}
                             onClick={() => setActiveIndex(idx)}
                             className={`flex-shrink-0 h-20 w-28 rounded-lg overflow-hidden border-2 transition-all ${idx === activeIndex
                                 ? 'border-golden-dark scale-105'

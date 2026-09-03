@@ -263,7 +263,7 @@ const EditNews = () => {
 
     const getCurrentMedia = () => (headlineFiles.length ? headlineFiles[currentMediaIndex] : null);
     const currentMedia = getCurrentMedia();
-    const getMediaUrl = (file: UploadedFileInfo) => file.isBlob ? file.previewUrl : getImageUrl(file, "large");
+    const getMediaUrl = (file: UploadedFileInfo) => file.isBlob ? file.previewUrl : getImageUrl(file as any, "large");
 
     return (
         <div className="min-h-screen w-full grid grid-cols-2 gap-10">

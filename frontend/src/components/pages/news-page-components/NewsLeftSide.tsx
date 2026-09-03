@@ -46,15 +46,15 @@ const NewsLeftSide = ({ relatedNews, feedbacks = [] }: NewsSidebarProps) => {
                                         <div className="relative w-16 h-16 rounded overflow-hidden bg-gray-100 flex items-center justify-center">
                                             {item?.media ? (
                                                 <>
-                                                    {item.media.type === "image" ? (
+                                                    {(item.media as any).type === "image" ? (
                                                         <img
-                                                            src={item.media.url}
+                                                            src={(item.media as any).url}
                                                             alt={item.title}
                                                             className="object-cover h-full w-full group-hover:scale-110 transition-transform duration-300"
                                                         />
                                                     ) : (
                                                         <video
-                                                            src={item.media.url}
+                                                            src={(item.media as any).url}
                                                             className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
                                                             muted
                                                         />
