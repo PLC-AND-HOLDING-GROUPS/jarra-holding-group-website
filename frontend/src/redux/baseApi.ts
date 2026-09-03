@@ -6,7 +6,7 @@ import { AUTH_LOGIN } from "@/constants/authRoutes";
 
 // Custom base query with authentication
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+  baseUrl: typeof window === 'undefined' ? (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_BASE_URL) : process.env.NEXT_PUBLIC_BASE_URL,
   prepareHeaders: async (headers) => {
     const session: any = await getSession();
     if (session?.accessToken) {
