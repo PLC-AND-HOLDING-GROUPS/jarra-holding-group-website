@@ -60,6 +60,11 @@ export const PAGE_SEO: Record<string, { title: string; description: string }> = 
     description:
       "Secure and scalable warehousing solutions provided by Jarra Holding Group.",
   },
+  "/news": {
+    title: "News & Updates",
+    description:
+      "Stay updated with the latest news, announcements, and events from Jarra Holding Group.",
+  },
 };
 
 export function getPageSeo(path: string) {
