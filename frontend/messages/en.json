@@ -14,5 +14,12 @@
         "button": "Explore Opportunities",
         "button2": "Learn More",
         "badge": "Jarra Holding Group"
+    },
+    "empty_state": {
+        "default_description": "There is currently no information available.",
+        "news_title": "No news available",
+        "news_filter_title": "No news found for this category",
+        "filter_description": "We couldn't find any news articles matching this tag. Please select another tag.",
+        "error_description": "An error occurred while trying to load the news. Please try again later."
     }
 }
