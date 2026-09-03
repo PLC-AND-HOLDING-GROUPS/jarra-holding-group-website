@@ -11,7 +11,9 @@ import { getImageUrl } from "@/utils/fileUrl";
 
 async function getProduct(slug: string) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/${slug}`, {
+        // Use internal Docker network URL if available to avoid NAT hairpin issues during SSR
+        const baseUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_BASE_URL;
+        const res = await fetch(`${baseUrl}/products/${slug}`, {
             next: { revalidate: 60 } // Revalidate every minute
         });
         if (!res.ok) return null;

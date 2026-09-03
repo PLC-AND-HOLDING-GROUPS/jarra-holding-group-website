@@ -51,6 +51,7 @@ services:
     restart: always
     environment:
       - NODE_ENV=production
+      - INTERNAL_API_URL=http://backend:4000
       - NEXT_PUBLIC_BASE_URL=https://${DOMAIN}/api
       - NEXT_PUBLIC_BASE=https://${DOMAIN}
       - NEXT_PUBLIC_TIMEZONE=Africa/Addis_Ababa
