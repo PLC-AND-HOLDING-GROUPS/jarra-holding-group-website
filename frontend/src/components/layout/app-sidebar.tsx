@@ -297,7 +297,7 @@ export function AppSidebar() {
             <Link href="/admin/dashboard" className="flex flex-col items-center">
               <Image
                 src="/jarra-logo.png"
-                alt="Jarra Holding Group Logo"
+                alt="Jarra Holdings Logo"
                 width={100}
                 height={100}
                 className="mx-auto mb-1 rounded-xl p-2"

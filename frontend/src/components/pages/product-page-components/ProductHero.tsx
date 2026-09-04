@@ -25,7 +25,7 @@ export default function ProductHero() {
                 </h1>
                 
                 <p className="text-primary text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed">
-                    Jarra Holding Group offers a comprehensive and diverse range of products across agriculture, chemicals, manufacturing, and industrial sectors. Explore our catalog or send an inquiry for specific sourcing and trading needs.
+                    Jarra Holdings offers a comprehensive and diverse range of products across agriculture, chemicals, manufacturing, and industrial sectors. Explore our catalog or send an inquiry for specific sourcing and trading needs.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">

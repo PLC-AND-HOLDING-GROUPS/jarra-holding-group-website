@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
-        title: t("products") || "Products - Jarra Holding Group",
+        title: t("products") || "Products - Jarra Holdings",
     };
 }
 
@@ -20,7 +20,7 @@ export default function ProductsPage() {
                 pageIdentifier="products"
                 title="Our Product Portfolio"
                 icon={<Package />}
-                description="Jarra Holding Group offers a comprehensive and diverse range of products across agriculture, chemicals, manufacturing, and industrial sectors. Explore our catalog or send an inquiry for specific sourcing and trading needs."
+                description="Jarra Holdings offers a comprehensive and diverse range of products across agriculture, chemicals, manufacturing, and industrial sectors. Explore our catalog or send an inquiry for specific sourcing and trading needs."
             />
             <ProductGrid />
         </main>

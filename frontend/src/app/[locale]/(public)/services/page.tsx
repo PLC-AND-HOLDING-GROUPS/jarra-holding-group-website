@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
-        title: t("services") || "Services - Jarra Holding Group",
+        title: t("services") || "Services - Jarra Holdings",
     };
 }
 
@@ -25,7 +25,7 @@ export default function ServicesPage() {
                 pageIdentifier="services"
                 title="Our Services"
                 icon={<Settings />}
-                description="Explore the professional services offered by Jarra Holding Group to our partners and clients globally."
+                description="Explore the professional services offered by Jarra Holdings to our partners and clients globally."
             />
             
             <ServicesOverview />

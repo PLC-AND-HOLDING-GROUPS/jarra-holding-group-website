@@ -73,7 +73,7 @@ export default function NewsPageClient() {
                 pageIdentifier="news"
                 title="News"
                 icon={<MessageCircle />}
-                description="News and updates from Jarra Holding Group"
+                description="News and updates from Jarra Holdings"
             />
 
             <div className="py-16 bg-white min-h-[600px] flex-grow">
@@ -82,7 +82,7 @@ export default function NewsPageClient() {
                         <h1 className="text-2xl sm:text-3xl font-bold text-primary">News</h1>
                         <div className="mt-2 h-1 w-12 bg-primary rounded-full" />
                         <p className="text-gray-600 mt-4 max-w-2xl">
-                            Stay updated with the latest news and announcements from Jarra Holding Group.
+                            Stay updated with the latest news and announcements from Jarra Holdings.
                             Here you can find information about our activities, projects, and initiatives.
                         </p>
                     </div>

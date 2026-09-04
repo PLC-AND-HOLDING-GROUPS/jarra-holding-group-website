@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
-        title: t("facilities") || "Facilities - Jarra Holding Group",
+        title: t("facilities") || "Facilities - Jarra Holdings",
     };
 }
 
@@ -22,7 +22,7 @@ export default function FacilitiesPage() {
                 pageIdentifier="facilities"
                 title="Our Physical Footprint"
                 icon={<Building2 />}
-                description="Jarra Holding Group’s presence is supported by substantial physical facilities and infrastructure across strategic locations. Explore our corporate, industrial, and operational sites that form the foundation of our organization."
+                description="Jarra Holdings’s presence is supported by substantial physical facilities and infrastructure across strategic locations. Explore our corporate, industrial, and operational sites that form the foundation of our organization."
             />
             <EditorialIntro />
             <FacilityEditorialShowcase />

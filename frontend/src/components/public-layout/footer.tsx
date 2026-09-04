@@ -25,7 +25,7 @@ const Footer = () => {
                             <Image src="/jarra-logo.png" alt="Logo" width={60} height={60} className="mb-2 mx-auto" />
                         </Link>    
                         <h3 className="text-lg font-semibold text-primary mb-2">
-                            Jarra Holding Group
+                            Jarra Holdings
                         </h3>
                     </div>
                 </div>
@@ -111,7 +111,7 @@ const Footer = () => {
                     </div>
 
                     <p className="text-center w-full md:w-fit">
-                        © {new Date().getFullYear()} Jarra Holding Group. All rights
+                        © {new Date().getFullYear()} Jarra Holdings. All rights
                         reserved.
                     </p>
 

@@ -407,7 +407,7 @@ export const NavbarLogo = () => {
                 height={40}
                 priority/>
             <div className="flex flex-col">
-                <span className="text-secondary font-semibold dark:text-white text-md -mt-[2px]">Jarra Holding Group</span>
+                <span className="text-secondary font-semibold dark:text-white text-md -mt-[2px]">Jarra Holdings</span>
             </div>
         </Link>
     );

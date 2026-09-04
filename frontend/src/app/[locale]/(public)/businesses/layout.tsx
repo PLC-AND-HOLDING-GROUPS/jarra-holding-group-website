@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 const items = [
     { label: "Our Businesses", slug: "/businesses", description: "Connecting trade, logistics, warehousing, and distribution" },
-    { label: "Overview", slug: "/businesses/overview", description: "Jarra Holding Group business overview and operations" },
+    { label: "Overview", slug: "/businesses/overview", description: "Jarra Holdings business overview and operations" },
     { label: "Import & Export", slug: "/businesses/import-export", description: "Cross-border trading and supply operations" },
     { label: "Warehousing", slug: "/businesses/warehousing", description: "Multi-location storage and inventory infrastructure" },
     { label: "Trading", slug: "/businesses/trading", description: "Product sourcing and commercial goods" },
@@ -35,9 +35,9 @@ export default function Layout({
             {/* Hero / Page Header (shared across all administration pages) */}
             <PageHeader
                 pageIdentifier="businesses"
-                title="Jarra Holding Group Businesses"
+                title="Jarra Holdings Businesses"
                 icon={<BriefcaseBusiness />}
-                description="Jarra Holding Group Businesses"
+                description="Jarra Holdings Businesses"
             />
 
             {/* Main container with relative positioning for overlay */}

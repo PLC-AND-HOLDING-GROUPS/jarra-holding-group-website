@@ -30,8 +30,8 @@ export const mockFacilities: Facility[] = [
         slug: 'corporate-headquarters',
         typeId: 't1',
         location: 'Addis Ababa, Ethiopia',
-        shortDescription: 'The central administrative hub supporting Jarra Holding Group’s executive and corporate functions.',
-        fullDescription: 'Our Corporate Headquarters represents the administrative core of Jarra Holding Group. Located in the central business district of Addis Ababa, this facility houses our executive management, finance, human resources, and corporate strategy teams. It features modern office spaces, advanced communication infrastructure, and dedicated conference areas designed to facilitate high-level corporate planning and coordination.',
+        shortDescription: 'The central administrative hub supporting Jarra Holdings’s executive and corporate functions.',
+        fullDescription: 'Our Corporate Headquarters represents the administrative core of Jarra Holdings. Located in the central business district of Addis Ababa, this facility houses our executive management, finance, human resources, and corporate strategy teams. It features modern office spaces, advanced communication infrastructure, and dedicated conference areas designed to facilitate high-level corporate planning and coordination.',
         image: '/factory2.jpg',
         gallery: ['/factory2.jpg', '/factory3.jpg', '/factory.jpg'],
         characteristics: [

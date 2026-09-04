@@ -1,6 +1,6 @@
-# Jarra Holding Group Website
+# Jarra Holdings Website
 
-> Corporate website and content management platform for Jarra Holding Group.
+> Corporate website and content management platform for Jarra Holdings.
 
 You can run everything with **Docker Compose** or run **backend** and **frontend** locally against a Postgres instance.
 

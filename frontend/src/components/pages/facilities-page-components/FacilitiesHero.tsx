@@ -25,7 +25,7 @@ export default function FacilitiesHero() {
                 </h1>
                 
                 <p className="text-primary text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed">
-                    Jarra Holding Group’s presence is supported by substantial physical facilities and infrastructure across strategic locations. Explore our corporate, industrial, and operational sites that form the foundation of our organization.
+                    Jarra Holdings’s presence is supported by substantial physical facilities and infrastructure across strategic locations. Explore our corporate, industrial, and operational sites that form the foundation of our organization.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">

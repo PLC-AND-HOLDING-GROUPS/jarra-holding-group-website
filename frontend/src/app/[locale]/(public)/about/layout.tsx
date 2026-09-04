@@ -64,16 +64,16 @@ export default function Layout({
 
     // Find active item for title & breadcrumb
     const activeItem = items.find((item) => item.slug === normalizedPathname);
-    const title = activeItem?.label ?? "Background of Jarra Holding Group";
+    const title = activeItem?.label ?? "Background of Jarra Holdings";
 
     return (
         <>
             {/* Hero / Page Header (shared across all administration pages) */}
             <PageHeader
                 pageIdentifier="about"
-                title="About Jarra Holding Group"
+                title="About Jarra Holdings"
                 icon={<Quote />}
-                description="About Jarra Holding Group"
+                description="About Jarra Holdings"
             />
 
             <section className="mx-auto">

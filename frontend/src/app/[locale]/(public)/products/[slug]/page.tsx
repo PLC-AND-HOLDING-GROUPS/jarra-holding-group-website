@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!product) return { title: "Product Not Found" };
     
     return {
-        title: `${product.name} - Jarra Holding Group`,
+        title: `${product.name} - Jarra Holdings`,
         description: product.short_description
     };
 }

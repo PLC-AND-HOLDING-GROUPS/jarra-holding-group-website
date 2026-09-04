@@ -1,69 +1,69 @@
 /** Static SEO copy keyed by public path (without locale prefix). */
 export const PAGE_SEO: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "Jarra Holding Group",
+    title: "Jarra Holdings",
     description:
-      "Official website of Jarra Holding Group. Explore our businesses, services, and investment opportunities.",
+      "Official website of Jarra Holdings. Explore our businesses, services, and investment opportunities.",
   },
   "/about": {
     title: "About Us",
     description:
-      "Learn about Jarra Holding Group, our leadership, mission, vision, and role in driving sustainable growth.",
+      "Learn about Jarra Holdings, our leadership, mission, vision, and role in driving sustainable growth.",
   },
   "/services": {
     title: "Our Services",
     description:
-      "Comprehensive services and solutions provided by Jarra Holding Group.",
+      "Comprehensive services and solutions provided by Jarra Holdings.",
   },
   "/products": {
     title: "Our Products",
     description:
-      "Explore the diverse range of high-quality products offered by Jarra Holding Group.",
+      "Explore the diverse range of high-quality products offered by Jarra Holdings.",
   },
   "/facilities": {
     title: "Our Facilities",
     description:
-      "State-of-the-art facilities and operational centers of Jarra Holding Group.",
+      "State-of-the-art facilities and operational centers of Jarra Holdings.",
   },
   "/careers": {
     title: "Careers",
     description:
-      "Join the team at Jarra Holding Group. Explore current job vacancies and career opportunities.",
+      "Join the team at Jarra Holdings. Explore current job vacancies and career opportunities.",
   },
   "/contact": {
     title: "Contact Us",
     description:
-      "Contact Jarra Holding Group. Find our address, email, phone, and inquiry options.",
+      "Contact Jarra Holdings. Find our address, email, phone, and inquiry options.",
   },
   "/businesses": {
     title: "Our Businesses",
     description:
-      "Discover the various sectors and businesses operating under Jarra Holding Group.",
+      "Discover the various sectors and businesses operating under Jarra Holdings.",
   },
   "/businesses/overview": {
     title: "Businesses Overview",
     description:
-      "An overview of Jarra Holding Group's industrial sectors and operational divisions.",
+      "An overview of Jarra Holdings's industrial sectors and operational divisions.",
   },
   "/businesses/import-export": {
     title: "Import & Export",
     description:
-      "Import and export operations, logistics, and global trade solutions by Jarra Holding Group.",
+      "Import and export operations, logistics, and global trade solutions by Jarra Holdings.",
   },
   "/businesses/trading": {
     title: "Trading",
     description:
-      "Strategic trading and commodity exchange divisions within Jarra Holding Group.",
+      "Strategic trading and commodity exchange divisions within Jarra Holdings.",
   },
   "/businesses/warehousing": {
     title: "Warehousing",
     description:
-      "Secure and scalable warehousing solutions provided by Jarra Holding Group.",
+      "Secure and scalable warehousing solutions provided by Jarra Holdings.",
   },
   "/news": {
     title: "News & Updates",
     description:
-      "Stay updated with the latest news, announcements, and events from Jarra Holding Group.",
+      "Stay updated with the latest news, announcements, and events from Jarra Holdings.",
   },
 };
 

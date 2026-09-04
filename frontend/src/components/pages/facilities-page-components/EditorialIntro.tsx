@@ -16,7 +16,7 @@ export default function EditorialIntro() {
 
     const heading = overview?.heading || "The Foundation of Our Global Operations";
     const subheading = overview?.subheading || "Our Physical Presence";
-    const description = overview?.description || "Our facilities form part of the physical foundation of Jarra Holding Group, providing the robust environments and infrastructure that support the company's wider organizational activities.\n\nFrom strategic operational depots to large-scale industrial sites, each location is physically designed and equipped to ensure continuous capability across our ecosystem.";
+    const description = overview?.description || "Our facilities form part of the physical foundation of Jarra Holdings, providing the robust environments and infrastructure that support the company's wider organizational activities.\n\nFrom strategic operational depots to large-scale industrial sites, each location is physically designed and equipped to ensure continuous capability across our ecosystem.";
     
     let imageUrl = "/factory3.jpg";
     if (overview?.image) {

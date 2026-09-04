@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
-        title: t("contact") || "Contact Us - Jarra Holding Group",
+        title: t("contact") || "Contact Us - Jarra Holdings",
     };
 }
 
@@ -20,7 +20,7 @@ export default function ContactPage() {
                 pageIdentifier="contact"
                 title="Contact Us"
                 icon={<Mail />}
-                description="Get in touch with Jarra Holding Group. We are here to answer your questions and assist with your inquiries."
+                description="Get in touch with Jarra Holdings. We are here to answer your questions and assist with your inquiries."
             />
             <div className="py-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
                 <ContactForm />

@@ -4,7 +4,7 @@ import { BarChart3, PieChart, TrendingUp, Download, MapPin, Database, Filter, Ch
 const businessData = [
     {
         title: "Business Overview & Operations",
-        heading: "Comprehensive view of Jarra Holding Group's integrated commercial operations.",
+        heading: "Comprehensive view of Jarra Holdings's integrated commercial operations.",
         description: "Explore our diversified network of business activities. Our overview provides insights into our warehousing infrastructure, distribution networks, import/export operations, and overall growth trends across multiple locations.",
         features: [
             "Supply chain connectivity",
@@ -294,7 +294,7 @@ const OverviewPage = () => {
                 <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
                     <div>
                         <p className='text-sm text-muted mb-2'>Operations</p>
-                        <p className='font-medium text-heading'>Jarra Holding Group</p>
+                        <p className='font-medium text-heading'>Jarra Holdings</p>
                     </div>
                     <div className='flex items-center gap-6'>
                         <div className='text-center'>

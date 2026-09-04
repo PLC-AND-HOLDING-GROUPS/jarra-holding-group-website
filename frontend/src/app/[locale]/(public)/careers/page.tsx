@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "nav" });
     return {
-        title: t("careers") || "Careers - Jarra Holding Group",
+        title: t("careers") || "Careers - Jarra Holdings",
     };
 }
 
@@ -20,7 +20,7 @@ export default function CareersPage() {
                 pageIdentifier="careers"
                 title="Careers"
                 icon={<Briefcase />}
-                description="Information about career opportunities at Jarra Holding Group."
+                description="Information about career opportunities at Jarra Holdings."
             />
 
             <Introduction />

@@ -1,6 +1,6 @@
 # Production Deployment Guide (VPS)
 
-This guide details the exact steps to deploy the Jarra Holding Group website to your VPS (`196.189.159.132`).
+This guide details the exact steps to deploy the Jarra Holdings website to your VPS (`196.189.159.132`).
 
 ## 1. Initial VPS Setup
 

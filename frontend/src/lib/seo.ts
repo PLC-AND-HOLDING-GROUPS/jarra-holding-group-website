@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { routing } from "@/i18n/routing";
 
-export const SITE_NAME = "Jarra Holding Group";
+export const SITE_NAME = "Jarra Holdings";
 export const DEFAULT_DESCRIPTION =
-  "Official website of Jarra Holding Group.";
+  "Official website of Jarra Holdings.";
 
 const DEFAULT_OG_IMAGE = "/jarra-logo.png";
 
