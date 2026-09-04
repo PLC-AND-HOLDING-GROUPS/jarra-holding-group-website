@@ -17,7 +17,7 @@ const rawBaseQuery = fetchBaseQuery({
     headers.set("accept", "application/json");
     return headers;
   },
-});
+}); 
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   let result = await rawBaseQuery(args, api, extraOptions);
@@ -74,6 +74,7 @@ export const baseApi = createApi({
     "News",
     "Event",
     "Facility",
+    "Certification",
   ],
   endpoints: () => ({}),
 });

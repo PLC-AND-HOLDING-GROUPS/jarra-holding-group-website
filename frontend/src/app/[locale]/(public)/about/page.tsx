@@ -3,6 +3,7 @@ import BackgroundPage from "@/components/pages/about-page-components/BackgroundS
 import LeadershipSection from "@/components/pages/about-page-components/LeadershipSection";
 import VisionMissionValues from "@/components/pages/about-page-components/MissionVisionSection";
 import OrganizationStructure from "@/components/pages/about-page-components/OrganizationStructure";
+import CompanyCertifications from "@/components/pages/about-page-components/CompanyCertifications";
 
 const AboutPage = () => {
     return (
@@ -10,6 +11,7 @@ const AboutPage = () => {
             <BackgroundPage />
             <LeadershipSection />
             <VisionMissionValues />
+            <CompanyCertifications />
             {/* <OrganizationStructure /> */}
         </>
     );

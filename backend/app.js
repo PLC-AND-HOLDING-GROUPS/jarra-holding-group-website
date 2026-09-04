@@ -37,6 +37,7 @@ const facilityFootprintRoute = require("./routers/facility/facilityFootprintRout
 const backgroundRoute = require("./routers/about/backgroundRoutes");
 const leadershipRoute = require("./routers/about/leadershipRoutes");
 const strategyRoute = require("./routers/about/strategyRoutes");
+const certificationRoute = require("./routers/about/certificationRoutes");
 
 // ================== Contact Page Routes ==========================
 const federalOfficeRoute = require("./routers/contact/federalOfficeRoutes");
@@ -187,6 +188,7 @@ app.use("/api/facility-footprint", facilityFootprintRoute);
 app.use("/api/backgrounds", backgroundRoute);
 app.use("/api/leadership", leadershipRoute);
 app.use("/api/strategy", strategyRoute);
+app.use("/api/certifications", certificationRoute);
 
 // ================== Contact Page Routes ==========================
 app.use("/api/federal-office", federalOfficeRoute);
