@@ -193,7 +193,7 @@ const ContactForm = () => {
                     <button
                         type="submit"
                         disabled={sending}
-                        className="w-full bg-golden-dark hover:bg-golden-darkHover text-white py-3.5 rounded-xl font-medium flex items-center justify-center gap-2 transition disabled:opacity-50"
+                        className="w-full bg-primary text-white py-3.5 rounded-xl font-medium flex items-center justify-center gap-2 transition disabled:opacity-50"
                     >
                         {sending ? (
                             <>
