@@ -9,6 +9,7 @@ export interface Facility {
     slug: string;
     typeId: string;
     location: string;
+    mapUrl?: string;
     shortDescription: string;
     fullDescription: string;
     image: string;

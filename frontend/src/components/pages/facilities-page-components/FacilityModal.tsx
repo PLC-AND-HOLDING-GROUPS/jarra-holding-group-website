@@ -19,6 +19,7 @@ import {
 } from "@/redux/api/facilityApi";
 import { Facility } from "@/redux/types/facility";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
+import MapPicker from "@/components/common/MapPicker";
 
 interface FacilityModalProps {
     open: boolean;
@@ -49,6 +50,7 @@ export default function FacilityModal({
         const payload = {
             name: currentFacility.name,
             location: currentFacility.location,
+            map_url: currentFacility.map_url,
             short_description: currentFacility.short_description,
             image: currentFacility.image,
         };
@@ -110,6 +112,20 @@ export default function FacilityModal({
                                 })
                             }
                             placeholder="e.g. Addis Ababa, Ethiopia"
+                        />
+                    </div>
+
+                    {/* MAP PICKER */}
+                    <div className="space-y-2">
+                        <MapPicker
+                            value={currentFacility?.map_url ?? ""}
+                            onChange={(url) =>
+                                setCurrentFacility({
+                                    ...(currentFacility as Facility),
+                                    map_url: url,
+                                })
+                            }
+                            label="Exact Map Location (Optional)"
                         />
                     </div>
 

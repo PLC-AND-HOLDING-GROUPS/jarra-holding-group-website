@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 import { useGetFacilitiesQuery, useGetFacilityOverviewQuery } from "@/redux/api/facilityApi";
 import { useGetAttachmentsQuery } from "@/redux/api/attachementApi";
 import { getImageUrl } from "@/utils/fileUrl";
@@ -69,8 +70,19 @@ export default function FacilityEditorialShowcase() {
                                         {displayIndex}
                                     </div>
 
-                                    <div className="uppercase tracking-widest text-sm font-semibold text-muted-foreground mb-4">
-                                        Facility — {facility.location}
+                                    <div className="uppercase tracking-widest text-sm font-semibold text-muted-foreground mb-4 flex items-center gap-2">
+                                        <span>Facility — {facility.location}</span>
+                                        {facility.map_url && (
+                                            <a
+                                                href={facility.map_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-primary hover:text-primary/80 transition-colors"
+                                                title="View on map"
+                                            >
+                                                <MapPin className="w-4 h-4 inline" />
+                                            </a>
+                                        )}
                                     </div>
 
                                     <h3 className="text-3xl md:text-4xl font-bold text-heading mb-6">

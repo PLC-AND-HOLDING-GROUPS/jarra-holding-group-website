@@ -2,6 +2,7 @@ export interface Facility {
     facility_id: string;
     name: string;
     location: string;
+    map_url?: string;
     short_description: string;
     image: string;
     order: number;
@@ -12,6 +13,7 @@ export interface Facility {
 export interface CreateFacilityPayload {
     name: string;
     location?: string;
+    map_url?: string;
     short_description?: string;
     image?: string;
 }
@@ -19,6 +21,7 @@ export interface CreateFacilityPayload {
 export interface UpdateFacilityPayload {
     name?: string;
     location?: string;
+    map_url?: string;
     short_description?: string;
     image?: string;
     order?: number;

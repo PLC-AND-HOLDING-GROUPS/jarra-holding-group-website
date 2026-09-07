@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getFacilityBySlug, getFacilityTypeById } from "@/datas/mockFacilities";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ArrowRight } from "lucide-react";
+import { ChevronLeft, ArrowRight, MapPin } from "lucide-react";
 import FacilityImageGallery from "@/components/pages/facilities-page-components/FacilityImageGallery";
 import GridBackground from "@/components/ui/grid-background";
 
@@ -58,8 +58,19 @@ export default async function FacilityDetailPage({ params }: { params: Promise<{
                         {facility.name}
                     </h1>
                     
-                    <div className="text-xl md:text-2xl font-light text-primary/80">
-                        {facility.location}
+                    <div className="text-xl md:text-2xl font-light text-primary/80 flex items-center justify-center gap-2 mt-2">
+                        <span>{facility.location}</span>
+                        {facility.mapUrl && (
+                            <a
+                                href={facility.mapUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:text-primary/80 transition-colors"
+                                title="View on map"
+                            >
+                                <MapPin className="w-6 h-6 inline" />
+                            </a>
+                        )}
                     </div>
                 </div>
             </GridBackground>

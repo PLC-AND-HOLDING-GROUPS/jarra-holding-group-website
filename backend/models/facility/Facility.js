@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(255),
                 allowNull: true,
             },
+            map_url: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
             short_description: {
                 type: DataTypes.TEXT,
                 allowNull: true,
