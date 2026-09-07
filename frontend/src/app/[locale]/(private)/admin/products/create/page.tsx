@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Eye, FileIcon, Trash2, Upload, X, XIcon, Plus } from "lucide-react";
-import { toast } from "sonner";
+import { ChevronDown, Eye, FileIcon, Trash2, Upload, X, XIcon, Plus, Loader2 } from "lucide-react";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { useRouter } from "next/navigation";
 import { useCreateProductMutation, useGetCategoriesQuery } from "@/redux/api/productApi";
 import {
@@ -129,7 +129,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                     };
                 }
             } catch {
-                toast.error(`Failed to upload ${file.name}`);
+                notify.error(`Failed to upload ${file.name}`);
                 return null;
             }
         });
@@ -140,7 +140,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
             const updatedFiles = [...files, ...uploadedFiles];
             setFiles(updatedFiles);
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            uploadedFiles.forEach((f) => toast.success(`${f.file_name} uploaded`));
+            uploadedFiles.forEach((f) => notify.success(`${f.file_name} uploaded`));
         }
         e.target.value = '';
     };
@@ -157,9 +157,9 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
             const updatedFiles = files.filter((f) => f.attachment_id !== attachment_id);
             setFiles(updatedFiles);
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            toast.success("File removed successfully");
+            notify.success("File removed successfully");
         } catch {
-            toast.error("Failed to delete file");
+            notify.error("Failed to delete file");
         }
     };
 
@@ -260,7 +260,7 @@ export default function CreateProduct() {
 
     const router = useRouter();
 
-    const [createProduct] = useCreateProductMutation();
+    const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
     const { data: categories = [] } = useGetCategoriesQuery();
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -285,7 +285,7 @@ export default function CreateProduct() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || categoryIds.length === 0 || !fullDescriptionHtml) {
-            toast.error("Please fill all required fields");
+            notify.warning("Please fill in all required fields (name, category, and full description).");
             return;
         }
 
@@ -296,6 +296,8 @@ export default function CreateProduct() {
                 specsRecord[spec.key.trim()] = spec.value.trim();
             }
         });
+
+        notify.loading("Creating product...", { id: "create-product" });
 
         try {
             const result = await createProduct({
@@ -311,7 +313,7 @@ export default function CreateProduct() {
                 attachments: productAttachments,
             }).unwrap();
 
-            toast.success("Product Created Successfully!");
+            notify.success("Product created successfully.", { id: "create-product" });
             
             // Redirect to edit page instead of clearing form
             if (result?.product_id) {
@@ -319,7 +321,7 @@ export default function CreateProduct() {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Failed to create product");
+            notify.error(extractErrorMessage(error, "Failed to create product."), { id: "create-product" });
         }
     };
 
@@ -484,7 +486,10 @@ export default function CreateProduct() {
                         />
                     </div>
 
-                    <Button type="submit">Create Product</Button>
+                    <Button type="submit" className="flex items-center gap-2" disabled={isCreating}>
+                        {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {isCreating ? "Creating Product..." : "Create Product"}
+                    </Button>
                 </form>
             </div >
 

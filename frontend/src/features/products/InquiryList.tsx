@@ -13,11 +13,20 @@ import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 import { useGetInquiriesQuery, useDeleteInquiryMutation } from "@/redux/api/productApi";
 import { ProductInquiry } from "@/redux/types/product";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 export default function InquiryList() {
     const { data = [], isLoading } = useGetInquiriesQuery();
     const [deleteInquiry] = useDeleteInquiryMutation();
     const router = useRouter();
+
+    const [deleteConfirm, setDeleteConfirm] = useState<{
+        open: boolean;
+        id: string;
+        name: string;
+    }>({ open: false, id: "", name: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -113,9 +122,11 @@ export default function InquiryList() {
                             size="icon"
                             title="Delete Inquiry"
                             onClick={() => {
-                                if (confirm("Are you sure you want to delete this inquiry?")) {
-                                    deleteInquiry(row.original.inquiry_id);
-                                }
+                                setDeleteConfirm({
+                                    open: true,
+                                    id: row.original.inquiry_id,
+                                    name: row.original.name || "this inquiry",
+                                });
                             }}
                         >
                             <Trash2 className="h-4 w-4 text-destructive" />
@@ -139,6 +150,28 @@ export default function InquiryList() {
                 handlePagination={handlePagination}
                 tablePageSize={pageSize}
                 currentIndex={pageIndex}
+            />
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Product Inquiry?"
+                description={`Are you sure you want to delete the inquiry from "${deleteConfirm.name}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteInquiry(deleteConfirm.id).unwrap();
+                        notify.success("Product inquiry deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (err) {
+                        notify.error("Failed to delete product inquiry.", err);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
             />
         </TableLayout>
     );

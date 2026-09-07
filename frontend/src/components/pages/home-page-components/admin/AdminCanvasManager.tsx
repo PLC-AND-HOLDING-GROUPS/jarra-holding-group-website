@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2 } from "lucide-react";
 import { useGetCanvasQuery, useCreateOrUpdateCanvasMutation } from "@/redux/api/canvasApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { CanvasWords } from "@/redux/types/canvas";
 
 const WORD_KEYS = [
@@ -69,11 +69,11 @@ export default function AdminCanvasManager() {
                 vision_description: visionDescription,
                 words,
             }).unwrap();
-            toast.success("Canvas section updated successfully!");
+            notify.success("Canvas section updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update canvas", error);
-            toast.error("Failed to update canvas section.");
+            notify.error(extractErrorMessage(error, "Failed to update canvas section."));
         }
     };
 

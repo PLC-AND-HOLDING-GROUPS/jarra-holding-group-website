@@ -25,7 +25,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
+import { Loader2 } from "lucide-react";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 import {
@@ -75,15 +76,15 @@ export default function RouteList() {
       };
 
       if (payload.translations.length === 0) {
-        toast.error("Please provide at least one label translation.");
+        notify.warning("Please provide at least one label translation.");
         return;
       }
 
       await updateRouteLabels({ id: editingRoute.route_id, data: payload }).unwrap();
-      toast.success("Labels updated successfully!");
+      notify.success("Route labels updated successfully.");
       setEditingRoute(null);
     } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to update labels.");
+      notify.error(extractErrorMessage(err, "Failed to update route labels."));
     }
   };
 
@@ -93,9 +94,9 @@ export default function RouteList() {
         id: route.route_id,
         data: { is_active: !route.is_active },
       }).unwrap();
-      toast.success(`Route ${!route.is_active ? "activated" : "deactivated"} successfully!`);
+      notify.success(`Route ${!route.is_active ? "activated" : "deactivated"} successfully.`);
     } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to toggle route status.");
+      notify.error(extractErrorMessage(err, "Failed to toggle route status."));
     }
   };
 
@@ -258,7 +259,8 @@ export default function RouteList() {
             <Button variant="outline" onClick={() => setEditingRoute(null)}>
               Cancel
             </Button>
-            <Button onClick={submitLabels} disabled={isUpdatingLabels}>
+            <Button onClick={submitLabels} disabled={isUpdatingLabels} className="flex items-center gap-2">
+              {isUpdatingLabels && <Loader2 className="w-4 h-4 animate-spin" />}
               {isUpdatingLabels ? "Saving..." : "Save Labels"}
             </Button>
           </DialogFooter>

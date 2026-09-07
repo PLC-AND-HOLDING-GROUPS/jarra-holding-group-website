@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2, Plus, Trash } from "lucide-react";
 import { useGetServiceExperienceQuery, useUpdateServiceExperienceMutation } from "@/redux/api/serviceApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 
 export default function AdminServiceExperienceManager() {
     const { data, isLoading: isFetching, refetch } = useGetServiceExperienceQuery();
@@ -33,11 +33,11 @@ export default function AdminServiceExperienceManager() {
                 subheading,
                 steps,
             }).unwrap();
-            toast.success("Service Experience updated successfully!");
+            notify.success("Service experience updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update experience", error);
-            toast.error("Failed to update service experience.");
+            notify.error(extractErrorMessage(error, "Failed to update service experience."));
         }
     };
 

@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2 } from "lucide-react";
 import { useGetFacilityOverviewQuery, useUpdateFacilityOverviewMutation } from "@/redux/api/facilityApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 
 export default function AdminFacilitiesOverviewManager() {
@@ -40,11 +40,11 @@ export default function AdminFacilitiesOverviewManager() {
                 image,
                 list_heading: listHeading,
             }).unwrap();
-            toast.success("Facility Overview updated successfully!");
+            notify.success("Facility overview updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update overview", error);
-            toast.error("Failed to update facility overview.");
+            notify.error(extractErrorMessage(error, "Failed to update facility overview."));
         }
     };
 

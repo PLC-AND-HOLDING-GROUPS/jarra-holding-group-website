@@ -5,7 +5,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
+import { Loader2 } from "lucide-react";
 import { useCreateTagMutation } from "@/redux/api/tagApi";
 
 interface CreateTagModalProps {
@@ -31,7 +32,7 @@ const CreateTagModal = ({ isOpen, onClose }: CreateTagModalProps) => {
         e.preventDefault();
 
         if (!name.trim()) {
-            toast.error("Tag name is required");
+            notify.warning("Tag name is required.");
             return;
         }
 
@@ -40,12 +41,12 @@ const CreateTagModal = ({ isOpen, onClose }: CreateTagModalProps) => {
                 name: name.trim()
             }).unwrap();
 
-            toast.success("Tag created successfully");
+            notify.success("Tag created successfully.");
             resetForm();
             onClose();
         } catch (err: any) {
-            toast.error(
-                err?.data?.message || err?.message || "Failed to create tag"
+            notify.error(
+                extractErrorMessage(err, "Failed to create tag.")
             );
         }
     };
@@ -82,7 +83,9 @@ const CreateTagModal = ({ isOpen, onClose }: CreateTagModalProps) => {
                         <Button
                             type="submit"
                             disabled={isLoading || !name.trim()}
+                            className="flex items-center gap-2"
                         >
+                            {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                             {isLoading ? "Creating..." : "Create Tag"}
                         </Button>
                     </DialogFooter>

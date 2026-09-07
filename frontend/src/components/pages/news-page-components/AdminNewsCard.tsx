@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
 
 type Media =
     | { url: string; type: "image" }
@@ -160,10 +160,11 @@ const NewsActions = ({ id, status }: { id: string; status: string }) => {
                 id, 
                 data: { status: newStatus as any, published_at } as any 
             }).unwrap();
-            toast.success(`News ${newStatus} successfully`);
+            const actionLabel = newStatus === "published" ? "published" : newStatus === "archived" ? "archived" : "moved to draft";
+            notify.success(`News article ${actionLabel} successfully.`);
             setIsPublishDialogOpen(false);
         } catch (error) {
-            toast.error("Failed to update status");
+            notify.error("Failed to update news status.", error);
         }
     };
 

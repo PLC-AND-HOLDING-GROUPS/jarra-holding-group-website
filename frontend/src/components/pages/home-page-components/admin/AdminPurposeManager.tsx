@@ -10,7 +10,7 @@ import { Save, Loader2, Plus, Trash2 } from "lucide-react";
 import { useGetPurposeQuery, useCreateOrUpdatePurposeMutation } from "@/redux/api/purposeApi";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 import { LucideIconPicker } from "@/components/common/LucideIconPicker";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { PurposePillar } from "@/redux/types/purpose";
 
 export default function AdminPurposeManager() {
@@ -45,11 +45,11 @@ export default function AdminPurposeManager() {
                 attachment_id: attachmentId || null,
                 pillars,
             }).unwrap();
-            toast.success("Purpose section updated successfully!");
+            notify.success("Purpose section updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update purpose", error);
-            toast.error("Failed to update purpose section.");
+            notify.error(extractErrorMessage(error, "Failed to update purpose section."));
         }
     };
 

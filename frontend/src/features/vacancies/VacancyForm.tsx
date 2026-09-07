@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { RichTextEditorField } from "@/components/common/RichTextEditorField";
 import { EditFileUpload } from "@/components/common/EditFileUpload";
@@ -71,23 +71,23 @@ export default function VacancyForm({
     e.preventDefault();
 
     if (!jobTitle.trim()) {
-      toast.error("Job title is required");
+      notify.warning("Job title is required.");
       return;
     }
     if (!description.trim() || description === "<p><br></p>") {
-      toast.error("Job description is required");
+      notify.warning("Job description is required.");
       return;
     }
     if (!publishedDate) {
-      toast.error("Published date is required");
+      notify.warning("Published date is required.");
       return;
     }
     if (!applicationDeadline) {
-      toast.error("Application deadline is required");
+      notify.warning("Application deadline is required.");
       return;
     }
     if (new Date(applicationDeadline) < new Date(publishedDate)) {
-      toast.error("Application deadline cannot be earlier than published date");
+      notify.warning("Application deadline cannot be earlier than published date.");
       return;
     }
 

@@ -14,7 +14,8 @@ import {
     useDeleteSliderMutation
 } from "@/redux/api/sliderApi";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { Slider } from "@/redux/types/slider";
 
 type HeroButtonConfig = {
@@ -40,6 +41,11 @@ export default function AdminHeroManager() {
     const [slides, setSlides] = useState<Partial<Slider>[]>([]);
     const [heroButtons, setHeroButtons] = useState<HeroButtonConfig>(DEFAULT_HERO_BUTTONS);
     const [isSavingButtons, setIsSavingButtons] = useState(false);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string; slideNumber: number }>({
+        open: false,
+        id: "",
+        slideNumber: 0,
+    });
 
     useEffect(() => {
         if (slidersData) {
@@ -61,27 +67,24 @@ export default function AdminHeroManager() {
     const handleAddSlide = async () => {
         try {
             const nextOrder = slides.length;
-            const newSlide = await createSlider({
+            await createSlider({
                 title: "New Slide Title",
                 description: "New slide description goes here.",
                 order: nextOrder,
             }).unwrap();
-            toast.success("New slide added!");
+            notify.success("Slide added successfully.");
         } catch (error) {
             console.error("Failed to add slide", error);
-            toast.error("Failed to add slide.");
+            notify.error("Failed to add slide.", error);
         }
     };
 
-    const handleRemoveSlide = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this slide?")) return;
-        try {
-            await deleteSlider(id).unwrap();
-            toast.success("Slide deleted successfully!");
-        } catch (error) {
-            console.error("Failed to delete slide", error);
-            toast.error("Failed to delete slide.");
-        }
+    const handleRemoveSlide = (id: string, slideNumber: number) => {
+        setDeleteConfirm({
+            open: true,
+            id,
+            slideNumber,
+        });
     };
 
     const handleUpdateSlideField = (index: number, field: keyof Slider, value: any) => {
@@ -104,10 +107,10 @@ export default function AdminHeroManager() {
                     order: slide.order,
                 }
             }).unwrap();
-            toast.success(`Slide ${index + 1} updated!`);
+            notify.success(`Slide ${index + 1} updated successfully.`);
         } catch (error) {
             console.error("Failed to update slide", error);
-            toast.error(`Failed to update slide ${index + 1}.`);
+            notify.error(`Failed to update slide ${index + 1}.`, error);
         }
     };
 
@@ -131,10 +134,10 @@ export default function AdminHeroManager() {
                     data: { order: currentOrder }
                 }).unwrap()
             ]);
-            toast.success("Order updated!");
+            notify.success("Slide order updated successfully.");
         } catch (error) {
             console.error("Failed to reorder", error);
-            toast.error("Failed to reorder slides.");
+            notify.error("Failed to reorder slides.", error);
         }
     };
 
@@ -158,10 +161,10 @@ export default function AdminHeroManager() {
                     data: { order: currentOrder }
                 }).unwrap()
             ]);
-            toast.success("Order updated!");
+            notify.success("Slide order updated successfully.");
         } catch (error) {
             console.error("Failed to reorder", error);
-            toast.error("Failed to reorder slides.");
+            notify.error("Failed to reorder slides.", error);
         }
     };
 
@@ -169,7 +172,7 @@ export default function AdminHeroManager() {
         const slidesWithIds = slides.filter((slide) => slide.slider_id);
 
         if (slidesWithIds.length === 0) {
-            toast.error("Add at least one slide before saving hero buttons.");
+            notify.warning("Add at least one slide before saving hero buttons.");
             return;
         }
 
@@ -191,10 +194,10 @@ export default function AdminHeroManager() {
                     ...heroButtons,
                 }))
             );
-            toast.success("Hero buttons saved!");
+            notify.success("Hero buttons saved successfully.");
         } catch (error) {
             console.error("Failed to save hero buttons", error);
-            toast.error("Failed to save hero buttons.");
+            notify.error("Failed to save hero buttons.", error);
         } finally {
             setIsSavingButtons(false);
         }
@@ -346,9 +349,10 @@ export default function AdminHeroManager() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => slide.slider_id && handleRemoveSlide(slide.slider_id)}
+                                    onClick={() => slide.slider_id && handleRemoveSlide(slide.slider_id, index + 1)}
                                     disabled={isDeleting}
                                     className="text-destructive h-8 w-8"
+                                    title="Delete Slide"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
@@ -398,6 +402,26 @@ export default function AdminHeroManager() {
                     </div>
                 )}
             </div>
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Slide?"
+                description={`Are you sure you want to delete Slide ${deleteConfirm.slideNumber}? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        await deleteSlider(deleteConfirm.id).unwrap();
+                        notify.success(`Slide ${deleteConfirm.slideNumber} deleted successfully.`);
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (error) {
+                        console.error("Failed to delete slide", error);
+                        notify.error(`Failed to delete slide ${deleteConfirm.slideNumber}.`, error);
+                    }
+                }}
+            />
         </div>
     );
 }

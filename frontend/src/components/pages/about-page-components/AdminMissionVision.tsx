@@ -6,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Save, Plus, Trash2 } from "lucide-react";
+import { Save, Plus, Trash2, Loader2 } from "lucide-react";
+import { notify } from "@/utils/notification";
 
 import {
     useGetStrategiesQuery,
@@ -38,8 +39,9 @@ export default function AdminMissionVision() {
 
     // RTK Query hooks
     const { data: strategiesData, isLoading } = useGetStrategiesQuery();
-    const [createStrategy] = useCreateStrategyMutation();
+    const [createStrategy, { isLoading: isCreating }] = useCreateStrategyMutation();
     const [updateStrategy, { isLoading: isUpdating }] = useUpdateStrategyMutation();
+    const isSaving = isCreating || isUpdating;
 
     // Map fetched strategy to state or create if empty
     useEffect(() => {
@@ -134,15 +136,15 @@ export default function AdminMissionVision() {
             if (strategyId) {
                 // Update existing strategy
                 await updateStrategy({ id: strategyId, data: payload }).unwrap();
-                alert("Strategy updated successfully");
+                notify.success("Strategy updated successfully.");
             } else {
                 // Create new strategy
                 await createStrategy(payload).unwrap();
-                alert("Strategy created successfully");
+                notify.success("Strategy created successfully.");
             }
         } catch (err: any) {
             console.error("Save failed:", err);
-            alert("Failed to save strategy");
+            notify.error("Failed to save strategy.", err);
         }
     };
 
@@ -157,10 +159,19 @@ export default function AdminMissionVision() {
                         <Button
                             onClick={handleSave}
                             className="bg-golden-dark hover:bg-golden-darkHover"
-                            disabled={isUpdating}
+                            disabled={isSaving}
                         >
-                            <Save className="w-4 h-4 mr-2" />
-                            {isUpdating ? "Saving..." : "Save"}
+                            {isSaving ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <Save className="w-4 h-4 mr-2" />
+                                    Save
+                                </>
+                            )}
                         </Button>
                     </div>
 

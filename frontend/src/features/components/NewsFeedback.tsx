@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useGetNewsFeedbackCountQuery, useRecordNewsFeedbackMutation, useGetNewsFeedbacksQuery } from "@/redux/api/newsApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { formatLongDate } from "@/utils/datetime";
 
 interface NewsFeedbackProps {
@@ -16,7 +16,6 @@ interface NewsFeedbackProps {
 const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
     const [fullname, setFullname] = useState("");
     const [thought, setThought] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
 
     const [recordFeedback, { isLoading }] = useRecordNewsFeedbackMutation();
     const { data: feedbackCount } = useGetNewsFeedbackCountQuery(newsId, { pollingInterval: 15000, refetchOnFocus: true });
@@ -26,10 +25,9 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
         e.preventDefault();
 
         if (!fullname.trim() || !thought.trim()) {
-            return toast.error("Full name and thought are required.");
+            notify.warning("Full name and thought are required.");
+            return;
         }
-
-        setSuccessMessage("");
 
         try {
             await recordFeedback({
@@ -38,14 +36,12 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
                 thought,
             }).unwrap();
 
-            const message = "Thank you! Your feedback has been submitted for review.";
-            setSuccessMessage(message);
-            toast.success(message);
+            notify.success("Thank you! Your feedback has been submitted for review.");
             setFullname("");
             setThought("");
         } catch (error) {
             console.error("Feedback submit failed:", error);
-            toast.error("Failed to submit feedback. Please try again.");
+            notify.error(extractErrorMessage(error, "Failed to submit feedback. Please try again."));
         }
     };
 
@@ -60,16 +56,6 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
                         <span>{feedbackCount?.feedback_count} Comments</span>
                     </div>
                 </div>
-
-                {successMessage && (
-                    <div
-                        role="status"
-                        className="mb-4 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-800"
-                    >
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-600" />
-                        <p className="text-sm font-medium">{successMessage}</p>
-                    </div>
-                )}
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-4">

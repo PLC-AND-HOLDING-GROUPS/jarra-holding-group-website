@@ -24,7 +24,8 @@ import {
 } from "@/redux/api/regionalOfficeApi";
 import { useGetRegionsQuery } from "@/redux/api/regionApi";
 import { RegionalOfficeContactCenter, LicensingContact } from "@/redux/types/regionalOffice";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 type RegionalOffice = {
@@ -49,6 +50,11 @@ export default function AdminContactRegionalOffices() {
     const [pageSize, setPageSize] = useState(10);
     const [isEditing, setIsEditing] = useState(false);
     const [currentOffice, setCurrentOffice] = useState<Partial<RegionalOffice> | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string; name: string }>({
+        open: false,
+        id: "",
+        name: "",
+    });
 
     // RTK Query hooks
     const { data: apiOffices = [], isLoading, isError, error, refetch } = useGetRegionalOfficesQuery();
@@ -112,7 +118,7 @@ export default function AdminContactRegionalOffices() {
                         <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => handleDelete(row.original.id)}
+                            onClick={() => handleDelete(row.original)}
                             title="Delete"
                             className="text-destructive"
                             disabled={isDeleting}
@@ -152,22 +158,17 @@ export default function AdminContactRegionalOffices() {
         setIsEditing(true);
     };
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this office?")) return;
-
-        try {
-            await deleteOffice(id).unwrap();
-            toast.success("Regional office deleted successfully");
-            refetch();
-        } catch (error) {
-            console.error("Failed to delete regional office:", error);
-            toast.error("Failed to delete regional office");
-        }
+    const handleDelete = (office: RegionalOffice) => {
+        setDeleteConfirm({
+            open: true,
+            id: office.id,
+            name: office.bureau || "this office",
+        });
     };
 
     const handleSave = async () => {
         if (!currentOffice?.region_id || !currentOffice?.bureau) {
-            toast.error("Please fill in all required fields");
+            notify.warning("Please select a region and enter a bureau name.");
             return;
         }
 
@@ -192,7 +193,7 @@ export default function AdminContactRegionalOffices() {
                         licensing_contacts: licensingContacts,
                     },
                 }).unwrap();
-                toast.success("Regional office updated successfully");
+                notify.success("Regional office updated successfully.");
             } else {
                 // CREATE
                 await createOffice({
@@ -204,7 +205,7 @@ export default function AdminContactRegionalOffices() {
                     phone: currentOffice.phone || undefined,
                     licensing_contacts: licensingContacts,
                 }).unwrap();
-                toast.success("Regional office created successfully");
+                notify.success("Regional office created successfully.");
             }
 
             setIsEditing(false);
@@ -212,7 +213,7 @@ export default function AdminContactRegionalOffices() {
             refetch();
         } catch (error) {
             console.error("Failed to save regional office:", error);
-            toast.error("Failed to save regional office");
+            notify.error("Failed to save regional office.", error);
         }
     };
 
@@ -441,6 +442,27 @@ export default function AdminContactRegionalOffices() {
                     No regional offices found. Click "Add Office" to create one.
                 </div>
             )}
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Regional Office?"
+                description={`Are you sure you want to delete "${deleteConfirm.name}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        await deleteOffice(deleteConfirm.id).unwrap();
+                        notify.success("Regional office deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                        refetch();
+                    } catch (error) {
+                        console.error("Failed to delete regional office:", error);
+                        notify.error("Failed to delete regional office.", error);
+                    }
+                }}
+            />
         </TableLayout>
     );
 }

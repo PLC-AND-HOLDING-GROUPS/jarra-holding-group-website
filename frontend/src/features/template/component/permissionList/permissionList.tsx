@@ -28,6 +28,7 @@ import {
   ResourceGroup,
   ResourceIcons,
 } from "../../types/permission";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { PermissionHeader } from "./Header";
 import { PermissionStats as StatsComponent } from "./Stats";
 import { ResourceGroup as ResourceGroupComponent } from "./ResourceGroup";
@@ -80,8 +81,9 @@ export default function PermissionList() {
     async (id: string) => {
       try {
         await togglePermissionMutation(id).unwrap();
+        notify.success("Permission status updated successfully.");
       } catch (err) {
-        console.error("Toggle permission failed", err);
+        notify.error(extractErrorMessage(err, "Failed to update permission status."));
       }
     },
     [togglePermissionMutation]

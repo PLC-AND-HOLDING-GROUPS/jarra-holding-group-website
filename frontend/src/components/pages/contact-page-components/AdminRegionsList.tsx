@@ -16,7 +16,8 @@ import {
     useDeleteRegionMutation,
 } from "@/redux/api/regionApi";
 import { Region } from "@/redux/types/region";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 export default function AdminRegionList() {
@@ -24,6 +25,11 @@ export default function AdminRegionList() {
     const [pageSize, setPageSize] = useState(10);
     const [isEditing, setIsEditing] = useState(false);
     const [currentRegion, setCurrentRegion] = useState<Partial<Region> | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string; name: string }>({
+        open: false,
+        id: "",
+        name: "",
+    });
 
     // RTK Query hooks
     const { data: regions = [], isLoading, isError, error, refetch } = useGetRegionsQuery();
@@ -67,7 +73,7 @@ export default function AdminRegionList() {
                         <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => handleDelete(row.original.region_id)}
+                            onClick={() => handleDelete(row.original)}
                             title="Delete"
                             className="text-destructive"
                             disabled={isDeleting}
@@ -104,22 +110,17 @@ export default function AdminRegionList() {
         setIsEditing(true);
     };
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this region?")) return;
-
-        try {
-            await deleteRegion(id).unwrap();
-            toast.success("Region deleted successfully");
-            refetch(); // Refresh the list
-        } catch (error) {
-            console.error("Failed to delete region:", error);
-            toast.error("Failed to delete region");
-        }
+    const handleDelete = (region: Region) => {
+        setDeleteConfirm({
+            open: true,
+            id: region.region_id,
+            name: region.name || "this region",
+        });
     };
 
     const handleSave = async () => {
         if (!currentRegion?.code || !currentRegion?.name) {
-            toast.error("Please fill in all required fields");
+            notify.warning("Please fill in both region code and name.");
             return;
         }
 
@@ -133,14 +134,14 @@ export default function AdminRegionList() {
                         name: currentRegion.name,
                     },
                 }).unwrap();
-                toast.success("Region updated successfully");
+                notify.success("Region updated successfully.");
             } else {
                 // CREATE new region
                 await createRegion({
                     code: currentRegion.code,
                     name: currentRegion.name,
                 }).unwrap();
-                toast.success("Region created successfully");
+                notify.success("Region created successfully.");
             }
 
             setIsEditing(false);
@@ -148,7 +149,7 @@ export default function AdminRegionList() {
             refetch(); // Refresh the list
         } catch (error) {
             console.error("Failed to save region:", error);
-            toast.error("Failed to save region");
+            notify.error("Failed to save region.", error);
         }
     };
 
@@ -271,6 +272,27 @@ export default function AdminRegionList() {
                     No regions found. Click "Add Region" to create one.
                 </div>
             )}
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Region?"
+                description={`Are you sure you want to delete "${deleteConfirm.name}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        await deleteRegion(deleteConfirm.id).unwrap();
+                        notify.success("Region deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                        refetch();
+                    } catch (error) {
+                        console.error("Failed to delete region:", error);
+                        notify.error("Failed to delete region.", error);
+                    }
+                }}
+            />
         </TableLayout>
     );
 }

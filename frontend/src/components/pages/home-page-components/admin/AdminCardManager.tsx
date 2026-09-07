@@ -13,7 +13,7 @@ import {
     useCreateCardMutation 
 } from "@/redux/api/cardApi";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 
 export default function AdminCardManager() {
     const { data: cards, isLoading: isFetching } = useGetCardsQuery();
@@ -49,14 +49,14 @@ export default function AdminCardManager() {
                     id: existingCard.card_id,
                     data: cardData
                 }).unwrap();
-                toast.success("Card updated successfully!");
+                notify.success("Card updated successfully.");
             } else {
                 await createCard(cardData).unwrap();
-                toast.success("Card created successfully!");
+                notify.success("Card created successfully.");
             }
         } catch (error) {
             console.error("Failed to save card data", error);
-            toast.error("Failed to save card data. Please try again.");
+            notify.error(extractErrorMessage(error, "Failed to save card."));
         }
     };
 

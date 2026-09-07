@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, XIcon, UserCircle, Mail, Phone, ShieldCheck, Briefcase } from "lucide-react";
-import { toast } from "sonner";
+import { ChevronDown, XIcon, UserCircle, Mail, Phone, ShieldCheck, Briefcase, Loader2 } from "lucide-react";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import {
     useCreateUserMutation,
     useUpdateUserMutation,
@@ -63,7 +63,7 @@ const UserForm = ({ userId }: UserFormProps) => {
         e.preventDefault();
 
         if (!fullName || !email) {
-            toast.error("Please fill in all required fields (Name, Email)");
+            notify.warning("Please fill in all required fields (Name and Email).");
             return;
         }
 
@@ -75,25 +75,22 @@ const UserForm = ({ userId }: UserFormProps) => {
             is_active: isActive
         };
 
-        const loadingToast = toast.loading(isEdit ? "Updating user..." : "Creating user...");
+        notify.loading(isEdit ? "Updating user..." : "Creating user...", { id: "user-form" });
 
         try {
             if (isEdit) {
                 await updateUser({ id: userId as string, data: payload }).unwrap();
-                toast.dismiss(loadingToast);
-                toast.success("User updated successfully");
+                notify.success("User updated successfully.", { id: "user-form" });
             } else {
                 await createUser(payload).unwrap();
-                toast.dismiss(loadingToast);
-                toast.success("User created successfully. Temporary password sent via email.");
+                notify.success("User created successfully. Temporary password sent via email.", { id: "user-form" });
             }
 
             setTimeout(() => {
                 router.push("/admin/users");
             }, 1000);
         } catch (err: any) {
-            toast.dismiss(loadingToast);
-            toast.error(err?.data?.message || `Failed to ${isEdit ? 'update' : 'create'} user`);
+            notify.error(extractErrorMessage(err, `Failed to ${isEdit ? 'update' : 'create'} user.`), { id: "user-form" });
         }
     };
 
@@ -315,9 +312,10 @@ const UserForm = ({ userId }: UserFormProps) => {
                     <Button
                         type="submit"
                         disabled={isCreating || isUpdating}
-                        className="bg-golden-dark hover:bg-golden-dark/90 text-white px-8"
+                        className="bg-golden-dark hover:bg-golden-dark/90 text-white px-8 flex items-center gap-2"
                     >
-                        {isEdit ? "Update Account" : "Create Account"}
+                        {(isCreating || isUpdating) && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {isCreating ? "Creating..." : isUpdating ? "Updating..." : isEdit ? "Update Account" : "Create Account"}
                     </Button>
                 </CardFooter>
             </Card>

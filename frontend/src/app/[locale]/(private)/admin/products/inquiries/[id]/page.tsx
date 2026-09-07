@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Send, User, Building, Mail, Phone, Package, Calendar } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowLeft, Send, User, Building, Mail, Phone, Package, Calendar, Loader2 } from "lucide-react";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { Badge } from "@/components/ui/badge";
 
 export default function InquiryDetailPage() {
@@ -44,17 +44,19 @@ export default function InquiryDetailPage() {
     const handleSendReply = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!subject.trim() || !message.trim()) {
-            toast.error("Please fill in both subject and message.");
+            notify.warning("Please fill in both subject and message.");
             return;
         }
 
+        notify.loading("Sending inquiry reply...", { id: "reply-inquiry" });
+
         try {
             await replyToInquiry({ id, subject, message }).unwrap();
-            toast.success("Reply sent successfully via email!");
+            notify.success("Reply sent successfully via email.", { id: "reply-inquiry" });
             setMessage(""); // Clear message after sending
             router.push("/admin/products/inquiries");
         } catch (error: any) {
-            toast.error(error.data?.message || "Failed to send reply");
+            notify.error(extractErrorMessage(error, "Failed to send reply."), { id: "reply-inquiry" });
         }
     };
 
@@ -166,7 +168,8 @@ export default function InquiryDetailPage() {
                         />
                     </div>
                     <div className="flex justify-end pt-2">
-                        <Button type="submit" disabled={isReplying} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6">
+                        <Button type="submit" disabled={isReplying} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 flex items-center gap-2">
+                            {isReplying && <Loader2 className="w-4 h-4 animate-spin" />}
                             {isReplying ? "Sending..." : "Send Reply"}
                             {!isReplying && <Send className="w-4 h-4 ml-2" />}
                         </Button>

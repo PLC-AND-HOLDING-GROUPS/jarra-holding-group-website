@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Trash2, Upload, Loader2, Eye, X, FileIcon, ImageIcon, VideoIcon, FileText } from "lucide-react";
-import { toast } from "sonner";
 import {
     useUploadAttachmentsMutation,
     useDeleteAttachmentMutation,
@@ -10,6 +9,7 @@ import {
 import { getFileUrl, getImageUrl } from "@/utils/fileUrl";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
+import { notify } from "@/utils/notification";
 
 export type UploadedFileInfo = {
     attachment_id: string;
@@ -159,7 +159,7 @@ export const EditFileUpload: React.FC<FileUploadFieldProps> = ({
                 return null;
             } catch (error) {
                 console.error(`Failed to upload ${file.name}:`, error);
-                toast.error(`Failed to upload ${file.name}`);
+                notify.error(`Failed to upload ${file.name}`);
                 return null;
             }
         });
@@ -179,7 +179,7 @@ export const EditFileUpload: React.FC<FileUploadFieldProps> = ({
             );
 
             uploadedFiles.forEach((f) => {
-                toast.success(`${f.file_name} uploaded successfully`);
+                notify.success(`${f.file_name} uploaded successfully`);
             });
         }
 
@@ -219,10 +219,10 @@ export const EditFileUpload: React.FC<FileUploadFieldProps> = ({
                 updatedFiles
             );
 
-            toast.success("File removed successfully");
+            notify.success("File removed successfully");
         } catch (error) {
             console.error("Failed to delete file:", error);
-            toast.error("Failed to delete file");
+            notify.error("Failed to delete file");
         }
     };
 

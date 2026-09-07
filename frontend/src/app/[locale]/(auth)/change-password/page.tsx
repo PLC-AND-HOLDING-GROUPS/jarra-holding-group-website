@@ -14,11 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "react-toastify";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { useChangePasswordMutation } from "@/redux/api/userApi";
 import { useRouter } from "@/i18n/navigation";
 import { useSession } from "next-auth/react";
-import { Lock, ArrowLeftIcon, EyeIcon, EyeOffIcon, AlertCircle } from "lucide-react";
+import { Lock, ArrowLeftIcon, EyeIcon, EyeOffIcon, AlertCircle, Loader2 } from "lucide-react";
 import { performLogout } from "@/utils/logout";
 
 const passwordSchema = z.object({
@@ -56,10 +56,10 @@ export default function ChangePasswordPage() {
         confirm_change: true,
       }).unwrap();
 
-      toast.success("Password changed successfully! Please log in with your new password.");
+      notify.success("Password changed successfully. Please log in with your new password.");
       await performLogout();
     } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to change password");
+      notify.error(extractErrorMessage(error, "Failed to change password. Please check your current password."));
     }
   };
 
@@ -186,9 +186,10 @@ export default function ChangePasswordPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md transition-all duration-200 mt-6"
+                  className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md transition-all duration-200 mt-6 flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
+                  {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
                   {isLoading ? "Processing..." : "Update & Log Out"}
                 </Button>
               </form>

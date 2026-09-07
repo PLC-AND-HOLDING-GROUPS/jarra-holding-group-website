@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Eye, FileIcon, Trash2, Upload, X, XIcon } from "lucide-react";
-import { toast } from "sonner";
+import { ChevronDown, Eye, FileIcon, Trash2, Upload, X, XIcon, Loader2 } from "lucide-react";
+import { notify } from "@/utils/notification";
 import { useCreateNewsMutation } from "@/redux/api/newsApi";
 import {
     useUploadAttachmentsMutation,
@@ -144,7 +144,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                     };
                 }
             } catch {
-                toast.error(`Failed to upload ${file.name}`);
+                notify.error(`Failed to upload ${file.name}`);
                 return null;
             }
         });
@@ -157,7 +157,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
             const updatedFiles = [...files, ...uploadedFiles];
             setFiles(updatedFiles);
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            uploadedFiles.forEach((f) => toast.success(`${f.file_name} uploaded`));
+            uploadedFiles.forEach((f) => notify.success(`${f.file_name} uploaded`));
         }
 
         // Clear the input
@@ -181,9 +181,9 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
             const updatedFiles = files.filter((f) => f.attachment_id !== attachment_id);
             setFiles(updatedFiles);
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            toast.success("File removed successfully");
+            notify.success("File removed successfully");
         } catch {
-            toast.error("Failed to delete file");
+            notify.error("Failed to delete file");
         }
     };
 
@@ -315,13 +315,13 @@ const CreateNews = () => {
     const [status, setStatus] = useState<"draft" | "published" | "archived">("draft");
     const [publishedAt, setPublishedAt] = useState(() => toDatetimeLocalInput(new Date().toISOString()));
 
-    const [createNews] = useCreateNewsMutation();
+    const [createNews, { isLoading: isCreating }] = useCreateNewsMutation();
     const { data = [], isLoading, isError } = useGetTagsQuery()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title || !author || !contentHtml) {
-            alert("Please fill required fields");
+            notify.warning("Please fill in all required fields (Title, Author, and Content).");
             return;
         }
         try {
@@ -335,14 +335,14 @@ const CreateNews = () => {
                 published_at: status === "published" ? fromDatetimeLocalInput(publishedAt) ?? undefined : undefined,
             }).unwrap();
 
-            alert("News Created Successfully!");
+            notify.success("News article created successfully.");
             // Reset form
             setTitle(""); setAuthor(""); setTags(""); setContent(""); setContentDelta(null);
             setContentHtml("");
             setNewsAttachments([]); setHeadlineFiles([]); setFooterFiles([]); setCurrentMediaIndex(0);
         } catch (error) {
             console.error(error);
-            alert("Failed to create news");
+            notify.error("Failed to create news article.", error);
         }
     };
 
@@ -540,7 +540,16 @@ const CreateNews = () => {
                         onChange={(html) => setContentHtml(html)}
                     />
 
-                    <Button type="submit">Create News</Button>
+                    <Button type="submit" disabled={isCreating}>
+                        {isCreating ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Creating News...
+                            </>
+                        ) : (
+                            "Create News"
+                        )}
+                    </Button>
                 </form>
             </div >
 

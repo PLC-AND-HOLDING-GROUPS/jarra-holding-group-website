@@ -4,7 +4,8 @@ import { useState, useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Plus, Trash2, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 import { DataTable } from "@/features/template/component/DataTable";
 import { TableLayout } from "@/features/template/component/TableLayout";
@@ -14,7 +15,7 @@ import { ComponentGuard } from "@/components/auth/ComponentGuard";
 import { 
     useGetCategoriesQuery, 
     useDeleteCategoryMutation, 
-    useCreateCategoryMutation,
+    useCreateCategoryMutation, 
     useUpdateCategoryMutation 
 } from "@/redux/api/productApi";
 import { ProductCategory } from "@/redux/types/product";
@@ -34,6 +35,13 @@ export default function CategoryList() {
     const [deleteCategory] = useDeleteCategoryMutation();
     const [createCategory, { isLoading: isCreating }] = useCreateCategoryMutation();
     const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation();
+
+    const [deleteConfirm, setDeleteConfirm] = useState<{
+        open: boolean;
+        id: string;
+        name: string;
+    }>({ open: false, id: "", name: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -77,7 +85,7 @@ export default function CategoryList() {
     const handleCreateCategory = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newCategoryName || !newCategorySlug) {
-            toast.error("Please fill in both name and slug");
+            notify.warning("Please fill in both name and slug.");
             return;
         }
 
@@ -87,12 +95,12 @@ export default function CategoryList() {
                 slug: newCategorySlug
             }).unwrap();
             
-            toast.success("Category created successfully");
+            notify.success("Category created successfully.");
             setIsCreateModalOpen(false);
             setNewCategoryName("");
             setNewCategorySlug("");
         } catch (error) {
-            toast.error("Failed to create category");
+            notify.error("Failed to create category.", error);
         }
     };
 
@@ -106,7 +114,7 @@ export default function CategoryList() {
     const handleUpdateCategory = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editCategoryName || !editCategorySlug) {
-            toast.error("Please fill in both name and slug");
+            notify.warning("Please fill in both name and slug.");
             return;
         }
 
@@ -119,10 +127,10 @@ export default function CategoryList() {
                 }
             }).unwrap();
             
-            toast.success("Category updated successfully");
+            notify.success("Category updated successfully.");
             setIsEditModalOpen(false);
         } catch (error) {
-            toast.error("Failed to update category");
+            notify.error("Failed to update category.", error);
         }
     };
 
@@ -164,9 +172,11 @@ export default function CategoryList() {
                             size="icon"
                             title="Delete Category"
                             onClick={() => {
-                                if (confirm("Are you sure you want to delete this category?")) {
-                                    deleteCategory(row.original.category_id);
-                                }
+                                setDeleteConfirm({
+                                    open: true,
+                                    id: row.original.category_id,
+                                    name: row.original.name || "this category",
+                                });
                             }}
                         >
                             <Trash2 className="h-4 w-4 text-destructive" />
@@ -291,6 +301,28 @@ export default function CategoryList() {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Category?"
+                description={`Are you sure you want to delete "${deleteConfirm.name}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteCategory(deleteConfirm.id).unwrap();
+                        notify.success("Category deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (err) {
+                        notify.error("Failed to delete category.", err);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
+            />
         </>
     );
 }

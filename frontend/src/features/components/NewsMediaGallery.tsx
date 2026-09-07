@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { extractAllHeadlineAttachments } from '@/utils/newsMapper';
 import { useReactToNewsMutation } from '@/redux/api/newsApi';
-import { toast } from 'sonner';
+import { notify } from '@/utils/notification';
 import { ThumbsUp, ThumbsDown, Share2 } from 'lucide-react';
 
 interface Attachment {
@@ -67,7 +67,7 @@ const NewsMediaGallery: React.FC<NewsMediaGalleryProps> = ({
             setLikes(previousLikes);
             setDislikes(previousDislikes);
             setUserReaction(previousUserReaction);
-            toast.error('Failed to register reaction');
+            notify.error('Failed to register reaction');
         } finally {
             setIsProcessing(false);
         }
@@ -95,9 +95,9 @@ const NewsMediaGallery: React.FC<NewsMediaGalleryProps> = ({
 
     const fallbackCopyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text).then(() => {
-            toast.success('Link copied to clipboard!');
+            notify.success('Link copied to clipboard');
         }).catch(() => {
-            toast.error('Failed to copy link');
+            notify.error('Failed to copy link');
         });
     };
 

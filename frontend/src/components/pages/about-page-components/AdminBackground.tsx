@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Save, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 import {
@@ -71,14 +71,14 @@ export default function AdminBackground() {
                         icon: icon ?? "Info",
                     },
                 }).unwrap();
-                toast.success("Background updated successfully");
+                notify.success("About background updated successfully.");
             } else {
                 // Create new background
                 await createBackground(payload).unwrap();
-                toast.success("Background created successfully");
+                notify.success("About background created successfully.");
             }
         } catch (error: any) {
-            toast.error(error?.data?.message || `Failed to ${backgroundId ? 'update' : 'save'} background`);
+            notify.error(extractErrorMessage(error, `Failed to ${backgroundId ? 'update' : 'create'} about background.`));
         }
     };
 

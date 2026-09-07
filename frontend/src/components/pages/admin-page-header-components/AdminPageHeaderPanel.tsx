@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Save, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import {
   Select,
   SelectContent,
@@ -76,9 +76,9 @@ export default function AdminPageHeaderPanel() {
           attachment_id: attachmentId,
         },
       }).unwrap();
-      toast.success("Page header updated successfully!");
+      notify.success("Page header updated successfully.");
     } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to update page header.");
+      notify.error(extractErrorMessage(error, "Failed to update page header."));
     }
   };
 

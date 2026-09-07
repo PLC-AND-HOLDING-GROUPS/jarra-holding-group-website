@@ -19,7 +19,8 @@ import {
     useDeleteLeadershipMutation,
 } from "@/redux/api/leadershipApi";
 import { ImageUploadField, UploadedFileInfo } from "@/components/common/ImageUploadField";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 export type LeaderNode = {
     id: string;
@@ -37,13 +38,19 @@ export type LeaderNode = {
 
 export default function LeadershipAdminPage() {
     const { data: leaderships, isLoading } = useGetLeadershipsQuery();
-    const [createLeadership] = useCreateLeadershipMutation();
-    const [updateLeadership] = useUpdateLeadershipMutation();
-    const [deleteLeadership] = useDeleteLeadershipMutation();
+    const [createLeadership, { isLoading: isCreating }] = useCreateLeadershipMutation();
+    const [updateLeadership, { isLoading: isUpdating }] = useUpdateLeadershipMutation();
+    const [deleteLeadership, { isLoading: isDeletingMutation }] = useDeleteLeadershipMutation();
 
     const [tree, setTree] = useState<LeaderNode | null>(null);
     const [editingNodeId, setEditingNodeId] = useState<string | null>(null);
     const [draftNode, setDraftNode] = useState<LeaderNode | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; nodeId: string; name: string }>({
+        open: false,
+        nodeId: "",
+        name: "",
+    });
+    const [isDeleting, setIsDeleting] = useState(false);
     
     // Section Header State
     const [sectionTitle, setSectionTitle] = useState("Corporate Leadership Structure");
@@ -150,14 +157,17 @@ export default function LeadershipAdminPage() {
         };
     };
 
-    const deleteNode = async (nodeId: string) => {
+    const deleteNode = (nodeId: string) => {
         const nodeToDelete = findNodeById(tree!, nodeId);
-
         if (nodeToDelete?.leadership_id) {
-            await deleteLeadership(nodeToDelete.leadership_id);
+            setDeleteConfirm({
+                open: true,
+                nodeId,
+                name: nodeToDelete.name || nodeToDelete.title || "this leader",
+            });
+        } else {
+            setTree(prev => deleteNodeRecursively(prev!, nodeId));
         }
-
-        setTree(prev => deleteNodeRecursively(prev!, nodeId));
     };
 
     const deleteNodeRecursively = (node: LeaderNode, nodeId: string): LeaderNode | null => {
@@ -169,21 +179,31 @@ export default function LeadershipAdminPage() {
     };
 
     const createNode = async (node: LeaderNode) => {
+        if (!node.name?.trim()) {
+            notify.warning("Leader name is required.");
+            return;
+        }
+
         const isRoot = !node.parent_id;
         const headerValue = isRoot ? JSON.stringify({ title: sectionTitle, description: sectionDescription }) : "Leader";
 
-        const created = await createLeadership({
-            name: node.name,
-            title: node.title,
-            description: node.fullDescription,
-            parent_id: node.parent_id || null,
-            header: headerValue,
-            level: node.level,
-            attachments: node.attachment_id ? [{ attachment_id: node.attachment_id }] : [],
-        }).unwrap();
+        try {
+            const created = await createLeadership({
+                name: node.name,
+                title: node.title,
+                description: node.fullDescription,
+                parent_id: node.parent_id || null,
+                header: headerValue,
+                level: node.level,
+                attachments: node.attachment_id ? [{ attachment_id: node.attachment_id }] : [],
+            }).unwrap();
 
-        const updatedNode: LeaderNode = { ...node, leadership_id: created.leadership_id };
-        setTree(prev => updateNodeRecursively(prev!, node.id, { leadership_id: updatedNode.leadership_id }));
+            const updatedNode: LeaderNode = { ...node, leadership_id: created.leadership_id };
+            setTree(prev => updateNodeRecursively(prev!, node.id, { leadership_id: updatedNode.leadership_id }));
+            notify.success("Leader record created successfully.");
+        } catch (error) {
+            notify.error("Failed to create leader record.", error);
+        }
     };
 
     const updateNode = (node: LeaderNode, updatedFields: Partial<LeaderNode>) => {
@@ -206,10 +226,10 @@ export default function LeadershipAdminPage() {
                         : [],
                 },
             }).unwrap();
-            toast.success("Card content saved successfully!");
+            notify.success("Leader record updated successfully.");
         } catch (error) {
             console.error(error);
-            toast.error("Failed to save card content.");
+            notify.error("Failed to update leader record.", error);
         }
     };
 
@@ -221,7 +241,7 @@ export default function LeadershipAdminPage() {
     const saveSectionHeader = async () => {
         const root = leaderships?.find((l: any) => !l.parent_id);
         if (!root) {
-            toast.error("Please create a root leader first to save the section header.");
+            notify.warning("Please create a root leader first before saving section information.");
             return;
         }
         
@@ -232,9 +252,9 @@ export default function LeadershipAdminPage() {
                     header: JSON.stringify({ title: sectionTitle, description: sectionDescription })
                 }
             }).unwrap();
-            toast.success("Section Header saved successfully!");
+            notify.success("Section information saved successfully.");
         } catch (error) {
-            toast.error("Failed to save section header.");
+            notify.error("Failed to save section information.", error);
         }
     };
 
@@ -278,6 +298,32 @@ export default function LeadershipAdminPage() {
                 updateNode={updateNode}
                 createNode={createNode}
                 saveNode={saveNode}
+            />
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Leader Record?"
+                description={`Are you sure you want to delete "${deleteConfirm.name}" and any subordinate positions? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        const nodeToDelete = findNodeById(tree!, deleteConfirm.nodeId);
+                        if (nodeToDelete?.leadership_id) {
+                            await deleteLeadership(nodeToDelete.leadership_id).unwrap();
+                        }
+                        setTree(prev => deleteNodeRecursively(prev!, deleteConfirm.nodeId));
+                        notify.success("Leader record deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (error) {
+                        notify.error("Failed to delete leader record.", error);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
             />
         </div>
     );

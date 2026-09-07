@@ -11,7 +11,8 @@ import { DataTable } from "@/features/template/component/DataTable";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 import { useGetAuditLogsQuery, useDeleteAuditLogMutation } from "@/redux/api/auditLogApi";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 /* ----------------------------------
    COMPONENT
@@ -66,15 +67,11 @@ export default function AuditLogList() {
     const totalCount = logsData?.totalCount || 0;
 
     const [deleteAuditLog] = useDeleteAuditLogMutation();
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string }>({ open: false, id: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to permanently delete this log?")) return;
-        try {
-            await deleteAuditLog(id).unwrap();
-            toast.success("Audit log deleted successfully");
-        } catch {
-            toast.error("Failed to delete audit log");
-        }
+    const handleDelete = (id: string) => {
+        setDeleteConfirm({ open: true, id });
     };
 
     /* ----------------------------------
@@ -176,6 +173,28 @@ export default function AuditLogList() {
                 handlePagination={handlePagination}
                 tablePageSize={pageSize}
                 currentIndex={pageIndex}
+            />
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Audit Log?"
+                description="Are you sure you want to permanently delete this audit log record? This action cannot be undone."
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteAuditLog(deleteConfirm.id).unwrap();
+                        notify.success("Audit log record deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (err) {
+                        notify.error("Failed to delete audit log record.", err);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
             />
         </TableLayout>
     );

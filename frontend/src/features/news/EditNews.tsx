@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, XIcon, FileIcon } from "lucide-react";
-import { toast } from "sonner";
+import { ChevronDown, XIcon, FileIcon, Loader2 } from "lucide-react";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { useUpdateNewsMutation, useGetNewsByIdQuery } from "@/redux/api/newsApi";
 import {
     useDeleteAttachmentMutation,
@@ -38,7 +38,7 @@ const getFileType = (fileName: string): 'image' | 'video' | 'pdf' | 'document' =
     const extension = fileName.split('.').pop()?.toLowerCase() || '';
     if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'].includes(extension)) return 'image';
     if (['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v', '3gp'].includes(extension)) return 'video';
-    if (extension === 'pdf') return 'pdf';
+    if (['pdf'].includes(extension)) return 'pdf';
     return 'document';
 };
 
@@ -47,7 +47,7 @@ const EditNews = () => {
     const router = useRouter();
     const newsId = params.newsId as string;
     const { data: newsResponse, isLoading } = useGetNewsByIdQuery(newsId);
-    const [updateNews] = useUpdateNewsMutation();
+    const [updateNews, { isLoading: isUpdating }] = useUpdateNewsMutation();
     const [deleteAttachment] = useDeleteAttachmentMutation();
 
     const [title, setTitle] = useState("");
@@ -171,12 +171,12 @@ const EditNews = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title || !author || !contentDelta) {
-            toast.error("Please fill all required fields");
+            notify.warning("Please fill in all required fields (title, author, and content).");
             return;
         }
 
         // Show loading toast
-        const loadingToast = toast.loading("Updating news...");
+        notify.loading("Updating news article...", { id: "edit-news" });
 
         try {
             const payload = {
@@ -192,16 +192,12 @@ const EditNews = () => {
                 published_at: status === "published" ? fromDatetimeLocalInput(publishedAt) ?? undefined : undefined,
             };
 
-            console.log("Submitting payload:", payload);
-
             await updateNews({
                 id: newsId,
                 data: payload
             }).unwrap();
 
-            // Dismiss loading toast and show success
-            toast.dismiss(loadingToast);
-            toast.success("News Updated Successfully!");
+            notify.success("News article updated successfully.", { id: "edit-news" });
 
             // Navigate to news list after a short delay
             setTimeout(() => {
@@ -209,10 +205,8 @@ const EditNews = () => {
             }, 1500);
 
         } catch (err: any) {
-            // Dismiss loading toast and show error
-            toast.dismiss(loadingToast);
             console.error(err);
-            toast.error(err?.data?.message || "Failed to update news");
+            notify.error(extractErrorMessage(err, "Failed to update news article."), { id: "edit-news" });
         }
     };
 
@@ -236,9 +230,9 @@ const EditNews = () => {
 
             setNewsAttachments(prev => prev.filter(a => a.attachment_id !== attachmentId));
 
-            toast.success("File removed successfully");
+            notify.success("Attachment removed successfully.");
         } catch {
-            toast.error("Failed to delete file");
+            notify.error("Failed to remove attachment.");
         }
     };
 
@@ -459,8 +453,9 @@ const EditNews = () => {
                         </div>
                     )}
 
-                    <Button type="submit" className="w-full">
-                        Update News
+                    <Button type="submit" className="w-full flex items-center justify-center gap-2" disabled={isUpdating}>
+                        {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {isUpdating ? "Updating News..." : "Update News"}
                     </Button>
                 </form>
             </div>

@@ -13,6 +13,8 @@ import { TableLayout } from "../template/component/TableLayout";
 import { DataTable } from "../template/component/DataTable";
 import CreateTagModal from "@/components/common/modals/CreateTag";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import { notify, extractErrorMessage } from "@/utils/notification";
 
 /* ----------------------------------
    COMPONENT
@@ -24,6 +26,22 @@ export default function NewsTagList() {
     const { data = [], isLoading, isError } = useGetTagsQuery();
     const [deleteTag] = useDeleteTagMutation();
     const [isModalOpen, setModalOpen] = useState(false);
+    const [tagToDelete, setTagToDelete] = useState<{ id: string; name: string } | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeleteTag = async () => {
+        if (!tagToDelete) return;
+        try {
+            setIsDeleting(true);
+            await deleteTag(tagToDelete.id).unwrap();
+            notify.success(`Tag "${tagToDelete.name}" deleted successfully.`);
+            setTagToDelete(null);
+        } catch (error) {
+            notify.error(extractErrorMessage(error, "Failed to delete tag."));
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     /* Pagination */
     const [pageIndex, setPageIndex] = useState(0);
@@ -101,7 +119,7 @@ export default function NewsTagList() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                onClick={() => deleteTag(tagId)}
+                                onClick={() => setTagToDelete({ id: tagId, name: row.original.name || "Tag" })}
                             >
                                 <Trash className="h-4 w-4 text-destructive" />
                             </Button>
@@ -155,6 +173,16 @@ export default function NewsTagList() {
             <CreateTagModal
                 isOpen={isModalOpen}
                 onClose={() => setModalOpen(false)}
+            />
+            <ConfirmDialog
+                open={!!tagToDelete}
+                onOpenChange={(open) => !open && setTagToDelete(null)}
+                title="Delete Tag?"
+                description={`Are you sure you want to delete "${tagToDelete?.name}"? This action cannot be undone.`}
+                confirmText="Delete Tag"
+                variant="destructive"
+                isLoading={isDeleting}
+                onConfirm={handleDeleteTag}
             />
         </>
     );

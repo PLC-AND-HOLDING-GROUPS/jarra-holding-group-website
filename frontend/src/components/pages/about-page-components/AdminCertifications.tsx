@@ -8,7 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Label } from "@/components/ui/label";
 import { Plus, Trash2, Save, X } from "lucide-react";
 import { ImageUploadField, UploadedFileInfo } from "@/components/common/ImageUploadField";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import {
     useGetCertificationsQuery,
     useCreateCertificationMutation,
@@ -27,9 +28,16 @@ export default function AdminCertifications() {
     const { data: response, isLoading } = useGetCertificationsQuery();
     const certifications = response?.data || [];
 
-    const [createCertification] = useCreateCertificationMutation();
-    const [updateCertification] = useUpdateCertificationMutation();
-    const [deleteCertification] = useDeleteCertificationMutation();
+    const [createCertification, { isLoading: isCreating }] = useCreateCertificationMutation();
+    const [updateCertification, { isLoading: isUpdating }] = useUpdateCertificationMutation();
+    const [deleteCertification, { isLoading: isDeleting }] = useDeleteCertificationMutation();
+    const isSaving = isCreating || isUpdating;
+
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string; title: string }>({
+        open: false,
+        id: "",
+        title: "",
+    });
 
     // Section Header State
     const { data: headerData, isLoading: isHeaderLoading } = useGetPageHeaderByIdentifierQuery("about-certifications");
@@ -58,10 +66,10 @@ export default function AdminCertifications() {
                 identifier: "about-certifications",
                 body: { title: headerTitle, description: headerDescription, icon: headerSubtitle },
             }).unwrap();
-            toast.success("Section header updated successfully!");
+            notify.success("Section header updated successfully.");
         } catch (error) {
             console.error(error);
-            toast.error("Failed to update section header");
+            notify.error("Failed to update section header.", error);
         }
     };
 
@@ -89,8 +97,8 @@ export default function AdminCertifications() {
     };
 
     const handleSave = async () => {
-        if (!draft?.title) {
-            toast.error("Title is required");
+        if (!draft?.title?.trim()) {
+            notify.warning("Certification title is required.");
             return;
         }
 
@@ -100,33 +108,29 @@ export default function AdminCertifications() {
                 description: draft.description || "",
                 order: draft.order || 0,
                 is_active: draft.is_active !== undefined ? draft.is_active : true,
-                // Assuming draft.attachments stores the current state from the image uploader
                 attachments: draft.attachments,
             };
 
             if (editingId === "new") {
                 await createCertification(payload).unwrap();
-                toast.success("Certification created successfully!");
+                notify.success("Certification created successfully.");
             } else if (editingId) {
                 await updateCertification({ certification_id: editingId, ...payload }).unwrap();
-                toast.success("Certification updated successfully!");
+                notify.success("Certification updated successfully.");
             }
             handleCancel();
         } catch (error) {
             console.error(error);
-            toast.error("Failed to save certification.");
+            notify.error("Failed to save certification.", error);
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this certification?")) return;
-        try {
-            await deleteCertification(id).unwrap();
-            toast.success("Certification deleted successfully!");
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to delete certification.");
-        }
+    const handleDelete = (cert: Certification) => {
+        setDeleteConfirm({
+            open: true,
+            id: cert.certification_id,
+            title: cert.title || "this certification",
+        });
     };
 
     const handleImageChange = (ids: string[], files?: UploadedFileInfo[]) => {
@@ -253,11 +257,25 @@ export default function AdminCertifications() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-3">
-                        <Button variant="outline" onClick={handleCancel}>
+                        <Button variant="outline" onClick={handleCancel} disabled={isSaving}>
                             <X className="w-4 h-4 mr-2" /> Cancel
                         </Button>
-                        <Button onClick={handleSave} className="bg-golden-dark hover:bg-golden-darkHover text-white">
-                            <Save className="w-4 h-4 mr-2" /> Save
+                        <Button
+                            onClick={handleSave}
+                            disabled={isSaving}
+                            className="bg-golden-dark hover:bg-golden-darkHover text-white"
+                        >
+                            {isSaving ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <Save className="w-4 h-4 mr-2" />
+                                    Save
+                                </>
+                            )}
                         </Button>
                     </CardFooter>
                 </Card>
@@ -282,7 +300,14 @@ export default function AdminCertifications() {
                                         <Button variant="outline" size="sm" onClick={() => handleEdit(cert)}>
                                             Edit
                                         </Button>
-                                        <Button variant="destructive" size="icon" className="h-8 w-8" onClick={() => handleDelete(cert.certification_id)}>
+                                        <Button
+                                            variant="destructive"
+                                            size="icon"
+                                            className="h-8 w-8"
+                                            title="Delete Certification"
+                                            disabled={isDeleting}
+                                            onClick={() => handleDelete(cert)}
+                                        >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                     </div>
@@ -308,6 +333,26 @@ export default function AdminCertifications() {
                     )}
                 </div>
             )}
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Certification?"
+                description={`Are you sure you want to delete "${deleteConfirm.title}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        await deleteCertification(deleteConfirm.id).unwrap();
+                        notify.success("Certification deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (error) {
+                        console.error(error);
+                        notify.error("Failed to delete certification.", error);
+                    }
+                }}
+            />
         </div>
     );
 }

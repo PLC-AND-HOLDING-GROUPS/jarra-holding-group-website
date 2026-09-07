@@ -14,9 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "react-toastify";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { useRouter } from "@/i18n/navigation";
-import { ArrowLeftIcon, Mail, ShieldCheck, Lock, EyeIcon, EyeOffIcon } from "lucide-react";
+import { ArrowLeftIcon, Mail, ShieldCheck, Lock, EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { useRequestOTPMutation, useVerifyOTPMutation, useResetPasswordMutation } from "@/redux/api/authApi";
 import { AUTH_LOGIN } from "@/constants/authRoutes";
 
@@ -71,9 +71,9 @@ export default function ForgotPasswordPage() {
       await requestOTPMutation({ email: values.email }).unwrap();
       setEmail(values.email);
       setStep(2);
-      toast.success("OTP sent to your email");
+      notify.success("OTP sent to your email successfully.");
     } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to send OTP");
+      notify.error(extractErrorMessage(error, "Failed to send OTP. Please verify your email address."));
     }
   };
 
@@ -82,9 +82,9 @@ export default function ForgotPasswordPage() {
       await verifyOTPMutation({ email, otp: values.otp }).unwrap();
       setOtp(values.otp);
       setStep(3);
-      toast.success("OTP verified");
+      notify.success("OTP verified successfully.");
     } catch (error: any) {
-      toast.error(error?.data?.message || "Invalid or expired OTP");
+      notify.error(extractErrorMessage(error, "Invalid or expired OTP code."));
     }
   };
 
@@ -95,10 +95,10 @@ export default function ForgotPasswordPage() {
         otp,
         newPassword: values.newPassword
       }).unwrap();
-      toast.success("Password reset successfully! Please login.");
+      notify.success("Password reset successfully. Please log in with your new password.");
       router.push(AUTH_LOGIN);
     } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to reset password");
+      notify.error(extractErrorMessage(error, "Failed to reset password. Please try again."));
     }
   };
 
@@ -154,9 +154,10 @@ export default function ForgotPasswordPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
+                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6 flex items-center justify-center gap-2"
                       disabled={requesting}
                     >
+                      {requesting && <Loader2 className="w-5 h-5 animate-spin" />}
                       {requesting ? "Sending OTP..." : "Send OTP"}
                     </Button>
                   </form>
@@ -191,9 +192,10 @@ export default function ForgotPasswordPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
+                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6 flex items-center justify-center gap-2"
                       disabled={verifying}
                     >
+                      {verifying && <Loader2 className="w-5 h-5 animate-spin" />}
                       {verifying ? "Verifying..." : "Verify OTP"}
                     </Button>
                     <p className="text-center text-sm text-[#0C4A6E]/70 mt-4">
@@ -263,9 +265,10 @@ export default function ForgotPasswordPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6"
+                      className="w-full bg-[#073954] hover:bg-[#073954]/90 h-14 text-xl text-white font-semibold rounded-md shadow-md mt-6 flex items-center justify-center gap-2"
                       disabled={resetting}
                     >
+                      {resetting && <Loader2 className="w-5 h-5 animate-spin" />}
                       {resetting ? "Resetting..." : "Reset Password"}
                     </Button>
                   </form>

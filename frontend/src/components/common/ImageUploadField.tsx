@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Trash2, Upload, Loader2, Eye, X, ImageIcon } from "lucide-react";
-import { toast } from "sonner";
 import {
     useUploadAttachmentsMutation,
     useDeleteAttachmentMutation,
@@ -10,6 +9,7 @@ import {
 import { getFileUrl, getFileType, getImageUrl } from "@/utils/fileUrl";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
+import { notify } from "@/utils/notification";
 
 export type UploadedFileInfo = {
     attachment_id: string;
@@ -110,7 +110,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
 
         // Check if it's an image
         if (!selectedFile.type.startsWith('image/')) {
-            toast.error("Please select an image file");
+            notify.error("Please select an image file");
             return;
         }
 
@@ -143,10 +143,10 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 setCurrentImage(newImage);
                 // Pass both ID and full file info to parent
                 onChange([newImage.attachment_id], [newImage]);
-                toast.success(`${uploaded.file_name} uploaded successfully`);
+                notify.success(`${uploaded.file_name} uploaded successfully`);
             }
         } catch {
-            toast.error(`Failed to upload ${selectedFile.name}`);
+            notify.error(`Failed to upload ${selectedFile.name}`);
         }
 
         // Clear the input
@@ -167,9 +167,9 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             setCurrentImage(null);
             // Pass empty arrays to parent
             onChange([], []);
-            toast.success("Image removed successfully");
+            notify.success("Image removed successfully");
         } catch {
-            toast.error("Failed to delete image");
+            notify.error("Failed to delete image");
         }
     };
 

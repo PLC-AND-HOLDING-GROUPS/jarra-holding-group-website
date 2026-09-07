@@ -19,7 +19,8 @@ import {
     useDeleteSocialMediaMutation,
 } from "@/redux/api/socialMediaApi";
 import { SocialMedia } from "@/redux/types/socialMedia";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 export interface SocialLink {
     id: number; // temporary id for UI
@@ -46,6 +47,7 @@ export default function FooterSocialMedia({
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());
+    const [linkToDelete, setLinkToDelete] = useState<SocialLink | null>(null);
 
     // Transform API data to local format when data is fetched
     useEffect(() => {
@@ -73,17 +75,18 @@ export default function FooterSocialMedia({
         setSocialLinks([...socialLinks, newLink]);
     };
 
-    const removeSocialLink = async (link: SocialLink) => {
-        // If it's an existing link from API, delete it from backend
+    const confirmDeleteLink = async () => {
+        if (!linkToDelete) return;
+        const link = linkToDelete;
         if (link.social_media_id) {
             try {
                 setDeletingIds(prev => new Set(prev).add(link.social_media_id!));
                 await deleteSocialMedia(link.social_media_id).unwrap();
-                toast.success("Social link deleted successfully");
+                notify.success(`Social link "${link.name || "item"}" deleted successfully.`);
                 setSocialLinks(socialLinks.filter((l) => l.id !== link.id));
+                setLinkToDelete(null);
             } catch (error) {
-                console.error("Failed to delete social link:", error);
-                toast.error("Failed to delete social link");
+                notify.error(extractErrorMessage(error, "Failed to delete social link."));
             } finally {
                 setDeletingIds(prev => {
                     const newSet = new Set(prev);
@@ -92,7 +95,15 @@ export default function FooterSocialMedia({
                 });
             }
         } else {
-            // If it's a new unsaved link, just remove from UI
+            setSocialLinks(socialLinks.filter((l) => l.id !== link.id));
+            setLinkToDelete(null);
+        }
+    };
+
+    const removeSocialLink = (link: SocialLink) => {
+        if (link.social_media_id) {
+            setLinkToDelete(link);
+        } else {
             setSocialLinks(socialLinks.filter((l) => l.id !== link.id));
         }
     };
@@ -131,7 +142,7 @@ export default function FooterSocialMedia({
                         }).unwrap();
                     } catch (error) {
                         console.error("Failed to create social link:", error);
-                        toast.error(`Failed to create ${link.name} link`);
+                        notify.error(extractErrorMessage(error, `Failed to create ${link.name} link.`));
                     }
                 }
             }
@@ -139,7 +150,6 @@ export default function FooterSocialMedia({
             // Update existing links
             for (const link of updatedLinks) {
                 if (link.social_media_id) {
-                    // Check if any field changed (you might want to implement proper change tracking)
                     const originalLink = apiLinks.find(l => l.social_media_id === link.social_media_id);
                     if (originalLink && (
                         originalLink.platform_name !== link.name ||
@@ -157,7 +167,7 @@ export default function FooterSocialMedia({
                             }).unwrap();
                         } catch (error) {
                             console.error("Failed to update social link:", error);
-                            toast.error(`Failed to update ${link.name} link`);
+                            notify.error(extractErrorMessage(error, `Failed to update ${link.name} link.`));
                         }
                     }
                 }
@@ -165,14 +175,14 @@ export default function FooterSocialMedia({
 
             // Refresh data from API
             await refetch();
-            toast.success("Social links saved successfully");
+            notify.success("Social links saved successfully.");
 
             if (onSave) {
                 onSave(socialLinks);
             }
         } catch (error) {
             console.error("Error saving social links:", error);
-            toast.error("Failed to save social links");
+            notify.error(extractErrorMessage(error, "Failed to save social links."));
         } finally {
             setIsSaving(false);
         }
@@ -278,6 +288,16 @@ export default function FooterSocialMedia({
                     ))
                 )}
             </CardContent>
+            <ConfirmDialog
+                open={!!linkToDelete}
+                onOpenChange={(open) => !open && setLinkToDelete(null)}
+                title="Delete Social Media Link?"
+                description={`Are you sure you want to delete the "${linkToDelete?.name || "selected"}" social media link? This action cannot be undone.`}
+                confirmText="Delete Link"
+                variant="destructive"
+                isLoading={linkToDelete?.social_media_id ? deletingIds.has(linkToDelete.social_media_id) : false}
+                onConfirm={confirmDeleteLink}
+            />
         </Card>
     );
 }

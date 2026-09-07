@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { useCreateVacancyMutation } from "@/redux/api/vacancyApi";
 import VacancyForm from "./VacancyForm";
 
@@ -10,15 +10,13 @@ export default function CreateVacancy() {
   const [createVacancy, { isLoading }] = useCreateVacancyMutation();
 
   const handleSubmit = async (data: any) => {
-    const loadingToast = toast.loading("Creating vacancy...");
+    notify.loading("Creating vacancy...", { id: "create-vacancy" });
     try {
       await createVacancy(data).unwrap();
-      toast.dismiss(loadingToast);
-      toast.success("Vacancy created successfully!");
+      notify.success("Vacancy created successfully.", { id: "create-vacancy" });
       router.push("/admin/vacancies");
     } catch (err: any) {
-      toast.dismiss(loadingToast);
-      toast.error(err?.data?.message || "Failed to create vacancy");
+      notify.error(extractErrorMessage(err, "Failed to create vacancy."), { id: "create-vacancy" });
     }
   };
 

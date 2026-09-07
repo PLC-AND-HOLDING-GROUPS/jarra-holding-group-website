@@ -17,6 +17,8 @@ import { TableLayout } from "@/features/template/component/TableLayout";
 import { DataTable } from "@/features/template/component/DataTable";
 import FacilityModal from "./FacilityModal";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 export default function AdminFacilitiesList() {
     const { data = [], isLoading } = useGetFacilitiesQuery();
@@ -25,6 +27,12 @@ export default function AdminFacilitiesList() {
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentFacility, setCurrentFacility] = useState<Facility | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string; name: string }>({
+        open: false,
+        id: "",
+        name: "",
+    });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -70,25 +78,35 @@ export default function AdminFacilitiesList() {
 
                 const handleMoveUp = async () => {
                     if (index > 0) {
-                        const newFacilities = [...data];
-                        const temp = newFacilities[index];
-                        newFacilities[index] = newFacilities[index - 1];
-                        newFacilities[index - 1] = temp;
+                        try {
+                            const newFacilities = [...data];
+                            const temp = newFacilities[index];
+                            newFacilities[index] = newFacilities[index - 1];
+                            newFacilities[index - 1] = temp;
 
-                        const payload = newFacilities.map((f, i) => ({ id: f.facility_id, order: i }));
-                        await reorderFacilities({ facilities: payload });
+                            const payload = newFacilities.map((f, i) => ({ id: f.facility_id, order: i }));
+                            await reorderFacilities({ facilities: payload }).unwrap();
+                            notify.success("Facility order updated successfully.");
+                        } catch (error) {
+                            notify.error("Failed to reorder facilities.", error);
+                        }
                     }
                 };
 
                 const handleMoveDown = async () => {
                     if (index < data.length - 1) {
-                        const newFacilities = [...data];
-                        const temp = newFacilities[index];
-                        newFacilities[index] = newFacilities[index + 1];
-                        newFacilities[index + 1] = temp;
+                        try {
+                            const newFacilities = [...data];
+                            const temp = newFacilities[index];
+                            newFacilities[index] = newFacilities[index + 1];
+                            newFacilities[index + 1] = temp;
 
-                        const payload = newFacilities.map((f, i) => ({ id: f.facility_id, order: i }));
-                        await reorderFacilities({ facilities: payload });
+                            const payload = newFacilities.map((f, i) => ({ id: f.facility_id, order: i }));
+                            await reorderFacilities({ facilities: payload }).unwrap();
+                            notify.success("Facility order updated successfully.");
+                        } catch (error) {
+                            notify.error("Failed to reorder facilities.", error);
+                        }
                     }
                 };
 
@@ -111,7 +129,15 @@ export default function AdminFacilitiesList() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                onClick={() => deleteFacility(facility.facility_id)}
+                                title="Delete Facility"
+                                disabled={isDeleting}
+                                onClick={() => {
+                                    setDeleteConfirm({
+                                        open: true,
+                                        id: facility.facility_id,
+                                        name: facility.name || "this facility",
+                                    });
+                                }}
                             >
                                 <Trash className="h-4 w-4 text-destructive" />
                             </Button>
@@ -194,6 +220,28 @@ export default function AdminFacilitiesList() {
                 onOpenChange={setModalOpen}
                 currentFacility={currentFacility}
                 setCurrentFacility={setCurrentFacility}
+            />
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Facility?"
+                description={`Are you sure you want to delete "${deleteConfirm.name}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteFacility(deleteConfirm.id).unwrap();
+                        notify.success("Facility deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (error) {
+                        notify.error("Failed to delete facility.", error);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
             />
         </>
     );

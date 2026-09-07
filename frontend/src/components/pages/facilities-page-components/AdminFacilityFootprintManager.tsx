@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { useGetFacilityFootprintQuery, useUpdateFacilityFootprintMutation } from "@/redux/api/facilityApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 
 export default function AdminFacilityFootprintManager() {
     const { data, isLoading: isFetching, refetch } = useGetFacilityFootprintQuery();
@@ -43,11 +43,11 @@ export default function AdminFacilityFootprintManager() {
                 locations: orderedLocations,
             }).unwrap();
             
-            toast.success("Facility Footprint updated successfully!");
+            notify.success("Facility footprint updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update footprint", error);
-            toast.error("Failed to update facility footprint.");
+            notify.error(extractErrorMessage(error, "Failed to update facility footprint."));
         }
     };
 

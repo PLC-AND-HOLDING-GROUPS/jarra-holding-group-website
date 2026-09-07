@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, Mail, Trash2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,8 @@ import { useDeleteMessageMutation, useGetMessageByIdQuery } from "@/redux/api/me
 import { TableLayout } from "@/features/template/component/TableLayout";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 import { formatDate, formatDateTime } from "@/utils/datetime";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import PublicEmptyState from "@/components/common/PublicEmptyState";
 
 export default function AdminContactMessageDetail() {
@@ -19,18 +21,20 @@ export default function AdminContactMessageDetail() {
         skip: !messageId,
     });
     const [deleteMessage, { isLoading: isDeleting }] = useDeleteMessageMutation();
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
-    const handleDelete = async () => {
-        if (!confirm("Are you sure you want to delete this message? This action cannot be undone.")) {
-            return;
-        }
+    const handleDelete = () => {
+        setIsConfirmOpen(true);
+    };
 
+    const confirmDelete = async () => {
         try {
             await deleteMessage(messageId).unwrap();
-            toast.success("Message deleted successfully");
+            notify.success("Contact message deleted successfully.");
+            setIsConfirmOpen(false);
             router.push("/admin/contacts");
-        } catch {
-            toast.error("Failed to delete message");
+        } catch (error) {
+            notify.error("Failed to delete contact message.", error);
         }
     };
 
@@ -143,6 +147,17 @@ export default function AdminContactMessageDetail() {
                     Message ID: <span className="font-mono">{message.message_id}</span>
                 </div>
             </div>
+
+            <ConfirmDialog
+                open={isConfirmOpen}
+                onOpenChange={setIsConfirmOpen}
+                title="Delete Contact Message?"
+                description="Are you sure you want to delete this contact message? This action cannot be undone."
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={confirmDelete}
+            />
         </TableLayout>
     );
 }

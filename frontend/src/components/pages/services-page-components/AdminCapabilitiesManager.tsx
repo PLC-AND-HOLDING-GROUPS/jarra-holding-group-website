@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2, Plus, Trash } from "lucide-react";
 import { useGetServiceCapabilityQuery, useUpdateServiceCapabilityMutation } from "@/redux/api/serviceApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 
 export default function AdminCapabilitiesManager() {
@@ -35,11 +35,11 @@ export default function AdminCapabilitiesManager() {
                 subheading,
                 capabilities,
             }).unwrap();
-            toast.success("Service Capability updated successfully!");
+            notify.success("Service capabilities updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update capability", error);
-            toast.error("Failed to update service capability.");
+            notify.error(extractErrorMessage(error, "Failed to update service capabilities."));
         }
     };
 

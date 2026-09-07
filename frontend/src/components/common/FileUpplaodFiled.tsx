@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Trash2, Upload, Loader2, Eye, X } from "lucide-react";
-import { toast } from "sonner";
+import { Trash2, Upload, Loader2, Eye, X, FileIcon, ImageIcon, VideoIcon, FileText } from "lucide-react";
 import {
     useUploadAttachmentsMutation,
     useDeleteAttachmentMutation,
@@ -10,6 +9,7 @@ import {
 import { getFileUrl, getFileType, getImageUrl } from "@/utils/fileUrl";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
+import { notify } from "@/utils/notification";
 
 export type UploadedFileInfo = {
     attachment_id: string;
@@ -107,7 +107,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
                     };
                 }
             } catch {
-                toast.error(`Failed to upload ${file.name}`);
+                notify.error(`Failed to upload ${file.name}`);
                 return null;
             }
         });
@@ -121,7 +121,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
             setFiles(updatedFiles);
             // Pass both IDs and full file info to parent
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            uploadedFiles.forEach((f) => toast.success(`${f.file_name} uploaded`));
+            uploadedFiles.forEach((f) => notify.success(`${f.file_name} uploaded`));
         }
     };
 
@@ -134,9 +134,9 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
             setFiles(updatedFiles);
             // Pass both IDs and full file info to parent
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            toast.success("File removed successfully");
+            notify.success("File removed successfully");
         } catch {
-            toast.error("Failed to delete file");
+            notify.error("Failed to delete file");
         }
     };
 

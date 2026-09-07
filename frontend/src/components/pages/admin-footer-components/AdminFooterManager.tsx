@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Save, Plus, Trash2 } from "lucide-react";
+import { Save, Plus, Trash2, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 
 import FooterSocialMedia from "../contact-page-components/FooterSocialMedia";
+import { notify } from "@/utils/notification";
 
 import {
     useGetFootersQuery,
@@ -22,6 +24,7 @@ interface FooterLink {
     id: string;
     label: string;
     href: string;
+    footer_link_id?: string;
 }
 
 interface FooterSection {
@@ -33,10 +36,11 @@ interface FooterSection {
 
 export default function AdminFooterManager() {
     const { data: footers, isLoading } = useGetFootersQuery();
-    const [createFooter] = useCreateFooterMutation();
-    const [updateFooter] = useUpdateFooterMutation();
+    const [createFooter, { isLoading: isCreating }] = useCreateFooterMutation();
+    const [updateFooter, { isLoading: isUpdating }] = useUpdateFooterMutation();
     const [deleteFooterSection] = useDeleteFooterMutation(); // Add this
     const [attachmentId, setAttachmentId] = useState<string[]>([]);
+    const isSaving = isCreating || isUpdating;
 
     const [footerData, setFooterData] = useState({
         footer_id: "",
@@ -144,11 +148,11 @@ export default function AdminFooterManager() {
             }
 
             if (result) {
-                alert("Footer saved successfully");
+                notify.success("Footer settings saved successfully.");
             }
         } catch (error) {
             console.error("Error saving footer:", error);
-            alert("Failed to save footer. Please try again.");
+            notify.error("Failed to save footer settings.", error);
         }
     };
 
@@ -257,10 +261,20 @@ export default function AdminFooterManager() {
                         <div className="flex gap-3">
                             <Button
                                 onClick={handleSave}
+                                disabled={isSaving}
                                 className="bg-golden-dark hover:bg-golden-darkHover"
                             >
-                                <Save className="w-4 h-4 mr-2" />
-                                Save Changes
+                                {isSaving ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                        Saving...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Save className="w-4 h-4 mr-2" />
+                                        Save Changes
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </div>
@@ -283,7 +297,7 @@ export default function AdminFooterManager() {
                                 id="footer-logo"
                                 label="Logo"
                                 value={attachmentId}
-                                onChange={(ids) => setAttachmentId(ids)}
+                                onChange={(ids: string[]) => setAttachmentId(ids)}
                                 category="footer"
                             />
                         </div>

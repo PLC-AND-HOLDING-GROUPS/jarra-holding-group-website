@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { useGetServiceOverviewQuery, useUpdateServiceOverviewMutation } from "@/redux/api/serviceApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { LucideIconPicker } from "@/components/common/LucideIconPicker";
 
 export default function AdminServicesOverviewManager() {
@@ -37,11 +37,11 @@ export default function AdminServicesOverviewManager() {
                 description,
                 cards,
             }).unwrap();
-            toast.success("Service Overview updated successfully!");
+            notify.success("Service overview updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update overview", error);
-            toast.error("Failed to update service overview.");
+            notify.error(extractErrorMessage(error, "Failed to update service overview."));
         }
     };
 

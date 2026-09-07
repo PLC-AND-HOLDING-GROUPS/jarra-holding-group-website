@@ -14,7 +14,8 @@ import {
 import { User } from "@/redux/types/user";
 import { DataTable } from "@/features/template/component/DataTable";
 import { TableLayout } from "@/features/template/component/TableLayout";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import type { FilterField, ActionButton } from "@/types/tableLayout";
 import { Badge } from "@/components/ui/badge";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
@@ -31,36 +32,77 @@ export default function UserList() {
     const [resetPassword] = useResetUserPasswordMutation();
     const [deleteUser] = useDeleteUserMutation();
 
+    const [isActionLoading, setIsActionLoading] = useState(false);
+    const [confirmState, setConfirmState] = useState<{
+        open: boolean;
+        title: string;
+        description: string;
+        confirmLabel: string;
+        variant: "danger" | "warning";
+        onConfirm: () => Promise<void>;
+    }>({
+        open: false,
+        title: "",
+        description: "",
+        confirmLabel: "Confirm",
+        variant: "danger",
+        onConfirm: async () => {},
+    });
+
     const handleToggleStatus = async (user: User) => {
         try {
             await toggleStatus({
                 id: user.user_id,
                 data: { is_active: !user.is_active }
             }).unwrap();
-            toast.success(`User ${user.is_active ? 'deactivated' : 'activated'} successfully`);
-        } catch {
-            toast.error("Failed to update user status");
+            notify.success(`User ${user.is_active ? 'deactivated' : 'activated'} successfully.`);
+        } catch (error) {
+            notify.error("Failed to update user status.", error);
         }
     };
 
-    const handleResetPassword = async (id: string) => {
-        if (!confirm("Are you sure you want to reset this user's password? An email will be sent with the new password.")) return;
-        try {
-            await resetPassword(id).unwrap();
-            toast.success("Password reset successfully. Email sent.");
-        } catch {
-            toast.error("Failed to reset password");
-        }
+    const handleResetPassword = (id: string) => {
+        setConfirmState({
+            open: true,
+            title: "Reset User Password?",
+            description: "Are you sure you want to reset this user's password? A temporary password will be generated and emailed to them.",
+            confirmLabel: "Reset Password",
+            variant: "warning",
+            onConfirm: async () => {
+                try {
+                    setIsActionLoading(true);
+                    await resetPassword(id).unwrap();
+                    notify.success("Password reset successfully. Email sent to user.");
+                    setConfirmState(prev => ({ ...prev, open: false }));
+                } catch (error) {
+                    notify.error("Failed to reset password.", error);
+                } finally {
+                    setIsActionLoading(false);
+                }
+            },
+        });
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to deactivate (soft delete) this user?")) return;
-        try {
-            await deleteUser(id).unwrap();
-            toast.success("User deactivated successfully");
-        } catch {
-            toast.error("Failed to deactivate user");
-        }
+    const handleDelete = (id: string) => {
+        setConfirmState({
+            open: true,
+            title: "Deactivate User?",
+            description: "Are you sure you want to deactivate (soft delete) this user? They will no longer be able to log in.",
+            confirmLabel: "Deactivate",
+            variant: "danger",
+            onConfirm: async () => {
+                try {
+                    setIsActionLoading(true);
+                    await deleteUser(id).unwrap();
+                    notify.success("User deactivated successfully.");
+                    setConfirmState(prev => ({ ...prev, open: false }));
+                } catch (error) {
+                    notify.error("Failed to deactivate user.", error);
+                } finally {
+                    setIsActionLoading(false);
+                }
+            },
+        });
     };
 
     /* View mode */
@@ -255,6 +297,17 @@ export default function UserList() {
                 tablePageSize={pageSize}
                 currentIndex={pageIndex}
                 // isLoading={isLoading}
+            />
+
+            <ConfirmDialog
+                open={confirmState.open}
+                onOpenChange={(open) => setConfirmState(prev => ({ ...prev, open }))}
+                title={confirmState.title}
+                description={confirmState.description}
+                confirmLabel={confirmState.confirmLabel}
+                variant={confirmState.variant}
+                isLoading={isActionLoading}
+                onConfirm={confirmState.onConfirm}
             />
         </TableLayout>
     );

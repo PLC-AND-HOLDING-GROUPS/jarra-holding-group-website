@@ -18,7 +18,7 @@ import {
     useCreateFederalOfficeMutation,
     useUpdateFederalOfficeMutation,
 } from "@/redux/api/federalOfficeApi";
-import { toast } from "sonner"; // or your preferred toast library
+import { notify, extractErrorMessage } from "@/utils/notification";
 
 interface ContactInfo {
     address: string;
@@ -70,7 +70,7 @@ export default function AdminFederalContact() {
                         map_location: contactInfo.location || undefined,
                     },
                 }).unwrap();
-                toast.success("Federal office updated successfully");
+                notify.success("Federal contact information updated successfully.");
             } else {
                 // CREATE new office
                 await createFederalOffice({
@@ -79,11 +79,11 @@ export default function AdminFederalContact() {
                     email: contactInfo.email || undefined,
                     map_location: contactInfo.location || undefined,
                 }).unwrap();
-                toast.success("Federal office created successfully");
+                notify.success("Federal contact information created successfully.");
             }
         } catch (error) {
             console.error("Failed to save federal office:", error);
-            toast.error("Failed to save federal office");
+            notify.error(extractErrorMessage(error, "Failed to save federal contact information."));
         } finally {
             setIsSaving(false);
         }

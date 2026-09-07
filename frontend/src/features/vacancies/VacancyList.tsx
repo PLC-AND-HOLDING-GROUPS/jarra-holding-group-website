@@ -5,7 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Plus, Trash, Calendar, Send, Ban, FileX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 import { DataTable } from "@/features/template/component/DataTable";
 import { TableLayout } from "@/features/template/component/TableLayout";
@@ -30,6 +31,13 @@ export default function VacancyList() {
   const [publishVacancy] = usePublishVacancyMutation();
   const [unpublishVacancy] = useUnpublishVacancyMutation();
   const [closeVacancy] = useCloseVacancyMutation();
+
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    open: boolean;
+    id: string;
+    title: string;
+  }>({ open: false, id: "", title: "" });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -84,12 +92,13 @@ export default function VacancyList() {
   const handleAction = async (
     action: () => Promise<unknown>,
     successMsg: string,
+    errorMsg: string = "Action failed."
   ) => {
     try {
       await action();
-      toast.success(successMsg);
+      notify.success(successMsg);
     } catch (err: any) {
-      toast.error(err?.data?.message || "Action failed");
+      notify.error(errorMsg, err);
     }
   };
 
@@ -217,14 +226,11 @@ export default function VacancyList() {
                 size="icon"
                 title="Delete"
                 onClick={() => {
-                  if (
-                    confirm("Are you sure you want to delete this vacancy?")
-                  ) {
-                    handleAction(
-                      () => deleteVacancy(id).unwrap(),
-                      "Vacancy deleted",
-                    );
-                  }
+                  setDeleteConfirm({
+                    open: true,
+                    id,
+                    title: row.original.job_title || "this vacancy",
+                  });
                 }}
               >
                 <Trash className="h-4 w-4 text-destructive" />
@@ -277,6 +283,28 @@ export default function VacancyList() {
         handlePagination={handlePagination}
         tablePageSize={pageSize}
         currentIndex={pageIndex}
+      />
+
+      <ConfirmDialog
+        open={deleteConfirm.open}
+        onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+        title="Delete Vacancy?"
+        description={`Are you sure you want to delete "${deleteConfirm.title}"? This action cannot be undone.`}
+        confirmLabel="Delete"
+        variant="danger"
+        isLoading={isDeleting}
+        onConfirm={async () => {
+          try {
+            setIsDeleting(true);
+            await deleteVacancy(deleteConfirm.id).unwrap();
+            notify.success("Vacancy deleted successfully.");
+            setDeleteConfirm((prev) => ({ ...prev, open: false }));
+          } catch (err) {
+            notify.error("Failed to delete vacancy.", err);
+          } finally {
+            setIsDeleting(false);
+          }
+        }}
       />
     </TableLayout>
   );

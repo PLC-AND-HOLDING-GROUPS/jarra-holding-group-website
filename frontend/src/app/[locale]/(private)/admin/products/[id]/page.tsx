@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Eye, FileIcon, Trash2, Upload, X, XIcon, Plus } from "lucide-react";
-import { toast } from "sonner";
+import { Eye, FileIcon, Trash2, Upload, X, XIcon, Plus, Loader2 } from "lucide-react";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { useUpdateProductMutation, useGetProductByIdOrSlugQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
 import {
     useUploadAttachmentsMutation,
@@ -128,7 +128,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                     };
                 }
             } catch {
-                toast.error(`Failed to upload ${file.name}`);
+                notify.error(`Failed to upload ${file.name}`);
                 return null;
             }
         });
@@ -139,7 +139,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
             const updatedFiles = [...files, ...uploadedFiles];
             setFiles(updatedFiles);
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            uploadedFiles.forEach((f) => toast.success(`${f.file_name} uploaded`));
+            uploadedFiles.forEach((f) => notify.success(`${f.file_name} uploaded`));
         }
         e.target.value = '';
     };
@@ -156,9 +156,9 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
             const updatedFiles = files.filter((f) => f.attachment_id !== attachment_id);
             setFiles(updatedFiles);
             onChange(updatedFiles.map((f) => f.attachment_id), updatedFiles);
-            toast.success("File removed successfully");
+            notify.success("File removed successfully");
         } catch {
-            toast.error("Failed to delete file");
+            notify.error("Failed to delete file");
         }
     };
 
@@ -246,7 +246,7 @@ export default function EditProduct() {
     const { data: product, isLoading: isProductLoading } = useGetProductByIdOrSlugQuery(productId || "", {
         skip: !productId,
     });
-    const [updateProduct] = useUpdateProductMutation();
+    const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
     const { data: categories = [] } = useGetCategoriesQuery();
 
     const [name, setName] = useState("");
@@ -318,7 +318,7 @@ export default function EditProduct() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || categoryIds.length === 0 || !fullDescriptionHtml || !productId) {
-            toast.error("Please fill all required fields");
+            notify.warning("Please fill in all required fields (name, category, and full description).");
             return;
         }
 
@@ -329,6 +329,8 @@ export default function EditProduct() {
                 specsRecord[spec.key.trim()] = spec.value.trim();
             }
         });
+
+        notify.loading("Updating product...", { id: "edit-product" });
 
         try {
             await updateProduct({
@@ -346,11 +348,11 @@ export default function EditProduct() {
                 }
             }).unwrap();
 
-            toast.success("Product Updated Successfully!");
+            notify.success("Product updated successfully.", { id: "edit-product" });
             router.push("/admin/products");
         } catch (error) {
             console.error(error);
-            toast.error("Failed to update product");
+            notify.error(extractErrorMessage(error, "Failed to update product."), { id: "edit-product" });
         }
     };
 
@@ -539,7 +541,10 @@ export default function EditProduct() {
                         />
                     </div>
 
-                    <Button type="submit">Update Product</Button>
+                    <Button type="submit" className="flex items-center gap-2" disabled={isUpdating}>
+                        {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {isUpdating ? "Updating Product..." : "Update Product"}
+                    </Button>
                 </form>
             </div >
 

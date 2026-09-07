@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
+import { notify } from "@/utils/notification";
 
 import {
     useCreateFacilityMutation,
@@ -35,9 +37,14 @@ export default function FacilityModal({
 
     const [createFacility, { isLoading: creating }] = useCreateFacilityMutation();
     const [updateFacility, { isLoading: updating }] = useUpdateFacilityMutation();
+    const isSaving = creating || updating;
 
     const handleSave = async () => {
         if (!currentFacility) return;
+        if (!currentFacility.name?.trim()) {
+            notify.warning("Facility name is required.");
+            return;
+        }
 
         const payload = {
             name: currentFacility.name,
@@ -52,14 +59,17 @@ export default function FacilityModal({
                     id: currentFacility.facility_id,
                     data: payload,
                 }).unwrap();
+                notify.success("Facility updated successfully.");
             } else {
                 await createFacility(payload).unwrap();
+                notify.success("Facility created successfully.");
             }
 
             onOpenChange(false);
             setCurrentFacility(null);
         } catch (error) {
             console.error("Failed to save facility:", error);
+            notify.error("Failed to save facility.", error);
         }
     };
 
@@ -139,15 +149,17 @@ export default function FacilityModal({
                     <Button
                         variant="outline"
                         onClick={() => onOpenChange(false)}
+                        disabled={isSaving}
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleSave}
-                        disabled={creating || updating}
+                        disabled={isSaving}
                         className="bg-primary hover:bg-primary/80 text-white font-semibold"
                     >
-                        {isEditing ? "Update Facility" : "Save Facility"}
+                        {isSaving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                        {isSaving ? (isEditing ? "Updating..." : "Saving...") : (isEditing ? "Update Facility" : "Save Facility")}
                     </Button>
                 </DialogFooter>
             </DialogContent>

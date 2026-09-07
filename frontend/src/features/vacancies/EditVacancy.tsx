@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import {
   useGetVacancyByIdQuery,
   useUpdateVacancyMutation,
@@ -20,15 +20,13 @@ export default function EditVacancy() {
   const [updateVacancy, { isLoading: isSaving }] = useUpdateVacancyMutation();
 
   const handleSubmit = async (formData: any) => {
-    const loadingToast = toast.loading("Updating vacancy...");
+    notify.loading("Updating vacancy...", { id: "edit-vacancy" });
     try {
       await updateVacancy({ id: vacancyId, data: formData }).unwrap();
-      toast.dismiss(loadingToast);
-      toast.success("Vacancy updated successfully!");
+      notify.success("Vacancy updated successfully.", { id: "edit-vacancy" });
       router.push("/admin/vacancies");
     } catch (err: any) {
-      toast.dismiss(loadingToast);
-      toast.error(err?.data?.message || "Failed to update vacancy");
+      notify.error(extractErrorMessage(err, "Failed to update vacancy."), { id: "edit-vacancy" });
     }
   };
 

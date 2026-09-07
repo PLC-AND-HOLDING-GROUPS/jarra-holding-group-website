@@ -13,12 +13,21 @@ import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 import { useGetProductsQuery, useDeleteProductMutation } from "@/redux/api/productApi";
 import { Product } from "@/redux/types/product";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 
 export default function ProductList() {
     const router = useRouter();
 
     const { data = [], isLoading, isError } = useGetProductsQuery({ isAdmin: true });
     const [deleteProduct] = useDeleteProductMutation();
+
+    const [deleteConfirm, setDeleteConfirm] = useState<{
+        open: boolean;
+        id: string;
+        name: string;
+    }>({ open: false, id: "", name: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -132,9 +141,11 @@ export default function ProductList() {
                             size="icon"
                             title="Delete Product"
                             onClick={() => {
-                                if (confirm("Are you sure you want to delete this product?")) {
-                                    deleteProduct(row.original.product_id);
-                                }
+                                setDeleteConfirm({
+                                    open: true,
+                                    id: row.original.product_id,
+                                    name: row.original.name || "this product",
+                                });
                             }}
                         >
                             <Trash2 className="h-4 w-4 text-destructive" />
@@ -169,6 +180,28 @@ export default function ProductList() {
                 handlePagination={handlePagination}
                 tablePageSize={pageSize}
                 currentIndex={pageIndex}
+            />
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Product?"
+                description={`Are you sure you want to delete "${deleteConfirm.name}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteProduct(deleteConfirm.id).unwrap();
+                        notify.success("Product deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (err) {
+                        notify.error("Failed to delete product.", err);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
             />
         </TableLayout>
     );

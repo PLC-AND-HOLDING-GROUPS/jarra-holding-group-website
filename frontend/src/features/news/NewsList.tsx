@@ -19,6 +19,8 @@ import {
     useDeleteNewsMutation,
 } from "@/redux/api/newsApi";
 import { News } from "@/redux/types/news";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import {
     extractExcerpt,
     extractHeadlineImage,
@@ -35,6 +37,12 @@ export default function NewsList() {
     /* API */
     const { data = [], isLoading, isError } = useGetNewsQuery({ isAdmin: true });
     const [deleteNews] = useDeleteNewsMutation();
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string; title: string }>({
+        open: false,
+        id: "",
+        title: "",
+    });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     /* View mode */
     const [viewMode, setViewMode] = useState<"table" | "card">("table");
@@ -160,7 +168,15 @@ export default function NewsList() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                onClick={() => deleteNews(newsId)}
+                                title="Delete News"
+                                disabled={isDeleting}
+                                onClick={() => {
+                                    setDeleteConfirm({
+                                        open: true,
+                                        id: newsId,
+                                        title: row.original.title || "this news article",
+                                    });
+                                }}
                             >
                                 <Trash className="h-4 w-4 text-destructive" />
                             </Button>
@@ -236,6 +252,28 @@ export default function NewsList() {
                     })}
                 </div>
             )}
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete News Article?"
+                description={`Are you sure you want to delete "${deleteConfirm.title}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteNews(deleteConfirm.id).unwrap();
+                        notify.success("News article deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (error) {
+                        notify.error("Failed to delete news article.", error);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
+            />
         </TableLayout>
     );
 }

@@ -16,7 +16,8 @@ import {
 import { NewsFeedback } from "@/redux/types/news";
 import { DataTable } from "@/features/template/component/DataTable";
 import { TableLayout } from "@/features/template/component/TableLayout";
-import { toast } from "sonner";
+import { notify } from "@/utils/notification";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import type { FilterField } from "@/types/tableLayout";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 import { formatDate } from "@/utils/datetime";
@@ -37,6 +38,8 @@ export default function AdminNewsFeedbackDetail() {
 
     const [toggleStatus] = useToggleFeedbackStatusMutation();
     const [deleteFeedback] = useDeleteFeedbackMutation();
+    const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string }>({ open: false, id: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -50,20 +53,14 @@ export default function AdminNewsFeedbackDetail() {
     const handleTogglePublish = async (id: string, currentStatus: boolean) => {
         try {
             await toggleStatus(id).unwrap();
-            toast.success(currentStatus ? "Feedback unpublished" : "Feedback published successfully");
-        } catch {
-            toast.error("Failed to update status");
+            notify.success(`Feedback ${currentStatus ? "unpublished" : "published"} successfully.`);
+        } catch (error) {
+            notify.error("Failed to update feedback status.", error);
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this feedback? This action cannot be undone.")) return;
-        try {
-            await deleteFeedback(id).unwrap();
-            toast.success("Feedback deleted successfully");
-        } catch {
-            toast.error("Failed to delete feedback");
-        }
+    const handleDelete = (id: string) => {
+        setDeleteConfirm({ open: true, id });
     };
 
     const filters: FilterField[] = [
@@ -269,6 +266,28 @@ export default function AdminNewsFeedbackDetail() {
                     currentIndex={pageIndex}
                 />
             )}
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Feedback?"
+                description="Are you sure you want to delete this feedback comment? This action cannot be undone."
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteFeedback(deleteConfirm.id).unwrap();
+                        notify.success("Feedback comment deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (err) {
+                        notify.error("Failed to delete feedback comment.", err);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
+            />
         </TableLayout>
     );
 }

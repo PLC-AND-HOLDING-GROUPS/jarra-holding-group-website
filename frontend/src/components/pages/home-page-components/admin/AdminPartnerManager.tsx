@@ -12,7 +12,7 @@ import {
     useUpdatePartnerMutation,
 } from "@/redux/api/partnerApi";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { Partner } from "@/redux/types/partner";
 
 export default function AdminPartnerManager() {
@@ -48,14 +48,14 @@ export default function AdminPartnerManager() {
                     id: existingPartner.partner_id,
                     data: partnerData
                 }).unwrap();
-                toast.success("Partners section updated!");
+                notify.success("Partners section updated successfully.");
             } else {
                 await createPartner(partnerData).unwrap();
-                toast.success("Partners section created!");
+                notify.success("Partners section created successfully.");
             }
         } catch (error) {
             console.error("Failed to save partners data", error);
-            toast.error("Failed to save changes.");
+            notify.error(extractErrorMessage(error, "Failed to save partners section."));
         }
     };
 

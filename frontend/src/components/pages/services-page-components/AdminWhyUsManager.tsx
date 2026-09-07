@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2, Plus, Trash } from "lucide-react";
 import { useGetServiceWhyUsQuery, useUpdateServiceWhyUsMutation } from "@/redux/api/serviceApi";
-import { toast } from "sonner";
+import { notify, extractErrorMessage } from "@/utils/notification";
 import { LucideIconPicker } from "@/components/common/LucideIconPicker";
 
 export default function AdminWhyUsManager() {
@@ -43,11 +43,11 @@ export default function AdminWhyUsManager() {
                 cta_subheading: ctaSubheading,
                 cta_buttons: ctaButtons,
             }).unwrap();
-            toast.success("Service Why Us updated successfully!");
+            notify.success("Why Us section updated successfully.");
             refetch();
         } catch (error) {
             console.error("Failed to update Why Us", error);
-            toast.error("Failed to update service Why Us.");
+            notify.error(extractErrorMessage(error, "Failed to update Why Us section."));
         }
     };
 

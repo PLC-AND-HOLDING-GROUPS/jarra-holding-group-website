@@ -181,11 +181,12 @@ const AdminNewsTable = () => {
                     {filteredNews.map((item) => (
                         <AdminNewsCard
                             key={item.id}
-                            id={parseInt(item.id.replace(/\D/g, ""))} // convert NEWS001 -> 1
+                            id={item.id}
                             title={item.title}
                             excerpt={item.excerpt}
-                            image={item.image}
-                            date={item.createdAt}
+                            media={{ url: item.image, type: "image" }}
+                            status={item.published ? "published" : "draft"}
+                            publishedAt={item.createdAt}
                             category={item.category}
                             tags={item.tags}
                             readingTime={item.readingTime}

@@ -5,6 +5,7 @@ import ReduxProvider from "@/providers/ReduxProvider";
 import NextTopLoader from 'nextjs-toploader';
 import { NextIntlClientProvider } from 'next-intl';
 import AuthProvider from "@/providers/AuthProvider";
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -44,7 +45,10 @@ export default function RootLayout({
         <NextTopLoader showSpinner={false} />
         <NextIntlClientProvider>
           <AuthProvider>
-            <ReduxProvider>{children}</ReduxProvider>
+            <ReduxProvider>
+              {children}
+              <Toaster richColors position="top-right" closeButton />
+            </ReduxProvider>
           </AuthProvider>
         </NextIntlClientProvider>
       </body>
