@@ -8,6 +8,7 @@ import { useGetFederalOfficesQuery } from "@/redux/api/federalOfficeApi";
 import { useCreateMessageMutation } from "@/redux/api/messageApi";
 import { useState } from "react";
 import { notify, extractErrorMessage } from "@/utils/notification";
+import { getGoogleMapsUrl } from "@/utils/mapUtils";
 
 const ContactForm = () => {
     const { data: federalOffices, isLoading } = useGetFederalOfficesQuery();
@@ -119,7 +120,7 @@ const ContactForm = () => {
                         icon={<Globe className="text-golden-dark" />}
                         title="Map Location"
                         value="View on Google Maps"
-                        href={mapLocation.startsWith("http") ? mapLocation : `https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}`}
+                        href={getGoogleMapsUrl(mapLocation)}
                         isExternal
                     />
                 )}

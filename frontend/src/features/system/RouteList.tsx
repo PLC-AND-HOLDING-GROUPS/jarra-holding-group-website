@@ -117,7 +117,7 @@ export default function RouteList() {
       accessorKey: "path",
       header: "Route Path",
       cell: ({ row }) => (
-        <span className="font-mono text-sm text-gray-600">{row.getValue("path") || "/"}</span>
+        <span className="font-mono text-sm text-white">{row.getValue("path") || "/"}</span>
       ),
     },
     {

@@ -19,6 +19,7 @@ import {
     useUpdateFederalOfficeMutation,
 } from "@/redux/api/federalOfficeApi";
 import { notify, extractErrorMessage } from "@/utils/notification";
+import MapPicker from "@/components/common/MapPicker";
 
 interface ContactInfo {
     address: string;
@@ -182,19 +183,13 @@ export default function AdminFederalContact() {
                             disabled={isSavingDisabled}
                         />
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="location" className="flex items-center gap-2">
-                            <Globe className="w-4 h-4 text-golden-dark" />
-                            Location URL
-                        </Label>
-                        <Input
-                            id="location"
+                    <div className="space-y-2 md:col-span-2 pt-4 border-t border-gray-100">
+                        <MapPicker
                             value={contactInfo.location}
-                            onChange={(e) =>
-                                setContactInfo({ ...contactInfo, location: e.target.value })
+                            onChange={(url: string) =>
+                                setContactInfo((prev) => ({ ...prev, location: url }))
                             }
-                            placeholder="Enter location URL"
-                            disabled={isSavingDisabled}
+                            label="Office Location Pin & Coordinates Picker"
                         />
                     </div>
                 </div>
