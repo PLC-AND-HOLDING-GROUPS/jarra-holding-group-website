@@ -6,7 +6,7 @@ import { TableLayout } from "@/features/template/component/TableLayout";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Edit, Power, Download } from "lucide-react";
+import { MoreHorizontal, Edit, Power, Download, Eye, EyeOff, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +26,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { notify, extractErrorMessage } from "@/utils/notification";
-import { Loader2 } from "lucide-react";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 import {
@@ -46,6 +45,7 @@ export default function RouteList() {
 
   // Filtering
   const [statusFilter, setStatusFilter] = useState("");
+  const [navbarFilter, setNavbarFilter] = useState("");
 
   // Modal State
   const [editingRoute, setEditingRoute] = useState<Route | null>(null);
@@ -100,6 +100,18 @@ export default function RouteList() {
     }
   };
 
+  const handleToggleNavbarVisibility = async (route: Route) => {
+    try {
+      await toggleRouteStatus({
+        id: route.route_id,
+        data: { show_in_navbar: !route.show_in_navbar },
+      }).unwrap();
+      notify.success(`Route ${!route.show_in_navbar ? "shown in" : "hidden from"} navbar successfully.`);
+    } catch (err: any) {
+      notify.error(extractErrorMessage(err, "Failed to toggle navbar visibility."));
+    }
+  };
+
   const columns: ColumnDef<Route>[] = [
     {
       accessorKey: "path",
@@ -109,7 +121,7 @@ export default function RouteList() {
       ),
     },
     {
-      id: "label",
+      id: "label-en",
       header: "Label (EN)",
       cell: ({ row }) => {
         const enLabel = row.original.translations?.find((t) => t.language_code === "en")?.label;
@@ -117,7 +129,7 @@ export default function RouteList() {
       },
     },
     {
-      id: "label",
+      id: "label-am",
       header: "Label (AM)",
       cell: ({ row }) => {
         const amLabel = row.original.translations?.find((t) => t.language_code === "am")?.label;
@@ -132,6 +144,21 @@ export default function RouteList() {
         return (
           <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-green-600" : ""}>
             {isActive ? "Active" : "Inactive"}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "show_in_navbar",
+      header: "Navbar Visibility",
+      cell: ({ row }) => {
+        const isVisible = row.getValue("show_in_navbar") as boolean;
+        return (
+          <Badge
+            variant={isVisible ? "default" : "outline"}
+            className={isVisible ? "bg-blue-600 hover:bg-blue-700 text-white" : "text-muted-foreground"}
+          >
+            {isVisible ? "Visible in Nav" : "Hidden"}
           </Badge>
         );
       },
@@ -161,6 +188,19 @@ export default function RouteList() {
                   <Power className="mr-2 h-4 w-4" />
                   {route.is_active ? "Deactivate" : "Activate"}
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleToggleNavbarVisibility(route)}>
+                  {route.show_in_navbar ? (
+                    <>
+                      <EyeOff className="mr-2 h-4 w-4" />
+                      Hide from Navbar
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="mr-2 h-4 w-4" />
+                      Show in Navbar
+                    </>
+                  )}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </ComponentGuard>
@@ -182,6 +222,18 @@ export default function RouteList() {
         { label: "Inactive", value: "inactive" },
       ],
     },
+    {
+      key: "navbar",
+      label: "Navbar Visibility",
+      type: "multiselect" as const,
+      placeholder: "Select navbar visibility",
+      value: navbarFilter,
+      onChange: setNavbarFilter,
+      options: [
+        { label: "Visible in Nav", value: "visible" },
+        { label: "Hidden from Nav", value: "hidden" },
+      ],
+    },
   ];
 
   const actions = [
@@ -194,8 +246,10 @@ export default function RouteList() {
   ];
 
   const filteredData = routes.filter((route) => {
-    if (statusFilter === "active") return route.is_active === true;
-    if (statusFilter === "inactive") return route.is_active === false;
+    if (statusFilter === "active" && !route.is_active) return false;
+    if (statusFilter === "inactive" && route.is_active) return false;
+    if (navbarFilter === "visible" && !route.show_in_navbar) return false;
+    if (navbarFilter === "hidden" && route.show_in_navbar) return false;
     return true;
   });
 

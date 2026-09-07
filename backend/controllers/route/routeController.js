@@ -163,13 +163,13 @@ const updateRouteLabels = async (req, res) => {
 
 
 // ============================================
-// TOGGLE ROUTE ACTIVE STATUS
+// TOGGLE ROUTE ACTIVE STATUS / NAVBAR VISIBILITY
 // ============================================
 const toggleRouteActiveStatus = async (req, res) => {
     const t = await sequelize.transaction();
     try {
         const { id } = req.params;
-        const { is_active } = req.body;
+        const { is_active, show_in_navbar } = req.body;
 
         if (!isUuid(id)) {
             await t.rollback();
@@ -179,11 +179,11 @@ const toggleRouteActiveStatus = async (req, res) => {
             });
         }
 
-        if (typeof is_active !== "boolean") {
+        if (is_active === undefined && show_in_navbar === undefined) {
             await t.rollback();
             return res.status(400).json({
                 success: false,
-                message: "is_active must be boolean",
+                message: "Either is_active or show_in_navbar must be boolean",
             });
         }
 
@@ -197,22 +197,34 @@ const toggleRouteActiveStatus = async (req, res) => {
             });
         }
 
-        await route.update(
-            {
-                is_active,
-                updated_at: new Date(),
-            },
-            { transaction: t }
-        );
+        const updates = { updated_at: new Date() };
+        if (typeof is_active === "boolean") {
+            updates.is_active = is_active;
+        }
+        if (typeof show_in_navbar === "boolean") {
+            updates.show_in_navbar = show_in_navbar;
+        }
+
+        await route.update(updates, { transaction: t });
 
         await t.commit();
 
+        let message = "Route updated successfully";
+        if (typeof is_active === "boolean" && typeof show_in_navbar === "boolean") {
+            message = `Route status and navbar visibility updated successfully`;
+        } else if (typeof is_active === "boolean") {
+            message = `Route ${is_active ? "activated" : "deactivated"} successfully`;
+        } else if (typeof show_in_navbar === "boolean") {
+            message = `Route ${show_in_navbar ? "shown in" : "hidden from"} navbar successfully`;
+        }
+
         return res.status(200).json({
             success: true,
-            message: `Route ${is_active ? "activated" : "deactivated"} successfully`,
+            message,
             data: {
                 route_id: id,
-                is_active,
+                is_active: route.is_active,
+                show_in_navbar: route.show_in_navbar,
             },
         });
     } catch (error) {

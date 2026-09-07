@@ -25,5 +25,6 @@ export interface UpdateRouteLabelsPayload {
 }
 
 export interface ToggleRouteStatusPayload {
-    is_active: boolean;
+    is_active?: boolean;
+    show_in_navbar?: boolean;
 }

@@ -16,77 +16,86 @@ module.exports = {
         },
       },
       {
-        key: "sector",
-        path: null,
+        key: "about",
+        path: "/about",
         order: 2,
         translations: {
-          en: "Sector",
-          am: "ዘርፍ",
+          en: "About",
+          am: "ስለኛ",
+        },
+      },
+      {
+        key: "businesses",
+        path: "/businesses",
+        order: 3,
+        translations: {
+          en: "Businesses",
+          am: "ንግዶች",
         },
         children: [
           {
-            key: "mining",
-            path: "/mining",
+            key: "overview",
+            path: "/businesses/overview",
             order: 1,
             translations: {
-              en: "Mining",
-              am: "ማዕድን",
+              en: "Overview",
+              am: "አጠቃላይ እይታ",
             },
           },
           {
-            key: "geothermal",
-            path: "/geothermal",
+            key: "trading",
+            path: "/businesses/trading",
             order: 2,
             translations: {
-              en: "Geothermal",
-              am: "ጂኦተርማል",
+              en: "Trading",
+              am: "ንግድ",
             },
           },
           {
-            key: "petroleum",
-            path: "/petroleum",
+            key: "import-export",
+            path: "/businesses/import-export",
             order: 3,
             translations: {
-              en: "Petroleum",
-              am: "ነዳጅ",
+              en: "Import & Export",
+              am: "አስመጪ እና ላኪ",
+            },
+          },
+          {
+            key: "warehousing",
+            path: "/businesses/warehousing",
+            order: 4,
+            translations: {
+              en: "Warehousing",
+              am: "መጋዘን",
             },
           },
         ],
       },
       {
-        key: "about",
-        path: "/about",
-        order: 3,
-        translations: {
-          en: "About",
-          am: "ስለ እኛ",
-        },
-      },
-      {
-        key: "asm",
-        path: "/asm",
+        key: "products",
+        path: "/products",
         order: 4,
         translations: {
-          en: "ASM",
-          am: "ASM",
-        },
-      },
-      {
-        key: "investigating",
-        path: "/investigating-in-ethiopia",
-        order: 5,
-        translations: {
-          en: "Investigating in Ethiopia",
-          am: "በኢትዮጵያ ምርመራ",
+          en: "Products",
+          am: "ምርቶች",
         },
       },
       {
         key: "services",
         path: "/services",
-        order: 6,
+        order: 5,
         translations: {
           en: "Services",
           am: "አገልግሎቶች",
+        },
+      },
+      {
+        key: "facilities",
+        path: "/facilities",
+        order: 6,
+        translations: {
+          en: "Facilities",
+          am: "መገልገያዎች",
         },
       },
       {
@@ -99,12 +108,12 @@ module.exports = {
         },
       },
       {
-        key: "events",
-        path: "/events",
+        key: "careers",
+        path: "/careers",
         order: 8,
         translations: {
-          en: "Events",
-          am: "ክስተቶች",
+          en: "Careers",
+          am: "ስራዎች",
         },
       },
       {
@@ -113,7 +122,7 @@ module.exports = {
         order: 9,
         translations: {
           en: "Contact",
-          am: "አግኙን",
+          am: "እውቂያ",
         },
       },
     ];

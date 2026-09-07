@@ -32,12 +32,16 @@ const updateRouteLabelsSchema = Joi.object({
         }),
 });
 
-// =================== Toggle Active ===================
+// =================== Toggle Active / Navbar Visibility ===================
 const toggleRouteSchema = Joi.object({
-    is_active: Joi.boolean().required().messages({
-        "any.required": "is_active is required.",
+    is_active: Joi.boolean().messages({
         "boolean.base": "is_active must be a boolean.",
     }),
+    show_in_navbar: Joi.boolean().messages({
+        "boolean.base": "show_in_navbar must be a boolean.",
+    }),
+}).or("is_active", "show_in_navbar").messages({
+    "object.missing": "At least one of is_active or show_in_navbar must be provided.",
 });
 
 // =================== Validators ===================
