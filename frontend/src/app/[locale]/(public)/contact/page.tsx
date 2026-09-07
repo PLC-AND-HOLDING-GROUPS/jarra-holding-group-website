@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import ContactForm from "@/components/pages/contact-page-components/ContactForm";
+import MapSection from "@/components/pages/contact-page-components/MapSection";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -22,8 +23,9 @@ export default function ContactPage() {
                 icon={<Mail />}
                 description="Get in touch with Jarra Holdings. We are here to answer your questions and assist with your inquiries."
             />
-            <div className="py-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
+            <div className="py-12 md:py-16 px-4 md:px-8 max-w-7xl mx-auto w-full space-y-12">
                 <ContactForm />
+                <MapSection />
             </div>
         </main>
     );

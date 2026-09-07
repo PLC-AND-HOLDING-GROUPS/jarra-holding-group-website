@@ -70,7 +70,7 @@ export default function AdminFederalContact() {
                         map_location: contactInfo.location || undefined,
                     },
                 }).unwrap();
-                notify.success("Federal contact information updated successfully.");
+                notify.success("Contact details updated successfully.");
             } else {
                 // CREATE new office
                 await createFederalOffice({
@@ -79,11 +79,11 @@ export default function AdminFederalContact() {
                     email: contactInfo.email || undefined,
                     map_location: contactInfo.location || undefined,
                 }).unwrap();
-                notify.success("Federal contact information created successfully.");
+                notify.success("Contact details created successfully.");
             }
         } catch (error) {
-            console.error("Failed to save federal office:", error);
-            notify.error(extractErrorMessage(error, "Failed to save federal contact information."));
+            console.error("Failed to save contact details:", error);
+            notify.error(extractErrorMessage(error, "Failed to save contact details."));
         } finally {
             setIsSaving(false);
         }
@@ -102,7 +102,7 @@ export default function AdminFederalContact() {
 
     // Error state
     if (isError) {
-        console.error("Failed to load federal office:", error);
+        console.error("Failed to load contact office:", error);
         // Still show the form with empty fields
     }
 
@@ -112,9 +112,14 @@ export default function AdminFederalContact() {
         <Card className="shadow-sm border-gray-200">
             <CardHeader className="border-b">
                 <div className="flex justify-between items-center">
-                    <CardTitle className="text-xl font-bold text-primary">
-                        General Information
-                    </CardTitle>
+                    <div>
+                        <CardTitle className="text-xl font-bold text-primary">
+                            Public Contact Details
+                        </CardTitle>
+                        <p className="text-sm text-muted-foreground mt-1">
+                            These details (office address, phone, email, map) appear dynamically on the public website contact section.
+                        </p>
+                    </div>
                     <Button
                         onClick={handleSave}
                         className="bg-golden-dark hover:bg-golden-darkHover"
@@ -125,7 +130,7 @@ export default function AdminFederalContact() {
                         ) : (
                             <Save className="w-4 h-4 mr-2" />
                         )}
-                        {existingOffice ? "Update" : "Create"}
+                        {existingOffice ? "Save Changes" : "Create Details"}
                     </Button>
                 </div>
             </CardHeader>
