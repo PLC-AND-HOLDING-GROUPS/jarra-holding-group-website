@@ -1,18 +1,37 @@
 "use strict";
 const { Product, ProductCategory, ProductAttachment, Attachment, sequelize } = require("../../models");
 const { v4: uuidv4 } = require("uuid");
+const { Op } = require("sequelize");
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
     try {
-        const { category } = req.query; // optional filter by category slug
+        const { category, search, publish_status, status, isAdmin } = req.query;
         
         let includeCategories = { model: ProductCategory, as: "categories" };
         if (category && category !== "all") {
             includeCategories.where = { slug: category };
         }
 
+        const whereClause = { deleted_at: null };
+
+        if (isAdmin === "true") {
+            if (publish_status) {
+                whereClause.publish_status = publish_status;
+            }
+            if (status) {
+                whereClause.status = status;
+            }
+        } else {
+            whereClause.publish_status = "published";
+        }
+
+        if (search) {
+            whereClause.name = { [Op.iLike]: `%${search}%` };
+        }
+
         const products = await Product.findAll({
+            where: whereClause,
             include: [
                 includeCategories,
                 { 
@@ -35,15 +54,20 @@ exports.getAllProducts = async (req, res) => {
 exports.getProduct = async (req, res) => {
     try {
         const { identifier } = req.params; // can be slug or id
+        const { isAdmin } = req.query;
         
-        let whereClause = {};
+        let whereClause = { deleted_at: null };
         // Simple regex to check if it's a UUID
         const isUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(identifier);
         
         if (isUuid) {
-            whereClause = { product_id: identifier };
+            whereClause.product_id = identifier;
         } else {
-            whereClause = { slug: identifier };
+            whereClause.slug = identifier;
+        }
+
+        if (isAdmin !== "true") {
+            whereClause.publish_status = "published";
         }
 
         const product = await Product.findOne({

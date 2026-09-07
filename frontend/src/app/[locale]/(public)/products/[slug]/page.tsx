@@ -27,7 +27,9 @@ async function getProduct(slug: string) {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string, locale: string }> }) {
     const { slug } = await params;
     const product = await getProduct(slug);
-    if (!product) return { title: "Product Not Found" };
+    if (!product || (product.publish_status && product.publish_status !== "published")) {
+        return { title: "Product Not Found" };
+    }
     
     return {
         title: `${product.name} - Jarra Holdings`,
@@ -39,7 +41,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const { slug, locale } = await params;
     const product = await getProduct(slug);
     
-    if (!product) {
+    if (!product || (product.publish_status && product.publish_status !== "published")) {
         notFound();
     }
 

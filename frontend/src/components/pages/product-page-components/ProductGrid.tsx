@@ -19,10 +19,14 @@ export default function ProductGrid() {
 
     const filteredProducts = useMemo(() => {
         return products.filter((product) => {
+            // Only published products are live on the public side
+            if (product.publish_status && product.publish_status !== "published") {
+                return false;
+            }
             const matchesCategory = activeCategory === "all" || product.categories?.some((c: any) => c.category_id === activeCategory);
             const searchLower = searchTerm.toLowerCase();
             const matchesSearch = product.name.toLowerCase().includes(searchLower) || 
-                                  product.short_description.toLowerCase().includes(searchLower);
+                                  product.short_description?.toLowerCase().includes(searchLower);
             
             return matchesCategory && matchesSearch;
         });

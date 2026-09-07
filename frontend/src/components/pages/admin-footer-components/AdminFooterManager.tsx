@@ -40,8 +40,8 @@ export default function AdminFooterManager() {
 
     const [footerData, setFooterData] = useState({
         footer_id: "",
-        title: "Ministry of Mines",
-        text: `© ${new Date().getFullYear()} Ministry of Mines – Ethiopia. All rights reserved.`,
+        title: "Jarra Holdings",
+        text: `© ${new Date().getFullYear()} Jarra Holdings. All rights reserved.`,
         content: "",
         attachment_id: "",
         sections: [
@@ -88,8 +88,8 @@ export default function AdminFooterManager() {
 
             setFooterData({
                 footer_id: f.footer_id,
-                title: f.title || "Ministry of Mines",
-                text: f.text || `© ${new Date().getFullYear()} Ministry of Mines – Ethiopia. All rights reserved.`,
+                title: f.title || "Jarra Holdings",
+                text: f.text || `© ${new Date().getFullYear()} Jarra Holdings. All rights reserved.`,
                 content: f.content || "",
                 attachment_id: f.attachment_id || "",
                 sections: displayedSections,

@@ -35,15 +35,27 @@ export const productApi = baseApi.injectEndpoints({
         }),
 
         // ================= PRODUCTS =================
-        getProducts: builder.query<Product[], { category?: string } | void>({
+        getProducts: builder.query<
+            Product[],
+            { category?: string; publish_status?: string; search?: string; status?: string; isAdmin?: boolean } | void
+        >({
             query: (params) => (params ? { url: "/products", params } : { url: "/products" }),
             transformResponse: (res: any) => res.data ?? [],
             providesTags: ["Product"],
         }),
-        getProductByIdOrSlug: builder.query<Product, string>({
-            query: (identifier) => `/products/${identifier}`,
+        getProductByIdOrSlug: builder.query<Product, string | { identifier: string; isAdmin?: boolean }>({
+            query: (arg) => {
+                if (typeof arg === "string") {
+                    return { url: `/products/${arg}`, params: { isAdmin: true } };
+                }
+                const { identifier, isAdmin = true } = arg;
+                return {
+                    url: `/products/${identifier}`,
+                    params: { isAdmin },
+                };
+            },
             transformResponse: (res: any) => res.data,
-            providesTags: (_r, _e, id) => [{ type: "Product", id }],
+            providesTags: (_r, _e, arg) => [{ type: "Product", id: typeof arg === "string" ? arg : arg.identifier }],
         }),
         createProduct: builder.mutation<Product, CreateProductPayload>({
             query: (body) => ({ url: "/products", method: "POST", body }),

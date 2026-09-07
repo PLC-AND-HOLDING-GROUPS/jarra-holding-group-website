@@ -1,121 +1,104 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    Mail,
-    Phone,
-    MapPin,
-    Facebook,
-    Twitter,
-    Linkedin,
-    Youtube,
-    Instagram,
-} from "lucide-react";
-import { IconBrandTelegram, IconBrandTiktok } from "@tabler/icons-react";
+import * as LucideIcons from "lucide-react";
+import { useGetFootersQuery } from "@/redux/api/footerApi";
+import { useGetAttachmentsQuery } from "@/redux/api/attachementApi";
+import { getImageUrl } from "@/utils/fileUrl";
+import { useGetSocialMediasQuery } from "@/redux/api/socialMediaApi";
 
 const Footer = () => {
+    const { data: footers, isLoading } = useGetFootersQuery();
+    const { data: attachmentsResponse } = useGetAttachmentsQuery();
+    const { data: socialMedias = [] } = useGetSocialMediasQuery();
+
+    const footerData = footers && footers.length > 0 ? footers[0] : null;
+
+    const currentYear = new Date().getFullYear();
+    const title = footerData?.title || "Jarra Holdings";
+    const text = footerData?.text || `© ${currentYear} Jarra Holdings. All rights reserved.`;
+
+    const sections = footerData?.sections || [];
+    const displaySections = sections.slice(0, 3);
+    
+    // Fallback if no sections exist yet
+    const hasDynamicSections = displaySections.length > 0;
+    const gridColsClass = hasDynamicSections && displaySections.length === 3 
+        ? "md:grid-cols-4" 
+        : "md:grid-cols-3";
+
+    const logoAttachment = attachmentsResponse?.attachments?.find(
+        (a) => a.attachment_id === footerData?.attachment_id
+    );
+    const logoUrl = getImageUrl(logoAttachment, "large") || "/jarra-logo.png";
+
     return (
         <footer className="bg-footer-bg bg-blur-md text-footer">
             {/* Top section */}
-            <div className="max-w-7xl mx-auto px-6 py-6 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className={`max-w-7xl mx-auto px-6 py-6 md:py-12 grid grid-cols-1 ${gridColsClass} gap-8`}>
                 {/* Brand */}
                 <div className="flex justify-left items-start">
                     <div className="flex flex-col gap-2 justify-center items-center text-center w-full md:w-auto" >
                         <Link href="/" className="inline-block">
-                            <Image src="/jarra-logo.png" alt="Logo" width={60} height={60} className="mb-2 mx-auto" />
+                            <img src={logoUrl} alt="Logo" width={60} height={60} className="mb-2 mx-auto object-contain" />
                         </Link>    
                         <h3 className="text-lg font-semibold text-primary mb-2">
-                            Jarra Holdings
+                            {title}
                         </h3>
                     </div>
                 </div>
 
-                {/* Company */}
-                <div>
-                    <h3 className="text-lg font-semibold text-white mb-4">
-                        Company
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                        <li>
-                            <Link href="/about" className="hover:text-primary">
-                                About
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/businesses" className="hover:text-primary">
-                                Businesses
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/careers" className="hover:text-primary">
-                                Careers
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/contact" className="hover:text-primary">
-                                Contact
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-
-                {/* Explore */}
-                <div>
-                    <h3 className="text-lg font-semibold text-white mb-4">
-                        Explore
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                        <li>
-                            <Link href="/products" className="hover:text-primary">
-                                Products
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services" className="hover:text-primary">
-                                Services
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/facilities" className="hover:text-primary">
-                                Facilities
-                            </Link>
-                        </li>
-
-                    </ul>
-                </div>
+                {/* Sections */}
+                {hasDynamicSections && (
+                    displaySections.map((section, idx) => (
+                        <div key={section.footer_section_id || idx}>
+                            <h3 className="text-lg font-semibold text-white mb-4">
+                                {section.section_name}
+                            </h3>
+                            {section.links && section.links.length > 0 && (
+                                <ul className="space-y-2 text-sm">
+                                    {section.links.map((link, linkIdx) => (
+                                        <li key={linkIdx}>
+                                            <Link href={link.url} className="hover:text-primary">
+                                                {link.label}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    ))
+                )}
             </div>
 
             {/* Bottom bar */}
             <div className="border-t border-gray-800">
                 <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between text-sm">
                     {/* Social */}
-                    <div className="flex gap-4  justify-left w-full md:w-fit mb-10 md:mb-0">
-                        <a href="#" className="hover:text-primary">
-                            <Facebook className="w-5 h-5" />
-                        </a>
-                        <a href="#" className="hover:text-primary">
-                            <Twitter className="w-5 h-5" />
-                        </a>
-                        <a href="#" className="hover:text-primary">
-                            <Linkedin className="w-5 h-5" />
-                        </a>
-
-                        <a href="#" className="hover:text-primary">
-                            <Youtube className="w-5 h-5" />
-                        </a>
-
-                        <a href="#" className="hover:text-primary">
-                            <Instagram className="w-5 h-5" />
-                        </a>
-
+                    <div className="flex gap-4 justify-left w-full md:w-fit mb-10 md:mb-0">
+                        {socialMedias.map((social) => {
+                            const IconComponent = social.icon && (LucideIcons as any)[social.icon] 
+                                ? (LucideIcons as any)[social.icon] 
+                                : LucideIcons.Globe;
+                            return (
+                                <a
+                                    key={social.social_media_id}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-primary"
+                                >
+                                    <IconComponent className="w-5 h-5" />
+                                </a>
+                            );
+                        })}
                     </div>
 
                     <p className="text-center w-full md:w-fit">
-                        © {new Date().getFullYear()} Jarra Holdings. All rights
-                        reserved.
+                        {text}
                     </p>
-
-
                 </div>
             </div>
         </footer>

@@ -17,7 +17,7 @@ import { Product } from "@/redux/types/product";
 export default function ProductList() {
     const router = useRouter();
 
-    const { data = [], isLoading, isError } = useGetProductsQuery();
+    const { data = [], isLoading, isError } = useGetProductsQuery({ isAdmin: true });
     const [deleteProduct] = useDeleteProductMutation();
 
     const [pageIndex, setPageIndex] = useState(0);
@@ -29,6 +29,7 @@ export default function ProductList() {
     };
 
     const [search, setSearch] = useState("");
+    const [publishStatusFilter, setPublishStatusFilter] = useState("");
 
     const filters: FilterField[] = [
         {
@@ -39,13 +40,29 @@ export default function ProductList() {
             value: search,
             onChange: setSearch,
         },
+        {
+            key: "publish_status",
+            label: "Publish Status",
+            type: "select",
+            placeholder: "All Statuses",
+            value: publishStatusFilter,
+            onChange: setPublishStatusFilter,
+            options: [
+                { label: "All Statuses", value: "" },
+                { label: "Published", value: "published" },
+                { label: "Draft", value: "draft" },
+                { label: "Archived", value: "archived" },
+            ],
+        },
     ];
 
     const filteredData = useMemo(() => {
         return data.filter((item: Product) => {
-            return !search || item.name.toLowerCase().includes(search.toLowerCase());
+            const matchesSearch = !search || item.name.toLowerCase().includes(search.toLowerCase());
+            const matchesStatus = !publishStatusFilter || (item.publish_status || "draft").toLowerCase() === publishStatusFilter.toLowerCase();
+            return matchesSearch && matchesStatus;
         });
-    }, [data, search]);
+    }, [data, search, publishStatusFilter]);
 
     const paginatedData = filteredData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
@@ -64,23 +81,22 @@ export default function ProductList() {
             accessorKey: "publish_status",
             header: "Publish Status",
             cell: ({ row }) => {
-                const status = row.original.publish_status;
-                const isPublished = status?.toLowerCase() === "published";
+                const status = (row.original.publish_status || "draft").toLowerCase();
+                let badgeClass = "bg-gray-100 text-gray-700 border-gray-200";
+                if (status === "published") {
+                    badgeClass = "bg-green-50 text-green-700 border-green-200";
+                } else if (status === "draft") {
+                    badgeClass = "bg-amber-50 text-amber-700 border-amber-200";
+                } else if (status === "archived") {
+                    badgeClass = "bg-slate-100 text-slate-600 border-slate-300";
+                }
+
                 return (
                     <div
-                        className={`inline-flex items-center gap-1.5 h-8 px-2 rounded-full ${isPublished
-                            ? "bg-green-50 text-green-700 border border-green-200"
-                            : "bg-gray-50 text-gray-700 border border-gray-200"
-                            }`}
+                        className={`inline-flex items-center gap-1.5 h-8 px-2.5 rounded-full border text-xs font-semibold capitalize ${badgeClass}`}
                     >
-                        {isPublished ? (
-                            <>
-                                <CheckCircle2 className="h-3.5 w-3.5" />
-                                <span className="text-xs font-semibold capitalize">{status || "Published"}</span>
-                            </>
-                        ) : (
-                            <span className="text-xs font-semibold capitalize">{status || "Draft"}</span>
-                        )}
+                        {status === "published" && <CheckCircle2 className="h-3.5 w-3.5" />}
+                        <span>{status}</span>
                     </div>
                 );
             },
