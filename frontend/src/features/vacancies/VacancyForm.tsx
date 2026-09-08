@@ -107,16 +107,19 @@ export default function VacancyForm({
   };
 
   return (
-    <div className="container max-w-4xl mx-auto py-8 px-4">
-      <Button
-        variant="ghost"
-        className="mb-4"
-        onClick={() => router.push("/admin/vacancies")}
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" /> Back to Vacancies
-      </Button>
+    <div className="w-full mx-auto py-8 px-4">
+      <div className="flex item-center justify-between mb-6 bg-card text-card-foreground rounded-lg border p-6">
+        <h1 className="text-2xl text-primary font-bold">{title}</h1>
+        <Button
+          variant="ghost"
+          onClick={() => router.push("/admin/careers")}
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" /> Back to Vacancies
+        </Button>
 
-      <h1 className="text-2xl font-bold mb-6">{title}</h1>
+
+      </div>
+
 
       <form onSubmit={handleSubmit} className="space-y-6 bg-card text-card-foreground rounded-lg border p-6">
         <div className="space-y-2">
@@ -156,7 +159,7 @@ export default function VacancyForm({
             <Label htmlFor="employment_type">Employment Type</Label>
             <select
               id="employment_type"
-              className="w-full border rounded-md px-3 py-2 text-sm"
+              className="w-full border rounded-md px-3 py-2 text-sm bg-card text-card-foreground"
               value={employmentType}
               onChange={(e) =>
                 setEmploymentType(e.target.value as EmploymentType)
@@ -224,12 +227,12 @@ export default function VacancyForm({
 
         <div className="space-y-2">
           <Label htmlFor="status">Status</Label>
-          <select
-            id="status"
-            className="w-full border rounded-md px-3 py-2 text-sm"
-            value={status}
-            onChange={(e) => setStatus(e.target.value as VacancyStatus)}
-          >
+            <select
+              id="status"
+              className="w-full border rounded-md px-3 py-2 text-sm bg-card text-card-foreground"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as VacancyStatus)}
+            >
             <option value="draft">Draft</option>
             <option value="published">Published</option>
             <option value="closed">Closed</option>
@@ -250,7 +253,7 @@ export default function VacancyForm({
           <Button
             type="button"
             variant="outline"
-            onClick={() => router.push("/admin/vacancies")}
+            onClick={() => router.push("/admin/careers")}
           >
             Cancel
           </Button>

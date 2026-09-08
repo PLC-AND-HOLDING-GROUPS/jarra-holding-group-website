@@ -24,7 +24,7 @@ export default function EditVacancy() {
     try {
       await updateVacancy({ id: vacancyId, data: formData }).unwrap();
       notify.success("Vacancy updated successfully.", { id: "edit-vacancy" });
-      router.push("/admin/vacancies");
+      router.push("/admin/careers");
     } catch (err: any) {
       notify.error(extractErrorMessage(err, "Failed to update vacancy."), { id: "edit-vacancy" });
     }

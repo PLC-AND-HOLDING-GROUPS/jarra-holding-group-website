@@ -121,6 +121,20 @@ const getAllVacancies = async (req, res) => {
 
     const vacancies = await Vacancy.findAll({
       where,
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)::int
+              FROM job_applications AS ja
+              WHERE
+                ja.vacancy_id = "Vacancy"."vacancy_id"
+                AND ja.deleted_at IS NULL
+            )`),
+            'application_count'
+          ]
+        ]
+      },
       include: [attachmentInclude],
       order: [
         ["published_date", "DESC"],

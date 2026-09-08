@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Plus, Trash, Calendar, Send, Ban, FileX } from "lucide-react";
+import { Eye, Plus, Trash, Calendar, Send, Ban, FileX, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { notify } from "@/utils/notification";
@@ -149,6 +149,7 @@ export default function VacancyList() {
         />
       ),
     },
+
     {
       id: "actions",
       header: "Actions",
@@ -166,6 +167,17 @@ export default function VacancyList() {
                 onClick={() => router.push(`/admin/careers/${id}`)}
               >
                 <Eye className="h-4 w-4" />
+              </Button>
+            </ComponentGuard>
+
+            <ComponentGuard anyPermissions={["VACANCIES:READ"]}>
+              <Button
+                variant="ghost"
+                size="icon"
+                title="View Applications"
+                onClick={() => router.push(`/admin/careers/${id}/applications`)}
+              >
+                <Users className="h-4 w-4 text-blue-600" />
               </Button>
             </ComponentGuard>
 

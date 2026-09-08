@@ -327,7 +327,7 @@ export const EditFileUpload: React.FC<FileUploadFieldProps> = ({
                         {files.map((file) => (
                             <div
                                 key={file.attachment_id}
-                                className="flex items-center justify-between border border-gray-200 rounded-md p-2 bg-gray-50 hover:bg-gray-100 transition"
+                                className="flex items-center justify-between border border-gray-200 rounded-md p-2 bg-card hover:bg-gray-100 transition"
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div className="flex-shrink-0 text-gray-500">

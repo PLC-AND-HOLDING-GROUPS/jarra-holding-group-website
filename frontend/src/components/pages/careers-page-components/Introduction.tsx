@@ -2,9 +2,26 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { useGetCareerContentQuery } from "@/redux/api/careerContentApi";
+import { getFileUrl } from "@/utils/fileUrl";
 
 export default function Introduction() {
+    const { data: content, isLoading } = useGetCareerContentQuery();
+
+    if (isLoading) {
+        return <div className="py-24 bg-white min-h-[500px]" />;
+    }
+
+    const titleNormal = content?.intro_title || "Build Your Career With";
+    const titleHighlight = content?.intro_title_highlight || "Purpose";
+    const desc1 = content?.intro_description_1 || "Jarra Holdings is a multi-sector organization where people can work across different areas of business and contribute to the organization's broader growth.";
+    const desc2 = content?.intro_description_2 || "We believe that our success is deeply connected to creating job opportunities, driving economic development, and building a knowledgeable, innovative workforce. By prioritizing the development of employee competency and fostering a culture of collaboration, we ensure long-term organizational growth and meaningful careers for our people.";
+    
+    const imageUrl = content?.intro_image?.file_path ? getFileUrl(content.intro_image.file_path) : "/home-4.jpg";
+    
+    const cardFocus = content?.intro_card_focus || "MULTI-SECTOR";
+    const cardGrowth = content?.intro_card_growth || "GROWTH";
+
     return (
         <section className="py-24 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -18,15 +35,11 @@ export default function Introduction() {
                             viewport={{ once: true, margin: "-100px" }}
                         >
                             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 leading-tight">
-                                Build Your Career With <span className="text-primary">Purpose</span>
+                                {titleNormal} <span className="text-primary">{titleHighlight}</span>
                             </h2>
                             <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-                                <p>
-                                    Jarra Holdings is a multi-sector organization where people can work across different areas of business and contribute to the organization's broader growth.
-                                </p>
-                                <p>
-                                    We believe that our success is deeply connected to creating job opportunities, driving economic development, and building a knowledgeable, innovative workforce. By prioritizing the development of employee competency and fostering a culture of collaboration, we ensure long-term organizational growth and meaningful careers for our people.
-                                </p>
+                                <p>{desc1}</p>
+                                {desc2 && <p>{desc2}</p>}
                             </div>
                         </motion.div>
                     </div>
@@ -43,7 +56,7 @@ export default function Introduction() {
                             {/* Background Image */}
                             <div 
                                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                                style={{ backgroundImage: "url('/home-4.jpg')" }}
+                                style={{ backgroundImage: `url('${imageUrl}')` }}
                             />
                             {/* Fallback color if image not found */}
                             <div className="absolute inset-0 bg-slate-200 -z-10" />
@@ -62,8 +75,8 @@ export default function Introduction() {
                         >
                             <div className="flex flex-col gap-2">
                                 <span className="text-sm font-bold text-slate-400 tracking-wider uppercase">Focus</span>
-                                <span className="text-2xl font-black text-slate-900 leading-none">MULTI-SECTOR</span>
-                                <span className="text-2xl font-black text-primary leading-none">GROWTH</span>
+                                <span className="text-2xl font-black text-slate-900 leading-none">{cardFocus}</span>
+                                <span className="text-2xl font-black text-primary leading-none">{cardGrowth}</span>
                             </div>
                             <div className="mt-4 h-1 w-12 bg-golden-classic rounded-full" />
                         </motion.div>

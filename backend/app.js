@@ -38,6 +38,7 @@ const backgroundRoute = require("./routers/about/backgroundRoutes");
 const leadershipRoute = require("./routers/about/leadershipRoutes");
 const strategyRoute = require("./routers/about/strategyRoutes");
 const certificationRoute = require("./routers/about/certificationRoutes");
+const careerContentRoute = require("./routers/about/careerContentRoutes");
 
 // ================== Contact Page Routes ==========================
 const federalOfficeRoute = require("./routers/contact/federalOfficeRoutes");
@@ -45,6 +46,7 @@ const regionRoute = require("./routers/contact/regionRoutes");
 const regionalOfficeRoute = require("./routers/contact/regionalOfficeRoutes");
 const messageRoute = require("./routers/contact/messageRoutes");
 const vacancyRoute = require("./routers/contact/vacancyRoutes");
+const jobApplicationRoute = require("./routers/contact/jobApplicationRoutes");
 
 // ================== Footer Page Routes ==========================
 const socialMediaRoute = require("./routers/footer/socialMediaRoutes");
@@ -189,6 +191,7 @@ app.use("/api/backgrounds", backgroundRoute);
 app.use("/api/leadership", leadershipRoute);
 app.use("/api/strategy", strategyRoute);
 app.use("/api/certifications", certificationRoute);
+app.use("/api/career-content", careerContentRoute);
 
 // ================== Contact Page Routes ==========================
 app.use("/api/federal-office", federalOfficeRoute);
@@ -196,6 +199,7 @@ app.use("/api/region", regionRoute);
 app.use("/api/regional-offices", regionalOfficeRoute);
 app.use("/api/message", messageRoute);
 app.use("/api/vacancies", vacancyRoute);
+app.use("/api/job-applications", jobApplicationRoute);
 
 // ================== Footer Page Routes ==========================
 app.use("/api/social-media", socialMediaRoute);

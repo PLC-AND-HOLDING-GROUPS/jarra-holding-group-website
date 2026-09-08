@@ -14,7 +14,7 @@ export default function CreateVacancy() {
     try {
       await createVacancy(data).unwrap();
       notify.success("Vacancy created successfully.", { id: "create-vacancy" });
-      router.push("/admin/vacancies");
+      router.push("/admin/careers");
     } catch (err: any) {
       notify.error(extractErrorMessage(err, "Failed to create vacancy."), { id: "create-vacancy" });
     }

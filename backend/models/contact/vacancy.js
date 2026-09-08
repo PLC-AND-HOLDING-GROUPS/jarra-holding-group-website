@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "attachment_id",
         as: "attachment",
       });
+      Vacancy.hasMany(models.JobApplication, {
+        foreignKey: "vacancy_id",
+        as: "applications",
+      });
     }
   }
 

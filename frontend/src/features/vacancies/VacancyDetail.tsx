@@ -12,6 +12,7 @@ import { formatDateOnly } from "@/utils/datetime";
 import { getFileUrl } from "@/utils/fileUrl";
 import { Button } from "@/components/ui/button";
 
+
 export default function VacancyDetail() {
   const params = useParams();
   const vacancyId = params.vacancyId as string;
@@ -33,10 +34,10 @@ export default function VacancyDetail() {
           This vacancy is not available or has been removed.
         </p>
         <Link
-          href="/contact/tenders-and-vacancies"
+          href="/careers#opportunities"
           className="text-golden-dark hover:underline"
         >
-          Back to Tenders & Vacancies
+          Back to Careers
         </Link>
       </div>
     );
@@ -47,12 +48,12 @@ export default function VacancyDetail() {
     : null;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full">
       <Link
-        href="/contact/tenders-and-vacancies"
+        href="/careers#opportunities"
         className="inline-flex items-center gap-2 text-gray-600 hover:text-golden-dark mb-6"
       >
-        <ArrowLeft size={14} /> Back to Tenders & Vacancies
+        <ArrowLeft size={14} /> Back to Careers
       </Link>
 
       <div className="bg-card text-card-foreground rounded-2xl border shadow-sm p-6 md:p-8 space-y-6">
@@ -121,6 +122,8 @@ export default function VacancyDetail() {
             </Button>
           </div>
         )}
+
+
       </div>
     </div>
   );

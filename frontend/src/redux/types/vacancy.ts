@@ -19,6 +19,7 @@ export interface Vacancy {
   attachment?: Attachment | null;
   status: VacancyStatus;
   display_status?: DisplayStatus;
+  application_count?: number;
   created_at?: string;
   updated_at?: string;
 }
