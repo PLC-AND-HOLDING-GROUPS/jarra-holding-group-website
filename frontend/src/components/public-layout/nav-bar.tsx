@@ -144,7 +144,7 @@ export default function PublicNavbar() {
             {/* ================= DESKTOP ================= */}
             <NavBody>
                 <NavbarLogo />
-                <NavItems items={navItems} />
+                <NavItems items={navItems.map(item => (item.link === "/businesses" || item.name === "Businesses" || item.name === "ንግዶች") ? { ...item, children: undefined } : item)} />
             </NavBody>
 
             {/* ================= MOBILE ================= */}
@@ -162,18 +162,19 @@ export default function PublicNavbar() {
                     onClose={() => setIsMobileMenuOpen(false)}
                 >
                     <div className="flex flex-col pb-10">
-                        <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center justify-between pb-6 mb-2 border-b border-gray-100 dark:border-neutral-800">
                             <NavbarLogo />
                             <button
                                 type="button"
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 aria-label="Close navigation"
+                                className="p-2 rounded-full bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors"
                             >
-                                <IconX className="w-6 h-6 text-black dark:text-white" />
+                                <IconX className="w-5 h-5 text-black dark:text-white" />
                             </button>
                         </div>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col divide-y divide-gray-100 dark:divide-neutral-800">
                             {navItems.map((item: NavItem, idx: number) => {
                                 const isOpen = openMobileIndex === idx;
 
@@ -183,10 +184,10 @@ export default function PublicNavbar() {
                                         : pathname.startsWith(item.link)
                                     : false;
 
-                                const parentNavClass = `flex w-full px-3 py-2 rounded-lg text-base font-medium transition-colors ${
+                                const parentNavClass = `flex w-full py-4 text-base font-medium transition-colors ${
                                     isActive
-                                        ? "text-golden-dark font-semibold bg-golden-dark20"
-                                        : "text-gray-600 dark:text-neutral-300 hover:text-golden-dark hover:bg-golden-dark10"
+                                        ? "text-golden-dark font-semibold"
+                                        : "text-gray-700 dark:text-neutral-300 hover:text-golden-dark"
                                 }`;
 
                                 return (
@@ -200,7 +201,7 @@ export default function PublicNavbar() {
                                             >
                                                 <span>{item.name}</span>
                                                 <ChevronDown
-                                                    className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                                                    className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
                                                 />
                                             </button>
                                         ) : (
@@ -221,30 +222,32 @@ export default function PublicNavbar() {
                                                     animate={{ height: "auto", opacity: 1 }}
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.25 }}
-                                                    className="ml-6 mt-1 flex flex-col gap-1 overflow-hidden"
+                                                    className="flex flex-col overflow-hidden pb-4"
                                                 >
-                                                    {item.children.map((child: NavItem, cIdx: number) => {
-                                                        const isChildActive = child.link
-                                                            ? child.link === "/"
-                                                                ? pathname === "/"
-                                                                : pathname.startsWith(child.link)
-                                                            : false;
+                                                    <div className="flex flex-col gap-1 ml-4 pl-4 border-l-2 border-gray-100 dark:border-neutral-800">
+                                                        {item.children.map((child: NavItem, cIdx: number) => {
+                                                            const isChildActive = child.link
+                                                                ? child.link === "/"
+                                                                    ? pathname === "/"
+                                                                    : pathname.startsWith(child.link)
+                                                                : false;
 
-                                                        return (
-                                                            <Link
-                                                                key={cIdx}
-                                                                href={child.link || "#"}
-                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                                className={`px-3 py-2 rounded-md text-base transition-colors ${
-                                                                    isChildActive
-                                                                        ? "text-golden-dark font-semibold bg-golden-dark10"
-                                                                        : "text-gray-600 dark:text-neutral-300 hover:text-golden-dark hover:bg-golden-dark10"
-                                                                }`}
-                                                            >
-                                                                {child.name}
-                                                            </Link>
-                                                        );
-                                                    })}
+                                                            return (
+                                                                <Link
+                                                                    key={cIdx}
+                                                                    href={child.link || "#"}
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className={`py-2 text-base transition-colors ${
+                                                                        isChildActive
+                                                                            ? "text-golden-dark font-semibold"
+                                                                            : "text-gray-500 dark:text-neutral-400 hover:text-golden-dark"
+                                                                    }`}
+                                                                >
+                                                                    {child.name}
+                                                                </Link>
+                                                            );
+                                                        })}
+                                                    </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>

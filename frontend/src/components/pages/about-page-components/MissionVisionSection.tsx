@@ -34,7 +34,7 @@ const Column = ({ item, isLast = false }: { item: any; isLast?: boolean }) => {
 
 export default function VisionMissionValues() {
     const { data: strategiesData, isLoading } = useGetStrategiesQuery();
-    
+
     if (isLoading) {
         return (
             <div className="py-16 bg-white w-full flex justify-center items-center">
@@ -48,7 +48,7 @@ export default function VisionMissionValues() {
     }
 
     const strategy = strategiesData[0];
-    
+
     const sectionTitle = strategy.title || "Organizational Strategy";
     const sectionDescription = strategy.description || "";
 
@@ -71,11 +71,18 @@ export default function VisionMissionValues() {
         } else if (sec.type === "core_values") {
             if (sec.core_values && sec.core_values.length > 0) {
                 displayData.values.description = (
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-3 w-full max-w-xs mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full text-left">
                         {sec.core_values.map((v: any, i: number) => (
-                            <div key={i} className="flex items-center gap-2 justify-start text-left text-sm">
-                                <div className="w-1.5 h-1.5 bg-[#00B4D8] rounded-full shrink-0" />
-                                <span className="font-semibold text-gray-700">{v.title}</span>
+                            <div key={i} className="flex flex-col gap-2 p-6 rounded-xl bg-gray-50 border border-gray-100 hover:shadow-sm transition-shadow">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-2 h-2 bg-[#00B4D8] rounded-full shrink-0" />
+                                    <span className="font-bold text-lg text-[#003B5C]">{v.title}</span>
+                                </div>
+                                {v.content && v.content !== v.title && (
+                                    <p className="text-sm text-gray-600 leading-relaxed pl-5 border-l-2 border-[#00B4D8]/20 ml-1">
+                                        {v.content}
+                                    </p>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -100,10 +107,30 @@ export default function VisionMissionValues() {
                         </p>
                     )}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 py-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-0 py-4 mb-16">
                     <Column item={displayData.mission} />
-                    <Column item={displayData.vision} />
-                    <Column item={displayData.values} isLast={true} />
+                    <Column item={displayData.vision} isLast={true} />
+                </div>
+
+                <div className="w-full flex flex-col items-center text-center p-8 pt-12 border-t border-gray-200">
+                    <div className="mb-8 relative flex items-center justify-center">
+                        {displayData.values.icon}
+                        {displayData.values.icon && <div className="absolute inset-0 bg-[#00B4D8]/10 rounded-full blur-xl -z-10"></div>}
+                    </div>
+
+                    <h3 className="text-2xl font-bold tracking-tight mb-5 uppercase">
+                        <span className="text-[#003B5C]">OUR</span> <span className="text-[#00B4D8]">{displayData.values.title2}</span>
+                    </h3>
+
+                    <div className="flex items-center justify-center w-full mb-12 opacity-60">
+                        <div className="h-px bg-red-300 w-12"></div>
+                        <div className="w-1.5 h-1.5 bg-[#00B4D8] rounded-full mx-2"></div>
+                        <div className="h-px bg-gray-300 w-12"></div>
+                    </div>
+
+                    <div className="w-full max-w-6xl mx-auto">
+                        {displayData.values.description}
+                    </div>
                 </div>
             </div>
         </div>

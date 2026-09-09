@@ -24,10 +24,10 @@ async function processImage(tempPath, attachmentId, originalName) {
     .basename(originalName, ext)
     .replace(/\s+/g, "_")
     .replace(/[^\w\-]/g, "");
-  
+
   const originalPath = path.join(dir, `original_${safeBaseName}${ext}`);
   fs.copyFileSync(tempPath, originalPath);
-  
+
   const normalizedPath = normalizePath(originalPath);
 
   // Since sharp is removed to prevent crashes, we use the original image for all variants

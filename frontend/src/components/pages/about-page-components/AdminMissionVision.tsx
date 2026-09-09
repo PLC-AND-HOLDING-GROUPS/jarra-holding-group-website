@@ -27,7 +27,7 @@ export default function AdminMissionVision() {
     // State for sections
     const [mission, setMission] = useState("");
     const [vision, setVision] = useState("");
-    const [values, setValues] = useState<{ title: string }[]>([]);
+    const [values, setValues] = useState<{ title: string; content: string }[]>([]);
 
     // Individual attachment states for mission, vision, and core values section icon
     const [missionAttachment, setMissionAttachment] = useState<string[]>([]);
@@ -86,17 +86,18 @@ export default function AdminMissionVision() {
                 }
                 const coreVals = sec.core_values?.map((v: any) => ({
                     title: v.title || "",
+                    content: v.content || "",
                 })) || [];
                 setValues(coreVals);
             }
         });
     }, [strategiesData]);
 
-    const addValue = () => setValues([...values, { title: "" }]);
+    const addValue = () => setValues([...values, { title: "", content: "" }]);
     const removeValue = (index: number) => setValues(values.filter((_, i) => i !== index));
-    const updateValue = (index: number, text: string) => {
+    const updateValue = (index: number, field: "title" | "content", text: string) => {
         const newValues = [...values];
-        newValues[index].title = text;
+        newValues[index][field] = text;
         setValues(newValues);
     };
 
@@ -121,7 +122,7 @@ export default function AdminMissionVision() {
                 attachment_id: coreValuesSectionAttachment[0], // Use the first attachment ID for the section icon
                 core_values: values.filter(v => v.title.trim() !== "").map((v) => ({
                     title: v.title,
-                    content: v.title,
+                    content: v.content,
                 })),
             },
         ];
@@ -266,16 +267,30 @@ export default function AdminMissionVision() {
                                     <Plus className="w-4 h-4 mr-2" /> Add Point
                                 </Button>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 gap-4">
                                 {values.map((val, idx) => (
-                                    <div key={idx} className="flex gap-2 items-center bg-transparent p-2 rounded-md border border-gray-100">
-                                        <Input
-                                            value={val.title}
-                                            onChange={(e) => updateValue(idx, e.target.value)}
-                                            placeholder="e.g. Integrity"
-                                            className="h-8 bg-transparent"
-                                        />
-                                        <Button variant="destructive" size="icon" onClick={() => removeValue(idx)} className="h-8 w-8 shrink-0">
+                                    <div key={idx} className="flex gap-2 items-start bg-transparent p-4 rounded-md border border-gray-200 shadow-sm relative">
+                                        <div className="flex-1 space-y-3">
+                                            <div className="space-y-1">
+                                                <Label>Title</Label>
+                                                <Input
+                                                    value={val.title}
+                                                    onChange={(e) => updateValue(idx, "title", e.target.value)}
+                                                    placeholder="e.g. Integrity"
+                                                    className="h-9 bg-transparent"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <Label>Description</Label>
+                                                <Textarea
+                                                    value={val.content}
+                                                    onChange={(e) => updateValue(idx, "content", e.target.value)}
+                                                    placeholder="e.g. We conduct our business with honesty..."
+                                                    className="bg-transparent min-h-[60px]"
+                                                />
+                                            </div>
+                                        </div>
+                                        <Button variant="destructive" size="icon" onClick={() => removeValue(idx)} className="h-8 w-8 shrink-0 mt-6">
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                     </div>
