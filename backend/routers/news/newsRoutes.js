@@ -33,12 +33,14 @@ router.get("/:id", getNewsById);
 router.put("/:id", authenticateToken, validateUpdateNews, updateNews);
 router.delete("/:id", authenticateToken, deleteNews);
 
+const { newsInteractionLimiter } = require("../../middlewares/rateLimitMiddleware");
+
 // ===========================
 // News Reactions & Reads
 // ===========================
-router.post("/react", reactToNews);
-router.post("/read", recordNewsRead);
-router.post("/feedback", recordNewsFeedback);
+router.post("/react", newsInteractionLimiter, reactToNews);
+router.post("/read", newsInteractionLimiter, recordNewsRead);
+router.post("/feedback", newsInteractionLimiter, recordNewsFeedback);
 router.get("/feedback/:news_id", getNewsFeedbacks);
 router.get("/feedback/count/:news_id", getNewsFeedbackCount);
 

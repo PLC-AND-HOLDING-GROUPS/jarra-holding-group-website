@@ -1,5 +1,6 @@
 "use strict";
 const { ProductInquiry, Product } = require("../../models");
+const { Op } = require("sequelize");
 
 // Get all inquiries (Admin)
 exports.getAllInquiries = async (req, res) => {
@@ -36,6 +37,20 @@ exports.submitInquiry = async (req, res) => {
         const product = await Product.findByPk(product_id);
         if (!product) {
             return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        // Duplicate inquiry check (same email + product in last 1 hour)
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+        const existingInquiry = await ProductInquiry.findOne({
+            where: {
+                email,
+                product_id,
+                created_at: { [Op.gt]: oneHourAgo }
+            }
+        });
+
+        if (existingInquiry) {
+            return res.status(400).json({ success: false, message: "You have already sent an inquiry for this product recently." });
         }
 
         const inquiry = await ProductInquiry.create({

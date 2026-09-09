@@ -26,6 +26,15 @@ const submitApplication = async (req, res) => {
             return res.status(400).json({ success: false, message: "The application deadline for this vacancy has passed." });
         }
 
+        // Duplicate application check
+        const existingApplication = await JobApplication.findOne({
+            where: { email, vacancy_id }
+        });
+        
+        if (existingApplication) {
+             return res.status(400).json({ success: false, message: "You have already submitted an application for this vacancy." });
+        }
+
         // Verify attachment
         if (!cv_attachment_id) {
              return res.status(400).json({ success: false, message: "CV attachment is required." });

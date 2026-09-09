@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const allowedTypes = [
   "audio/mpeg",
@@ -23,13 +24,9 @@ if (!fs.existsSync(tempUploadDir))
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, tempUploadDir),
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    const baseName = path
-      .basename(file.originalname, ext)
-      .replace(/\s+/g, "_")
-      .replace(/[^\w\-]/g, "");
-    cb(null, `${uniqueSuffix}_${baseName}${ext}`);
+    // Generate secure unique filename, completely ignoring original name except for extension
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${uuidv4()}${ext}`);
   },
 });
 
@@ -53,7 +50,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 100 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
 });
 
 // Export the upload object itself so we can use different methods

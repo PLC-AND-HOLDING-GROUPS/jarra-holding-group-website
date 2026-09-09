@@ -14,10 +14,12 @@ const {
   validateCreateMessage,
 } = require("../../validators/contact/messageValidator");
 
+const { contactLimiter } = require("../../middlewares/rateLimitMiddleware");
+
 // ================= MESSAGE ROUTES =================
 
 // Public route (contact form submission)
-router.post("/", validateCreateMessage, createMessage);
+router.post("/", contactLimiter, validateCreateMessage, createMessage);
 
 // Admin routes
 router.get("/", authenticateToken, getAllMessages);

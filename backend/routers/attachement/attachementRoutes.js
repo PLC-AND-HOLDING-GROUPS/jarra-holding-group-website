@@ -60,7 +60,13 @@ const {
  *       500:
  *         description: Internal server error
  */
-router.post("/", upload.array("files", 10), uploadFiles);
+const { fileUploadLimiter } = require("../../middlewares/rateLimitMiddleware");
+
+/**
+ * @swagger
+... (swagger skipped)
+ */
+router.post("/", fileUploadLimiter, upload.array("files", 10), uploadFiles);
 
 /**
  * @swagger

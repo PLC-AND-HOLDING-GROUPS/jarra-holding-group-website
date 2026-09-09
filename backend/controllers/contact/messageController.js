@@ -1,6 +1,7 @@
 // controllers/messageController.js
 "use strict";
 const { Message, sequelize } = require("../../models");
+const { Op } = require("sequelize");
 const { v4: uuidv4, validate: isUuid } = require("uuid");
 
 // ===========================
@@ -16,6 +17,25 @@ const createMessage = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Full name, email address, subject, and message are required.",
+      });
+    }
+
+    // Duplicate message check (same email + same exact message in last 1 hour)
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const existingMessage = await Message.findOne({
+      where: {
+        email_address,
+        message,
+        created_at: { [Op.gt]: oneHourAgo }
+      },
+      transaction: t
+    });
+
+    if (existingMessage) {
+      await t.rollback();
+      return res.status(400).json({
+        success: false,
+        message: "You have already sent this message recently.",
       });
     }
 

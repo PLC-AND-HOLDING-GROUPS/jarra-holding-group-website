@@ -12,9 +12,11 @@ const {
 
 // We need auth middleware for the admin routes
 const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { jobApplicationLimiter } = require("../../middlewares/rateLimitMiddleware");
+const { validateCreateApplication } = require("../../validators/contact/jobApplicationValidator");
 
 // Public Route: Submit an application
-router.post("/", submitApplication);
+router.post("/", jobApplicationLimiter, validateCreateApplication, submitApplication);
 
 // Admin Routes: Manage applications (require authentication)
 router.get("/vacancy/:vacancyId", authenticateToken, getApplicationsByVacancy);
