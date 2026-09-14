@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useGetNewsFeedbackCountQuery, useRecordNewsFeedbackMutation, useGetNewsFeedbacksQuery } from "@/redux/api/newsApi";
 import { notify, extractErrorMessage } from "@/utils/notification";
 import { formatLongDate } from "@/utils/datetime";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 interface NewsFeedbackProps {
     newsId: string;
@@ -75,13 +76,15 @@ const NewsFeedback: React.FC<NewsFeedbackProps> = ({ newsId }) => {
                     />
 
                     <div className="flex justify-end">
-                        <Button
-                            type="submit"
-                            disabled={isLoading}
-                            className="bg-primary hover:bg-primary/90 text-white px-8"
-                        >
-                            {isLoading ? "Submitting..." : "Post Comment"}
-                        </Button>
+                        <ComponentGuard anyPermissions={['NEWS:UPDATE']}>
+                            <Button
+                                type="submit"
+                                disabled={isLoading}
+                                className="bg-primary hover:bg-primary/90 text-white px-8"
+                            >
+                                {isLoading ? "Submitting..." : "Post Comment"}
+                            </Button>
+                        </ComponentGuard>
                     </div>
                 </form>
             </div>

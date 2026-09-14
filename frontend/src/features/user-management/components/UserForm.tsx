@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 interface UserFormProps {
     userId?: string;
@@ -309,14 +310,16 @@ const UserForm = ({ userId }: UserFormProps) => {
                     >
                         Cancel
                     </Button>
-                    <Button
-                        type="submit"
-                        disabled={isCreating || isUpdating}
-                        className="bg-golden-dark hover:bg-golden-dark/90 text-white px-8 flex items-center gap-2"
-                    >
-                        {(isCreating || isUpdating) && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isCreating ? "Creating..." : isUpdating ? "Updating..." : isEdit ? "Update Account" : "Create Account"}
-                    </Button>
+                    <ComponentGuard anyPermissions={['USERS:UPDATE']}>
+                        <Button
+                            type="submit"
+                            disabled={isCreating || isUpdating}
+                            className="bg-golden-dark hover:bg-golden-dark/90 text-white px-8 flex items-center gap-2"
+                        >
+                            {(isCreating || isUpdating) && <Loader2 className="w-4 h-4 animate-spin" />}
+                            {isCreating ? "Creating..." : isUpdating ? "Updating..." : isEdit ? "Update Account" : "Create Account"}
+                        </Button>
+                    </ComponentGuard>
                 </CardFooter>
             </Card>
         </form>

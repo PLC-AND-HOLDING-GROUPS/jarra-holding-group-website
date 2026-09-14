@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Send, User, Building, Mail, Phone, Package, Calendar, Loader2 } from "lucide-react";
 import { notify, extractErrorMessage } from "@/utils/notification";
 import { Badge } from "@/components/ui/badge";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 export default function InquiryDetailPage() {
     const params = useParams();
@@ -69,7 +70,7 @@ export default function InquiryDetailPage() {
                     </Button>
                     <h1 className="text-2xl font-bold tracking-tight">Inquiry Details</h1>
                 </div>
-                <Badge 
+                <Badge
                     variant={inquiry.status === "replied" ? "default" : inquiry.status === "reviewed" ? "secondary" : "outline"}
                     className="capitalize border-slate-700"
                 >
@@ -146,7 +147,7 @@ export default function InquiryDetailPage() {
                 <form onSubmit={handleSendReply} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="subject" className="text-slate-300">Subject</Label>
-                        <Input 
+                        <Input
                             id="subject"
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
@@ -157,7 +158,7 @@ export default function InquiryDetailPage() {
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="message" className="text-slate-300">Message</Label>
-                        <Textarea 
+                        <Textarea
                             id="message"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
@@ -168,11 +169,13 @@ export default function InquiryDetailPage() {
                         />
                     </div>
                     <div className="flex justify-end pt-2">
-                        <Button type="submit" disabled={isReplying} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 flex items-center gap-2">
-                            {isReplying && <Loader2 className="w-4 h-4 animate-spin" />}
-                            {isReplying ? "Sending..." : "Send Reply"}
-                            {!isReplying && <Send className="w-4 h-4 ml-2" />}
-                        </Button>
+                        <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                            <Button type="submit" disabled={isReplying} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 flex items-center gap-2">
+                                {isReplying && <Loader2 className="w-4 h-4 animate-spin" />}
+                                {isReplying ? "Sending..." : "Send Reply"}
+                                {!isReplying && <Send className="w-4 h-4 ml-2" />}
+                            </Button>
+                        </ComponentGuard>
                     </div>
                 </form>
             </div>

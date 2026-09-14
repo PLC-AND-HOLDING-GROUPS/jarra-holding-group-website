@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { EditFileUpload } from "@/components/common/EditFileUpload";
 import { notify, extractErrorMessage } from "@/utils/notification";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 export default function ApplicationForm() {
     const params = useParams();
@@ -180,21 +181,23 @@ export default function ApplicationForm() {
                 </div>
 
                 <div className="pt-4 mt-2">
-                    <Button 
-                        type="submit" 
-                        size="lg" 
-                        disabled={isSubmitting} 
-                        className="w-full font-semibold"
-                    >
-                        {isSubmitting ? (
-                            <>
-                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                Submitting...
-                            </>
-                        ) : (
-                            "Submit Application"
-                        )}
-                    </Button>
+                    <ComponentGuard anyPermissions={['VACANCIES:UPDATE']}>
+                        <Button
+                            type="submit"
+                            size="lg"
+                            disabled={isSubmitting}
+                            className="w-full font-semibold"
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    Submitting...
+                                </>
+                            ) : (
+                                "Submit Application"
+                            )}
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </form>
         </div>

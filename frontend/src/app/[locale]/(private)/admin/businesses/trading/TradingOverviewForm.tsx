@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Plus, Trash2, GripVertical } from 'lucide-react';
 import { notify, extractErrorMessage } from '@/utils/notification';
 import { TabsContent } from "@/components/ui/tabs";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 const RELATIONSHIP_NODE_SLOTS = [
     { name: "Top Node (e.g. Suppliers)", defaultX: 50, defaultY: 10, defaultMain: false, defaultHighlight: false },
@@ -159,10 +160,12 @@ export const TradingOverviewForm = () => {
 
     const SaveButton = () => (
         <div className="pt-4 border-t border-slate-200 mt-8">
-            <Button onClick={handleSave} disabled={isUpdating} className="w-full py-6 text-lg">
-                {isUpdating ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : null}
-                Save Overview Content
-            </Button>
+            <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                <Button onClick={handleSave} disabled={isUpdating} className="w-full py-6 text-lg">
+                    {isUpdating ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : null}
+                    Save Overview Content
+                </Button>
+            </ComponentGuard>
         </div>
     );
 
@@ -246,16 +249,20 @@ export const TradingOverviewForm = () => {
                             <h3 className="font-semibold text-lg text-primary">4. Principles</h3>
                             <p className="text-sm text-primary mb-4">Manage the numbered principles (e.g., 01 Understand, 02 Connect).</p>
                         </div>
-                        <Button type="button" className='text-white bg-primary hover:bg-primary/80' variant="outline" size="sm" onClick={() => addToArray("principles", { number: "01", title: "", description: "" })}>
-                            <Plus className="w-4 h-4 mr-2" /> Add Principle
-                        </Button>
+                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                            <Button type="button" className='text-white bg-primary hover:bg-primary/80' variant="outline" size="sm" onClick={() => addToArray("principles", { number: "01", title: "", description: "" })}>
+                                <Plus className="w-4 h-4 mr-2" /> Add Principle
+                            </Button>
+                        </ComponentGuard>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {(formData.principles || []).map((principle: any, idx: number) => (
                             <div key={idx} className="p-4 border rounded-lg relative bg-card text-white">
-                                <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive" onClick={() => removeFromArray("principles", idx)}>
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                                <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                    <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive" onClick={() => removeFromArray("principles", idx)}>
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </ComponentGuard>
                                 <div className="space-y-3 pt-6">
                                     <div>
                                         <label className="text-xs font-medium">Number</label>
@@ -376,17 +383,21 @@ export const TradingOverviewForm = () => {
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
                                 <label className="text-sm text-white font-medium">Statement Words (e.g. MORE, than a, transaction)</label>
-                                <Button type="button" className='bg-primary text-white hover:bg-primary' variant="outline" size="sm" onClick={() => addStringToArray("big_statement", "statement_words", "")}>
-                                    <Plus className="w-4 h-4 mr-2" /> Add Word
-                                </Button>
+                                <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                                    <Button type="button" className='bg-primary text-white hover:bg-primary' variant="outline" size="sm" onClick={() => addStringToArray("big_statement", "statement_words", "")}>
+                                        <Plus className="w-4 h-4 mr-2" /> Add Word
+                                    </Button>
+                                </ComponentGuard>
                             </div>
                             <div className="flex flex-wrap gap-2">
                                 {(formData.big_statement?.statement_words || []).map((word: string, idx: number) => (
                                     <div key={idx} className="flex items-center gap-1 bg-slate-100 p-1 rounded border">
                                         <Input className="h-8 w-32" value={word} onChange={e => updateArrayString("big_statement", "statement_words", idx, e.target.value)} />
-                                        <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeStringFromArray("big_statement", "statement_words", idx)}>
-                                            <Trash2 className="w-4 h-4" />
-                                        </Button>
+                                        <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeStringFromArray("big_statement", "statement_words", idx)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </ComponentGuard>
                                     </div>
                                 ))}
                             </div>
@@ -424,9 +435,11 @@ export const TradingOverviewForm = () => {
                             <h3 className="font-semibold text-lg text-primary">9. Stats</h3>
                             <p className="text-sm text-primary mb-4">Key numerical achievements.</p>
                         </div>
-                        <Button type="button" className='bg-primary text-white hover:bg-primary' variant="outline" size="sm" onClick={() => addToArray("stats", { value: "", label: "" })}>
-                            <Plus className="w-4 h-4 mr-2" /> Add Stat
-                        </Button>
+                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                            <Button type="button" className='bg-primary text-white hover:bg-primary' variant="outline" size="sm" onClick={() => addToArray("stats", { value: "", label: "" })}>
+                                <Plus className="w-4 h-4 mr-2" /> Add Stat
+                            </Button>
+                        </ComponentGuard>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {(formData.stats || []).map((stat: any, idx: number) => (
@@ -441,9 +454,11 @@ export const TradingOverviewForm = () => {
                                         <Input className='text-white' value={stat.label} onChange={e => updateNestedArray("stats", idx, "label", e.target.value)} placeholder="e.g. Export Performance" />
                                     </div>
                                 </div>
-                                <Button type="button" variant="ghost" size="icon" className="text-destructive mt-6" onClick={() => removeFromArray("stats", idx)}>
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                                <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                    <Button type="button" variant="ghost" size="icon" className="text-destructive mt-6" onClick={() => removeFromArray("stats", idx)}>
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </ComponentGuard>
                             </div>
                         ))}
                     </div>

@@ -17,6 +17,7 @@ import { ImageUploadField } from "@/components/common/ImageUploadField";
 import { notify } from "@/utils/notification";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { Slider } from "@/redux/types/slider";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 type HeroButtonConfig = {
     button_name: string;
@@ -219,14 +220,16 @@ export default function AdminHeroManager() {
                     <p className="text-sm text-gray-500">Manage the carousel slides on the home page.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button
-                        variant="admin-primary"
-                        onClick={handleAddSlide}
-                        disabled={isCreating}
-                    >
-                        {isCreating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
-                        Add Slide
-                    </Button>
+                    <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                        <Button
+                            variant="admin-primary"
+                            onClick={handleAddSlide}
+                            disabled={isCreating}
+                        >
+                            {isCreating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
+                            Add Slide
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </div>
 
@@ -240,20 +243,22 @@ export default function AdminHeroManager() {
                             Same two buttons shown on every slide. Use paths like /services or full URLs for external links.
                         </p>
                     </div>
-                    <Button
-                        variant="admin-primary"
-                        size="sm"
-                        onClick={handleSaveHeroButtons}
-                        disabled={isSavingButtons || isUpdating}
-                        className="shrink-0"
-                    >
-                        {isSavingButtons ? (
-                            <Loader2 className="w-4 h-4 mr-1 animate-spin" />
-                        ) : (
-                            <Save className="w-4 h-4 mr-1" />
-                        )}
-                        Save Buttons
-                    </Button>
+                    <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                        <Button
+                            variant="admin-primary"
+                            size="sm"
+                            onClick={handleSaveHeroButtons}
+                            disabled={isSavingButtons || isUpdating}
+                            className="shrink-0"
+                        >
+                            {isSavingButtons ? (
+                                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                            ) : (
+                                <Save className="w-4 h-4 mr-1" />
+                            )}
+                            Save Buttons
+                        </Button>
+                    </ComponentGuard>
                 </CardHeader>
                 <CardContent className="p-6 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -336,26 +341,30 @@ export default function AdminHeroManager() {
                                 >
                                     <ArrowDown className="w-4 h-4" />
                                 </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleSaveSlide(index)}
-                                    disabled={isUpdating}
-                                    className="text-primary font-medium hover:text-primary hover:bg-primary/10"
-                                >
-                                    <Save className="w-4 h-4 mr-1" />
-                                    Save Slide
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => slide.slider_id && handleRemoveSlide(slide.slider_id, index + 1)}
-                                    disabled={isDeleting}
-                                    className="text-destructive h-8 w-8"
-                                    title="Delete Slide"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                                <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleSaveSlide(index)}
+                                        disabled={isUpdating}
+                                        className="text-primary font-medium hover:text-primary hover:bg-primary/10"
+                                    >
+                                        <Save className="w-4 h-4 mr-1" />
+                                        Save Slide
+                                    </Button>
+                                </ComponentGuard>
+                                <ComponentGuard anyPermissions={['HERO:DELETE']}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => slide.slider_id && handleRemoveSlide(slide.slider_id, index + 1)}
+                                        disabled={isDeleting}
+                                        className="text-destructive h-8 w-8"
+                                        title="Delete Slide"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </ComponentGuard>
                             </div>
                         </CardHeader>
                         <CardContent className="p-6">

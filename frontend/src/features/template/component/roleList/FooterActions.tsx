@@ -1,58 +1,61 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 interface FooterActionsProps {
-  isLoading: boolean;
-  isEditMode: boolean;
-  name: string;
-  selectedPermissionsCount: number;
-  onSubmit: () => void;
+    isLoading: boolean;
+    isEditMode: boolean;
+    name: string;
+    selectedPermissionsCount: number;
+    onSubmit: () => void;
 }
 
 export const FooterActions: React.FC<FooterActionsProps> = ({
-  isLoading,
-  isEditMode,
-  name,
-  selectedPermissionsCount,
-  onSubmit,
+    isLoading,
+    isEditMode,
+    name,
+    selectedPermissionsCount,
+    onSubmit,
 }) => {
-  const router = useRouter();
+    const router = useRouter();
 
-  return (
-    <div className="border-t border-border p-6">
-      <div className="flex items-center justify-end">
-        <div className="flex items-center space-x-3">
-          <Button
-            type="button"
-            variant="outline"
-            className="min-w-[150px] text-primary text-base bg-gray-200 hover:bg-gray-300"
-            onClick={() => router.push("/role")}
-            disabled={isLoading}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            onClick={onSubmit}
-            disabled={
-              isLoading || !name.trim() || selectedPermissionsCount === 0
-            }
-            className="min-w-[150px] text-base bg-sidebar-background hover:bg-sidebar-background/90 text-white"
-          >
-            {isLoading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                {isEditMode ? "Updating..." : "Creating..."}
-              </>
-            ) : isEditMode ? (
-              "Update"
-            ) : (
-              "Create"
-            )}
-          </Button>
+    return (
+        <div className="border-t border-border p-6">
+            <div className="flex items-center justify-end">
+                <div className="flex items-center space-x-3">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="min-w-[150px] text-primary text-base bg-gray-200 hover:bg-gray-300"
+                        onClick={() => router.push("/role")}
+                        disabled={isLoading}
+                    >
+                        Cancel
+                    </Button>
+                    <ComponentGuard anyPermissions={['USERS:UPDATE']}>
+                        <Button
+                            type="submit"
+                            onClick={onSubmit}
+                            disabled={
+                                isLoading || !name.trim() || selectedPermissionsCount === 0
+                            }
+                            className="min-w-[150px] text-base bg-sidebar-background hover:bg-sidebar-background/90 text-white"
+                        >
+                            {isLoading ? (
+                                <>
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                    {isEditMode ? "Updating..." : "Creating..."}
+                                </>
+                            ) : isEditMode ? (
+                                "Update"
+                            ) : (
+                                "Create"
+                            )}
+                        </Button>
+                    </ComponentGuard>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };

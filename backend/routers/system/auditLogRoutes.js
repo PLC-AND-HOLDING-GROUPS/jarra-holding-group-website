@@ -12,9 +12,7 @@ router.get(
 );
 
 // Delete an audit log entry (Usually reserved for superadmins, careful here)
-router.delete(
-  "/:id",
-  authenticateToken,
+router.delete("/:id", authenticateToken,
   checkPermission("audit_logs", "delete"),
   auditLogController.deleteAuditLog
 );

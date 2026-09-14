@@ -13,6 +13,7 @@ import { TableLayout } from "@/features/template/component/TableLayout";
 import type { FilterField } from "@/types/tableLayout";
 import { formatDate } from "@/utils/datetime";
 import PublicEmptyState from "@/components/common/PublicEmptyState";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 type NewsWithFeedbackStats = News & {
     totalFeedbacks: number;
@@ -157,14 +158,16 @@ export default function AdminFeedbackNewsList() {
             id: "actions",
             header: "Actions",
             cell: ({ row }) => (
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => router.push(`/admin/news/feedbacks/${row.original.news_id}`)}
-                >
-                    <MessageSquare className="h-4 w-4 mr-1.5" />
-                    View Feedback
-                </Button>
+                <ComponentGuard anyPermissions={['NEWS:UPDATE']}>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.push(`/admin/news/feedbacks/${row.original.news_id}`)}
+                    >
+                        <MessageSquare className="h-4 w-4 mr-1.5" />
+                        View Feedback
+                    </Button>
+                </ComponentGuard>
             ),
         },
     ];

@@ -15,309 +15,313 @@ import { ComponentGuard } from "@/components/auth/ComponentGuard";
 import { OpportunityStatusBadge } from "@/components/common/OpportunityStatusBadge";
 
 import {
-  useGetVacanciesQuery,
-  useDeleteVacancyMutation,
-  usePublishVacancyMutation,
-  useUnpublishVacancyMutation,
-  useCloseVacancyMutation,
+    useGetVacanciesQuery,
+    useDeleteVacancyMutation,
+    usePublishVacancyMutation,
+    useUnpublishVacancyMutation,
+    useCloseVacancyMutation,
 } from "@/redux/api/vacancyApi";
 import { Vacancy, EMPLOYMENT_TYPE_LABELS } from "@/redux/types/vacancy";
 import { formatDateOnly } from "@/utils/datetime";
 
 export default function VacancyList() {
-  const router = useRouter();
-  const { data = [], isLoading, isError } = useGetVacanciesQuery({ isAdmin: true });
-  const [deleteVacancy] = useDeleteVacancyMutation();
-  const [publishVacancy] = usePublishVacancyMutation();
-  const [unpublishVacancy] = useUnpublishVacancyMutation();
-  const [closeVacancy] = useCloseVacancyMutation();
+    const router = useRouter();
+    const { data = [], isLoading, isError } = useGetVacanciesQuery({ isAdmin: true });
+    const [deleteVacancy] = useDeleteVacancyMutation();
+    const [publishVacancy] = usePublishVacancyMutation();
+    const [unpublishVacancy] = useUnpublishVacancyMutation();
+    const [closeVacancy] = useCloseVacancyMutation();
 
-  const [deleteConfirm, setDeleteConfirm] = useState<{
-    open: boolean;
-    id: string;
-    title: string;
-  }>({ open: false, id: "", title: "" });
-  const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteConfirm, setDeleteConfirm] = useState<{
+        open: boolean;
+        id: string;
+        title: string;
+    }>({ open: false, id: "", title: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  const [statusFilter, setStatusFilter] = useState("");
-  const [search, setSearch] = useState("");
+    const [pageIndex, setPageIndex] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+    const [statusFilter, setStatusFilter] = useState("");
+    const [search, setSearch] = useState("");
 
-  const handlePagination = (index: number, size: number) => {
-    setPageIndex(index);
-    setPageSize(size);
-  };
+    const handlePagination = (index: number, size: number) => {
+        setPageIndex(index);
+        setPageSize(size);
+    };
 
-  const filters: FilterField[] = [
-    {
-      key: "status",
-      label: "Status",
-      type: "select",
-      placeholder: "All statuses",
-      value: statusFilter,
-      onChange: setStatusFilter,
-      options: [
-        { label: "Draft", value: "draft" },
-        { label: "Published", value: "published" },
-        { label: "Closed", value: "closed" },
-      ],
-    },
-    {
-      key: "search",
-      label: "Search",
-      type: "text",
-      placeholder: "Search job title or department",
-      value: search,
-      onChange: setSearch,
-    },
-  ];
+    const filters: FilterField[] = [
+        {
+            key: "status",
+            label: "Status",
+            type: "select",
+            placeholder: "All statuses",
+            value: statusFilter,
+            onChange: setStatusFilter,
+            options: [
+                { label: "Draft", value: "draft" },
+                { label: "Published", value: "published" },
+                { label: "Closed", value: "closed" },
+            ],
+        },
+        {
+            key: "search",
+            label: "Search",
+            type: "text",
+            placeholder: "Search job title or department",
+            value: search,
+            onChange: setSearch,
+        },
+    ];
 
-  const filteredData = useMemo(() => {
-    return data.filter((item: Vacancy) => {
-      const matchesStatus = !statusFilter || item.status === statusFilter;
-      const matchesSearch =
-        !search ||
-        item.job_title?.toLowerCase().includes(search.toLowerCase()) ||
-        item.department?.toLowerCase().includes(search.toLowerCase());
-      return matchesStatus && matchesSearch;
-    });
-  }, [data, statusFilter, search]);
+    const filteredData = useMemo(() => {
+        return data.filter((item: Vacancy) => {
+            const matchesStatus = !statusFilter || item.status === statusFilter;
+            const matchesSearch =
+                !search ||
+                item.job_title?.toLowerCase().includes(search.toLowerCase()) ||
+                item.department?.toLowerCase().includes(search.toLowerCase());
+            return matchesStatus && matchesSearch;
+        });
+    }, [data, statusFilter, search]);
 
-  const paginatedData = filteredData.slice(
-    pageIndex * pageSize,
-    pageIndex * pageSize + pageSize,
-  );
+    const paginatedData = filteredData.slice(
+        pageIndex * pageSize,
+        pageIndex * pageSize + pageSize,
+    );
 
-  const handleAction = async (
-    action: () => Promise<unknown>,
-    successMsg: string,
-    errorMsg: string = "Action failed."
-  ) => {
-    try {
-      await action();
-      notify.success(successMsg);
-    } catch (err: any) {
-      notify.error(errorMsg, err);
-    }
-  };
+    const handleAction = async (
+        action: () => Promise<unknown>,
+        successMsg: string,
+        errorMsg: string = "Action failed."
+    ) => {
+        try {
+            await action();
+            notify.success(successMsg);
+        } catch (err: any) {
+            notify.error(errorMsg, err);
+        }
+    };
 
-  const columns: ColumnDef<Vacancy>[] = [
-    {
-      accessorKey: "job_title",
-      header: "Job Title",
-      cell: ({ row }) => (
-        <div className="font-medium truncate max-w-[220px]">
-          {row.original.job_title}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "department",
-      header: "Department",
-      cell: ({ row }) => row.original.department || "—",
-    },
-    {
-      accessorKey: "employment_type",
-      header: "Type",
-      cell: ({ row }) =>
-        EMPLOYMENT_TYPE_LABELS[row.original.employment_type] ||
-        row.original.employment_type,
-    },
-    {
-      accessorKey: "published_date",
-      header: "Published",
-      cell: ({ row }) => formatDateOnly(row.original.published_date),
-    },
-    {
-      accessorKey: "application_deadline",
-      header: "Deadline",
-      cell: ({ row }) => (
-        <div className="flex items-center gap-1 text-muted-foreground">
-          <Calendar className="h-3 w-3" />
-          {formatDateOnly(row.original.application_deadline)}
-        </div>
-      ),
-    },
-    {
-      id: "display_status",
-      header: "Status",
-      cell: ({ row }) => (
-        <OpportunityStatusBadge
-          displayStatus={row.original.display_status}
-          dbStatus={row.original.status}
-        />
-      ),
-    },
+    const columns: ColumnDef<Vacancy>[] = [
+        {
+            accessorKey: "job_title",
+            header: "Job Title",
+            cell: ({ row }) => (
+                <div className="font-medium truncate max-w-[220px]">
+                    {row.original.job_title}
+                </div>
+            ),
+        },
+        {
+            accessorKey: "department",
+            header: "Department",
+            cell: ({ row }) => row.original.department || "—",
+        },
+        {
+            accessorKey: "employment_type",
+            header: "Type",
+            cell: ({ row }) =>
+                EMPLOYMENT_TYPE_LABELS[row.original.employment_type] ||
+                row.original.employment_type,
+        },
+        {
+            accessorKey: "published_date",
+            header: "Published",
+            cell: ({ row }) => formatDateOnly(row.original.published_date),
+        },
+        {
+            accessorKey: "application_deadline",
+            header: "Deadline",
+            cell: ({ row }) => (
+                <div className="flex items-center gap-1 text-muted-foreground">
+                    <Calendar className="h-3 w-3" />
+                    {formatDateOnly(row.original.application_deadline)}
+                </div>
+            ),
+        },
+        {
+            id: "display_status",
+            header: "Status",
+            cell: ({ row }) => (
+                <OpportunityStatusBadge
+                    displayStatus={row.original.display_status}
+                    dbStatus={row.original.status}
+                />
+            ),
+        },
 
-    {
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => {
-        const id = row.original.vacancy_id;
-        const status = row.original.status;
+        {
+            id: "actions",
+            header: "Actions",
+            cell: ({ row }) => {
+                const id = row.original.vacancy_id;
+                const status = row.original.status;
 
+                return (
+                    <div className="flex items-center gap-1 flex-wrap">
+                        <ComponentGuard anyPermissions={["VACANCIES:UPDATE"]}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                title="View / Edit"
+                                onClick={() => router.push(`/admin/careers/${id}`)}
+                            >
+                                <Eye className="h-4 w-4" />
+                            </Button>
+                        </ComponentGuard>
+
+                        <ComponentGuard anyPermissions={["VACANCIES:READ"]}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                title="View Applications"
+                                onClick={() => router.push(`/admin/careers/${id}/applications`)}
+                            >
+                                <Users className="h-4 w-4 text-blue-600" />
+                            </Button>
+                        </ComponentGuard>
+
+                        <ComponentGuard anyPermissions={["VACANCIES:PUBLISH"]}>
+                            {status === "draft" && (
+                                <ComponentGuard anyPermissions={['VACANCIES:PUBLISH']}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        title="Publish"
+                                        onClick={() =>
+                                            handleAction(
+                                                () => publishVacancy(id).unwrap(),
+                                                "Vacancy published",
+                                            )
+                                        }
+                                    >
+                                        <Send className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                </ComponentGuard>
+                            )}
+                            {status === "published" && (
+                                <ComponentGuard anyPermissions={['VACANCIES:PUBLISH']}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        title="Unpublish"
+                                        onClick={() =>
+                                            handleAction(
+                                                () => unpublishVacancy(id).unwrap(),
+                                                "Vacancy unpublished",
+                                            )
+                                        }
+                                    >
+                                        <FileX className="h-4 w-4" />
+                                    </Button>
+                                </ComponentGuard>
+                            )}
+                        </ComponentGuard>
+
+                        <ComponentGuard anyPermissions={["VACANCIES:UPDATE"]}>
+                            {status !== "closed" && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    title="Close"
+                                    onClick={() =>
+                                        handleAction(
+                                            () => closeVacancy(id).unwrap(),
+                                            "Vacancy closed",
+                                        )
+                                    }
+                                >
+                                    <Ban className="h-4 w-4 text-amber-600" />
+                                </Button>
+                            )}
+                        </ComponentGuard>
+
+                        <ComponentGuard anyPermissions={["VACANCIES:DELETE"]}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                title="Delete"
+                                onClick={() => {
+                                    setDeleteConfirm({
+                                        open: true,
+                                        id,
+                                        title: row.original.job_title || "this vacancy",
+                                    });
+                                }}
+                            >
+                                <Trash className="h-4 w-4 text-destructive" />
+                            </Button>
+                        </ComponentGuard>
+                    </div>
+                );
+            },
+        },
+    ];
+
+    const actions: ActionButton[] = [
+        {
+            label: "Create Vacancy",
+            icon: <Plus className="h-4 w-4" />,
+            variant: "default",
+            onClick: () => router.push("/admin/careers/create"),
+            permissions: ["VACANCIES:CREATE"],
+        },
+    ];
+
+    if (isLoading) {
         return (
-          <div className="flex items-center gap-1 flex-wrap">
-            <ComponentGuard anyPermissions={["VACANCIES:UPDATE"]}>
-              <Button
-                variant="ghost"
-                size="icon"
-                title="View / Edit"
-                onClick={() => router.push(`/admin/careers/${id}`)}
-              >
-                <Eye className="h-4 w-4" />
-              </Button>
-            </ComponentGuard>
-
-            <ComponentGuard anyPermissions={["VACANCIES:READ"]}>
-              <Button
-                variant="ghost"
-                size="icon"
-                title="View Applications"
-                onClick={() => router.push(`/admin/careers/${id}/applications`)}
-              >
-                <Users className="h-4 w-4 text-blue-600" />
-              </Button>
-            </ComponentGuard>
-
-            <ComponentGuard anyPermissions={["VACANCIES:PUBLISH"]}>
-              {status === "draft" && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  title="Publish"
-                  onClick={() =>
-                    handleAction(
-                      () => publishVacancy(id).unwrap(),
-                      "Vacancy published",
-                    )
-                  }
-                >
-                  <Send className="h-4 w-4 text-green-600" />
-                </Button>
-              )}
-              {status === "published" && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  title="Unpublish"
-                  onClick={() =>
-                    handleAction(
-                      () => unpublishVacancy(id).unwrap(),
-                      "Vacancy unpublished",
-                    )
-                  }
-                >
-                  <FileX className="h-4 w-4" />
-                </Button>
-              )}
-            </ComponentGuard>
-
-            <ComponentGuard anyPermissions={["VACANCIES:UPDATE"]}>
-              {status !== "closed" && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  title="Close"
-                  onClick={() =>
-                    handleAction(
-                      () => closeVacancy(id).unwrap(),
-                      "Vacancy closed",
-                    )
-                  }
-                >
-                  <Ban className="h-4 w-4 text-amber-600" />
-                </Button>
-              )}
-            </ComponentGuard>
-
-            <ComponentGuard anyPermissions={["VACANCIES:DELETE"]}>
-              <Button
-                variant="ghost"
-                size="icon"
-                title="Delete"
-                onClick={() => {
-                  setDeleteConfirm({
-                    open: true,
-                    id,
-                    title: row.original.job_title || "this vacancy",
-                  });
-                }}
-              >
-                <Trash className="h-4 w-4 text-destructive" />
-              </Button>
-            </ComponentGuard>
-          </div>
+            <div className="p-8 text-center text-muted-foreground">
+                Loading vacancies...
+            </div>
         );
-      },
-    },
-  ];
+    }
 
-  const actions: ActionButton[] = [
-    {
-      label: "Create Vacancy",
-      icon: <Plus className="h-4 w-4" />,
-      variant: "default",
-      onClick: () => router.push("/admin/careers/create"),
-      permissions: ["VACANCIES:CREATE"],
-    },
-  ];
+    if (isError) {
+        return (
+            <div className="p-8 text-center text-destructive">
+                Failed to load vacancies.
+            </div>
+        );
+    }
 
-  if (isLoading) {
     return (
-      <div className="p-8 text-center text-muted-foreground">
-        Loading vacancies...
-      </div>
+        <TableLayout
+            title="Vacancy Management"
+            description="Create, publish, and manage job vacancies"
+            actions={actions}
+            filters={filters}
+            filterColumnsPerRow={2}
+        >
+            <DataTable
+                columns={columns}
+                data={paginatedData}
+                totalPageCount={Math.ceil(filteredData.length / pageSize) || 1}
+                handlePagination={handlePagination}
+                tablePageSize={pageSize}
+                currentIndex={pageIndex}
+            />
+
+            <ConfirmDialog
+                open={deleteConfirm.open}
+                onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
+                title="Delete Vacancy?"
+                description={`Are you sure you want to delete "${deleteConfirm.title}"? This action cannot be undone.`}
+                confirmLabel="Delete"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={async () => {
+                    try {
+                        setIsDeleting(true);
+                        await deleteVacancy(deleteConfirm.id).unwrap();
+                        notify.success("Vacancy deleted successfully.");
+                        setDeleteConfirm((prev) => ({ ...prev, open: false }));
+                    } catch (err) {
+                        notify.error("Failed to delete vacancy.", err);
+                    } finally {
+                        setIsDeleting(false);
+                    }
+                }}
+            />
+        </TableLayout>
     );
-  }
-
-  if (isError) {
-    return (
-      <div className="p-8 text-center text-destructive">
-        Failed to load vacancies.
-      </div>
-    );
-  }
-
-  return (
-    <TableLayout
-      title="Vacancy Management"
-      description="Create, publish, and manage job vacancies"
-      actions={actions}
-      filters={filters}
-      filterColumnsPerRow={2}
-    >
-      <DataTable
-        columns={columns}
-        data={paginatedData}
-        totalPageCount={Math.ceil(filteredData.length / pageSize) || 1}
-        handlePagination={handlePagination}
-        tablePageSize={pageSize}
-        currentIndex={pageIndex}
-      />
-
-      <ConfirmDialog
-        open={deleteConfirm.open}
-        onOpenChange={(open) => setDeleteConfirm((prev) => ({ ...prev, open }))}
-        title="Delete Vacancy?"
-        description={`Are you sure you want to delete "${deleteConfirm.title}"? This action cannot be undone.`}
-        confirmLabel="Delete"
-        variant="danger"
-        isLoading={isDeleting}
-        onConfirm={async () => {
-          try {
-            setIsDeleting(true);
-            await deleteVacancy(deleteConfirm.id).unwrap();
-            notify.success("Vacancy deleted successfully.");
-            setDeleteConfirm((prev) => ({ ...prev, open: false }));
-          } catch (err) {
-            notify.error("Failed to delete vacancy.", err);
-          } finally {
-            setIsDeleting(false);
-          }
-        }}
-      />
-    </TableLayout>
-  );
 }

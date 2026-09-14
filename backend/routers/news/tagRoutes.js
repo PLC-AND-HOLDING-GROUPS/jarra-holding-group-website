@@ -6,7 +6,8 @@ const {
     validateUpdateTag,
 } = require("../../validators/news/tagValidator");
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
     createTag,
@@ -19,11 +20,11 @@ const {
 // ===========================
 // Tag CRUD
 // ===========================
-router.post("/", authenticateToken, validateCreateTag, createTag);
+router.post("/", authenticateToken, checkPermission("tags", "create"), validateCreateTag, createTag);
 router.get("/", getAllTags);
 router.get("/:id", getTagById);
-router.put("/:id", authenticateToken, validateUpdateTag, updateTag);
-router.delete("/:id", authenticateToken, deleteTag);
+router.put("/:id", authenticateToken, checkPermission("tags", "update"), validateUpdateTag, updateTag);
+router.delete("/:id", authenticateToken, checkPermission("tags", "delete"), deleteTag);
 
 /**
  * @swagger

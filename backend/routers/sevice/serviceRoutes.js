@@ -6,7 +6,8 @@ const {
     validateUpdateService,
 } = require("../../validators/service/serviceValidator");
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
     createService,
@@ -20,12 +21,12 @@ const {
 // ===========================
 // Service CRUD
 // ===========================
-router.put("/reorder", authenticateToken, reorderServices);
-router.post("/", authenticateToken, validateCreateService, createService);
+router.put("/reorder", authenticateToken, checkPermission("services", "update"), reorderServices);
+router.post("/", authenticateToken, checkPermission("services", "create"), validateCreateService, createService);
 router.get("/", getAllServices);
 router.get("/:id", getServiceById);
-router.put("/:id", authenticateToken, validateUpdateService, updateService);
-router.delete("/:id", authenticateToken, deleteService);
+router.put("/:id", authenticateToken, checkPermission("services", "update"), validateUpdateService, updateService);
+router.delete("/:id", authenticateToken, checkPermission("services", "delete"), deleteService);
 
 /**
  * @swagger

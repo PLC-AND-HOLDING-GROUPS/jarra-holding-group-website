@@ -3,7 +3,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
     createCard,
@@ -26,14 +27,12 @@ router.get("/", getAllCards);
 router.get("/:id", validateCardId, getCardById);
 
 // Admin protected routes
-router.post("/", authenticateToken, validateCreateCard, createCard);
-router.put(
-    "/:id",
-    authenticateToken,
-    validateCardId,
+router.post("/", authenticateToken, checkPermission("hero", "create"), validateCreateCard, createCard);
+router.put("/:id", authenticateToken,
+    checkPermission("hero", "update"), validateCardId,
     validateUpdateCard,
     updateCard
 );
-router.delete("/:id", authenticateToken, validateCardId, deleteCard);
+router.delete("/:id", authenticateToken, checkPermission("hero", "delete"), validateCardId, deleteCard);
 
 module.exports = router;

@@ -3,7 +3,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
     createOrUpdatePurpose,
@@ -13,6 +14,6 @@ const {
 // ================= PURPOSE ROUTES =================
 
 router.get("/", getPurpose);
-router.post("/", authenticateToken, createOrUpdatePurpose);
+router.post("/", authenticateToken, checkPermission("hero", "create"), createOrUpdatePurpose);
 
 module.exports = router;

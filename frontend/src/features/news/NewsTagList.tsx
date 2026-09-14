@@ -97,21 +97,25 @@ export default function NewsTagList() {
                     <div className="flex items-center gap-1">
                         <ComponentGuard anyPermissions={["TAGS:UPDATE"]}>
                             <>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => router.push(`/news/tags/${tagId}`)}
-                                >
-                                    <Eye className="h-4 w-4" />
-                                </Button>
+                                <ComponentGuard anyPermissions={['NEWS:UPDATE']}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => router.push(`/news/tags/${tagId}`)}
+                                    >
+                                        <Eye className="h-4 w-4" />
+                                    </Button>
+                                </ComponentGuard>
 
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => router.push(`/news/tags/${tagId}/edit`)}
-                                >
-                                    <Edit className="h-4 w-4" />
-                                </Button>
+                                <ComponentGuard anyPermissions={['NEWS:UPDATE']}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => router.push(`/news/tags/${tagId}/edit`)}
+                                    >
+                                        <Edit className="h-4 w-4" />
+                                    </Button>
+                                </ComponentGuard>
                             </>
                         </ComponentGuard>
 

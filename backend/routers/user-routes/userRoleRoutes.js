@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
 const {
   assignRolesToUser,
   removeRoleFromUser,
@@ -40,7 +42,7 @@ const {
  *       200:
  *         description: Roles assigned successfully
  */
-router.post("/assign", assignRolesToUser);
+router.post("/assign", authenticateToken, checkPermission("users", "assign_role"), assignRolesToUser);
 
 /**
  * @swagger
@@ -68,6 +70,6 @@ router.post("/assign", assignRolesToUser);
  *       200:
  *         description: Role removed successfully
  */
-router.post("/remove", removeRoleFromUser);
+router.post("/remove", authenticateToken, checkPermission("users", "create"), removeRoleFromUser);
 
 module.exports = router;

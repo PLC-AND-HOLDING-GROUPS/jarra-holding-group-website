@@ -14,6 +14,7 @@ import {
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 import { notify, extractErrorMessage } from "@/utils/notification";
 import { Partner } from "@/redux/types/partner";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 export default function AdminPartnerManager() {
     const { data: partners, isLoading: isFetching } = useGetPartnersQuery();
@@ -94,18 +95,20 @@ export default function AdminPartnerManager() {
                     <h2 className="text-lg font-bold text-primary">Partners Management</h2>
                     <p className="text-sm text-gray-500">Manage partner logos and the section header.</p>
                 </div>
-                <Button
-                    variant="admin-primary"
-                    onClick={handleSave}
-                    disabled={isUpdating || isCreating}
-                >
-                    {isUpdating || isCreating ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                        <Save className="w-4 h-4 mr-2" />
-                    )}
-                    Save Changes
-                </Button>
+                <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                    <Button
+                        variant="admin-primary"
+                        onClick={handleSave}
+                        disabled={isUpdating || isCreating}
+                    >
+                        {isUpdating || isCreating ? (
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        ) : (
+                            <Save className="w-4 h-4 mr-2" />
+                        )}
+                        Save Changes
+                    </Button>
+                </ComponentGuard>
             </div>
 
             <Card className="border-gray-200">
@@ -135,10 +138,12 @@ export default function AdminPartnerManager() {
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
                     <h3 className="text-base font-bold text-primary">Partner Logos</h3>
-                    <Button variant="admin-primary" size="sm" onClick={addLogo} className="h-8">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Logo
-                    </Button>
+                    <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                        <Button variant="admin-primary" size="sm" onClick={addLogo} className="h-8">
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Logo
+                        </Button>
+                    </ComponentGuard>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -155,14 +160,16 @@ export default function AdminPartnerManager() {
                                             category="profile"
                                             className="w-full pt-4"
                                         />
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            onClick={() => removeLogo(index)}
-                                            className="text-destructive h-8 w-8 absolute top-0 right-0 z-10 shadow-sm"
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </Button>
+                                        <ComponentGuard anyPermissions={['HERO:DELETE']}>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => removeLogo(index)}
+                                                className="text-destructive h-8 w-8 absolute top-0 right-0 z-10 shadow-sm"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </ComponentGuard>
                                     </div>
                                 </div>
                             </CardContent>

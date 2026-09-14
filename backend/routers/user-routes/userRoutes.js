@@ -14,7 +14,8 @@ const {
 } = require("../../controllers/user/userController");
 
 // Middleware for authentication if needed (example)
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 /**
  * @swagger
@@ -143,7 +144,7 @@ router.get("/profile/me", authenticateToken, getProfile);
  *       201:
  *         description: User created
  */
-router.post("/", createUser);
+router.post("/", authenticateToken, checkPermission("users", "create"), createUser);
 
 /**
  * @swagger
@@ -182,7 +183,7 @@ router.post("/", createUser);
  *       200:
  *         description: User updated
  */
-router.put("/:id", updateUser);
+router.put("/:id", authenticateToken, checkPermission("users", "update"), updateUser);
 
 /**
  * @swagger
@@ -200,7 +201,7 @@ router.put("/:id", updateUser);
  *       200:
  *         description: User deactivated
  */
-router.delete("/:id", deleteUser);
+router.delete("/:id", authenticateToken, checkPermission("users", "delete"), deleteUser);
 
 /**
  * @swagger
@@ -227,7 +228,7 @@ router.delete("/:id", deleteUser);
  *       200:
  *         description: Status updated
  */
-router.patch("/:id/toggle-status", toggleUserActiveStatus);
+router.patch("/:id/toggle-status", authenticateToken, checkPermission("users", "update"), toggleUserActiveStatus);
 
 /**
  * @swagger
@@ -245,6 +246,6 @@ router.patch("/:id/toggle-status", toggleUserActiveStatus);
  *       200:
  *         description: Password reset successfully
  */
-router.post("/:id/reset-password", resetUserPassword);
+router.post("/:id/reset-password", authenticateToken, checkPermission("users", "create"), resetUserPassword);
 
 module.exports = router;

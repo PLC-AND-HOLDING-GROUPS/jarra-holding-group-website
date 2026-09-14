@@ -6,7 +6,8 @@ const {
   validateUpdateRole,
 } = require("../../validators/user/roleValidator");
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
   createRole,
@@ -16,11 +17,11 @@ const {
   deleteRole,
 } = require("../../controllers/user/roleController");
 
-router.post("/", validateCreateRole, createRole);
+router.post("/", authenticateToken, checkPermission("roles", "create"), validateCreateRole, createRole);
 router.get("/", getRoles);
 router.get("/:id", getRoleById);
-router.put("/:id", validateUpdateRole, updateRole);
-router.delete("/:id", deleteRole);
+router.put("/:id", authenticateToken, checkPermission("roles", "update"), validateUpdateRole, updateRole);
+router.delete("/:id", authenticateToken, checkPermission("roles", "delete"), deleteRole);
 
 /**
  * @swagger

@@ -22,6 +22,8 @@ import {
     toDatetimeLocalInput,
     TIMEZONE_LABEL,
 } from "@/utils/datetime";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
+
 // Dynamic import for Quill
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -248,9 +250,11 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                                 <Button type="button" variant="ghost" size="icon" onClick={() => setPreviewFile(file)}>
                                     <Eye className="w-5 h-5 text-primary" />
                                 </Button>
-                                <Button type="button" variant="ghost" size="icon" onClick={() => handleDelete(file.attachment_id)}>
-                                    <Trash2 className="w-5 h-5 text-red-600" />
-                                </Button>
+                                <ComponentGuard anyPermissions={['NEWS:DELETE']}>
+                                    <Button type="button" variant="ghost" size="icon" onClick={() => handleDelete(file.attachment_id)}>
+                                        <Trash2 className="w-5 h-5 text-red-600" />
+                                    </Button>
+                                </ComponentGuard>
                             </div>
                         </div>
                     ))}
@@ -540,16 +544,18 @@ const CreateNews = () => {
                         onChange={(html) => setContentHtml(html)}
                     />
 
-                    <Button type="submit" disabled={isCreating}>
-                        {isCreating ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Creating News...
-                            </>
-                        ) : (
-                            "Create News"
-                        )}
-                    </Button>
+                    <ComponentGuard anyPermissions={['NEWS:UPDATE']}>
+                        <Button type="submit" disabled={isCreating}>
+                            {isCreating ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Creating News...
+                                </>
+                            ) : (
+                                "Create News"
+                            )}
+                        </Button>
+                    </ComponentGuard>
                 </form>
             </div >
 

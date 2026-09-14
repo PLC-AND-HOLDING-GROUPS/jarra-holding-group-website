@@ -23,6 +23,7 @@ import {
     toDatetimeLocalInput,
     TIMEZONE_LABEL,
 } from "@/utils/datetime";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 // Dynamic import for Quill
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -453,10 +454,12 @@ const EditNews = () => {
                         </div>
                     )}
 
-                    <Button type="submit" className="w-full flex items-center justify-center gap-2" disabled={isUpdating}>
-                        {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isUpdating ? "Updating News..." : "Update News"}
-                    </Button>
+                    <ComponentGuard anyPermissions={['NEWS:UPDATE']}>
+                        <Button type="submit" className="w-full flex items-center justify-center gap-2" disabled={isUpdating}>
+                            {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
+                            {isUpdating ? "Updating News..." : "Update News"}
+                        </Button>
+                    </ComponentGuard>
                 </form>
             </div>
 

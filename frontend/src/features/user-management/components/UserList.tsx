@@ -46,7 +46,7 @@ export default function UserList() {
         description: "",
         confirmLabel: "Confirm",
         variant: "danger",
-        onConfirm: async () => {},
+        onConfirm: async () => { },
     });
 
     const handleToggleStatus = async (user: User) => {
@@ -200,27 +200,29 @@ export default function UserList() {
                 const isActive = row.getValue("is_active") as boolean;
                 const user = row.original;
                 return (
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`flex items-center gap-1.5 h-8 px-2 rounded-full ${isActive
-                            ? "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
-                            : "bg-red-50 text-red-500 hover:bg-red-100 border border-red-200"
-                            }`}
-                        onClick={() => handleToggleStatus(user)}
-                    >
-                        {isActive ? (
-                            <>
-                                <CheckCircle2 className="h-3.5 w-3.5" />
-                                <span className="text-xs font-semibold">Active</span>
-                            </>
-                        ) : (
-                            <>
-                                <XCircle className="h-3.5 w-3.5" />
-                                <span className="text-xs font-semibold">Disabled</span>
-                            </>
-                        )}
-                    </Button>
+                    <ComponentGuard anyPermissions={['USERS:UPDATE']}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={`flex items-center gap-1.5 h-8 px-2 rounded-full ${isActive
+                                ? "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
+                                : "bg-red-50 text-red-500 hover:bg-red-100 border border-red-200"
+                                }`}
+                            onClick={() => handleToggleStatus(user)}
+                        >
+                            {isActive ? (
+                                <>
+                                    <CheckCircle2 className="h-3.5 w-3.5" />
+                                    <span className="text-xs font-semibold">Active</span>
+                                </>
+                            ) : (
+                                <>
+                                    <XCircle className="h-3.5 w-3.5" />
+                                    <span className="text-xs font-semibold">Disabled</span>
+                                </>
+                            )}
+                        </Button>
+                    </ComponentGuard>
                 );
             },
         },
@@ -231,22 +233,26 @@ export default function UserList() {
                 const id = row.original.user_id;
                 return (
                     <div className="flex items-center gap-1">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            title="Edit User"
-                            onClick={() => router.push(`/admin/users/edit/${id}`)}
-                        >
-                            <Edit className="h-4 w-4 text-primary" />
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            title="Reset Password"
-                            onClick={() => handleResetPassword(id)}
-                        >
-                            <Key className="h-4 w-4 text-amber-500" />
-                        </Button>
+                        <ComponentGuard anyPermissions={['USERS:UPDATE']}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                title="Edit User"
+                                onClick={() => router.push(`/admin/users/edit/${id}`)}
+                            >
+                                <Edit className="h-4 w-4 text-primary" />
+                            </Button>
+                        </ComponentGuard>
+                        <ComponentGuard anyPermissions={['USERS:UPDATE']}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                title="Reset Password"
+                                onClick={() => handleResetPassword(id)}
+                            >
+                                <Key className="h-4 w-4 text-amber-500" />
+                            </Button>
+                        </ComponentGuard>
                         <ComponentGuard anyPermissions={["USERS:DELETE"]}>
                             <Button
                                 variant="ghost"
@@ -296,7 +302,7 @@ export default function UserList() {
                 handlePagination={handlePagination}
                 tablePageSize={pageSize}
                 currentIndex={pageIndex}
-                // isLoading={isLoading}
+            // isLoading={isLoading}
             />
 
             <ConfirmDialog

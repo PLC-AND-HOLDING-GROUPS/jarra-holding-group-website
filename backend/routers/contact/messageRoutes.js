@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
 
 const {
   createMessage,
@@ -24,6 +24,6 @@ router.post("/", contactLimiter, validateCreateMessage, createMessage);
 // Admin routes
 router.get("/", authenticateToken, getAllMessages);
 router.get("/:id", authenticateToken, getMessageById);
-router.delete("/:id", authenticateToken, deleteMessage);
+router.delete("/:id", authenticateToken, checkPermission("contact_messages", "delete"), deleteMessage);
 
 module.exports = router;

@@ -12,6 +12,7 @@ import { ImageUploadField } from "@/components/common/ImageUploadField";
 import { LucideIconPicker } from "@/components/common/LucideIconPicker";
 import { notify, extractErrorMessage } from "@/utils/notification";
 import { PurposePillar } from "@/redux/types/purpose";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 export default function AdminPurposeManager() {
     const { data: purposeData, isLoading: isFetching, refetch } = useGetPurposeQuery();
@@ -85,14 +86,16 @@ export default function AdminPurposeManager() {
                     <p className="text-sm text-gray-500">Manage the purpose section on the home page.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button
-                        variant="admin-primary"
-                        onClick={handleSave}
-                        disabled={isUpdating}
-                    >
-                        {isUpdating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                        Save Changes
-                    </Button>
+                    <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                        <Button
+                            variant="admin-primary"
+                            onClick={handleSave}
+                            disabled={isUpdating}
+                        >
+                            {isUpdating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                            Save Changes
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </div>
 
@@ -158,9 +161,11 @@ export default function AdminPurposeManager() {
                     <CardTitle className="text-base font-semibold text-primary">
                         Pillars
                     </CardTitle>
-                    <Button variant="outline" size="sm" onClick={addPillar}>
-                        <Plus className="w-4 h-4 mr-1" /> Add Pillar
-                    </Button>
+                    <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                        <Button variant="outline" size="sm" onClick={addPillar}>
+                            <Plus className="w-4 h-4 mr-1" /> Add Pillar
+                        </Button>
+                    </ComponentGuard>
                 </CardHeader>
                 <CardContent className="p-6">
                     {pillars.length === 0 ? (
@@ -169,14 +174,16 @@ export default function AdminPurposeManager() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {pillars.map((pillar, index) => (
                                 <div key={index} className="p-4 border rounded-lg relative space-y-4">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="absolute top-2 right-2 text-destructive h-8 w-8 hover:bg-red-100"
-                                        onClick={() => removePillar(index)}
-                                    >
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                                    <ComponentGuard anyPermissions={['HERO:DELETE']}>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="absolute top-2 right-2 text-destructive h-8 w-8 hover:bg-red-100"
+                                            onClick={() => removePillar(index)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </ComponentGuard>
                                     <h4 className="font-medium text-sm text-primary">Pillar {index + 1}</h4>
 
                                     <div className="space-y-2">

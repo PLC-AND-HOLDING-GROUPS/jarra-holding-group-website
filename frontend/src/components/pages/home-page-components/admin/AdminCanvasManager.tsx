@@ -10,6 +10,7 @@ import { Save, Loader2 } from "lucide-react";
 import { useGetCanvasQuery, useCreateOrUpdateCanvasMutation } from "@/redux/api/canvasApi";
 import { notify, extractErrorMessage } from "@/utils/notification";
 import { CanvasWords } from "@/redux/types/canvas";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 const WORD_KEYS = [
     { key: "top_left_1", label: "Top Left 1 (e.g. Sustainable)" },
@@ -97,14 +98,16 @@ export default function AdminCanvasManager() {
                     <p className="text-sm text-gray-500">Manage the texts and words of the canvas section.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button
-                        variant="admin-primary"
-                        onClick={handleSave}
-                        disabled={isUpdating}
-                    >
-                        {isUpdating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                        Save Changes
-                    </Button>
+                    <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                        <Button
+                            variant="admin-primary"
+                            onClick={handleSave}
+                            disabled={isUpdating}
+                        >
+                            {isUpdating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                            Save Changes
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </div>
 

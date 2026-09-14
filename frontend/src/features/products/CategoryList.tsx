@@ -12,11 +12,11 @@ import { TableLayout } from "@/features/template/component/TableLayout";
 import type { FilterField, ActionButton } from "@/types/tableLayout";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
-import { 
-    useGetCategoriesQuery, 
-    useDeleteCategoryMutation, 
-    useCreateCategoryMutation, 
-    useUpdateCategoryMutation 
+import {
+    useGetCategoriesQuery,
+    useDeleteCategoryMutation,
+    useCreateCategoryMutation,
+    useUpdateCategoryMutation
 } from "@/redux/api/productApi";
 import { ProductCategory } from "@/redux/types/product";
 
@@ -94,7 +94,7 @@ export default function CategoryList() {
                 name: newCategoryName,
                 slug: newCategorySlug
             }).unwrap();
-            
+
             notify.success("Category created successfully.");
             setIsCreateModalOpen(false);
             setNewCategoryName("");
@@ -126,7 +126,7 @@ export default function CategoryList() {
                     slug: editCategorySlug
                 }
             }).unwrap();
-            
+
             notify.success("Category updated successfully.");
             setIsEditModalOpen(false);
         } catch (error) {
@@ -156,7 +156,7 @@ export default function CategoryList() {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex items-center gap-1">
-                    <ComponentGuard anyPermissions={["PRODUCTCATEGORY:UPDATE"]}>
+                    <ComponentGuard anyPermissions={["PRODUCT_CATEGORIES:UPDATE"]}>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -166,7 +166,7 @@ export default function CategoryList() {
                             <Edit className="h-4 w-4 text-primary" />
                         </Button>
                     </ComponentGuard>
-                    <ComponentGuard anyPermissions={["PRODUCTCATEGORY:DELETE"]}>
+                    <ComponentGuard anyPermissions={["PRODUCT_CATEGORIES:DELETE"]}>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -193,7 +193,7 @@ export default function CategoryList() {
             icon: <Plus className="w-4 h-4" />,
             onClick: () => setIsCreateModalOpen(true),
             variant: "default",
-            permissions: ["PRODUCTCATEGORY:CREATE"],
+            permissions: ["PRODUCT_CATEGORIES:CREATE"],
         },
     ];
 
@@ -247,12 +247,16 @@ export default function CategoryList() {
                             />
                         </div>
                         <DialogFooter>
-                            <Button type="button" variant="outline" onClick={() => setIsCreateModalOpen(false)}>
-                                Cancel
-                            </Button>
-                            <Button type="submit" disabled={isCreating}>
-                                {isCreating ? "Creating..." : "Create Category"}
-                            </Button>
+                            <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                                <Button type="button" variant="outline" onClick={() => setIsCreateModalOpen(false)}>
+                                    Cancel
+                                </Button>
+                            </ComponentGuard>
+                            <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                                <Button type="submit" disabled={isCreating}>
+                                    {isCreating ? "Creating..." : "Create Category"}
+                                </Button>
+                            </ComponentGuard>
                         </DialogFooter>
                     </form>
                 </DialogContent>
@@ -291,12 +295,16 @@ export default function CategoryList() {
                             />
                         </div>
                         <DialogFooter>
-                            <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>
-                                Cancel
-                            </Button>
-                            <Button type="submit" disabled={isUpdating}>
-                                {isUpdating ? "Updating..." : "Update Category"}
-                            </Button>
+                            <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                                <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>
+                                    Cancel
+                                </Button>
+                            </ComponentGuard>
+                            <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                                <Button type="submit" disabled={isUpdating}>
+                                    {isUpdating ? "Updating..." : "Update Category"}
+                                </Button>
+                            </ComponentGuard>
                         </DialogFooter>
                     </form>
                 </DialogContent>

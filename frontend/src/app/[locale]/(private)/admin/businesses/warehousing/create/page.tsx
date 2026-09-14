@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import { notify, extractErrorMessage } from '@/utils/notification';
 import { EditFileUpload, UploadedFileInfo } from '@/components/common/EditFileUpload';
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 const CreateWarehousePage = () => {
     const router = useRouter();
@@ -181,10 +182,12 @@ const CreateWarehousePage = () => {
                     <Button type="button" variant="outline" onClick={() => router.push('/admin/businesses/warehousing')}>
                         Cancel
                     </Button>
-                    <Button type="submit" disabled={isCreating} className="flex items-center gap-2">
-                        {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                        Create Facility
-                    </Button>
+                    <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                        <Button type="submit" disabled={isCreating} className="flex items-center gap-2">
+                            {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                            Create Facility
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </form>
         </div>

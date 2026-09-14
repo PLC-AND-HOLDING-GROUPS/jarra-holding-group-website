@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { notify, extractErrorMessage } from '@/utils/notification';
 import { LucideIconPicker } from "@/components/common/LucideIconPicker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 // Define the static sections for the diagram
 const STATIC_SECTIONS = [
@@ -195,12 +196,14 @@ const BusinessesPage = () => {
                                 <label className="text-sm font-medium">Description 2</label>
                                 <Textarea name="description2" value={overviewData.description2} onChange={handleOverviewChange} rows={3} placeholder="Second paragraph..." />
                             </div>
-                            
+
                             <div className="flex justify-end pt-4 border-t border-border mt-6">
-                                <Button onClick={handleOverviewSave} disabled={isUpdatingOverview}>
-                                    {isUpdatingOverview ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                                    Save Content
-                                </Button>
+                                <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                                    <Button onClick={handleOverviewSave} disabled={isUpdatingOverview}>
+                                        {isUpdatingOverview ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                                        Save Content
+                                    </Button>
+                                </ComponentGuard>
                             </div>
                         </CardContent>
                     </Card>
@@ -220,10 +223,12 @@ const BusinessesPage = () => {
                                         Edit the 7 static node slots in the interactive diagram. The center node represents the core business. Leave a title/desc blank to hide a node.
                                     </CardDescription>
                                 </div>
-                                <Button onClick={handleSaveNodes} disabled={isSavingNodes}>
-                                    {isSavingNodes ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                                    Save Diagram
-                                </Button>
+                                <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                                    <Button onClick={handleSaveNodes} disabled={isSavingNodes}>
+                                        {isSavingNodes ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                                        Save Diagram
+                                    </Button>
+                                </ComponentGuard>
                             </div>
                         </CardHeader>
                         <CardContent className="pt-6">
@@ -234,7 +239,7 @@ const BusinessesPage = () => {
                                         <div key={section.id_string} className={`relative bg-card rounded-lg border shadow-sm p-5 ${section.isCenter ? 'md:col-span-2 border-primary/40 ring-1 ring-primary/20' : 'border-border'}`}>
                                             <div className="absolute top-0 right-0 p-2 opacity-30"><GripVertical className="w-4 h-4" /></div>
                                             <h3 className={`font-semibold mb-4 ${section.isCenter ? 'text-primary text-lg' : 'text-foreground text-md'}`}>{section.label}</h3>
-                                            
+
                                             <div className={`gap-4 ${section.isCenter ? 'grid grid-cols-1 md:grid-cols-2' : 'space-y-4'}`}>
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-medium text-muted-foreground">{section.isCenter ? 'Center Main Title' : 'Title'}</label>

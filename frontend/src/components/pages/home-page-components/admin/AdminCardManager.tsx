@@ -7,13 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Loader2 } from "lucide-react";
-import { 
-    useGetCardsQuery, 
-    useUpdateCardMutation, 
-    useCreateCardMutation 
+import {
+    useGetCardsQuery,
+    useUpdateCardMutation,
+    useCreateCardMutation
 } from "@/redux/api/cardApi";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 import { notify, extractErrorMessage } from "@/utils/notification";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 export default function AdminCardManager() {
     const { data: cards, isLoading: isFetching } = useGetCardsQuery();
@@ -75,18 +76,20 @@ export default function AdminCardManager() {
                     <h2 className="text-lg font-bold text-primary">Card Section Management</h2>
                     <p className="text-sm text-gray-500">Edit the featured performance card content.</p>
                 </div>
-                <Button 
-                    variant="admin-primary"
-                    onClick={handleSave} 
-                    disabled={isUpdating || isCreating}
-                >
-                    {isUpdating || isCreating ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                        <Save className="w-4 h-4 mr-2" />
-                    )}
-                    Save Changes
-                </Button>
+                <ComponentGuard anyPermissions={['HERO:UPDATE']}>
+                    <Button
+                        variant="admin-primary"
+                        onClick={handleSave}
+                        disabled={isUpdating || isCreating}
+                    >
+                        {isUpdating || isCreating ? (
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        ) : (
+                            <Save className="w-4 h-4 mr-2" />
+                        )}
+                        Save Changes
+                    </Button>
+                </ComponentGuard>
             </div>
 
             <Card className="border-gray-200">

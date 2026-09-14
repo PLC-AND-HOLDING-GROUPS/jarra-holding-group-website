@@ -15,6 +15,7 @@ import { Loader2, ArrowLeft, Trash2 } from 'lucide-react';
 import { notify, extractErrorMessage } from '@/utils/notification';
 import { EditFileUpload, UploadedFileInfo } from '@/components/common/EditFileUpload';
 import { getFileUrl } from '@/utils/fileUrl';
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 const EditWarehousePage = () => {
     const router = useRouter();
@@ -254,10 +255,12 @@ const EditWarehousePage = () => {
                     <Button type="button" variant="outline" onClick={() => router.push('/admin/businesses/warehousing')}>
                         Cancel
                     </Button>
-                    <Button type="submit" disabled={isUpdating} className="flex items-center gap-2">
-                        {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                        Save Changes
-                    </Button>
+                    <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                        <Button type="submit" disabled={isUpdating} className="flex items-center gap-2">
+                            {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                            Save Changes
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </form>
         </div>

@@ -17,6 +17,7 @@ import "quill/dist/quill.snow.css";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 // Dynamic import for Quill
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -100,7 +101,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
         if (mapped.length) {
             const existingIds = new Set(files.map(f => f.attachment_id));
             const newFiles = mapped.filter(f => !existingIds.has(f.attachment_id));
-            
+
             if (newFiles.length > 0) {
                 setFiles(prev => [...prev, ...newFiles]);
                 // Only notify parent about initialized files if there are new ones
@@ -207,7 +208,9 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                             </div>
                             <div className="flex gap-1">
                                 <Button type="button" variant="ghost" size="icon" onClick={() => setPreviewFile(file)}><Eye className="w-5 h-5 text-primary" /></Button>
-                                <Button type="button" variant="ghost" size="icon" onClick={() => handleDelete(file.attachment_id)}><Trash2 className="w-5 h-5 text-red-600" /></Button>
+                                <ComponentGuard anyPermissions={['PRODUCTS:DELETE']}>
+                                    <Button type="button" variant="ghost" size="icon" onClick={() => handleDelete(file.attachment_id)}><Trash2 className="w-5 h-5 text-red-600" /></Button>
+                                </ComponentGuard>
                             </div>
                         </div>
                     ))}
@@ -247,12 +250,12 @@ export default function CreateProduct() {
     const [fullDescriptionHtml, setFullDescriptionHtml] = useState("");
     const [status, setStatus] = useState<"Available" | "Available on Request" | "Inquiry Required" | "Currently Unavailable">("Available");
     const [publishStatus, setPublishStatus] = useState<"draft" | "published" | "archived">("draft");
-    
+
     // Dynamic specifications
-    const [specifications, setSpecifications] = useState<{key: string, value: string}[]>([{key: "", value: ""}]);
-    
+    const [specifications, setSpecifications] = useState<{ key: string, value: string }[]>([{ key: "", value: "" }]);
+
     // Applications removed as requested
-    
+
     const [productAttachments, setProductAttachments] = useState<ProductAttachmentInput[]>([]);
     const [imageFiles, setImageFiles] = useState<UploadedFileInfo[]>([]);
     const [documentFiles, setDocumentFiles] = useState<UploadedFileInfo[]>([]);
@@ -270,7 +273,7 @@ export default function CreateProduct() {
         }
     };
 
-    const addSpecification = () => setSpecifications([...specifications, {key: "", value: ""}]);
+    const addSpecification = () => setSpecifications([...specifications, { key: "", value: "" }]);
     const updateSpecification = (index: number, field: "key" | "value", val: string) => {
         const updated = [...specifications];
         updated[index][field] = val;
@@ -314,7 +317,7 @@ export default function CreateProduct() {
             }).unwrap();
 
             notify.success("Product created successfully.", { id: "create-product" });
-            
+
             // Redirect to edit page instead of clearing form
             if (result?.product_id) {
                 router.push(`/admin/products/${result.product_id}`);
@@ -426,17 +429,21 @@ export default function CreateProduct() {
                         <Label htmlFor="short_desc">Short Description</Label>
                         <Textarea id="short_desc" value={shortDescription} onChange={e => setShortDescription(e.target.value)} placeholder="Brief summary of the product..." rows={3} />
                     </div>
-                    
+
                     <div className="space-y-2">
                         <Label>Specifications</Label>
                         {specifications.map((spec, index) => (
                             <div key={index} className="flex gap-2 items-center">
                                 <Input value={spec.key} onChange={(e) => updateSpecification(index, "key", e.target.value)} placeholder="e.g. Weight" className="flex-1" />
                                 <Input value={spec.value} onChange={(e) => updateSpecification(index, "value", e.target.value)} placeholder="e.g. 50 kg" className="flex-1" />
-                                <Button type="button" variant="ghost" size="icon" onClick={() => removeSpecification(index)} className="text-red-500"><XIcon className="h-4 w-4" /></Button>
+                                <ComponentGuard anyPermissions={['PRODUCTS:DELETE']}>
+                                    <Button type="button" variant="ghost" size="icon" onClick={() => removeSpecification(index)} className="text-red-500"><XIcon className="h-4 w-4" /></Button>
+                                </ComponentGuard>
                             </div>
                         ))}
-                        <Button type="button" variant="outline" size="sm" onClick={addSpecification} className="mt-2 text-xs"><Plus className="h-3 w-3 mr-1" /> Add Spec</Button>
+                        <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                            <Button type="button" variant="outline" size="sm" onClick={addSpecification} className="mt-2 text-xs"><Plus className="h-3 w-3 mr-1" /> Add Spec</Button>
+                        </ComponentGuard>
                     </div>
 
 
@@ -486,17 +493,19 @@ export default function CreateProduct() {
                         />
                     </div>
 
-                    <Button type="submit" className="flex items-center gap-2" disabled={isCreating}>
-                        {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {isCreating ? "Creating Product..." : "Create Product"}
-                    </Button>
+                    <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                        <Button type="submit" className="flex items-center gap-2" disabled={isCreating}>
+                            {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
+                            {isCreating ? "Creating Product..." : "Create Product"}
+                        </Button>
+                    </ComponentGuard>
                 </form>
             </div >
 
             {/* Preview Pane */}
             <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto">
                 <h2 className="text-xl font-semibold mb-4 border-b pb-2">Live Preview</h2>
-                
+
                 {imageFiles.length > 0 && currentMedia && (
                     <div className="relative w-full mb-6">
                         {currentMedia.file_type === "image" && (
@@ -531,11 +540,10 @@ export default function CreateProduct() {
                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${publishStatus === 'published' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
                         {publishStatus.toUpperCase()}
                     </span>
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        status === 'Available' ? 'bg-blue-100 text-blue-700' : 
-                        status === 'Currently Unavailable' ? 'bg-red-100 text-red-700' : 
-                        'bg-amber-100 text-amber-700'
-                    }`}>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${status === 'Available' ? 'bg-blue-100 text-blue-700' :
+                            status === 'Currently Unavailable' ? 'bg-red-100 text-red-700' :
+                                'bg-amber-100 text-amber-700'
+                        }`}>
                         {status.toUpperCase()}
                     </span>
                     {categoryIds.length > 0 && (
@@ -550,7 +558,7 @@ export default function CreateProduct() {
                 </div>
 
                 <h1 className="text-4xl font-bold mb-3 text-primary">{name || "Product Name"}</h1>
-                
+
                 {shortDescription && (
                     <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
                         {shortDescription}

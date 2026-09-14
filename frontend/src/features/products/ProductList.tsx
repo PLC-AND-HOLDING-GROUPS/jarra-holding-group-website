@@ -127,15 +127,17 @@ export default function ProductList() {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex items-center gap-1">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        title="Edit Product"
-                        onClick={() => router.push(`/admin/products/${row.original.product_id}`)}
-                    >
-                        <Edit className="h-4 w-4 text-primary" />
-                    </Button>
-                    <ComponentGuard anyPermissions={["PRODUCT:DELETE"]}>
+                    <ComponentGuard anyPermissions={['PRODUCTS:UPDATE']}>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            title="Edit Product"
+                            onClick={() => router.push(`/admin/products/${row.original.product_id}`)}
+                        >
+                            <Edit className="h-4 w-4 text-primary" />
+                        </Button>
+                    </ComponentGuard>
+                    <ComponentGuard anyPermissions={["PRODUCTS:DELETE"]}>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -162,7 +164,7 @@ export default function ProductList() {
             icon: <Plus className="w-4 h-4" />,
             onClick: () => router.push("/admin/products/create"),
             variant: "default",
-            permissions: ["PRODUCT:CREATE"],
+            permissions: ["PRODUCTS:CREATE"],
         },
     ];
 

@@ -19,6 +19,7 @@ import {
     useDeleteFooterMutation,
 } from "@/redux/api/footerApi";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 interface FooterLink {
     id: string;
@@ -259,23 +260,25 @@ export default function AdminFooterManager() {
                         </CardTitle>
 
                         <div className="flex gap-3">
-                            <Button
-                                onClick={handleSave}
-                                disabled={isSaving}
-                                className="bg-golden-dark hover:bg-golden-darkHover"
-                            >
-                                {isSaving ? (
-                                    <>
-                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                        Saving...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Save className="w-4 h-4 mr-2" />
-                                        Save Changes
-                                    </>
-                                )}
-                            </Button>
+                            <ComponentGuard anyPermissions={['FOOTER:UPDATE']}>
+                                <Button
+                                    onClick={handleSave}
+                                    disabled={isSaving}
+                                    className="bg-golden-dark hover:bg-golden-darkHover"
+                                >
+                                    {isSaving ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                            Saving...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Save className="w-4 h-4 mr-2" />
+                                            Save Changes
+                                        </>
+                                    )}
+                                </Button>
+                            </ComponentGuard>
                         </div>
                     </div>
                 </CardHeader>
@@ -403,15 +406,17 @@ function SectionEditor({
                 </div>
 
                 <div className="flex gap-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={addLink}
-                        className="border-golden-dark bg-primary text-golden-dark h-8"
-                    >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Link
-                    </Button>
+                    <ComponentGuard anyPermissions={['FOOTER:UPDATE']}>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={addLink}
+                            className="border-golden-dark bg-primary text-golden-dark h-8"
+                        >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Link
+                        </Button>
+                    </ComponentGuard>
                 </div>
             </div>
 
@@ -443,14 +448,16 @@ function SectionEditor({
                                 />
                             </div>
 
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => removeLink(link.id)}
-                                className="h-8 w-8 text-destructive hover:text-destructive/90 mt-5"
-                            >
-                                <Trash2 className="w-4 h-4" />
-                            </Button>
+                            <ComponentGuard anyPermissions={['FOOTER:DELETE']}>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => removeLink(link.id)}
+                                    className="h-8 w-8 text-destructive hover:text-destructive/90 mt-5"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </Button>
+                            </ComponentGuard>
                         </div>
                     ))}
 
@@ -459,15 +466,17 @@ function SectionEditor({
                             <p className="text-gray-500 text-sm mb-3">
                                 No links in this section
                             </p>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={addLink}
-                                className="border-golden-dark text-golden-dark"
-                            >
-                                <Plus className="w-4 h-4 mr-2" />
-                                Add First Link
-                            </Button>
+                            <ComponentGuard anyPermissions={['FOOTER:UPDATE']}>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={addLink}
+                                    className="border-golden-dark text-golden-dark"
+                                >
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add First Link
+                                </Button>
+                            </ComponentGuard>
                         </div>
                     )}
                 </CardContent>

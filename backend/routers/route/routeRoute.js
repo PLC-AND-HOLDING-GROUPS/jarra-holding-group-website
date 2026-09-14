@@ -14,7 +14,8 @@ const {
     validateToggleRoute,
 } = require("../../validators/route/routeValidator");
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 /**
  * @swagger
@@ -78,10 +79,8 @@ router.get("/", getRoutes);
  *       200:
  *         description: Labels updated
  */
-router.put(
-    "/:id/labels",
-    authenticateToken,
-    validateUpdateRouteLabels,
+router.put("/:id/labels", authenticateToken,
+    checkPermission("routes", "update"), validateUpdateRouteLabels,
     updateRouteLabels
 );
 
@@ -114,10 +113,8 @@ router.put(
  *       200:
  *         description: Status updated
  */
-router.patch(
-    "/:id/toggle-status",
-    authenticateToken,
-    validateToggleRoute,
+router.patch("/:id/toggle-status", authenticateToken,
+    checkPermission("routes", "update"), validateToggleRoute,
     toggleRouteActiveStatus
 );
 

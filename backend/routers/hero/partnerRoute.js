@@ -3,7 +3,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
     createPartner,
@@ -24,20 +25,16 @@ router.get("/", getAllPartners);
 router.get("/:id", validatePartnerId, getPartnerById);
 
 // ================= ADMIN =================
-router.post("/", authenticateToken, validateCreatePartner, createPartner);
+router.post("/", authenticateToken, checkPermission("about", "create"), validateCreatePartner, createPartner);
 
-router.put(
-    "/:id",
-    authenticateToken,
-    validatePartnerId,
+router.put("/:id", authenticateToken,
+    checkPermission("about", "update"), validatePartnerId,
     validateUpdatePartner,
     updatePartner
 );
 
-router.delete(
-    "/:id",
-    authenticateToken,
-    validatePartnerId,
+router.delete("/:id", authenticateToken,
+    checkPermission("about", "delete"), validatePartnerId,
     deletePartner
 );
 

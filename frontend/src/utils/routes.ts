@@ -52,38 +52,38 @@ export const routePermissions: RouteConfig[] = [
         label: "Businesses",
         icon: "Briefcase",
         permissions: {
-            anyPermissions: ["SERVICES:READ"],
+            anyPermissions: ["BUSINESSES:READ"],
         },
         children: [
             {
                 path: "/admin/businesses",
                 label: "Our Businesses",
                 icon: "Briefcase",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["BUSINESSES:READ"] },
             },
             {
                 path: "/admin/businesses/overview",
                 label: "Overview",
                 icon: "Tag",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["BUSINESSES:READ"] },
             },
             {
                 path: "/admin/businesses/import-export",
                 label: "Import Export",
                 icon: "MessageSquare",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["BUSINESSES:READ"] },
             },
             {
                 path: "/admin/businesses/trading",
                 label: "Trading",
                 icon: "MessageSquare",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["BUSINESSES:READ"] },
             },
             {
                 path: "/admin/businesses/warehousing",
                 label: "Warehousing",
                 icon: "MessageSquare",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["BUSINESSES:READ"] },
             },
         ],
     },
@@ -100,7 +100,7 @@ export const routePermissions: RouteConfig[] = [
         label: "Facilities",
         icon: "Building",
         permissions: {
-            anyPermissions: ["SERVICES:READ"],
+            anyPermissions: ["FACILITIES:READ"],
         },
     },
 
@@ -109,7 +109,7 @@ export const routePermissions: RouteConfig[] = [
         label: "Contacts",
         icon: "Phone",
         permissions: {
-            anyPermissions: ["CONTACT:READ", "CONTACT_MESSAGES:READ"],
+            anyPermissions: ["CONTACTS:READ", "CONTACT_MESSAGES:READ"],
         },
     },
     {
@@ -127,26 +127,26 @@ export const routePermissions: RouteConfig[] = [
         label: "Products",
         icon: "Briefcase",
         permissions: {
-            anyPermissions: ["SERVICES:READ"],
+            anyPermissions: ["PRODUCTS:READ", "PRODUCT_CATEGORIES:READ", "PRODUCT_INQUIRIES:READ"],
         },
         children: [
             {
                 path: "/admin/products",
                 label: "All Products",
                 icon: "Briefcase",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["PRODUCTS:READ"] },
             },
             {
                 path: "/admin/products/categories",
                 label: "Categories",
                 icon: "Tag",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["PRODUCT_CATEGORIES:READ"] },
             },
             {
                 path: "/admin/products/inquiries",
                 label: "Inquiries",
                 icon: "MessageSquare",
-                permissions: { anyPermissions: ["SERVICES:READ"] },
+                permissions: { anyPermissions: ["PRODUCT_INQUIRIES:READ"] },
             },
         ],
     },
@@ -177,13 +177,13 @@ export const routePermissions: RouteConfig[] = [
                 path: "/admin/news/tags",
                 label: "Tags",
                 icon: "Tag",
-                permissions: { anyPermissions: ["NEWS:READ"] },
+                permissions: { anyPermissions: ["TAGS:READ"] },
             },
             {
                 path: "/admin/news/feedbacks",
                 label: "Feedbacks",
                 icon: "MessageSquare",
-                permissions: { anyPermissions: ["NEWS:READ"] },
+                permissions: { anyPermissions: ["NEWS_FEEDBACKS:READ"] },
             },
         ],
     },

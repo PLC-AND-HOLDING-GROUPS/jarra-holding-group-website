@@ -3,7 +3,7 @@
 const { v4: uuidv4 } = require("uuid");
 
 const SUPER_ADMIN_ROLE_ID = "00000000-0000-4000-8000-000000000002";
-const RESOURCES = ["opportunities", "tenders", "vacancies"];
+const RESOURCES = ["vacancies"];
 const ACTIONS = ["create", "read", "update", "delete", "publish"];
 
 /** Idempotent permission + Super Admin role link seeder for production deploys. */

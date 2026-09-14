@@ -11,7 +11,7 @@ const {
 } = require("../../controllers/contact/jobApplicationController");
 
 // We need auth middleware for the admin routes
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
 const { jobApplicationLimiter } = require("../../middlewares/rateLimitMiddleware");
 const { validateCreateApplication } = require("../../validators/contact/jobApplicationValidator");
 
@@ -21,7 +21,7 @@ router.post("/", jobApplicationLimiter, validateCreateApplication, submitApplica
 // Admin Routes: Manage applications (require authentication)
 router.get("/vacancy/:vacancyId", authenticateToken, getApplicationsByVacancy);
 router.get("/:id", authenticateToken, getApplicationById);
-router.put("/:id/status", authenticateToken, updateApplicationStatus);
-router.put("/:id/feedback", authenticateToken, updateApplicationFeedback);
+router.put("/:id/status", authenticateToken, checkPermission("vacancies", "update"), updateApplicationStatus);
+router.put("/:id/feedback", authenticateToken, checkPermission("vacancies", "update"), updateApplicationFeedback);
 
 module.exports = router;

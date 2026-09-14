@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { 
-    useGetImportExportOverviewQuery, 
+import {
+    useGetImportExportOverviewQuery,
     useUpdateImportExportOverviewMutation,
     useGetImportExportCategoriesQuery,
     useCreateImportExportCategoryMutation,
@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { notify, extractErrorMessage } from '@/utils/notification';
 import { LucideIconPicker } from "@/components/common/LucideIconPicker";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 const ImportExportAdminPage = () => {
     // --- Overview ---
@@ -266,10 +267,12 @@ const ImportExportAdminPage = () => {
                             </div>
                         </div>
 
-                        <Button onClick={handleOverviewSave} disabled={isUpdatingOverview} className="mt-6">
-                            {isUpdatingOverview ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                            Save Overview Details
-                        </Button>
+                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                            <Button onClick={handleOverviewSave} disabled={isUpdatingOverview} className="mt-6">
+                                {isUpdatingOverview ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                                Save Overview Details
+                            </Button>
+                        </ComponentGuard>
                     </div>
                 )}
             </div>
@@ -278,11 +281,13 @@ const ImportExportAdminPage = () => {
             <div className="p-6 rounded-xl shadow-sm border border-slate-200">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold flex items-center gap-2"><Plane className="w-5 h-5 text-primary" /> Export Commodities List</h2>
-                    <Button onClick={() => handleAddCategory('export')} disabled={isCategoriesLoading} variant="outline" size="sm">
-                        <Plus className="w-4 h-4 mr-2" /> Add Commodity
-                    </Button>
+                    <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                        <Button onClick={() => handleAddCategory('export')} disabled={isCategoriesLoading} variant="outline" size="sm">
+                            <Plus className="w-4 h-4 mr-2" /> Add Commodity
+                        </Button>
+                    </ComponentGuard>
                 </div>
-                
+
                 {isCategoriesLoading ? (
                     <div className="flex items-center justify-center p-6"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
                 ) : exports.length === 0 ? (
@@ -293,32 +298,34 @@ const ImportExportAdminPage = () => {
                             <Card key={item.category_id} className="border-slate-200 shadow-sm relative">
                                 <CardHeader className="py-3 px-4 border-b flex flex-row justify-between items-center">
                                     <CardTitle className="text-sm font-semibold text-primary">Export Item</CardTitle>
-                                    <Button variant="ghost" size="icon" className="h-6 w-6 text-red-500" onClick={() => handleDeleteCategory(item.category_id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                                    <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                        <Button variant="ghost" size="icon" className="h-6 w-6 text-red-500" onClick={() => handleDeleteCategory(item.category_id)}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </ComponentGuard>
                                 </CardHeader>
                                 <CardContent className="p-4 space-y-4">
                                     <div className="space-y-2">
                                         <label className="text-xs font-medium text-slate-500">Commodity Name</label>
-                                        <Input 
-                                            value={item.title} 
-                                            onChange={(e) => handleUpdateCategory(item.category_id, 'title', e.target.value)} 
-                                            className="h-8" 
+                                        <Input
+                                            value={item.title}
+                                            onChange={(e) => handleUpdateCategory(item.category_id, 'title', e.target.value)}
+                                            className="h-8"
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-medium text-slate-500">Items (separated by " • " usually)</label>
-                                        <Textarea 
-                                            value={item.description || ''} 
-                                            onChange={(e) => handleUpdateCategory(item.category_id, 'description', e.target.value)} 
-                                            rows={3} 
+                                        <Textarea
+                                            value={item.description || ''}
+                                            onChange={(e) => handleUpdateCategory(item.category_id, 'description', e.target.value)}
+                                            rows={3}
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-medium text-slate-500">Icon</label>
-                                        <LucideIconPicker 
-                                            value={item.icon || ''} 
-                                            onChange={(iconName) => handleUpdateCategory(item.category_id, 'icon', iconName)} 
+                                        <LucideIconPicker
+                                            value={item.icon || ''}
+                                            onChange={(iconName) => handleUpdateCategory(item.category_id, 'icon', iconName)}
                                         />
                                     </div>
                                 </CardContent>
@@ -332,11 +339,13 @@ const ImportExportAdminPage = () => {
             <div className="p-6 rounded-xl shadow-sm border border-slate-200">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold flex items-center gap-2"><Ship className="w-5 h-5 text-primary" /> Import Categories</h2>
-                    <Button onClick={() => handleAddCategory('import')} disabled={isCategoriesLoading} variant="outline" size="sm">
-                        <Plus className="w-4 h-4 mr-2" /> Add Category
-                    </Button>
+                    <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                        <Button onClick={() => handleAddCategory('import')} disabled={isCategoriesLoading} variant="outline" size="sm">
+                            <Plus className="w-4 h-4 mr-2" /> Add Category
+                        </Button>
+                    </ComponentGuard>
                 </div>
-                
+
                 {isCategoriesLoading ? (
                     <div className="flex items-center justify-center p-6"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
                 ) : imports.length === 0 ? (
@@ -347,32 +356,34 @@ const ImportExportAdminPage = () => {
                             <Card key={item.category_id} className="border-slate-200 shadow-sm relative">
                                 <CardHeader className="py-3 px-4 border-b flex flex-row justify-between items-center">
                                     <CardTitle className="text-sm font-semibold text-primary">Import Category</CardTitle>
-                                    <Button variant="ghost" size="icon" className="h-6 w-6 text-red-500" onClick={() => handleDeleteCategory(item.category_id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                                    <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                        <Button variant="ghost" size="icon" className="h-6 w-6 text-red-500" onClick={() => handleDeleteCategory(item.category_id)}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </ComponentGuard>
                                 </CardHeader>
                                 <CardContent className="p-4 space-y-4">
                                     <div className="space-y-2">
                                         <label className="text-xs font-medium text-slate-500">Category Name</label>
-                                        <Input 
-                                            value={item.title} 
-                                            onChange={(e) => handleUpdateCategory(item.category_id, 'title', e.target.value)} 
-                                            className="h-8" 
+                                        <Input
+                                            value={item.title}
+                                            onChange={(e) => handleUpdateCategory(item.category_id, 'title', e.target.value)}
+                                            className="h-8"
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-medium text-slate-500">Description</label>
-                                        <Textarea 
-                                            value={item.description || ''} 
-                                            onChange={(e) => handleUpdateCategory(item.category_id, 'description', e.target.value)} 
-                                            rows={2} 
+                                        <Textarea
+                                            value={item.description || ''}
+                                            onChange={(e) => handleUpdateCategory(item.category_id, 'description', e.target.value)}
+                                            rows={2}
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-medium text-slate-500">Icon</label>
-                                        <LucideIconPicker 
-                                            value={item.icon || ''} 
-                                            onChange={(iconName) => handleUpdateCategory(item.category_id, 'icon', iconName)} 
+                                        <LucideIconPicker
+                                            value={item.icon || ''}
+                                            onChange={(iconName) => handleUpdateCategory(item.category_id, 'icon', iconName)}
                                         />
                                     </div>
                                 </CardContent>
@@ -386,11 +397,13 @@ const ImportExportAdminPage = () => {
             <div className="p-6 rounded-xl shadow-sm border border-slate-200">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold flex items-center gap-2"><Activity className="w-5 h-5 text-primary" /> Process Flow Steps</h2>
-                    <Button onClick={handleAddStep} disabled={isStepsLoading} variant="outline" size="sm">
-                        <Plus className="w-4 h-4 mr-2" /> Add Step
-                    </Button>
+                    <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
+                        <Button onClick={handleAddStep} disabled={isStepsLoading} variant="outline" size="sm">
+                            <Plus className="w-4 h-4 mr-2" /> Add Step
+                        </Button>
+                    </ComponentGuard>
                 </div>
-                
+
                 {isStepsLoading ? (
                     <div className="flex items-center justify-center p-6"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
                 ) : steps.length === 0 ? (
@@ -402,33 +415,35 @@ const ImportExportAdminPage = () => {
                                 <CardContent className="p-4 flex flex-col md:flex-row items-center gap-4">
                                     <div className="space-y-2 w-24">
                                         <label className="text-xs font-medium text-slate-500">Number</label>
-                                        <Input 
-                                            value={step.step_number} 
-                                            onChange={(e) => handleUpdateStep(step.step_id, 'step_number', e.target.value)} 
-                                            className="h-8 text-center" 
+                                        <Input
+                                            value={step.step_number}
+                                            onChange={(e) => handleUpdateStep(step.step_id, 'step_number', e.target.value)}
+                                            className="h-8 text-center"
                                             placeholder="e.g. 01"
                                         />
                                     </div>
                                     <div className="space-y-2 flex-1">
                                         <label className="text-xs font-medium text-slate-500">Title</label>
-                                        <Input 
-                                            value={step.title} 
-                                            onChange={(e) => handleUpdateStep(step.step_id, 'title', e.target.value)} 
-                                            className="h-8" 
+                                        <Input
+                                            value={step.title}
+                                            onChange={(e) => handleUpdateStep(step.step_id, 'title', e.target.value)}
+                                            className="h-8"
                                             placeholder="e.g. SOURCE"
                                         />
                                     </div>
                                     <div className="space-y-2 flex-1">
                                         <label className="text-xs font-medium text-slate-500">Description</label>
-                                        <Input 
-                                            value={step.description || ''} 
-                                            onChange={(e) => handleUpdateStep(step.step_id, 'description', e.target.value)} 
-                                            className="h-8" 
+                                        <Input
+                                            value={step.description || ''}
+                                            onChange={(e) => handleUpdateStep(step.step_id, 'description', e.target.value)}
+                                            className="h-8"
                                         />
                                     </div>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 mt-6" onClick={() => handleDeleteStep(step.step_id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                                    <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 mt-6" onClick={() => handleDeleteStep(step.step_id)}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </ComponentGuard>
                                 </CardContent>
                             </Card>
                         ))}

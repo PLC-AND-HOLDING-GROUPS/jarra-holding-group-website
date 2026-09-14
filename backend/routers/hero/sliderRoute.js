@@ -3,7 +3,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { authenticateToken } = require("../../middlewares/authMiddleware");
+const { authenticateToken, checkPermission } = require("../../middlewares/authMiddleware");
+
 
 const {
     createSlider,
@@ -24,14 +25,12 @@ router.get("/", getAllSliders);
 router.get("/:id", validateSliderId, getSliderById);
 
 // Admin
-router.post("/", authenticateToken, validateCreateSlider, createSlider);
-router.put(
-    "/:id",
-    authenticateToken,
-    validateSliderId,
+router.post("/", authenticateToken, checkPermission("hero", "create"), validateCreateSlider, createSlider);
+router.put("/:id", authenticateToken,
+    checkPermission("hero", "update"), validateSliderId,
     validateUpdateSlider,
     updateSlider
 );
-router.delete("/:id", authenticateToken, validateSliderId, deleteSlider);
+router.delete("/:id", authenticateToken, checkPermission("hero", "delete"), validateSliderId, deleteSlider);
 
 module.exports = router;

@@ -15,6 +15,7 @@ import { notify } from "@/utils/notification";
 import { getFileUrl } from "@/utils/fileUrl";
 import Link from "next/link";
 import { formatDateOnly } from "@/utils/datetime";
+import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 const STATUS_COLORS: Record<string, string> = {
     new: "bg-blue-100 text-blue-800",
@@ -221,10 +222,12 @@ export default function AdminApplicationDetail() {
                             onChange={(e) => setFeedbackText(e.target.value)}
                         />
                         <div className="flex justify-end">
-                            <Button onClick={handleSaveFeedback} disabled={isUpdatingFeedback}>
-                                {isUpdatingFeedback && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                                Save Feedback
-                            </Button>
+                            <ComponentGuard anyPermissions={['VACANCIES:UPDATE']}>
+                                <Button onClick={handleSaveFeedback} disabled={isUpdatingFeedback}>
+                                    {isUpdatingFeedback && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                                    Save Feedback
+                                </Button>
+                            </ComponentGuard>
                         </div>
                     </CardContent>
                 </Card>

@@ -112,7 +112,7 @@ export default function AdminFacilitiesList() {
 
                 return (
                     <div className="flex items-center gap-1">
-                        <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>
+                        <ComponentGuard anyPermissions={["FACILITIES:UPDATE"]}>
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -125,7 +125,7 @@ export default function AdminFacilitiesList() {
                             </Button>
                         </ComponentGuard>
 
-                        <ComponentGuard anyPermissions={["SERVICES:DELETE"]}>
+                        <ComponentGuard anyPermissions={["FACILITIES:DELETE"]}>
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -145,7 +145,7 @@ export default function AdminFacilitiesList() {
 
                         {!search && (
                             <>
-                                <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>
+                                <ComponentGuard anyPermissions={["FACILITIES:UPDATE"]}>
                                     <Button
                                         variant="ghost"
                                         size="icon"
@@ -155,7 +155,7 @@ export default function AdminFacilitiesList() {
                                         <ArrowUp className="h-4 w-4" />
                                     </Button>
                                 </ComponentGuard>
-                                <ComponentGuard anyPermissions={["SERVICES:UPDATE"]}>
+                                <ComponentGuard anyPermissions={["FACILITIES:UPDATE"]}>
                                     <Button
                                         variant="ghost"
                                         size="icon"
@@ -181,7 +181,7 @@ export default function AdminFacilitiesList() {
                 setCurrentFacility(null);
                 setModalOpen(true);
             },
-            permissions: ["SERVICES:CREATE"],
+            permissions: ["FACILITIES:CREATE"],
         },
     ];
 

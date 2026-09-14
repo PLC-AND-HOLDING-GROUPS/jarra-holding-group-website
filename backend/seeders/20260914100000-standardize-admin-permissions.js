@@ -1,4 +1,5 @@
 "use strict";
+
 const { v4: uuidv4 } = require("uuid");
 
 const SUPER_ADMIN_ROLE_ID = "00000000-0000-4000-8000-000000000002";
@@ -7,10 +8,44 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const now = new Date();
     const crudActions = ["create", "read", "update", "delete"];
+
     const resourcesWithActions = [
-      { resource: "product_categories", actions: crudActions },
+      // Dashboard & System
+      { resource: "dashboard", actions: ["view"] },
+      { resource: "audit_logs", actions: ["read", "delete"] },
+      { resource: "routes", actions: ["read", "update"] },
+      
+      // Users & Access Control
+      { resource: "users", actions: [...crudActions, "assign_role"] },
+      { resource: "roles", actions: [...crudActions, "assign_permission"] },
+      { resource: "permissions", actions: ["read"] },
+      
+      // Products Management
       { resource: "products", actions: crudActions },
-      { resource: "product_inquiries", actions: crudActions },
+      { resource: "product_categories", actions: crudActions },
+      { resource: "product_inquiries", actions: ["read", "update", "delete", "reply"] },
+      
+      // Business & Operations
+      { resource: "businesses", actions: crudActions },
+      { resource: "services", actions: crudActions },
+      { resource: "facilities", actions: crudActions },
+      
+      // Content & Marketing
+      { resource: "news", actions: [...crudActions, "publish"] },
+      { resource: "tags", actions: crudActions },
+      { resource: "news_feedbacks", actions: ["read", "delete"] },
+      { resource: "hero", actions: ["read", "update"] },
+      { resource: "page_headers", actions: ["read", "update"] },
+      { resource: "about", actions: ["read", "update"] },
+      { resource: "footer", actions: ["read", "update"] },
+      { resource: "contacts", actions: crudActions },
+      { resource: "contact_messages", actions: ["read", "delete"] },
+      
+      // HR & Careers
+      { resource: "vacancies", actions: [...crudActions, "publish"] },
+      
+      // Misc
+      { resource: "attachments", actions: ["create", "read", "delete"] },
     ];
 
     const permissions = resourcesWithActions.flatMap((r) =>
