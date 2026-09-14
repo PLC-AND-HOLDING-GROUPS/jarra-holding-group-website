@@ -28,7 +28,7 @@ module.exports = {
         created_at: now,
         updated_at: now,
       },
-    ]);
+    ], { ignoreDuplicates: true });
 
     // 3. Insert Super Admin Role
     await queryInterface.bulkInsert("roles", [
@@ -40,7 +40,7 @@ module.exports = {
         created_at: now,
         updated_at: now,
       },
-    ]);
+    ], { ignoreDuplicates: true });
 
     // 4. Fetch all permission IDs from the permissions table
     const permissions = await queryInterface.sequelize.query(
@@ -59,7 +59,7 @@ module.exports = {
         updated_at: now,
       }));
 
-      await queryInterface.bulkInsert("role_permissions", rolePermissions);
+      await queryInterface.bulkInsert("role_permissions", rolePermissions, { ignoreDuplicates: true });
     }
 
     // 6. Assign Admin User to Super Admin Role
@@ -73,7 +73,7 @@ module.exports = {
         created_at: now,
         updated_at: now,
       },
-    ]);
+    ], { ignoreDuplicates: true });
   },
 
   async down(queryInterface, Sequelize) {

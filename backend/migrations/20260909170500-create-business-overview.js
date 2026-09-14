@@ -30,6 +30,14 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      network_operations: {
+        type: Sequelize.JSON,
+        allowNull: true,
+      },
+      page_metadata: {
+        type: Sequelize.JSON,
+        allowNull: true,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

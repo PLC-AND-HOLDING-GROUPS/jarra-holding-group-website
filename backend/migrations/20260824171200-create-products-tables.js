@@ -36,6 +36,11 @@ module.exports = {
         defaultValue: "Available",
         allowNull: false,
       },
+      publish_status: {
+        type: Sequelize.ENUM("draft", "published", "archived"),
+        allowNull: false,
+        defaultValue: "draft",
+      },
       specifications: {
         type: Sequelize.JSONB,
         allowNull: true,
@@ -228,6 +233,9 @@ module.exports = {
 
     await queryInterface.sequelize.query(
       'DROP TYPE IF EXISTS "enum_products_status";'
+    );
+    await queryInterface.sequelize.query(
+      'DROP TYPE IF EXISTS "enum_products_publish_status";'
     );
     await queryInterface.sequelize.query(
       'DROP TYPE IF EXISTS "enum_product_inquiries_status";'

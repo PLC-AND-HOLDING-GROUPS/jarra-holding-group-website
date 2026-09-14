@@ -61,7 +61,7 @@ module.exports = {
       is_active: true,
       created_at: new Date(),
       updated_at: new Date()
-    }]);
+    }], { ignoreDuplicates: true });
 
     await queryInterface.bulkInsert('roles', [{
       role_id: newRoleId,
@@ -70,7 +70,7 @@ module.exports = {
       is_active: true,
       created_at: new Date(),
       updated_at: new Date()
-    }]);
+    }], { ignoreDuplicates: true });
 
     // 3. Assign user to role
     await queryInterface.bulkInsert('user_roles', [{
@@ -79,7 +79,7 @@ module.exports = {
       role_id: newRoleId,
       created_at: new Date(),
       updated_at: new Date()
-    }]);
+    }], { ignoreDuplicates: true });
 
     // 4. Assign all permissions to the Super Admin role
     const [permissions] = await queryInterface.sequelize.query(
@@ -95,7 +95,7 @@ module.exports = {
         updated_at: new Date()
       }));
 
-      await queryInterface.bulkInsert('role_permissions', rolePermissionsData);
+      await queryInterface.bulkInsert('role_permissions', rolePermissionsData, { ignoreDuplicates: true });
     }
     
     console.log("Admin account recreated successfully.");

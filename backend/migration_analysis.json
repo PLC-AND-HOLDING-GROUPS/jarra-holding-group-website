@@ -1,0 +1,1815 @@
+[
+  {
+    "file": "20251210084133-create-user-types.js",
+    "creates": [
+      "user_types"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "user_types"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20251210084301-create-permissions.js",
+    "creates": [
+      "permissions"
+    ],
+    "adds": [],
+    "constraints": [
+      "permissions"
+    ],
+    "refs": [],
+    "drops": [
+      "permissions"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20251210084404-create-roles.js",
+    "creates": [
+      "roles"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "roles"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20251210084443-create-role-permissions.js",
+    "creates": [
+      "role_permissions"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "roles",
+      "permissions"
+    ],
+    "drops": [
+      "role_permissions"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20251210084552-create-users.js",
+    "creates": [
+      "users"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "user_types"
+    ],
+    "drops": [
+      "users"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20251210084639-create-user-roles.js",
+    "creates": [
+      "user_roles"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "roles",
+      "users"
+    ],
+    "drops": [
+      "user_roles"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218195338-create-attachments-table.js",
+    "creates": [
+      "attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218195752-create-tags-table.js",
+    "creates": [
+      "tags"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "tags"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218195825-create-news-table.js",
+    "creates": [
+      "news"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "news"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218195955-create-news-metadata-table.js",
+    "creates": [
+      "news_metadata"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "news"
+    ],
+    "drops": [
+      "news_metadata"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218200017-create-news-attachments-table.js",
+    "creates": [
+      "news_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "news",
+      "attachments"
+    ],
+    "drops": [
+      "news_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218200047-create-news-tags-table.js",
+    "creates": [
+      "news_tags"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "tags",
+      "news"
+    ],
+    "drops": [
+      "news_tags"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218200108-create-news-reactions-table.js",
+    "creates": [
+      "news_reactions"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "news"
+    ],
+    "drops": [
+      "news_reactions"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260218200132-create-news-reads-table.js",
+    "creates": [
+      "news_reads"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "news"
+    ],
+    "drops": [
+      "news_reads"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260220135313-create-news-feedbacks.js",
+    "creates": [
+      "news_feedbacks"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "news"
+    ],
+    "drops": [
+      "news_feedbacks"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260223115309-create-services.js",
+    "creates": [
+      "services"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "services"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260223132409-create-backgrounds.js",
+    "creates": [
+      "backgrounds"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "backgrounds"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260223132428-create-background-attachments.js",
+    "creates": [
+      "background_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "backgrounds",
+      "attachments"
+    ],
+    "drops": [
+      "background_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260224085409-create-leadership-table.js",
+    "creates": [
+      "leadership"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "leadership"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260224085429-create-leadership-attachments-table.js",
+    "creates": [
+      "leadership_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "leadership",
+      "attachments"
+    ],
+    "drops": [
+      "leadership_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260306084533-create-strategies.js",
+    "creates": [
+      "strategies"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "strategies"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260306084535-create-strategy-sections.js",
+    "creates": [
+      "strategy_sections"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "strategies",
+      "attachments"
+    ],
+    "drops": [
+      "strategy_sections"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260306084537-create-core-values.js",
+    "creates": [
+      "core_values"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "strategy_sections"
+    ],
+    "drops": [
+      "core_values"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260309092503-create-regions-table.js",
+    "creates": [
+      "regions"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "regions"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260309092506-create-federal-office-contacts-table.js",
+    "creates": [
+      "federal_office_contacts"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "federal_office_contacts"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260309092509-create-regional-office-contact-centers-table.js",
+    "creates": [
+      "regional_office_contact_centers"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "regions"
+    ],
+    "drops": [
+      "regional_office_contact_centers"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260309092511-create-licensing-contacts-table.js",
+    "creates": [
+      "licensing_contacts"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "regional_office_contact_centers"
+    ],
+    "drops": [
+      "licensing_contacts"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260311074315-create-messages-table.js",
+    "creates": [
+      "messages"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "messages"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260311083559-create-social-medias-table.js",
+    "creates": [
+      "social_medias"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "social_medias"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260311121733-create-footer.js",
+    "creates": [
+      "footers"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "footers"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260311121800-create-footer-section.js",
+    "creates": [
+      "footer_sections"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "footers"
+    ],
+    "drops": [
+      "footer_sections"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260325172233-create-cards-table.js",
+    "creates": [
+      "cards"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "cards"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260325172632-create-sliders-table.js",
+    "creates": [
+      "sliders"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "sliders"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260325182142-create-partners-table.js",
+    "creates": [
+      "partners"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "partners"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260325182206-create-partner-attachments-table.js",
+    "creates": [
+      "partner_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "partners",
+      "attachments"
+    ],
+    "drops": [
+      "partner_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260326094257-create-gamestones.js",
+    "creates": [
+      "gamestones"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "gamestones",
+      "attachments"
+    ],
+    "drops": [
+      "gamestones"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260326094259-create-gamestone-attachments.js",
+    "creates": [
+      "gamestone_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "gamestones",
+      "attachments"
+    ],
+    "drops": [
+      "gamestone_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260327054852-create-resource-table.js",
+    "creates": [
+      "resource"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "resource"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260327054937-create-resource-attachments-table.js",
+    "creates": [
+      "resource_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "resource",
+      "attachments"
+    ],
+    "drops": [
+      "resource_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260404162044-create-snapshot.js",
+    "creates": [
+      "snapshot"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "snapshot"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260404162045-create-snapshot-section.js",
+    "creates": [
+      "snapshot_section"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "snapshot"
+    ],
+    "drops": [
+      "snapshot_section"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406065222-create-asm-table.js",
+    "creates": [
+      "asm"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "asm"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406065230-create-objectives-table.js",
+    "creates": [
+      "objectives"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "asm"
+    ],
+    "drops": [
+      "objectives"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406065237-create-asm-attachments-table.js",
+    "creates": [
+      "asm_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "asm"
+    ],
+    "drops": [
+      "asm_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406081153-create-asm-previews.js",
+    "creates": [
+      "asm_previews"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "asm"
+    ],
+    "drops": [
+      "asm_previews"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406132426-create-investigate-ethiopia.js",
+    "creates": [
+      "investigate_ethiopia"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "investigate_ethiopia"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406132428-create-investigation-action.js",
+    "creates": [
+      "investigation_action"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "investigate_ethiopia"
+    ],
+    "drops": [
+      "investigation_action"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260406132429-create-investigation-strategy.js",
+    "creates": [
+      "investigation_strategy"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "investigate_ethiopia",
+      "attachments"
+    ],
+    "drops": [
+      "investigation_strategy"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260408072905-create-petroleum-objective.js",
+    "creates": [
+      "petroleum_objective"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "petroleum_objective"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260408072907-create-petroleum-attachments.js",
+    "creates": [
+      "petroleum_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "petroleum_objective"
+    ],
+    "drops": [
+      "petroleum_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260410111555-create-petroleum-processes.js",
+    "creates": [
+      "petroleum_processes"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "petroleum_processes"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260410111556-create-process-blocks.js",
+    "creates": [
+      "process_blocks"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "petroleum_processes"
+    ],
+    "drops": [
+      "process_blocks"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260410111557-create-process-block-attachments.js",
+    "creates": [
+      "process_block_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "process_blocks"
+    ],
+    "drops": [
+      "process_block_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260410111559-create-process-steps.js",
+    "creates": [
+      "process_steps"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "petroleum_processes"
+    ],
+    "drops": [
+      "process_steps"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260410111600-create-steps.js",
+    "creates": [
+      "steps"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "process_steps"
+    ],
+    "drops": [
+      "steps"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260413142635-create-petroleum-regulation-process-table.js",
+    "creates": [
+      "petroleum_regulation_process"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "petroleum_regulation_process"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260413142656-create-petroleum-regulation-table.js",
+    "creates": [
+      "petroleum_regulation"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "petroleum_regulation_process"
+    ],
+    "drops": [
+      "petroleum_regulation"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260413142718-create-petroleum-regulation-attachments-table.js",
+    "creates": [
+      "petroleum_regulation_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "petroleum_regulation_process"
+    ],
+    "drops": [
+      "petroleum_regulation_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260413142736-create-petroleum-directive-table.js",
+    "creates": [
+      "petroleum_directive"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "petroleum_regulation_process"
+    ],
+    "drops": [
+      "petroleum_directive"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260414131811-create-mining-application-process-table.js",
+    "creates": [
+      "mining_application_process"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "mining_application_process"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260414131813-create-mining-application-process-attachments-table.js",
+    "creates": [
+      "mining_application_process_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_application_process",
+      "attachments"
+    ],
+    "drops": [
+      "mining_application_process_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260414131814-create-mining-application-types-table.js",
+    "creates": [
+      "mining_application_types"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_application_process"
+    ],
+    "drops": [
+      "mining_application_types"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142816-create-mining-regulation-process.js",
+    "creates": [
+      "mining_regulation_process"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "mining_regulation_process"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142818-create-mining-framework.js",
+    "creates": [
+      "mining_framework"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_regulation_process",
+      "attachments"
+    ],
+    "drops": [
+      "mining_framework"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142819-create-mining-guideline.js",
+    "creates": [
+      "mining_guideline"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_regulation_process"
+    ],
+    "drops": [
+      "mining_guideline"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142822-create-mining-guideline-content.js",
+    "creates": [
+      "mining_guideline_content"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_guideline"
+    ],
+    "drops": [
+      "mining_guideline_content"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142824-create-mining-guideline-attachments.js",
+    "creates": [
+      "mining_guideline_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments",
+      "mining_guideline"
+    ],
+    "drops": [
+      "mining_guideline_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142826-create-mining-service.js",
+    "creates": [
+      "mining_service"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_regulation_process"
+    ],
+    "drops": [
+      "mining_service"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260416142828-create-mining-service-card.js",
+    "creates": [
+      "mining_service_card"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "mining_service"
+    ],
+    "drops": [
+      "mining_service_card"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260418231000-create-audit-logs.js",
+    "creates": [
+      "audit_logs"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "users"
+    ],
+    "drops": [
+      "audit_logs"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260421000001-create-event-categories.js",
+    "creates": [
+      "event_categories"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "event_categories"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260421000002-create-events.js",
+    "creates": [
+      "events"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "event_categories"
+    ],
+    "drops": [
+      "events"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260421000003-create-event-attachments.js",
+    "creates": [
+      "event_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "events",
+      "attachments"
+    ],
+    "drops": [
+      "event_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260423184442-create-routes-table.js",
+    "creates": [
+      "routes"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "routes"
+    ],
+    "drops": [
+      "routes"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260423184444-create-route-translations-table.js",
+    "creates": [
+      "route_translations"
+    ],
+    "adds": [],
+    "constraints": [
+      "route_translations"
+    ],
+    "refs": [
+      "routes"
+    ],
+    "drops": [
+      "route_translations"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260622140000-create-tenders-table.js",
+    "creates": [
+      "tenders"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "tenders"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260622140100-create-vacancies-table.js",
+    "creates": [
+      "vacancies"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "vacancies"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260625000000-sync-production-schema-from-v1.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "attachments",
+        "column": "file_path_thumb"
+      },
+      {
+        "table": "attachments",
+        "column": "file_path_medium"
+      },
+      {
+        "table": "attachments",
+        "column": "file_path_large"
+      },
+      {
+        "table": "attachments",
+        "column": "mime_type"
+      },
+      {
+        "table": "attachments",
+        "column": "width"
+      },
+      {
+        "table": "attachments",
+        "column": "height"
+      },
+      {
+        "table": "sliders",
+        "column": "button_name"
+      },
+      {
+        "table": "sliders",
+        "column": "button_url"
+      },
+      {
+        "table": "sliders",
+        "column": "button2_name"
+      },
+      {
+        "table": "sliders",
+        "column": "button2_url"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "sliders",
+        "column": "button2_url"
+      },
+      {
+        "table": "sliders",
+        "column": "button2_name"
+      },
+      {
+        "table": "sliders",
+        "column": "button_url"
+      },
+      {
+        "table": "sliders",
+        "column": "button_name"
+      },
+      {
+        "table": "attachments",
+        "column": "height"
+      },
+      {
+        "table": "attachments",
+        "column": "width"
+      },
+      {
+        "table": "attachments",
+        "column": "mime_type"
+      },
+      {
+        "table": "attachments",
+        "column": "file_path_large"
+      },
+      {
+        "table": "attachments",
+        "column": "file_path_medium"
+      },
+      {
+        "table": "attachments",
+        "column": "file_path_thumb"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260730074123-add-password-reset-security-to-users.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "users",
+        "column": "reset_password_attempts"
+      },
+      {
+        "table": "users",
+        "column": "reset_password_lock_until"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "users",
+        "column": "reset_password_attempts"
+      },
+      {
+        "table": "users",
+        "column": "reset_password_lock_until"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260824120000-create-page-headers-table.js",
+    "creates": [
+      "page_headers"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "attachments"
+    ],
+    "drops": [
+      "page_headers"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260824171200-create-products-tables.js",
+    "creates": [
+      "product_attachments",
+      "products",
+      "product_categories",
+      "product_categories_map",
+      "product_inquiries"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "product_categories",
+      "products",
+      "attachments"
+    ],
+    "drops": [
+      "product_inquiries",
+      "product_attachments",
+      "product_categories_map",
+      "product_categories",
+      "products"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260824171300-add-publish-status-to-products.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "products",
+        "column": "publish_status"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "products",
+        "column": "publish_status"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260824172300-add-order-to-sliders.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "sliders",
+        "column": "order"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "sliders",
+        "column": "order"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260831084000-create-service-overview.js",
+    "creates": [
+      "service_overview"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "service_overview"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260831084001-create-service-experience.js",
+    "creates": [
+      "service_experience"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "service_experience"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260831084002-create-service-capability.js",
+    "creates": [
+      "service_capability"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "service_capability"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260831084003-create-service-why-us.js",
+    "creates": [
+      "service_why_us"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "service_why_us"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260831130000-add-cards-to-overview.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "service_overview",
+        "column": "cards"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "service_overview",
+        "column": "cards"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260831130001-add-cta-to-why-us.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "service_why_us",
+        "column": "cta_heading"
+      },
+      {
+        "table": "service_why_us",
+        "column": "cta_subheading"
+      },
+      {
+        "table": "service_why_us",
+        "column": "cta_buttons"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "service_why_us",
+        "column": "cta_heading"
+      },
+      {
+        "table": "service_why_us",
+        "column": "cta_subheading"
+      },
+      {
+        "table": "service_why_us",
+        "column": "cta_buttons"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260831160000-add-order-to-services.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "services",
+        "column": "order"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "services",
+        "column": "order"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260901140101-create-facility-overview.js",
+    "creates": [
+      "facility_overview"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "facility_overview"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260901140102-create-facilities.js",
+    "creates": [
+      "facilities"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "facilities"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260901140104-create-facility-footprint.js",
+    "creates": [
+      "facility_footprint"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "facility_footprint"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260904085400-create-certifications-table.js",
+    "creates": [
+      "certifications"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "certifications"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260904085401-create-certification-attachments-table.js",
+    "creates": [
+      "certification_attachments"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "certifications",
+      "attachments"
+    ],
+    "drops": [
+      "certification_attachments"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260908162400-add-feedback-to-job-applications.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "job_applications",
+        "column": "feedback"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "job_applications",
+        "column": "feedback"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260909170500-create-business-overview.js",
+    "creates": [
+      "business_overview"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "business_overview"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260909170501-create-business-nodes.js",
+    "creates": [
+      "business_nodes"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "business_nodes"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260911101126-create-import-export-overview.js",
+    "creates": [
+      "import_export_overview"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "import_export_overview"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260911101143-create-import-export-category.js",
+    "creates": [
+      "import_export_categories"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "import_export_categories"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260911101206-create-import-export-step.js",
+    "creates": [
+      "import_export_steps"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [],
+    "drops": [
+      "import_export_steps"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260911110308-add-fields-to-import-export-overview.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "import_export_overview",
+        "column": "center_icon"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "center_title"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "center_subtitle"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "cta_button_title"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "cta_button_url"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "cta_button_icon"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "import_export_overview",
+        "column": "center_icon"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "center_title"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "center_subtitle"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "cta_button_title"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "cta_button_url"
+      },
+      {
+        "table": "import_export_overview",
+        "column": "cta_button_icon"
+      }
+    ],
+    "is_correction": true
+  },
+  {
+    "file": "20260911120440-create-warehouse-tables.js",
+    "creates": [
+      "warehouses",
+      "warehouse_images"
+    ],
+    "adds": [],
+    "constraints": [],
+    "refs": [
+      "warehouses"
+    ],
+    "drops": [
+      "warehouse_images",
+      "warehouses"
+    ],
+    "removes": [],
+    "is_correction": false
+  },
+  {
+    "file": "20260914120000-add-fields-to-business-overview.js",
+    "creates": [],
+    "adds": [
+      {
+        "table": "business_overview",
+        "column": "network_operations"
+      },
+      {
+        "table": "business_overview",
+        "column": "page_metadata"
+      }
+    ],
+    "constraints": [],
+    "refs": [],
+    "drops": [],
+    "removes": [
+      {
+        "table": "business_overview",
+        "column": "network_operations"
+      },
+      {
+        "table": "business_overview",
+        "column": "page_metadata"
+      }
+    ],
+    "is_correction": true
+  }
+]

@@ -65,8 +65,15 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      center_icon: { type: Sequelize.STRING(50), allowNull: true },
+      center_title: { type: Sequelize.STRING(255), allowNull: true },
+      center_subtitle: { type: Sequelize.STRING(255), allowNull: true },
+      cta_button_title: { type: Sequelize.STRING(255), allowNull: true },
+      cta_button_url: { type: Sequelize.STRING(255), allowNull: true },
+      cta_button_icon: { type: Sequelize.STRING(50), allowNull: true },
       created_at: {
         allowNull: false,
+
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },

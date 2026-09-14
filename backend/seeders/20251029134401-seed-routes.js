@@ -189,13 +189,9 @@ module.exports = {
       }
     }
 
-    // Clear existing data first to avoid duplicates
-    await queryInterface.bulkDelete("route_translations", null, {});
-    await queryInterface.bulkDelete("routes", null, {});
-
     // Insert fresh data
-    await queryInterface.bulkInsert("routes", routes);
-    await queryInterface.bulkInsert("route_translations", translations);
+    await queryInterface.bulkInsert("routes", routes, { ignoreDuplicates: true });
+    await queryInterface.bulkInsert("route_translations", translations, { ignoreDuplicates: true });
   },
 
   async down(queryInterface) {

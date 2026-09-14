@@ -71,6 +71,15 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
+      reset_password_attempts: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+      },
+      reset_password_lock_until: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
       is_active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

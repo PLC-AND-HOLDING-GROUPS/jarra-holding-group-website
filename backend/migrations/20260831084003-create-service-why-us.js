@@ -26,6 +26,18 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: true,
       },
+      cta_heading: {
+        type: Sequelize.STRING(255),
+        allowNull: true,
+      },
+      cta_subheading: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      cta_buttons: {
+        type: Sequelize.JSON,
+        allowNull: true,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
