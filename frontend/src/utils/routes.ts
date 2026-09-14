@@ -52,9 +52,40 @@ export const routePermissions: RouteConfig[] = [
         label: "Businesses",
         icon: "Briefcase",
         permissions: {
-            // Placeholder permission, maybe use something else later if a BUSINESSES API is added
-            anyPermissions: ["SERVICES:READ"],
+            anyPermissions: ["BUSINESSES:READ"],
         },
+        children: [
+            {
+                path: "/admin/businesses",
+                label: "Our Businesses",
+                icon: "Briefcase",
+                permissions: { anyPermissions: ["BUSINESSES:READ"] },
+            },
+            {
+                path: "/admin/businesses/overview",
+                label: "Overview",
+                icon: "Tag",
+                permissions: { anyPermissions: ["OVERVIEW:READ"] },
+            },
+            {
+                path: "/admin/businesses/import-export",
+                label: "Import Export",
+                icon: "MessageSquare",
+                permissions: { anyPermissions: ["IMPORT_EXPORT:READ"] },
+            },
+            {
+                path: "/admin/businesses/trading",
+                label: "Trading",
+                icon: "MessageSquare",
+                permissions: { anyPermissions: ["TRADING:READ"] },
+            },
+            {
+                path: "/admin/businesses/warehousing",
+                label: "Warehousing",
+                icon: "MessageSquare",
+                permissions: { anyPermissions: ["WAREHOUSING:READ"] },
+            },
+        ],
     },
     {
         path: "/admin/services",
