@@ -4,87 +4,28 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ChevronLeft, ChevronRight, X, Maximize2, Map as MapIcon, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
+import { useGetWarehousesQuery, useGetWarehousingOverviewQuery } from '@/redux/api/businessApi';
+import { getFileUrl } from '@/utils/fileUrl';
 
-export type Warehouse = {
-    id: string;
-    name: string;
-    region: string;
-    city?: string;
-    description?: string;
-    address?: string;
-    images: string[];
-    area?: string;
-    status?: string;
-};
+export default function WarehouseShowcase() {
+    const { data: apiWarehouses = [], isLoading: loading, error: apiError } = useGetWarehousesQuery();
+    const { data: overview } = useGetWarehousingOverviewQuery();
+    
+    const warehouses = apiWarehouses
+        .filter(w => w.publish_status !== 'draft')
+        .map(w => ({
+            id: w.warehouse_id,
+            name: w.name,
+            region: w.region,
+            city: w.city,
+            description: w.description,
+            address: w.address,
+            area: w.area,
+            status: w.status,
+            images: w.images?.map(img => getFileUrl(img.image_url)) || []
+        }));
 
-// Simulated fetch function - in the future this would connect to a real CMS/API
-const fetchWarehouses = async (): Promise<Warehouse[]> => {
-    // Returning mock data to display the UI
-    return [
-        {
-            id: 'w-01',
-            name: 'Addis Ababa Central Hub',
-            region: 'Addis Ababa',
-            city: 'Addis Ababa',
-            description: 'Our primary distribution center supporting major import consolidation and dispatching for the central market.',
-            address: 'Akaki Kality Industrial Zone, Addis Ababa',
-            images: ['/factory.jpg', '/factory.jpg', '/factory.jpg'],
-            area: '3,200 m²',
-            status: 'Active'
-        },
-        {
-            id: 'w-02',
-            name: 'Oromia Regional Depot',
-            region: 'Oromia',
-            city: 'Adama',
-            description: 'Strategic storage facility positioned near key regional markets to ensure quick dispatch and market proximity.',
-            address: 'Adama Industrial Park Area, Adama',
-            images: ['/factory.jpg', '/factory.jpg'],
-            area: '2,150 m²',
-            status: 'Active'
-        },
-        {
-            id: 'w-03',
-            name: 'Eastern Transit Facility',
-            region: 'Dire Dawa',
-            city: 'Dire Dawa',
-            description: 'Cross-docking and temporary storage facility facilitating active supply chains from eastern trade routes.',
-            address: 'Eastern Trade Route Logistics Hub, Dire Dawa',
-            images: ['/factory.jpg'],
-            area: '1,500 m²',
-            status: 'Active'
-        }
-    ];
-};
-
-export default function WarehouseShowcase({ initialData = [] }: { initialData?: Warehouse[] }) {
-    const [warehouses, setWarehouses] = useState<Warehouse[]>(initialData);
-    const [loading, setLoading] = useState(!initialData.length);
-    const [error, setError] = useState(false);
-
-    useEffect(() => {
-        if (initialData.length > 0) {
-            setLoading(false);
-            return;
-        }
-
-        let isMounted = true;
-        const loadData = async () => {
-            try {
-                const data = await fetchWarehouses();
-                if (isMounted) {
-                    setWarehouses(data);
-                }
-            } catch (err) {
-                if (isMounted) setError(true);
-            } finally {
-                if (isMounted) setLoading(false);
-            }
-        };
-        loadData();
-        
-        return () => { isMounted = false; };
-    }, [initialData]);
+    const error = !!apiError;
 
     const [activeRegion, setActiveRegion] = useState<string>('ALL');
     const [activeWarehouseId, setActiveWarehouseId] = useState<string | null>(null);
@@ -107,6 +48,16 @@ export default function WarehouseShowcase({ initialData = [] }: { initialData?: 
             }
         }
     }, [activeRegion, filteredWarehouses, activeWarehouse]);
+
+    useEffect(() => {
+        if (!activeWarehouse || activeWarehouse.images.length <= 1) return;
+        
+        const interval = setInterval(() => {
+            setActiveImageIndex(prev => (prev + 1) % activeWarehouse.images.length);
+        }, 10000);
+        
+        return () => clearInterval(interval);
+    }, [activeWarehouse, activeImageIndex]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -145,11 +96,11 @@ export default function WarehouseShowcase({ initialData = [] }: { initialData?: 
             <section className="py-24 bg-[#FAFAFA] text-slate-900 border-t border-slate-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <span className="text-primary font-bold tracking-widest text-sm uppercase mb-4 block">
-                        OUR FACILITIES
+                        {overview?.facilities_section?.small_title || "OUR FACILITIES"}
                     </span>
-                    <h2 className="text-4xl font-bold mb-4">Our Warehouse Network</h2>
+                    <h2 className="text-4xl font-bold mb-4">{overview?.facilities_section?.title || "Our Warehouse Network"}</h2>
                     <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-                        Our warehouse network is being updated. Please check back soon for facility information.
+                        {overview?.facilities_section?.description || "Our warehouse network is being updated. Please check back soon for facility information."}
                     </p>
                 </div>
             </section>
@@ -178,13 +129,13 @@ export default function WarehouseShowcase({ initialData = [] }: { initialData?: 
                 >
                     <div className="max-w-3xl">
                         <span className="text-primary font-bold tracking-widest text-sm uppercase mb-4 block">
-                            OUR FACILITIES
+                            {overview?.facilities_section?.small_title || "OUR FACILITIES"}
                         </span>
                         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-                            Our Warehouse Network
+                            {overview?.facilities_section?.title || "Our Warehouse Network"}
                         </h2>
                         <p className="text-lg text-slate-600 leading-relaxed">
-                            Jarra Holdings operates purpose-built facilities that support its diversified business activities and the movement of goods across the markets it serves. Explore our warehouse and facility presence across different regions.
+                            {overview?.facilities_section?.description || "Jarra Holdings operates purpose-built facilities that support its diversified business activities and the movement of goods across the markets it serves. Explore our warehouse and facility presence across different regions."}
                         </p>
                     </div>
                     
@@ -194,7 +145,7 @@ export default function WarehouseShowcase({ initialData = [] }: { initialData?: 
                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Facilities</div>
                         </div>
                         <div className="text-xs text-slate-500 font-medium px-1 text-left md:text-right max-w-[180px] leading-snug">
-                            Part of our documented 6,850 m² built facility infrastructure
+                            {overview?.facilities_section?.stat_description || "Part of our documented 6,850 m² built facility infrastructure"}
                         </div>
                     </div>
                 </motion.div>
@@ -237,7 +188,7 @@ export default function WarehouseShowcase({ initialData = [] }: { initialData?: 
                             {activeRegion === 'ALL' ? 'ALL FACILITIES' : `${activeRegion} FACILITIES`}
                         </h3>
                         
-                        <div className="flex flex-col gap-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="flex flex-col gap-3 max-h-[600px] overflow-y-auto pr-2 hide-scrollbar">
                             {filteredWarehouses.map((warehouse, index) => {
                                 const isActive = activeWarehouse?.id === warehouse.id;
                                 return (
@@ -358,7 +309,7 @@ export default function WarehouseShowcase({ initialData = [] }: { initialData?: 
 
                                     {/* Thumbnails */}
                                     {activeWarehouse.images.length > 1 && (
-                                        <div className="flex gap-3 p-4 md:p-6 bg-slate-50 border-b border-slate-100 overflow-x-auto custom-scrollbar">
+                                        <div className="flex gap-3 p-4 md:p-6 bg-slate-50 border-b border-slate-100 overflow-x-auto hide-scrollbar">
                                             {activeWarehouse.images.map((img, idx) => (
                                                 <button 
                                                     key={idx}

@@ -2,66 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, MotionValue, Variants } from 'framer-motion';
-import {
-  ArrowDownToLine,
-  ArrowUpFromLine,
-  ArrowLeftRight,
-  Warehouse,
-  TrendingUp,
-  Factory,
-  ChevronDown
-} from 'lucide-react';
-
-const businessNodes = [
-  {
-    id: "import",
-    title: "IMPORT",
-    description: "International sourcing",
-    icon: ArrowDownToLine,
-    position: { x: 20, y: 20 },
-    mobileOrder: 1,
-  },
-  {
-    id: "export",
-    title: "EXPORT",
-    description: "Connecting Ethiopian commodities with global markets",
-    icon: ArrowUpFromLine,
-    position: { x: 12, y: 50 },
-    mobileOrder: 2,
-  },
-  {
-    id: "trading",
-    title: "TRADING",
-    description: "Serving diverse commodity and industrial markets",
-    icon: ArrowLeftRight,
-    position: { x: 20, y: 80 },
-    mobileOrder: 3,
-  },
-  {
-    id: "investment",
-    title: "INVESTMENT",
-    description: "Building sustainable business portfolios",
-    icon: TrendingUp,
-    position: { x: 80, y: 20 },
-    mobileOrder: 5,
-  },
-  {
-    id: "warehousing",
-    title: "WAREHOUSING",
-    description: "Supporting storage and distribution",
-    icon: Warehouse,
-    position: { x: 88, y: 50 },
-    mobileOrder: 4,
-  },
-  {
-    id: "industry",
-    title: "INDUSTRY",
-    description: "Supporting construction, agriculture, manufacturing and related sectors",
-    icon: Factory,
-    position: { x: 80, y: 80 },
-    mobileOrder: 6,
-  }
-];
+import * as LucideIcons from 'lucide-react';
+import { useGetBusinessOverviewQuery, useGetBusinessNodesQuery, BusinessNode } from '@/redux/api/businessApi';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -90,22 +32,22 @@ const ConnectingLine = ({
   yCenterTemplate,
   scrollYProgress
 }: {
-  node: typeof businessNodes[0];
+  node: BusinessNode;
   hoveredNode: string | null;
   yCenterTemplate: MotionValue<string>;
   scrollYProgress: MotionValue<number>;
 }) => {
-  const isHovered = hoveredNode === node.id;
+  const isHovered = hoveredNode === node.business_node_id;
   const isAnyHovered = hoveredNode !== null;
 
   const yNodes = useTransform(scrollYProgress, [0, 1], [35, -35]);
-  const yNodeTemplate = useTransform(yNodes, (y) => `calc(${node.position.y}% + ${y}px)`);
+  const yNodeTemplate = useTransform(yNodes, (y) => `calc(${node.position_y}% + ${y}px)`);
 
   return (
     <motion.line
       x1="50%"
       y1={yCenterTemplate as any}
-      x2={`${node.position.x}%`}
+      x2={`${node.position_x}%`}
       y2={yNodeTemplate as any}
       className={isHovered ? "stroke-primary" : "stroke-white/20"}
       strokeWidth={isHovered ? 2 : 1.5}
@@ -127,6 +69,9 @@ const ConnectingLine = ({
 export default function OurBusinesses() {
   const sectionRef = useRef<HTMLElement>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+
+  const { data: overview, isLoading: isOverviewLoading } = useGetBusinessOverviewQuery();
+  const { data: businessNodes = [], isLoading: isNodesLoading } = useGetBusinessNodesQuery();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -163,16 +108,16 @@ export default function OurBusinesses() {
             </motion.span>
 
             <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-heading leading-tight mb-6">
-              Connecting Markets.<br />
-              <span className="text-secondary">Building Value.</span>
+              {overview?.title_part1 || "Connecting Markets."}<br />
+              <span className="text-secondary">{overview?.title_part2 || "Building Value."}</span>
             </motion.h2>
 
             <motion.p variants={itemVariants} className="text-lg text-body font-medium mb-4 max-w-xl">
-              Jarra Holdings operates across diverse business activities, connecting local and international markets through import and export trading, commodity businesses, warehousing, and selected investment portfolios.
+              {overview?.description1 || "Jarra Holdings operates across diverse business activities, connecting local and international markets through import and export trading, commodity businesses, warehousing, and selected investment portfolios."}
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-muted text-base mb-10 max-w-xl leading-relaxed">
-              Our businesses span agricultural commodities, industrial inputs, construction materials, machinery, vehicles, electrical equipment, and other strategic sectors—creating an integrated platform for sustainable growth and long-term value creation.
+              {overview?.description2 || "Our businesses span agricultural commodities, industrial inputs, construction materials, machinery, vehicles, electrical equipment, and other strategic sectors—creating an integrated platform for sustainable growth and long-term value creation."}
             </motion.p>
           </motion.div>
 
@@ -190,7 +135,7 @@ export default function OurBusinesses() {
               <svg className="hidden md:block absolute inset-0 w-full h-full pointer-events-none">
                 {businessNodes.map((node) => (
                   <ConnectingLine
-                    key={`line-${node.id}`}
+                    key={`line-${node.business_node_id}`}
                     node={node}
                     hoveredNode={hoveredNode}
                     yCenterTemplate={yCenterTemplate}
@@ -214,16 +159,26 @@ export default function OurBusinesses() {
                 >
                   <div className="absolute inset-0 rounded-full border border-primary/20 animate-[spin_12s_linear_infinite]"></div>
                   <h3 className="text-white font-bold text-2xl text-center leading-none tracking-wider mb-2">
-                    JARRA<br />HOLDINGS
+                    {(() => {
+                      const centerTitle = businessNodes.find(n => n.id_string === 'center')?.title || "JARRA\nHOLDINGS";
+                      return centerTitle.split('\\n').map((line, idx, arr) => (
+                        <React.Fragment key={idx}>
+                          {line}
+                          {idx < arr.length - 1 && <br />}
+                        </React.Fragment>
+                      ));
+                    })()}
                   </h3>
                   <p className="text-primary text-[10px] uppercase font-semibold tracking-widest text-center w-3/4">
-                    Multi-Sector Business
+                    {businessNodes.find(n => n.id_string === 'center')?.description || "Multi-Sector Business"}
                   </p>
                 </motion.div>
               </div>
 
-              {businessNodes.map((node, i) => (
-                <div key={node.id} className="absolute pointer-events-auto" style={{ left: `${node.position.x}%`, top: `${node.position.y}%`, transform: 'translate(-50%, -50%)' }}>
+              {businessNodes.filter(n => n.id_string !== 'center').map((node, i) => {
+                const Icon = (LucideIcons as any)[node.icon || 'HelpCircle'] || LucideIcons.HelpCircle;
+                return (
+                <div key={node.business_node_id} className="absolute pointer-events-auto" style={{ left: `${node.position_x}%`, top: `${node.position_y}%`, transform: 'translate(-50%, -50%)' }}>
                   <motion.div
                     style={{ y: yNodes }}
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -233,21 +188,21 @@ export default function OurBusinesses() {
                   >
                     <motion.div
                       animate={{
-                        scale: hoveredNode === node.id ? 1.05 : (hoveredNode !== null ? 0.95 : 1),
-                        opacity: hoveredNode === node.id ? 1 : (hoveredNode !== null ? 0.5 : 1),
+                        scale: hoveredNode === node.business_node_id ? 1.05 : (hoveredNode !== null ? 0.95 : 1),
+                        opacity: hoveredNode === node.business_node_id ? 1 : (hoveredNode !== null ? 0.5 : 1),
                       }}
-                      onMouseEnter={() => setHoveredNode(node.id)}
+                      onMouseEnter={() => setHoveredNode(node.business_node_id)}
                       onMouseLeave={() => setHoveredNode(null)}
                       className={`relative z-10 w-44 group flex flex-col items-center text-center p-4 rounded-xl backdrop-blur-md border transition-colors duration-300 cursor-default
-                        ${hoveredNode === node.id ? 'bg-white/10 border-primary/50 shadow-[0_0_30px_rgba(0,0,0,0.3)]' : 'bg-white/5 border-white/10'}
+                        ${hoveredNode === node.business_node_id ? 'bg-white/10 border-primary/50 shadow-[0_0_30px_rgba(0,0,0,0.3)]' : 'bg-white/5 border-white/10'}
                       `}
                     >
                       <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-colors duration-300
-                        ${hoveredNode === node.id ? 'bg-primary' : 'bg-secondary/80'}
+                        ${hoveredNode === node.business_node_id ? 'bg-primary' : 'bg-secondary/80'}
                       `}>
-                        <node.icon className="w-5 h-5 text-white" />
+                        <Icon className="w-5 h-5 text-white" />
                       </div>
-                      <h4 className={`font-bold text-sm tracking-wide mb-1 transition-colors ${hoveredNode === node.id ? 'text-primary' : 'text-white'}`}>
+                      <h4 className={`font-bold text-sm tracking-wide mb-1 transition-colors ${hoveredNode === node.business_node_id ? 'text-primary' : 'text-white'}`}>
                         {node.title}
                       </h4>
                       <p className="text-white/70 text-xs leading-snug">
@@ -256,7 +211,7 @@ export default function OurBusinesses() {
                     </motion.div>
                   </motion.div>
                 </div>
-              ))}
+              )})}
             </div>
 
             {/* Mobile Layout */}
@@ -270,11 +225,19 @@ export default function OurBusinesses() {
                 <div className="w-28 h-28 rounded-full border border-primary/30 flex items-center justify-center bg-[#0F172A] shadow-lg mb-4 relative">
                   <div className="absolute inset-0 rounded-full border border-primary/20 animate-[spin_12s_linear_infinite]"></div>
                   <h3 className="text-white font-bold text-sm leading-none tracking-wider">
-                    JARRA<br />HOLDINGS
+                    {(() => {
+                      const centerTitle = businessNodes.find(n => n.id_string === 'center')?.title || "JARRA\nHOLDINGS";
+                      return centerTitle.split('\\n').map((line, idx, arr) => (
+                        <React.Fragment key={idx}>
+                          {line}
+                          {idx < arr.length - 1 && <br />}
+                        </React.Fragment>
+                      ));
+                    })()}
                   </h3>
                 </div>
                 <p className="text-primary text-xs uppercase font-semibold tracking-widest">
-                  Multi-Sector Business
+                  {businessNodes.find(n => n.id_string === 'center')?.description || "Multi-Sector Business"}
                 </p>
               </motion.div>
 
@@ -282,11 +245,11 @@ export default function OurBusinesses() {
                 {/* Vertical connecting line */}
                 <div className="absolute left-[2.25rem] top-4 bottom-8 w-px bg-gradient-to-b from-primary/50 via-white/20 to-transparent"></div>
 
-                {[...businessNodes].sort((a, b) => a.mobileOrder - b.mobileOrder).map((node, index) => {
-                  const Icon = node.icon;
+                {[...businessNodes].filter(n => n.id_string !== 'center').sort((a, b) => a.mobile_order - b.mobile_order).map((node, index) => {
+                  const Icon = (LucideIcons as any)[node.icon || 'HelpCircle'] || LucideIcons.HelpCircle;
                   return (
                     <motion.div
-                      key={node.id}
+                      key={node.business_node_id}
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}

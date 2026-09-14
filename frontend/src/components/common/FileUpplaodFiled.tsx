@@ -231,7 +231,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
             {/* Modal */}
             {previewFile && showPreview && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] p-4 relative overflow-auto">
+                    <div className="bg-card rounded-lg max-w-3xl w-full max-h-[90vh] p-4 relative overflow-auto">
                         <button
                             className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-200"
                             onClick={() => setPreviewFile(null)}

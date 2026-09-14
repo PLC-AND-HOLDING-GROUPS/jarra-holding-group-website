@@ -2,84 +2,14 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
-import {
-  Wheat,
-  HardHat,
-  Construction,
-  Truck,
-  Factory,
-  Zap,
-  ArrowRight,
-  Globe2,
-  MapPin,
-  Anchor,
-  Ship,
-  Plane
-} from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const importCategories = [
-  {
-    id: 'agriculture',
-    name: 'AGRICULTURE',
-    description: 'Agro-chemicals, fertilizers & bio-medicines.',
-    icon: Wheat,
-  },
-  {
-    id: 'construction',
-    name: 'CONSTRUCTION',
-    description: 'Reinforcement bars, asphalt & aluminum.',
-    icon: HardHat,
-  },
-  {
-    id: 'machinery',
-    name: 'MACHINERY',
-    description: 'Excavators, wheel loaders & heavy equipment.',
-    icon: Construction,
-  },
-  {
-    id: 'vehicles',
-    name: 'VEHICLES',
-    description: 'Trucks, pickups, motors & spare parts.',
-    icon: Truck,
-  },
-  {
-    id: 'industrial',
-    name: 'INDUSTRIAL',
-    description: 'Raw materials for plastic and steel factories.',
-    icon: Factory,
-  },
-  {
-    id: 'electrical',
-    name: 'ELECTRICAL',
-    description: 'Electrical materials, generators & solar.',
-    icon: Zap,
-  }
-];
-
-const flowSteps = [
-  {
-    num: "01",
-    title: "SOURCE",
-    desc: "Identify and connect with supply opportunities."
-  },
-  {
-    num: "02",
-    title: "TRADE",
-    desc: "Facilitate import and export activities."
-  },
-  {
-    num: "03",
-    title: "MOVE",
-    desc: "Coordinate the movement of goods toward their markets."
-  },
-  {
-    num: "04",
-    title: "DELIVER",
-    desc: "Connect goods with customers and market demand."
-  }
-];
+import { 
+  useGetImportExportOverviewQuery,
+  useGetImportExportCategoriesQuery,
+  useGetImportExportStepsQuery
+} from '@/redux/api/businessApi';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -94,9 +24,15 @@ const itemVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
+const DynamicIcon = ({ iconName, className }: { iconName: string, className?: string }) => {
+  const Icon = (LucideIcons as any)[iconName] || LucideIcons.HelpCircle;
+  return <Icon className={className} />;
+};
+
 export default function ImportExport() {
   const sectionRef = useRef<HTMLElement>(null);
   const [hoveredImport, setHoveredImport] = useState<string | null>(null);
+  const [hoveredExport, setHoveredExport] = useState<string | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -104,6 +40,18 @@ export default function ImportExport() {
   });
 
   const yCenter = useTransform(scrollYProgress, [0, 1], [30, -30]);
+
+  // Fetch dynamic data
+  const { data: overview } = useGetImportExportOverviewQuery();
+  const { data: categories = [] } = useGetImportExportCategoriesQuery();
+  const { data: steps = [] } = useGetImportExportStepsQuery();
+
+  const exportCategories = categories.filter(c => c.type === 'export');
+  const importCategories = categories.filter(c => c.type === 'import');
+
+  // Fallback defaults
+  const PlaneIcon = LucideIcons.Plane;
+  const ShipIcon = LucideIcons.Ship;
 
   return (
     <section ref={sectionRef} className="relative w-full overflow-hidden bg-white text-slate-900 pt-20 pb-24">
@@ -122,13 +70,13 @@ export default function ImportExport() {
           className="max-w-3xl mb-16"
         >
           <motion.span variants={itemVariants} className="text-primary font-bold tracking-widest text-sm uppercase mb-4 block">
-            IMPORT & EXPORT
+            {overview?.page_subtitle || "IMPORT & EXPORT"}
           </motion.span>
           <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-heading leading-tight mb-6">
-            Connecting Ethiopia to Global Markets
+            {overview?.page_title || "Connecting Ethiopia to Global Markets"}
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-body font-medium leading-relaxed">
-            Jarra Holdings facilitates the movement of agricultural commodities, industrial inputs, construction materials, machinery, vehicles, electrical equipment, and other goods between markets. Our import and export activities are built around market demand, reliable sourcing, and the delivery of value to customers and stakeholders.
+            {overview?.page_description || "Jarra Holdings facilitates the movement of agricultural commodities, industrial inputs, construction materials, machinery, vehicles, electrical equipment, and other goods between markets. Our import and export activities are built around market demand, reliable sourcing, and the delivery of value to customers and stakeholders."}
           </motion.p>
         </motion.div>
 
@@ -202,48 +150,43 @@ export default function ImportExport() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full pointer-events-none"></div>
 
               <div className="inline-flex items-center gap-2 text-primary font-bold tracking-widest text-xs uppercase mb-6 px-3 py-1 bg-primary/10 rounded-full">
-                <Plane className="w-4 h-4" />
+                <PlaneIcon className="w-4 h-4" />
                 EXPORT
               </div>
 
               <h3 className="text-2xl font-bold text-slate-900 mb-4 leading-tight">
-                Taking Ethiopian Commodities to Global Markets
+                {overview?.export_title || "Taking Ethiopian Commodities to Global Markets"}
               </h3>
 
               <p className="text-slate-600 text-sm mb-8 leading-relaxed">
-                Jarra Holdings exports Ethiopian agricultural commodities, connecting locally sourced products with international markets.
+                {overview?.export_description || "Jarra Holdings exports Ethiopian agricultural commodities, connecting locally sourced products with international markets."}
               </p>
 
               {/* Commodity Visual Strip */}
-              <div className="space-y-6">
-                <div className="group">
-                  <h4 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    Ethiopian Arabica Coffee
-                  </h4>
-                  <div className="h-px w-full bg-slate-200 mb-3 group-hover:bg-primary/30 transition-colors"></div>
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Guji <span className="mx-1.5 text-slate-300">•</span>
-                    Yirgacheffe <span className="mx-1.5 text-slate-300">•</span>
-                    Sidama <span className="mx-1.5 text-slate-300">•</span>
-                    Arsi <span className="mx-1.5 text-slate-300">•</span>
-                    Limmu <span className="mx-1.5 text-slate-300">•</span>
-                    Jimma <span className="mx-1.5 text-slate-300">•</span>
-                    Nekemte
-                  </p>
-                </div>
+              <div className="grid grid-cols-2 gap-3">
+                {(exportCategories.length > 0 ? exportCategories : [
+                  { id: '1', title: "Ethiopian Arabica Coffee", description: "Guji • Yirgacheffe • Sidama • Arsi • Limmu • Jimma • Nekemte", icon: "Coffee" },
+                  { id: '2', title: "Oilseeds & Pulses", description: "Soybean • Sesame • Haricot Bean • Niger Seed", icon: "Sprout" }
+                ]).map((cat: any, idx) => {
+                  const key = cat.category_id || cat.id;
+                  return (
+                    <motion.div
+                      key={key}
+                      onMouseEnter={() => setHoveredExport(key)}
+                      onMouseLeave={() => setHoveredExport(null)}
+                      className="group relative bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/50 transition-all duration-300 rounded-xl p-3 cursor-default overflow-hidden shadow-sm"
+                    >
+                      <div className="relative z-10">
+                        <DynamicIcon iconName={cat.icon || 'HelpCircle'} className={`w-5 h-5 mb-2 transition-colors duration-300 ${hoveredExport === key ? 'text-primary' : 'text-slate-400'}`} />
+                        <h4 className="text-[11px] font-bold tracking-wider uppercase mb-1 text-slate-900">{cat.title}</h4>
+                        <p className="text-[10px] text-slate-500 leading-tight line-clamp-2">{cat.description}</p>
+                      </div>
 
-                <div className="group">
-                  <h4 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    Oilseeds & Pulses
-                  </h4>
-                  <div className="h-px w-full bg-slate-200 mb-3 group-hover:bg-primary/30 transition-colors"></div>
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Soybean <span className="mx-1.5 text-slate-300">•</span>
-                    Sesame <span className="mx-1.5 text-slate-300">•</span>
-                    Haricot Bean <span className="mx-1.5 text-slate-300">•</span>
-                    Niger Seed
-                  </p>
-                </div>
+                      {/* Subtle hover highlight */}
+                      <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${hoveredExport === key ? 'w-full' : 'w-0'}`}></div>
+                    </motion.div>
+                  )
+                })}
               </div>
             </div>
           </motion.div>
@@ -263,12 +206,10 @@ export default function ImportExport() {
               {/* Spinning decorative ring */}
               <div className="absolute inset-[-12px] rounded-full border border-slate-200 border-dashed animate-[spin_20s_linear_infinite]"></div>
 
-              <Globe2 className="w-8 h-8 text-white/50 mb-3" />
-              <h3 className="text-white font-bold text-2xl text-center leading-none tracking-wider mb-2">
-                JARRA<br />HOLDINGS
-              </h3>
+              <DynamicIcon iconName={overview?.center_icon || 'Globe2'} className="w-8 h-8 text-white/50 mb-3" />
+              <h3 className="text-white font-bold text-2xl text-center leading-none tracking-wider mb-2" dangerouslySetInnerHTML={{ __html: (overview?.center_title || "JARRA\nHOLDINGS").replace(/\n/g, '<br />') }} />
               <p className="text-primary text-[10px] uppercase font-bold tracking-widest text-center w-3/4">
-                GLOBAL TRADE
+                {overview?.center_subtitle || "GLOBAL TRADE"}
               </p>
             </motion.div>
           </motion.div>
@@ -285,37 +226,45 @@ export default function ImportExport() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full pointer-events-none"></div>
 
               <div className="inline-flex items-center gap-2 text-white font-bold tracking-widest text-xs uppercase mb-6 px-3 py-1 bg-white/10 rounded-full">
-                <Ship className="w-4 h-4" />
+                <ShipIcon className="w-4 h-4" />
                 IMPORT
               </div>
 
               <h3 className="text-2xl font-bold text-white mb-4 leading-tight">
-                Sourcing Essential Goods for Growing Markets
+                {overview?.import_title || "Sourcing Essential Goods for Growing Markets"}
               </h3>
 
               <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-                Jarra Holdings imports agricultural, construction, industrial, automotive, and electrical goods to respond to market needs across Ethiopia.
+                {overview?.import_description || "Jarra Holdings imports agricultural, construction, industrial, automotive, and electrical goods to respond to market needs across Ethiopia."}
               </p>
 
               {/* Industry Matrix */}
               <div className="grid grid-cols-2 gap-3">
-                {importCategories.map((cat) => {
-                  const Icon = cat.icon;
+                {(importCategories.length > 0 ? importCategories : [
+                  { id: '1', title: 'AGRICULTURE', description: 'Agro-chemicals, fertilizers & bio-medicines.', icon: 'Wheat' },
+                  { id: '2', title: 'CONSTRUCTION', description: 'Reinforcement bars, asphalt & aluminum.', icon: 'HardHat' },
+                  { id: '3', title: 'MACHINERY', description: 'Excavators, wheel loaders & heavy equipment.', icon: 'Construction' },
+                  { id: '4', title: 'VEHICLES', description: 'Trucks, pickups, motors & spare parts.', icon: 'Truck' },
+                  { id: '5', title: 'INDUSTRIAL', description: 'Raw materials for plastic and steel factories.', icon: 'Factory' },
+                  { id: '6', title: 'ELECTRICAL', description: 'Electrical materials, generators & solar.', icon: 'Zap' },
+                ]).map((cat: any, idx) => {
+                  const Icon = (LucideIcons as any)[cat.icon] || LucideIcons.HelpCircle;
+                  const key = cat.category_id || cat.id;
                   return (
                     <motion.div
-                      key={cat.id}
-                      onMouseEnter={() => setHoveredImport(cat.id)}
+                      key={key}
+                      onMouseEnter={() => setHoveredImport(key)}
                       onMouseLeave={() => setHoveredImport(null)}
                       className="group relative bg-white/5 hover:bg-white/10 border border-white/5 hover:border-primary/50 transition-all duration-300 rounded-xl p-3 cursor-default overflow-hidden"
                     >
                       <div className="relative z-10">
-                        <Icon className={`w-5 h-5 mb-2 transition-colors duration-300 ${hoveredImport === cat.id ? 'text-primary' : 'text-slate-300'}`} />
-                        <h4 className="text-[11px] font-bold tracking-wider uppercase mb-1 text-white">{cat.name}</h4>
+                        <Icon className={`w-5 h-5 mb-2 transition-colors duration-300 ${hoveredImport === key ? 'text-primary' : 'text-slate-300'}`} />
+                        <h4 className="text-[11px] font-bold tracking-wider uppercase mb-1 text-white">{cat.title}</h4>
                         <p className="text-[10px] text-slate-400 leading-tight line-clamp-2">{cat.description}</p>
                       </div>
 
                       {/* Subtle hover highlight */}
-                      <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${hoveredImport === cat.id ? 'w-full' : 'w-0'}`}></div>
+                      <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${hoveredImport === key ? 'w-full' : 'w-0'}`}></div>
                     </motion.div>
                   )
                 })}
@@ -335,14 +284,14 @@ export default function ImportExport() {
             className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4"
           >
             <div className="bg-slate-50 border border-slate-100 rounded-xl p-6 flex-1">
-              <div className="text-3xl font-bold text-slate-900 mb-1">$5M+</div>
-              <div className="text-sm font-semibold text-slate-600 mb-1">Export Performance</div>
-              <div className="text-xs text-slate-500">Including 500 MT of Coffee Volume</div>
+              <div className="text-3xl font-bold text-slate-900 mb-1">{overview?.stat1_value || "$5M+"}</div>
+              <div className="text-sm font-semibold text-slate-600 mb-1">{overview?.stat1_label || "Export Performance"}</div>
+              <div className="text-xs text-slate-500">{overview?.stat1_subtext || "Including 500 MT of Coffee Volume"}</div>
             </div>
 
             <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 flex-1">
-              <div className="text-3xl font-bold text-primary mb-1">$20M+</div>
-              <div className="text-sm font-semibold text-slate-800">Annual Import Value</div>
+              <div className="text-3xl font-bold text-primary mb-1">{overview?.stat2_value || "$20M+"}</div>
+              <div className="text-sm font-semibold text-slate-800">{overview?.stat2_label || "Annual Import Value"}</div>
             </div>
           </motion.div>
 
@@ -358,18 +307,23 @@ export default function ImportExport() {
             <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
-              {flowSteps.map((step, idx) => (
+              {(steps.length > 0 ? steps : [
+                { step_number: "01", title: "SOURCE", description: "Identify and connect with supply opportunities." },
+                { step_number: "02", title: "TRADE", description: "Facilitate import and export activities." },
+                { step_number: "03", title: "MOVE", description: "Coordinate the movement of goods toward their markets." },
+                { step_number: "04", title: "DELIVER", description: "Connect goods with customers and market demand." }
+              ]).map((step, idx, arr) => (
                 <div key={idx} className="relative">
                   {/* Arrow connecting steps (desktop) */}
-                  {idx < flowSteps.length - 1 && (
+                  {idx < arr.length - 1 && (
                     <div className="hidden md:block absolute top-4 right-0 w-full h-px bg-slate-700 -z-10 translate-x-1/2">
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 border-t border-r border-slate-500 rotate-45"></div>
                     </div>
                   )}
 
-                  <div className="text-primary font-mono text-sm mb-3">{step.num}</div>
+                  <div className="text-primary font-mono text-sm mb-3">{step.step_number}</div>
                   <h4 className="text-sm font-bold tracking-wider mb-2">{step.title}</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed pr-4">{step.desc}</p>
+                  <p className="text-xs text-slate-400 leading-relaxed pr-4">{step.description}</p>
                 </div>
               ))}
             </div>
@@ -384,13 +338,13 @@ export default function ImportExport() {
           viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto border-t border-slate-200 pt-16"
         >
-          <h3 className="text-3xl font-bold text-slate-900 mb-4">Explore Our Trading Capabilities</h3>
+          <h3 className="text-3xl font-bold text-slate-900 mb-4">{overview?.cta_title || "Explore Our Trading Capabilities"}</h3>
           <p className="text-slate-600 mb-8">
-            Discover the infrastructure and trading activities that support the movement of goods across our business operations.
+            {overview?.cta_description || "Discover the infrastructure and trading activities that support the movement of goods across our business operations."}
           </p>
-          <Link href="#warehousing-trading" className="inline-flex items-center gap-2 bg-[#0F172A] text-white px-8 py-4 rounded-full font-semibold hover:bg-primary transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-300">
-            Explore Warehousing & Trading
-            <ArrowRight className="w-5 h-5" />
+          <Link href={overview?.cta_button_url || "#warehousing-trading"} className="inline-flex items-center gap-2 bg-[#0F172A] text-white px-8 py-4 rounded-full font-semibold hover:bg-primary transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-300">
+            {overview?.cta_button_title || "Explore Warehousing & Trading"}
+            <DynamicIcon iconName={overview?.cta_button_icon || 'ArrowRight'} className="w-5 h-5" />
           </Link>
         </motion.div>
 

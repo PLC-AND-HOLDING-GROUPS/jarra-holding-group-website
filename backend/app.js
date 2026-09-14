@@ -81,6 +81,9 @@ const productRoute = require("./routers/product/productRoutes");
 const productCategoryRoute = require("./routers/product/productCategoryRoutes");
 const productInquiryRoute = require("./routers/product/productInquiryRoutes");
 
+// ================== Business Routes ==========================
+const businessRoute = require("./routers/business/businessRoutes");
+
 // ================== News Routes ==========================
 const newsRoute = require("./routers/news/newsRoutes");
 const tagRoute = require("./routers/news/tagRoutes");
@@ -233,6 +236,9 @@ app.use("/api/page-headers", pageHeaderRoute);
 app.use("/api/products", productRoute);
 app.use("/api/product-categories", productCategoryRoute);
 app.use("/api/product-inquiries", productInquiryRoute);
+
+// ================== Business Routes =====================
+app.use("/api/business", businessRoute);
 
 // ================== News Routes =====================
 app.use("/api/news", newsRoute);
