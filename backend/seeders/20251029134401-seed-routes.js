@@ -127,71 +127,98 @@ module.exports = {
       },
     ];
 
+    const existingRoutesList = await queryInterface.sequelize.query(
+      `SELECT route_id, path FROM routes;`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    const existingRoutesMap = {};
+    if (existingRoutesList && existingRoutesList.length > 0) {
+      existingRoutesList.forEach(r => {
+        existingRoutesMap[r.path] = r.route_id;
+      });
+    }
+
     const routes = [];
     const translations = [];
     const allRouteIds = new Set(); // Track all created route IDs
 
     for (const route of routesData) {
-      const routeId = uuidv4();
-      allRouteIds.add(routeId);
+      let routeId = existingRoutesMap[route.path];
 
-      // ================= ROOT ROUTE =================
-      routes.push({
-        route_id: routeId,
-        path: route.path,
-        parent_id: null,
-        order: route.order,
-        is_active: true,
-        show_in_navbar: true,
-        created_at: now,
-        updated_at: now,
-      });
+      if (!routeId) {
+        routeId = uuidv4();
+        allRouteIds.add(routeId);
 
-      Object.entries(route.translations).forEach(([lang, label]) => {
-        translations.push({
-          route_translation_id: uuidv4(),
+        // ================= ROOT ROUTE =================
+        routes.push({
           route_id: routeId,
-          language_code: lang,
-          label,
+          path: route.path,
+          parent_id: null,
+          order: route.order,
+          is_active: true,
+          show_in_navbar: true,
           created_at: now,
           updated_at: now,
         });
-      });
+
+        Object.entries(route.translations).forEach(([lang, label]) => {
+          translations.push({
+            route_translation_id: uuidv4(),
+            route_id: routeId,
+            language_code: lang,
+            label,
+            created_at: now,
+            updated_at: now,
+          });
+        });
+      } else {
+        allRouteIds.add(routeId);
+      }
 
       // ================= CHILD ROUTES =================
       if (route.children?.length) {
         route.children.forEach((child) => {
-          const childId = uuidv4();
-          allRouteIds.add(childId);
+          let childId = existingRoutesMap[child.path];
 
-          routes.push({
-            route_id: childId,
-            path: child.path,
-            parent_id: routeId, // This links to parent
-            order: child.order,
-            is_active: true,
-            show_in_navbar: true,
-            created_at: now,
-            updated_at: now,
-          });
+          if (!childId) {
+            childId = uuidv4();
+            allRouteIds.add(childId);
 
-          Object.entries(child.translations).forEach(([lang, label]) => {
-            translations.push({
-              route_translation_id: uuidv4(),
+            routes.push({
               route_id: childId,
-              language_code: lang,
-              label,
+              path: child.path,
+              parent_id: routeId, // This links to parent
+              order: child.order,
+              is_active: true,
+              show_in_navbar: true,
               created_at: now,
               updated_at: now,
             });
-          });
+
+            Object.entries(child.translations).forEach(([lang, label]) => {
+              translations.push({
+                route_translation_id: uuidv4(),
+                route_id: childId,
+                language_code: lang,
+                label,
+                created_at: now,
+                updated_at: now,
+              });
+            });
+          } else {
+            allRouteIds.add(childId);
+          }
         });
       }
     }
 
     // Insert fresh data
-    await queryInterface.bulkInsert("routes", routes, { ignoreDuplicates: true });
-    await queryInterface.bulkInsert("route_translations", translations, { ignoreDuplicates: true });
+    if (routes.length > 0) {
+      await queryInterface.bulkInsert("routes", routes, { ignoreDuplicates: true });
+    }
+    if (translations.length > 0) {
+      await queryInterface.bulkInsert("route_translations", translations, { ignoreDuplicates: true });
+    }
   },
 
   async down(queryInterface) {
