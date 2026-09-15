@@ -105,9 +105,6 @@ const BusinessOverviewAdminPage = () => {
                     <h1 className="text-3xl font-bold text-teal-900">Manage Business Overview</h1>
                     <p className="text-muted-foreground mt-2">Manage the content for the public Business Overview page.</p>
                 </div>
-                <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                </ComponentGuard>
             </div>
 
             <Tabs defaultValue="general" className="space-y-6">
@@ -276,18 +273,13 @@ const BusinessOverviewAdminPage = () => {
                                     <TrendingUp className="w-5 h-5 text-white" /> Section Info: Key Metrics
                                 </h2>
                             </div>
-                            <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                            </ComponentGuard>
                         </div>
                         <div className="grid grid-cols-1 text-white md:grid-cols-2 lg:grid-cols-4 gap-4">
                             {formData.key_metrics?.map((metric, index) => (
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Metric</CardTitle>
-                                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                                        </ComponentGuard>
+                                        
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -347,9 +339,7 @@ const BusinessOverviewAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                            </ComponentGuard>
+                            
                         </div>
                         <div className="space-y-4">
                             {formData.operations_data?.map((data, index) => (
@@ -369,9 +359,7 @@ const BusinessOverviewAdminPage = () => {
                                             <input type="color" value={data.statusColor || '#22c55e'} onChange={(e) => updateArrayItem('operations_data', index, 'statusColor', e.target.value)} className="h-9 w-9 cursor-pointer border p-0 rounded-sm" />
                                             <Input value={data.statusColor || '#22c55e'} onChange={(e) => updateArrayItem('operations_data', index, 'statusColor', e.target.value)} className="h-9 flex-1 text-white" />
                                         </div>
-                                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                                        </ComponentGuard>
+                                        
                                     </div>
                                 </div>
                             ))}
@@ -402,18 +390,14 @@ const BusinessOverviewAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                            </ComponentGuard>
+                            
                         </div>
                         <div className="grid grid-cols-1 text-white md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {formData.network_operations?.map((op, index) => (
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Operation</CardTitle>
-                                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                                        </ComponentGuard>
+                                        
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -462,18 +446,14 @@ const BusinessOverviewAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                            </ComponentGuard>
+                            
                         </div>
                         <div className="grid grid-cols-1 text-white md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {formData.business_categories?.map((cat, index) => (
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Vertical</CardTitle>
-                                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-
-                                        </ComponentGuard>
+                                        
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
