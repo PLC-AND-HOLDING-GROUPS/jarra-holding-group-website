@@ -1,20 +1,20 @@
 # Production Deployment Guide (VPS)
 
-This guide details the exact steps to deploy the Jarra Holdings website to your VPS (`196.189.159.132`).
+This guide details the exact steps to deploy the Jarra Holdings website to your VPS (`178.105.223.28`).
 
 ## 1. Initial VPS Setup
 
 ### DNS Configuration
 Ensure that your DNS provider has an `A` record pointing to your VPS.
 - **Type**: `A`
-- **Host/Name**: `jarra` (or `@` if you want the root domain to also point to this IP, but based on `jarra.system.com.et`, it's a subdomain or root domain). Ensure the full record resolves `jarra.system.com.et` to `196.189.159.132`.
-- **Value**: `196.189.159.132`
+- **Host/Name**: `jarra.et` and `www.jarra.et` (or `@` and `www`). Ensure the full records resolve `jarra.et` and `www.jarra.et` to `178.105.223.28`.
+- **Value**: `178.105.223.28`
 
 ## 2. Server Preparation
 
 SSH into your VPS:
 ```bash
-ssh root@196.189.159.132
+ssh root@178.105.223.28
 ```
 
 Clone the repository and navigate into the project:
@@ -55,7 +55,7 @@ Currently, Nginx is listening on port 80 and waiting for SSL generation. Do not 
 
 Run Certbot to generate the SSL certificates:
 ```bash
-docker compose -f docker-compose.prod.yml run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d jarra.system.com.et
+docker compose -f docker-compose.prod.yml run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d jarra.et -d www.jarra.et
 ```
 Follow the interactive prompt (provide your email and agree to the TOS).
 
@@ -84,7 +84,8 @@ curl http://localhost:4000
 ```
 
 From your local machine browser, navigate to:
-- `https://jarra.system.com.et`
+- `https://jarra.et`
+- `https://www.jarra.et`
 
 Everything should now be live and secure!
 
