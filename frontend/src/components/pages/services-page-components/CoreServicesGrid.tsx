@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import { useGetServicesQuery } from "@/redux/api/serviceApi";
+import { ServicesGridSkeleton } from "@/components/skeletons";
 
 const defaultServices = [
     {
@@ -49,7 +50,13 @@ export default function CoreServicesGrid() {
     const { data: apiServices, isLoading } = useGetServicesQuery();
 
     if (isLoading) {
-        return <div className="py-24 text-center">Loading services...</div>;
+        return (
+            <section className="py-24 bg-slate-50 border-t border-slate-200">
+                <div className="max-w-7xl mx-auto px-4 md:px-8">
+                    <ServicesGridSkeleton />
+                </div>
+            </section>
+        );
     }
 
     const servicesData = apiServices && apiServices.length > 0

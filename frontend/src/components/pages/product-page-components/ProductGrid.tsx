@@ -7,6 +7,7 @@ import { useGetProductsQuery, useGetCategoriesQuery } from "@/redux/api/productA
 import { Product, ProductCategory } from "@/redux/types/product";
 import ProductCard from "./ProductCard";
 import { useParams } from "next/navigation";
+import { ProductCardSkeleton } from "@/components/skeletons";
 
 export default function ProductGrid() {
     const params = useParams();
@@ -14,7 +15,7 @@ export default function ProductGrid() {
     const [searchTerm, setSearchTerm] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("all");
 
-    const { data: products = [] } = useGetProductsQuery();
+    const { data: products = [], isLoading, isError } = useGetProductsQuery();
     const { data: categories = [] } = useGetCategoriesQuery();
 
     const filteredProducts = useMemo(() => {
@@ -81,7 +82,20 @@ export default function ProductGrid() {
                 </div>
 
                 {/* Grid */}
-                {filteredProducts.length > 0 ? (
+                {isLoading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <ProductCardSkeleton key={i} />
+                        ))}
+                    </div>
+                ) : isError ? (
+                    <div className="py-24 text-center border-2 border-dashed border-red-200 rounded-2xl bg-red-50 flex flex-col items-center justify-center">
+                        <h3 className="text-xl font-bold text-red-700 mb-2">Error Loading Products</h3>
+                        <p className="text-red-500 max-w-md mx-auto">
+                            There was an issue loading the products. Please try again later.
+                        </p>
+                    </div>
+                ) : filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {filteredProducts.map((product: Product) => (
                             <ProductCard key={product.product_id} product={product} locale={locale} />

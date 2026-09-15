@@ -3,12 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { useGetFacilityFootprintQuery } from "@/redux/api/facilityApi";
+import { PhysicalFootprintSkeleton } from "@/components/skeletons";
 
 export default function PhysicalFootprint() {
     const { data: footprint, isLoading } = useGetFacilityFootprintQuery();
 
     if (isLoading) {
-        return <div className="py-24 text-center">Loading footprint...</div>;
+        return <PhysicalFootprintSkeleton />;
     }
 
     const heading = footprint?.heading || "Our Geographic Footprint";

@@ -6,6 +6,7 @@ import { useGetBusinessOverviewQuery } from '@/redux/api/businessApi';
 import { useGetAttachmentsQuery } from '@/redux/api/attachementApi';
 import { ChevronRight } from 'lucide-react';
 import { getFileUrl, getImageUrl } from '@/utils/fileUrl';
+import { BusinessOverviewSkeleton } from '@/components/skeletons';
 
 // Helper component to render icons dynamically from strings
 const IconRenderer = ({ name, className }: { name: string, className?: string }) => {
@@ -21,8 +22,8 @@ const OverviewPage = () => {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center py-20 w-7xl mx-auto">
-                <span className="animate-pulse text-lg text-primary">Loading Business Overview...</span>
+            <div className="py-20">
+                <BusinessOverviewSkeleton />
             </div>
         );
     }
