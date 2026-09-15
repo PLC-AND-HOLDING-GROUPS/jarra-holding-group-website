@@ -17,8 +17,8 @@ import {
 import Image from 'next/image';
 import { useGetWarehousingOverviewQuery } from '@/redux/api/businessApi';
 import { useGetAttachmentsQuery } from '@/redux/api/attachementApi';
-
 import * as LucideIcons from "lucide-react";
+import { WarehousingTradingSkeleton } from "@/components/skeletons";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -91,11 +91,11 @@ export default function WarehousingTrading() {
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
 
   if (isLoading) {
-    return (
-      <section ref={sectionRef} className="relative w-full bg-[#FAFAFA] pt-24 pb-32 flex justify-center items-center h-96">
-         <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </section>
-    );
+    return <WarehousingTradingSkeleton />;
+  }
+
+  if (!overview) {
+      return null;
   }
 
   // Fetch data

@@ -4,28 +4,19 @@ import React from "react";
 import { motion } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 import { useGetServiceOverviewQuery } from "@/redux/api/serviceApi";
+import { ServicesOverviewSkeleton } from "@/components/skeletons";
 
 export default function ServicesOverview() {
     const { data: overview, isLoading } = useGetServiceOverviewQuery();
 
     if (isLoading) {
-        return <div className="py-24 text-center">Loading overview...</div>;
+        return <ServicesOverviewSkeleton />;
     }
 
-    const subheading = overview?.subheading || "WHAT WE DO";
-    const heading = overview?.heading || "Integrated Business Services Built Around Your Needs";
-    const description = overview?.description || "Jarra Holdings operates across multiple sectors, providing premium import and export trading services that address critical commodity-market gaps. We focus on satisfying customers and stakeholders, reaching end users—particularly farming communities—and delivering innovative, sustainable solutions across industries.";
-
-    const fallbackCards = [
-        { name: "Import", icon: "ArrowDownToLine" },
-        { name: "Export", icon: "ArrowUpFromLine" },
-        { name: "Trading", icon: "ArrowLeftRight" },
-        { name: "Sourcing", icon: "SearchCheck" },
-        { name: "Warehousing", icon: "Warehouse" },
-        { name: "Supply Solutions", icon: "Network" }
-    ];
-
-    const cards = overview?.cards && overview.cards.length > 0 ? overview.cards : fallbackCards;
+    const subheading = overview?.subheading;
+    const heading = overview?.heading;
+    const description = overview?.description;
+    const cards = overview?.cards || [];
 
     return (
         <section className="py-24 bg-white">
@@ -33,32 +24,38 @@ export default function ServicesOverview() {
                 <div className="flex flex-col lg:flex-row gap-16 items-start">
                     {/* Left: Editorial Heading */}
                     <div className="lg:w-1/2">
-                        <motion.span
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="text-sm font-bold tracking-widest text-golden-dark uppercase mb-4 block"
-                        >
-                            {subheading}
-                        </motion.span>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6"
-                        >
-                            {heading}
-                        </motion.h2>
-                        <motion.p
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                            className="text-lg text-slate-600 mb-8 max-w-xl"
-                        >
-                            {description}
-                        </motion.p>
+                        {subheading && (
+                            <motion.span
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-sm font-bold tracking-widest text-golden-dark uppercase mb-4 block"
+                            >
+                                {subheading}
+                            </motion.span>
+                        )}
+                        {heading && (
+                            <motion.h2
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.1 }}
+                                className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6"
+                            >
+                                {heading}
+                            </motion.h2>
+                        )}
+                        {description && (
+                            <motion.p
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2 }}
+                                className="text-lg text-slate-600 mb-8 max-w-xl"
+                            >
+                                {description}
+                            </motion.p>
+                        )}
                     </div>
 
                     {/* Right: Visual Capability Map */}

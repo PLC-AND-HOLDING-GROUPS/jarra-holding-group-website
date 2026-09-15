@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useGetServicesQuery } from "@/redux/api/serviceApi";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ClientServices() {
     const { data: services = [], isLoading, isError } = useGetServicesQuery();
@@ -9,8 +10,15 @@ export default function ClientServices() {
     if (isLoading) {
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[1, 2, 3].map((i) => (
-                    <div key={i} className="animate-pulse bg-gray-200 h-48 rounded-xl" />
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="bg-card shadow-lg rounded-xl p-6 border border-border">
+                        <Skeleton className="h-8 w-3/4 mb-4" />
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-5/6" />
+                        </div>
+                    </div>
                 ))}
             </div>
         );

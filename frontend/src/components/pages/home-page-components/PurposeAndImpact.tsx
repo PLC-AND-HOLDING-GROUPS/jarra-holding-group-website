@@ -3,10 +3,11 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useGetCanvasQuery } from "@/redux/api/canvasApi";
+import { PurposeAndImpactSkeleton } from "@/components/skeletons";
 
 export default function PurposeAndImpact() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const { data: canvas } = useGetCanvasQuery();
+    const { data: canvas, isLoading } = useGetCanvasQuery();
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -16,7 +17,13 @@ export default function PurposeAndImpact() {
     const y1 = useTransform(scrollYProgress, [0, 1], [0, -40]);
     const y2 = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
-    const words = canvas?.words || {};
+    if (isLoading) {
+        return <PurposeAndImpactSkeleton />;
+    }
+
+    if (!canvas) return null;
+
+    const words = canvas.words || {};
 
     return (
         <section
@@ -31,9 +38,9 @@ export default function PurposeAndImpact() {
                     viewport={{ once: true }}
                     className="text-3xl md:text-5xl font-bold text-slate-900 mb-6"
                 >
-                    {canvas?.title_prefix || "Creating Value."}{" "}
+                    {canvas.title_prefix}{" "}
                     <span className="text-primary">
-                        {canvas?.title_highlight || "Driving Sustainable Growth."}
+                        {canvas.title_highlight}
                     </span>
                 </motion.h2>
 
@@ -44,7 +51,7 @@ export default function PurposeAndImpact() {
                     transition={{ delay: 0.1 }}
                     className="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed"
                 >
-                    {canvas?.description || "Jarra Holdings is a multi-sector company committed to sustainable investment, economic empowerment, market development, and creating lasting value for shareholders, customers, and communities."}
+                    {canvas.description}
                 </motion.p>
             </div>
 
@@ -234,11 +241,11 @@ export default function PurposeAndImpact() {
                 className="max-w-4xl mx-auto mt-12 px-4 text-center"
             >
                 <p className="text-sm font-semibold tracking-[0.25em] text-primary uppercase mb-3">
-                    {canvas?.vision_title || "Our Vision"}
+                    {canvas.vision_title}
                 </p>
 
                 <p className="text-xl md:text-2xl font-semibold text-slate-900">
-                    {canvas?.vision_description || "To be a leading community-based conglomerate in Africa by 2030."}
+                    {canvas.vision_description}
                 </p>
             </motion.div>
         </section>

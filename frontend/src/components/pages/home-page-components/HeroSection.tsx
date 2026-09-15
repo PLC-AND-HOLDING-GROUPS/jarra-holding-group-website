@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { useGetSlidersQuery } from "@/redux/api/sliderApi";
 import { getImageUrl } from "@/utils/fileUrl";
 import Link from "next/link";
+import { HeroSkeleton } from "@/components/skeletons";
 
 // Define a type for multi-language text
 type LocalizedText = {
@@ -85,7 +86,7 @@ export default function HeroSection() {
     }, [current, activeSlides.length]);
 
     if (isLoading) {
-        return <div className="w-full h-[80vh] bg-black/10 animate-pulse"></div>;
+        return <HeroSkeleton />;
     }
 
     if (activeSlides.length === 0) {

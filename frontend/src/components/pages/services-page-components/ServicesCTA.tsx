@@ -5,19 +5,32 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import * as LucideIcons from "lucide-react";
 import { useGetServiceWhyUsQuery } from "@/redux/api/serviceApi";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ServicesCTA() {
-    const { data: whyUs } = useGetServiceWhyUsQuery();
+    const { data: whyUs, isLoading } = useGetServiceWhyUsQuery();
 
-    const ctaHeading = whyUs?.cta_heading || "Let's Build the Right Supply Solution";
-    const ctaSubheading = whyUs?.cta_subheading || "Whether you are looking for reliable sourcing, import and export support, trading solutions, or supply capabilities, connect with Jarra Holdings to discuss your requirements.";
-    
-    const fallbackButtons = [
-        { title: "Contact Jarra Holdings", route: "/contact", icon: "ArrowRight" },
-        { title: "Explore Our Products", route: "/products", icon: "Box" }
-    ];
+    if (isLoading) {
+        return (
+            <section className="py-24 bg-slate-50 relative overflow-hidden">
+                <div className="max-w-4xl mx-auto px-4 md:px-8 text-center flex flex-col items-center relative z-10">
+                    <Skeleton className="h-12 w-3/4 mb-6" />
+                    <Skeleton className="h-6 w-full max-w-2xl mb-10" />
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+                        <Skeleton className="h-16 w-full sm:w-64 rounded-xl" />
+                        <Skeleton className="h-16 w-full sm:w-64 rounded-xl" />
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
-    const ctaButtons = whyUs?.cta_buttons && whyUs.cta_buttons.length > 0 ? whyUs.cta_buttons : fallbackButtons;
+    if (!whyUs || !whyUs.cta_heading) return null;
+
+    const ctaHeading = whyUs.cta_heading;
+    const ctaSubheading = whyUs.cta_subheading;
+    const ctaButtons = whyUs.cta_buttons || [];
+
     return (
         <section className="py-24 bg-slate-50 text-slate-900 relative overflow-hidden">
             <div className="max-w-4xl mx-auto px-4 md:px-8 text-center relative z-10">

@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, MotionValue, Variants } from 'framer-motion';
 import * as LucideIcons from 'lucide-react';
 import { useGetBusinessOverviewQuery, useGetBusinessNodesQuery, BusinessNode } from '@/redux/api/businessApi';
+import { OurBusinessesSkeleton } from "@/components/skeletons";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -83,6 +84,14 @@ export default function OurBusinesses() {
 
   const yCenterTemplate = useTransform(yCenter, (y) => `calc(50% + ${y}px)`);
 
+  if (isOverviewLoading || isNodesLoading) {
+      return <OurBusinessesSkeleton />;
+  }
+
+  if (!overview || businessNodes.length === 0) {
+      return null;
+  }
+
   const scrollToNext = () => {
     const nextSection = document.getElementById('business-overview');
     if (nextSection) {
@@ -108,16 +117,16 @@ export default function OurBusinesses() {
             </motion.span>
 
             <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-heading leading-tight mb-6">
-              {overview?.title_part1 || "Connecting Markets."}<br />
-              <span className="text-secondary">{overview?.title_part2 || "Building Value."}</span>
+              {overview.title_part1}<br />
+              <span className="text-secondary">{overview.title_part2}</span>
             </motion.h2>
 
             <motion.p variants={itemVariants} className="text-lg text-body font-medium mb-4 max-w-xl">
-              {overview?.description1 || "Jarra Holdings operates across diverse business activities, connecting local and international markets through import and export trading, commodity businesses, warehousing, and selected investment portfolios."}
+              {overview.description1}
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-muted text-base mb-10 max-w-xl leading-relaxed">
-              {overview?.description2 || "Our businesses span agricultural commodities, industrial inputs, construction materials, machinery, vehicles, electrical equipment, and other strategic sectors—creating an integrated platform for sustainable growth and long-term value creation."}
+              {overview.description2}
             </motion.p>
           </motion.div>
 

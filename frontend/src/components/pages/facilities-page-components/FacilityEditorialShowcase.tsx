@@ -6,6 +6,7 @@ import { MapPin } from "lucide-react";
 import { useGetFacilitiesQuery, useGetFacilityOverviewQuery } from "@/redux/api/facilityApi";
 import { useGetAttachmentsQuery } from "@/redux/api/attachementApi";
 import { getImageUrl } from "@/utils/fileUrl";
+import { FacilityEditorialShowcaseSkeleton } from "@/components/skeletons";
 
 export default function FacilityEditorialShowcase() {
     const { data: facilities, isLoading: isLoadingFacilities } = useGetFacilitiesQuery();
@@ -13,10 +14,12 @@ export default function FacilityEditorialShowcase() {
     const { data: attachmentsResponse } = useGetAttachmentsQuery();
 
     if (isLoadingFacilities || isLoadingOverview) {
-        return <div className="py-24 text-center">Loading facilities...</div>;
+        return <FacilityEditorialShowcaseSkeleton />;
     }
 
-    const listHeading = overview?.list_heading || "Featured Facilities";
+    if (!overview || !overview.list_heading) return null;
+
+    const listHeading = overview.list_heading;
     const attachments = attachmentsResponse?.attachments || [];
 
     const getImg = (imgId?: string) => {

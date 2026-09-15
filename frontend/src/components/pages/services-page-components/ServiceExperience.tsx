@@ -3,25 +3,24 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useGetServiceExperienceQuery } from "@/redux/api/serviceApi";
+import { ServiceExperienceSkeleton } from "@/components/skeletons";
 
-const defaultSteps = [
-    { num: "01", title: "Understand", desc: "Understand customer and market requirements." },
-    { num: "02", title: "Source", desc: "Identify appropriate products and supply channels." },
-    { num: "03", title: "Trade", desc: "Manage import, export, and trading activities." },
-    { num: "04", title: "Store", desc: "Utilize warehousing and facilities where required." },
-    { num: "05", title: "Deliver", desc: "Connect products and solutions to customers and target markets." },
-];
+
 
 export default function ServiceExperience() {
     const { data: experience, isLoading } = useGetServiceExperienceQuery();
 
     if (isLoading) {
-        return <div className="py-24 text-center">Loading experience...</div>;
+        return <ServiceExperienceSkeleton />;
     }
 
-    const heading = experience?.heading || "From Source to Market";
-    const subheading = experience?.subheading || "Our integrated approach ensures reliability at every step of the commercial supply chain.";
-    const steps = (experience?.steps && experience.steps.length > 0) ? experience.steps : defaultSteps;
+    if (!experience || !experience.steps || experience.steps.length === 0) {
+        return null;
+    }
+
+    const heading = experience.heading;
+    const subheading = experience.subheading;
+    const steps = experience.steps;
 
     return (
         <section className="py-24 bg-white text-slate-900 overflow-hidden border-t border-slate-200">
@@ -32,10 +31,12 @@ export default function ServiceExperience() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">{heading}</h2>
-                    <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                        {subheading}
-                    </p>
+                    {heading && <h2 className="text-3xl md:text-5xl font-bold mb-4">{heading}</h2>}
+                    {subheading && (
+                        <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+                            {subheading}
+                        </p>
+                    )}
                 </motion.div>
 
                 <div className="relative">

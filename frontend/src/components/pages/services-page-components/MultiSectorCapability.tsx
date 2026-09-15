@@ -7,52 +7,16 @@ import Image from "next/image";
 import { useGetServiceCapabilityQuery } from "@/redux/api/serviceApi";
 import { useGetAttachmentsQuery } from "@/redux/api/attachementApi";
 import { getImageUrl } from "@/utils/fileUrl";
+import { MultiSectorCapabilitySkeleton } from "@/components/skeletons";
 
-const defaultSectors = [
-    {
-        id: "agriculture",
-        name: "AGRICULTURE",
-        desc: "Supplying essential agricultural inputs to support farming communities and boost productivity.",
-        image: "/factory.jpg" // using existing placeholder
-    },
-    {
-        id: "construction",
-        name: "CONSTRUCTION",
-        desc: "Providing reliable construction-related materials and heavy machinery for infrastructure development.",
-        image: "/construction.jpg" // placeholder, maybe falls back if not exists, but we can just use color or one image for all if we don't have distinct ones. Let's use generic placeholders.
-    },
-    {
-        id: "industrial",
-        name: "INDUSTRIAL",
-        desc: "Sourcing and supplying factory raw materials to keep manufacturing lines operational.",
-        image: "/factory2.jpg"
-    },
-    {
-        id: "automotive",
-        name: "AUTOMOTIVE",
-        desc: "Importing vehicles and genuine spare parts for commercial and personal transport needs.",
-        image: "/trucks.jpg" // placeholder 
-    },
-    {
-        id: "electrical",
-        name: "ELECTRICAL",
-        desc: "Delivering certified electrical equipment for commercial, industrial, and residential projects.",
-        image: "/hero3.jpg"
-    },
-    {
-        id: "commodity",
-        name: "COMMODITY TRADE",
-        desc: "Exporting premium Ethiopian Arabica coffee, oilseeds, and pulses to international markets.",
-        image: "/coffee.jpg"
-    }
-];
+
 
 export default function MultiSectorCapability() {
     const { data: capability, isLoading } = useGetServiceCapabilityQuery();
     const { data: attachmentsResponse } = useGetAttachmentsQuery();
     
-    const sectors = (capability?.capabilities && capability.capabilities.length > 0) ? capability.capabilities : defaultSectors;
-    const [activeSector, setActiveSector] = useState(sectors[0] || defaultSectors[0]);
+    const sectors = capability?.capabilities || [];
+    const [activeSector, setActiveSector] = useState<any>(null);
 
     const getSectorBg = (sectorImage?: string) => {
         if (!sectorImage) return "url('/home-1.jpg')";
@@ -77,36 +41,44 @@ export default function MultiSectorCapability() {
         if (sectors.length > 0) {
             setActiveSector(sectors[0]);
         }
-    }, [capability]);
+    }, [capability, sectors.length]);
 
     if (isLoading) {
-        return <div className="py-24 text-center">Loading capabilities...</div>;
+        return <MultiSectorCapabilitySkeleton />;
     }
 
-    const heading = capability?.heading || "One Partner. Multiple Sectors.";
-    const subheading = capability?.subheading || "Jarra Holdings operates as a multi-sector company with activities spanning import, export, trading, and supply across key economic pillars.";
+    if (sectors.length === 0 || !activeSector) {
+        return null;
+    }
+
+    const heading = capability?.heading;
+    const subheading = capability?.subheading;
 
     return (
         <section className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
                 <div className="mb-16">
-                    <motion.h2 
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-3xl md:text-5xl font-bold text-slate-900 mb-6"
-                    >
-                        {heading}
-                    </motion.h2>
-                    <motion.p 
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-lg text-slate-600 max-w-2xl"
-                    >
-                        {subheading}
-                    </motion.p>
+                    {heading && (
+                        <motion.h2 
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-3xl md:text-5xl font-bold text-slate-900 mb-6"
+                        >
+                            {heading}
+                        </motion.h2>
+                    )}
+                    {subheading && (
+                        <motion.p 
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="text-lg text-slate-600 max-w-2xl"
+                        >
+                            {subheading}
+                        </motion.p>
+                    )}
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-12">

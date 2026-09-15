@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import { useGetTradingOverviewQuery } from '@/redux/api/businessApi';
+import { TradingSkeleton } from "@/components/skeletons";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -36,9 +37,7 @@ export default function Trading() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(15,23,42,0.03),transparent_50%)]"></div>
 
       {isLoading ? (
-        <div className="min-h-[50vh] flex items-center justify-center relative z-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        </div>
+        <TradingSkeleton />
       ) : (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

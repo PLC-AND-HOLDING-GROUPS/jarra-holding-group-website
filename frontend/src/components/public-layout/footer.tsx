@@ -8,11 +8,18 @@ import { useGetFootersQuery } from "@/redux/api/footerApi";
 import { useGetAttachmentsQuery } from "@/redux/api/attachementApi";
 import { getImageUrl } from "@/utils/fileUrl";
 import { useGetSocialMediasQuery } from "@/redux/api/socialMediaApi";
+import { FooterSkeleton } from "@/components/skeletons";
 
 const Footer = () => {
-    const { data: footers, isLoading } = useGetFootersQuery();
-    const { data: attachmentsResponse } = useGetAttachmentsQuery();
-    const { data: socialMedias = [] } = useGetSocialMediasQuery();
+    const { data: footers, isLoading: isFootersLoading } = useGetFootersQuery();
+    const { data: attachmentsResponse, isLoading: isAttachmentsLoading } = useGetAttachmentsQuery();
+    const { data: socialMedias = [], isLoading: isSocialMediasLoading } = useGetSocialMediasQuery();
+
+    const isLoading = isFootersLoading || isAttachmentsLoading || isSocialMediasLoading;
+
+    if (isLoading) {
+        return <FooterSkeleton />;
+    }
 
     const footerData = footers && footers.length > 0 ? footers[0] : null;
 

@@ -34,7 +34,7 @@ export default function PublicNavbar() {
     const [openMobileIndex, setOpenMobileIndex] = useState<number | null>(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    const { data: routes = [] } = useGetRoutesQuery();
+    const { data: routes = [], isLoading } = useGetRoutesQuery();
 
     const locale = currentLocale || "en";
 
@@ -63,6 +63,10 @@ export default function PublicNavbar() {
             { name: locale === "am" ? "ስራዎች" : "Careers", link: "/careers" },
             { name: locale === "am" ? "እውቂያ" : "Contact", link: "/contact" },
         ];
+
+        if (isLoading) {
+            return [];
+        }
 
         if (!routes || routes.length === 0) {
             return fallbackNavItems;
@@ -144,17 +148,31 @@ export default function PublicNavbar() {
             {/* ================= DESKTOP ================= */}
             <NavBody>
                 <NavbarLogo />
-                <NavItems items={navItems.map(item => (item.link === "/businesses" || item.name === "Businesses" || item.name === "ንግዶች") ? { ...item, children: undefined } : item)} />
+                {isLoading ? (
+                    <div className="hidden lg:flex items-center gap-6 xl:gap-8 ml-auto pr-4">
+                        <div className="h-4 w-16 bg-gray-200 dark:bg-gray-800 animate-pulse rounded"></div>
+                        <div className="h-4 w-20 bg-gray-200 dark:bg-gray-800 animate-pulse rounded"></div>
+                        <div className="h-4 w-24 bg-gray-200 dark:bg-gray-800 animate-pulse rounded"></div>
+                        <div className="h-4 w-16 bg-gray-200 dark:bg-gray-800 animate-pulse rounded"></div>
+                        <div className="h-4 w-20 bg-gray-200 dark:bg-gray-800 animate-pulse rounded"></div>
+                    </div>
+                ) : (
+                    <NavItems items={navItems.map(item => (item.link === "/businesses" || item.name === "Businesses" || item.name === "ንግዶች") ? { ...item, children: undefined } : item)} />
+                )}
             </NavBody>
 
             {/* ================= MOBILE ================= */}
             <MobileNav>
                 <MobileNavHeader>
                     <NavbarLogo />
-                    <MobileNavToggle
-                        isOpen={isMobileMenuOpen}
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    />
+                    {isLoading ? (
+                        <div className="h-8 w-8 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-md"></div>
+                    ) : (
+                        <MobileNavToggle
+                            isOpen={isMobileMenuOpen}
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        />
+                    )}
                 </MobileNavHeader>
 
                 <MobileNavMenu

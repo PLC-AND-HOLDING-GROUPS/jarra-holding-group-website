@@ -12,10 +12,12 @@ export default function PhysicalFootprint() {
         return <PhysicalFootprintSkeleton />;
     }
 
-    const heading = footprint?.heading || "Our Geographic Footprint";
-    const description = footprint?.description || "Jarra Holdings’s physical assets are strategically positioned across key regional zones to support our complex operations and ensure resilient infrastructure.";
-    const cardHeading = footprint?.card_heading || "Strategic Positioning";
-    const cardDescription = footprint?.card_description || "Our facilities are positioned near major transit corridors and agricultural hubs. This physical positioning allows for streamlined logistics and rapid operational response.";
+    if (!footprint) return null;
+
+    const heading = footprint.heading;
+    const description = footprint.description;
+    const cardHeading = footprint.card_heading;
+    const cardDescription = footprint.card_description;
     
     // Sort locations by order
     const locations = footprint?.locations 

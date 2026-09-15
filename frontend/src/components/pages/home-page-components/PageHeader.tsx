@@ -5,12 +5,17 @@ import { useGetPageHeaderByIdentifierQuery } from "@/redux/api/pageHeaderApi";
 import * as LucideIcons from "lucide-react";
 import React from 'react';
 import { getFileUrl } from '@/utils/fileUrl';
+import { PageHeaderSkeleton } from '@/components/skeletons';
 
 const PageHeader = ({ title, icon, description, pageIdentifier }: { title?: string, icon?: React.ReactNode, description?: string, pageIdentifier?: string }) => {
-    const { data: pageHeaderData } = useGetPageHeaderByIdentifierQuery(
+    const { data: pageHeaderData, isLoading } = useGetPageHeaderByIdentifierQuery(
         pageIdentifier || "",
         { skip: !pageIdentifier }
     );
+
+    if (isLoading) {
+        return <PageHeaderSkeleton />;
+    }
 
     const displayTitle = pageHeaderData?.title || title || "";
     const displayDescription = pageHeaderData?.description || description || "";

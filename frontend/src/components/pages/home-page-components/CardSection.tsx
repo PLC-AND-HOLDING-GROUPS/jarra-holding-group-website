@@ -5,15 +5,24 @@ import { Button } from "../../ui/button";
 import { useGetCardsQuery } from "@/redux/api/cardApi";
 import { getImageUrl } from "@/utils/fileUrl";
 import Link from "next/link";
+import { CardSkeleton } from "@/components/skeletons";
 
 const CardSection = () => {
-    const { data: cmsCards = [] } = useGetCardsQuery();
+    const { data: cmsCards = [], isLoading } = useGetCardsQuery();
 
-    const title = cmsCards[0]?.title || "One of the Best Performing Economies in Ethiopia";
-    const description = cmsCards[0]?.description || "Ethiopia has seen astonishing growth in the last ten years. Growing at an average rate of 9.7% between 2009 and 2019, Ethiopia has consistently been one of Africa’s top performing economies.";
+    if (isLoading) {
+        return <CardSkeleton />;
+    }
+
+    if (cmsCards.length === 0) {
+        return null;
+    }
+
+    const title = cmsCards[0]?.title;
+    const description = cmsCards[0]?.description;
     const buttonName = cmsCards[0]?.button_name || "Learn More";
     const buttonUrl = cmsCards[0]?.button_url || "/about";
-    const image = getImageUrl(cmsCards[0]?.attachment as any, "original") || "/home-5.jpg";
+    const image = getImageUrl(cmsCards[0]?.attachment as any, "original");
 
     return (
         <section className="w-full flex justify-center md:px-4 mb-20 pt-2">
@@ -21,11 +30,13 @@ const CardSection = () => {
                 className="relative w-full max-w-7xl md:rounded-3xl  overflow-hidden shadow-xl"
             >
                 {/* Background Image */}
-                <img
-                    src={image}
-                    alt={title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                />
+                {image && (
+                    <img
+                        src={image}
+                        alt={title || "Background"}
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                )}
 
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/50" />
@@ -35,11 +46,15 @@ const CardSection = () => {
 
                     {/* Left Text */}
                     <div className="">
-                        <h2 className="text-lg lg:text-3xl font-bold text-primary mb-4 leading-snug">
-                            {title}
-                        </h2>
+                        {title && (
+                            <h2 className="text-lg lg:text-3xl font-bold text-primary mb-4 leading-snug">
+                                {title}
+                            </h2>
+                        )}
 
-                        <p className="text-sm max-w-2xl lg:text-base text-gray-200 leading-relaxed" dangerouslySetInnerHTML={{ __html: description }} />
+                        {description && (
+                            <p className="text-sm max-w-2xl lg:text-base text-gray-200 leading-relaxed" dangerouslySetInnerHTML={{ __html: description }} />
+                        )}
                     </div>
 
                     {/* Right Buttons */}

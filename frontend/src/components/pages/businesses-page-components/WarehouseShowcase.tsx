@@ -6,6 +6,7 @@ import { MapPin, ChevronLeft, ChevronRight, X, Maximize2, Map as MapIcon, Image 
 import Image from 'next/image';
 import { useGetWarehousesQuery, useGetWarehousingOverviewQuery } from '@/redux/api/businessApi';
 import { getFileUrl } from '@/utils/fileUrl';
+import { WarehouseShowcaseSkeleton } from "@/components/skeletons";
 
 export default function WarehouseShowcase() {
     const { data: apiWarehouses = [], isLoading: loading, error: apiError } = useGetWarehousesQuery();
@@ -74,6 +75,10 @@ export default function WarehouseShowcase() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isLightboxOpen, activeWarehouse]);
 
+    if (loading) {
+        return <WarehouseShowcaseSkeleton />;
+    }
+
     if (error) {
         return (
             <section className="py-24 bg-[#FAFAFA] text-slate-900 border-t border-slate-200">
@@ -108,11 +113,7 @@ export default function WarehouseShowcase() {
     }
 
     if (loading) {
-        return (
-            <section className="py-24 bg-[#FAFAFA] text-slate-900 border-t border-slate-200 min-h-[400px] flex items-center justify-center">
-                <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
-            </section>
-        );
+        return <WarehouseShowcaseSkeleton />;
     }
 
     return (

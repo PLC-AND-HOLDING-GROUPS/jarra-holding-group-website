@@ -4,50 +4,24 @@ import React from "react";
 import { motion } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 import { useGetServiceWhyUsQuery } from "@/redux/api/serviceApi";
+import { WhyUsSkeleton } from "@/components/skeletons";
 
-const defaultValues = [
-    {
-        title: "Customer",
-        desc: "We give high priority to customer needs.",
-        icon: "Users"
-    },
-    {
-        title: "Quality",
-        desc: "Consistent quality is central to our approach.",
-        icon: "BadgeCheck"
-    },
-    {
-        title: "Integrity",
-        desc: "We build relationships on trust and integrity.",
-        icon: "ShieldCheck"
-    },
-    {
-        title: "Innovation",
-        desc: "We remain open to new ideas and evolving solutions.",
-        icon: "Lightbulb"
-    },
-    {
-        title: "Collaboration",
-        desc: "We engage with diverse business partners.",
-        icon: "Handshake"
-    },
-    {
-        title: "Competency",
-        desc: "We rely on capability and experience across diverse sectors.",
-        icon: "BriefcaseBusiness"
-    }
-];
+
 
 export default function WhyJarraHoldings() {
     const { data: whyUs, isLoading } = useGetServiceWhyUsQuery();
 
     if (isLoading) {
-        return <div className="py-24 text-center">Loading...</div>;
+        return <WhyUsSkeleton />;
     }
 
-    const heading = whyUs?.heading || "Why Partner With Jarra Holdings?";
-    const subheading = whyUs?.subheading || "Our approach is defined by our core values. They guide every trading decision, supply solution, and partnership we build.";
-    const values = (whyUs?.points && whyUs.points.length > 0) ? whyUs.points : defaultValues;
+    if (!whyUs || !whyUs.points || whyUs.points.length === 0) {
+        return null;
+    }
+
+    const heading = whyUs.heading;
+    const subheading = whyUs.subheading;
+    const values = whyUs.points;
 
     return (
         <section className="py-24 bg-slate-50 border-t border-slate-200">
@@ -58,10 +32,12 @@ export default function WhyJarraHoldings() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">{heading}</h2>
-                    <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                        {subheading}
-                    </p>
+                    {heading && <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">{heading}</h2>}
+                    {subheading && (
+                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                            {subheading}
+                        </p>
+                    )}
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
