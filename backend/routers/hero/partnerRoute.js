@@ -25,16 +25,16 @@ router.get("/", getAllPartners);
 router.get("/:id", validatePartnerId, getPartnerById);
 
 // ================= ADMIN =================
-router.post("/", authenticateToken, checkPermission("about", "create"), validateCreatePartner, createPartner);
+router.post("/", authenticateToken, checkPermission("hero", "create"), validateCreatePartner, createPartner);
 
 router.put("/:id", authenticateToken,
-    checkPermission("about", "update"), validatePartnerId,
+    checkPermission("hero", "update"), validatePartnerId,
     validateUpdatePartner,
     updatePartner
 );
 
 router.delete("/:id", authenticateToken,
-    checkPermission("about", "delete"), validatePartnerId,
+    checkPermission("hero", "delete"), validatePartnerId,
     deletePartner
 );
 
