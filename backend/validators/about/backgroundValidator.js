@@ -22,6 +22,7 @@ const createBackgroundSchema = Joi.object({
         "string.min": "Title must be at least 5 characters long.",
     }),
     description: Joi.string().optional(),
+    content: Joi.string().allow("").optional(),
     icon: Joi.string().required(),
 });
 
@@ -29,6 +30,7 @@ const createBackgroundSchema = Joi.object({
 const updateBackgroundSchema = Joi.object({
     title: Joi.string().min(5).optional(),
     description: Joi.string().optional(),
+    content: Joi.string().allow("").optional(),
     icon: Joi.string().optional(),
 });
 
