@@ -61,11 +61,11 @@ export { PhysicalFootprintSkeleton, EditorialIntroSkeleton, FacilityEditorialSho
 // Layout
 export { PageHeaderSkeleton } from "./public/layout/PageHeaderSkeleton";
 export { HeroSkeleton } from "./public/layout/HeroSkeleton";
-export { SectionHeaderSkeleton } from "./public/layout/SectionHeaderSkeleton";
+export { LayoutSectionHeaderSkeleton } from "./public/layout/LayoutSectionHeaderSkeleton";
 export { FooterSkeleton } from "./public/layout/FooterSkeleton";
 
 // Home
-export { PurposeSkeleton, PartnersSkeleton, CardSkeleton, PurposeAndImpactSkeleton } from "./public/home/HomeSkeletons";
+export { PurposeSkeleton, CardSkeleton, PurposeAndImpactSkeleton } from "./public/home/HomeSkeletons";
 
 // Services
 export { WhyUsSkeleton } from "./public/services/WhyUsSkeleton";

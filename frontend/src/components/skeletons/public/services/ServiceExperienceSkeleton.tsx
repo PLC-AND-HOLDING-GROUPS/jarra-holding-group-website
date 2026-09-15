@@ -1,11 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { SectionHeaderSkeleton } from "../layout/SectionHeaderSkeleton";
+import { LayoutSectionHeaderSkeleton } from "../layout/LayoutSectionHeaderSkeleton";
 
 export function ServiceExperienceSkeleton() {
     return (
         <section className="py-24 bg-white text-slate-900 overflow-hidden border-t border-slate-200">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
-                <SectionHeaderSkeleton align="center" />
+                <LayoutSectionHeaderSkeleton align="center" />
 
                 <div className="relative">
                     {/* Connecting Line Skeleton (Desktop) */}

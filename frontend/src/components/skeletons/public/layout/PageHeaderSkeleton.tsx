@@ -1,6 +1,6 @@
 import React from 'react';
-import InteractiveGrid from '../../ui/interactive-grid';
-import { Skeleton } from '../../ui/skeleton';
+import InteractiveGrid from '@/components/ui/interactive-grid';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function PageHeaderSkeleton() {
     return (
