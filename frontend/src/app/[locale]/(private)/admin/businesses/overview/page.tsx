@@ -116,6 +116,12 @@ const BusinessOverviewAdminPage = () => {
                     <h1 className="text-3xl font-bold text-teal-900">Manage Business Overview</h1>
                     <p className="text-muted-foreground mt-2">Manage the content for the public Business Overview page.</p>
                 </div>
+                <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                    <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                        {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                        Save Changes
+                    </Button>
+                </ComponentGuard>
             </div>
 
             <Tabs defaultValue="general" className="space-y-6">

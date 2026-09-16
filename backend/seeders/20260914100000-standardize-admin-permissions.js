@@ -27,6 +27,7 @@ module.exports = {
       
       // Business & Operations
       { resource: "businesses", actions: crudActions },
+      { resource: "business_overview", actions: ["read", "update"] },
       { resource: "services", actions: crudActions },
       { resource: "facilities", actions: crudActions },
       
