@@ -149,7 +149,7 @@ const BusinessesPage = () => {
     }
 
     return (
-        <div className="mx-auto space-y-8 w-full max-w-6xl pb-16">
+        <div className="mx-auto space-y-8 w-full max-w-full pb-16">
             <div>
                 <h1 className="text-3xl font-bold text-teal-900">Businesses Overview</h1>
                 <p className="text-muted-foreground mt-2">Update the main heading, descriptions, and dynamic ecosystem diagram for the Our Businesses page.</p>
