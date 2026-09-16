@@ -43,6 +43,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      export_icon: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        defaultValue: 'Plane'
+      },
+      import_icon: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        defaultValue: 'Ship'
+      },
       center_icon: {
         type: DataTypes.STRING(50),
         allowNull: true,

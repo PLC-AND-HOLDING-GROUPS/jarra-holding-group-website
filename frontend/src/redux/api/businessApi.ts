@@ -82,6 +82,8 @@ export interface ImportExportOverview {
   export_description: string;
   import_title: string;
   import_description: string;
+  export_icon: string;
+  import_icon: string;
   center_icon: string;
   center_title: string;
   center_subtitle: string;
