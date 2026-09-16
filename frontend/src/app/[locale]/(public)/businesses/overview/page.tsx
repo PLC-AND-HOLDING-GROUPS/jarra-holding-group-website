@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import * as LucideIcons from "lucide-react";
 import { useGetBusinessOverviewQuery } from '@/redux/api/businessApi';
 import { useGetAttachmentsQuery } from '@/redux/api/attachementApi';
@@ -19,6 +19,7 @@ const IconRenderer = ({ name, className }: { name: string, className?: string })
 const OverviewPage = () => {
     const { data, isLoading } = useGetBusinessOverviewQuery();
     const { data: attachmentsResponse } = useGetAttachmentsQuery();
+    const [expandedNetworkOp, setExpandedNetworkOp] = useState<number | null>(null);
 
     if (isLoading) {
         return (
@@ -264,18 +265,26 @@ const OverviewPage = () => {
                                 {networkOperations.map((tool: any, index: number) => (
                                     <div
                                         key={index}
-                                        className='flex items-center justify-between p-3 bg-background-secondary rounded-lg hover:bg-secondary/10 transition-colors group cursor-default'
+                                        className='flex flex-col p-3 bg-background-secondary rounded-lg hover:bg-secondary/10 transition-colors group cursor-pointer'
+                                        onClick={() => setExpandedNetworkOp(expandedNetworkOp === index ? null : index)}
                                     >
-                                        <div className='flex items-center gap-3'>
-                                            <div className='p-2 bg-blue-100 rounded-lg text-secondary'>
-                                                <IconRenderer name={tool.icon || 'Truck'} className="w-5 h-5" />
+                                        <div className='flex items-center justify-between'>
+                                            <div className='flex items-center gap-3'>
+                                                <div className='p-2 bg-blue-100 rounded-lg text-secondary'>
+                                                    <IconRenderer name={tool.icon || 'Truck'} className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <p className='font-medium text-heading group-hover:text-secondary'>{tool.title}</p>
+                                                    <p className='text-sm text-muted'>{tool.description}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className='font-medium text-heading group-hover:text-secondary'>{tool.title}</p>
-                                                <p className='text-sm text-muted'>{tool.description}</p>
-                                            </div>
+                                            <ChevronRight className={`w-5 h-5 text-footer group-hover:text-secondary transition-transform ${expandedNetworkOp === index ? 'rotate-90' : ''}`} />
                                         </div>
-                                        <ChevronRight className="w-5 h-5 text-footer group-hover:text-secondary" />
+                                        {expandedNetworkOp === index && tool.full_description && (
+                                            <div className="mt-3 pt-3 border-t border-gray-200">
+                                                <p className="text-sm text-muted">{tool.full_description}</p>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
