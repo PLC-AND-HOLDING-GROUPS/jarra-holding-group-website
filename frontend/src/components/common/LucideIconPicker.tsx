@@ -72,7 +72,7 @@ export function LucideIconPicker({ value, onChange }: IconPickerProps) {
                         <DialogTitle>Select an Icon</DialogTitle>
                     </DialogHeader>
 
-                    <Command>
+                    <Command shouldFilter={false}>
                         <CommandInput
                             placeholder="Search icon (file, map, shield...)"
                             value={search}
