@@ -91,45 +91,6 @@ const OverviewPage = () => {
                         </div>
                     )}
 
-                    {/* Featured Dashboard */}
-                    {businessData.length > 0 && businessData.map((dataItem: any, index: number) => (
-                        <div key={index} className='bg-white rounded-xl shadow-lg overflow-hidden border border-border'>
-                            <div className='p-6'>
-                                <div className='flex justify-between items-start mb-6'>
-                                    <div>
-                                        <h2 className='text-2xl font-bold text-heading mb-2'>
-                                            {dataItem.title}
-                                        </h2>
-                                        <p className='text-muted'>
-                                            {dataItem.heading}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className='mb-8'>
-                                    <div className='h-64 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex flex-col items-center justify-center p-8 text-center relative overflow-hidden'>
-                                        <div className="relative z-10 flex flex-col items-center">
-                                            <p className='text-muted mb-4'>
-                                                {dataItem.description}
-                                            </p>
-                                            <IconRenderer name='BarChart3' className='w-16 h-16 mx-auto text-footer' />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                                    {dataItem.features?.map((feature: string, fIndex: number) => (
-                                        <div key={`feat-str-${fIndex}`} className='flex items-center gap-3 p-3 bg-background-secondary rounded-lg'>
-                                            <div className='w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center'>
-                                                <IconRenderer name="Database" className='w-4 h-4 text-secondary' />
-                                            </div>
-                                            <span className='text-muted'>{feature}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
 
                     {/* General Overview */}
                     {generalInfo && (generalInfo.title || generalInfo.description) && (

@@ -43,7 +43,7 @@ const BusinessOverviewAdminPage = () => {
     useEffect(() => {
         if (overview) {
             const normalizedOverview = { ...overview };
-            
+
             // Defensively handle legacy object-style quick_stats
             if (normalizedOverview.quick_stats) {
                 const qs: any = normalizedOverview.quick_stats;
@@ -52,7 +52,7 @@ const BusinessOverviewAdminPage = () => {
                     right: Array.isArray(qs.right) ? qs.right : (qs.right ? [qs.right] : [])
                 } as any;
             }
-            
+
             setFormData(normalizedOverview);
         }
     }, [overview]);
@@ -248,36 +248,6 @@ const BusinessOverviewAdminPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="space-y-6">
-                            {formData.business_data?.map((data, index) => (
-                                <Card key={index} className="border-slate-200">
-                                    <CardContent className="p-4 space-y-4">
-                                        <div className="grid grid-cols-1 text-white md:grid-cols-2 gap-4">
-                                            <div className="space-y-2 text-white">
-                                                <label className="text-sm font-medium">Title</label>
-                                                <Input value={data.title} onChange={(e) => updateArrayItem('business_data', index, 'title', e.target.value)} />
-                                            </div>
-                                            <div className="space-y-2 text-white">
-                                                <label className="text-sm font-medium">Heading</label>
-                                                <Input value={data.heading} onChange={(e) => updateArrayItem('business_data', index, 'heading', e.target.value)} />
-                                            </div>
-                                            <div className="space-y-2 text-white md:col-span-2">
-                                                <label className="text-sm font-medium">Description</label>
-                                                <Textarea value={data.description} onChange={(e) => updateArrayItem('business_data', index, 'description', e.target.value)} rows={3} />
-                                            </div>
-                                            <div className="space-y-2 text-white md:col-span-2">
-                                                <label className="text-sm font-medium">Features (comma separated)</label>
-                                                <Textarea
-                                                    value={data.features?.join(', ')}
-                                                    onChange={(e) => updateArrayItem('business_data', index, 'features', e.target.value.split(',').map(s => s.trim()))}
-                                                    rows={2}
-                                                />
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
                     </div>
                 </TabsContent>
 
@@ -296,7 +266,7 @@ const BusinessOverviewAdminPage = () => {
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Metric</CardTitle>
-                                        
+
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -356,7 +326,7 @@ const BusinessOverviewAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div className="space-y-4">
                             {formData.operations_data?.map((data, index) => (
@@ -376,7 +346,7 @@ const BusinessOverviewAdminPage = () => {
                                             <input type="color" value={data.statusColor || '#22c55e'} onChange={(e) => updateArrayItem('operations_data', index, 'statusColor', e.target.value)} className="h-9 w-9 cursor-pointer border p-0 rounded-sm" />
                                             <Input value={data.statusColor || '#22c55e'} onChange={(e) => updateArrayItem('operations_data', index, 'statusColor', e.target.value)} className="h-9 flex-1 text-white" />
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             ))}
@@ -407,14 +377,14 @@ const BusinessOverviewAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div className="grid grid-cols-1 text-white md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {formData.network_operations?.map((op, index) => (
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Operation</CardTitle>
-                                        
+
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -463,14 +433,14 @@ const BusinessOverviewAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div className="grid grid-cols-1 text-white md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {formData.business_categories?.map((cat, index) => (
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Vertical</CardTitle>
-                                        
+
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
