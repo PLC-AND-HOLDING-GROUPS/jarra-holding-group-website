@@ -501,7 +501,6 @@ export const TradingOverviewForm = () => {
                                         <label className="text-xs text-white font-medium">Description</label>
                                         <Input placeholder="Description" className='text-white' value={step.desc} onChange={e => updateNestedArray("trading_cycle", idx, "desc", e.target.value)} />
                                     </div>
-                                    </div>
                                 </div>
                                 <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
                                     <Button type="button" variant="ghost" size="icon" className="absolute top-4 right-4 text-destructive" onClick={() => removeFromArray("trading_cycle", idx)}>
