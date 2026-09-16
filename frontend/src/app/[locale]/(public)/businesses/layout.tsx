@@ -1,18 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Quote, BriefcaseBusiness } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import PageHeader from "@/components/pages/home-page-components/PageHeader";
 import { Button } from "@/components/ui/button";
+import { useGetRoutesQuery } from "@/redux/api/routeApi";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useLocale } from "next-intl";
 
-const items = [
-    { label: "Our Businesses", slug: "/businesses", description: "Connecting trade, logistics, warehousing, and distribution" },
-    { label: "Overview", slug: "/businesses/overview", description: "Jarra Holdings business overview and operations" },
-    { label: "Import & Export", slug: "/businesses/import-export", description: "Cross-border trading and supply operations" },
-    { label: "Warehousing", slug: "/businesses/warehousing", description: "Multi-location storage and inventory infrastructure" },
-    { label: "Trading", slug: "/businesses/trading", description: "Product sourcing and commercial goods" },
-];
+const fallbackDescriptions: Record<string, string> = {
+    "/businesses": "Connecting trade, logistics, warehousing, and distribution",
+    "/businesses/overview": "Jarra Holdings business overview and operations",
+    "/businesses/import-export": "Cross-border trading and supply operations",
+    "/businesses/warehousing": "Multi-location storage and inventory infrastructure",
+    "/businesses/trading": "Product sourcing and commercial goods"
+};
 
 export default function Layout({
     children,
@@ -21,12 +24,58 @@ export default function Layout({
 }) {
     const pathname = usePathname();
     const router = useRouter();
+    const currentLocale = useLocale();
+    const locale = currentLocale || "en";
+
+    const { data: routes = [], isLoading } = useGetRoutesQuery();
+
+    const dynamicItems = useMemo(() => {
+        if (!routes || routes.length === 0) return [];
+
+        const getLabel = (translations?: any[]) => {
+            if (!translations || translations.length === 0) return "";
+            const found = translations.find((t) => t.language_code === locale)?.label;
+            if (found) return found;
+            const en = translations.find((t) => t.language_code === "en")?.label;
+            if (en) return en;
+            return translations[0]?.label || "";
+        };
+
+        const businessesRoute = routes.find((r: any) => r.path === "/businesses");
+        if (!businessesRoute) return [];
+
+        // Add parent route itself
+        const items = [
+            {
+                label: getLabel(businessesRoute.translations) || "Our Businesses",
+                slug: businessesRoute.path || "/businesses",
+                description: fallbackDescriptions[businessesRoute.path || "/businesses"] || "Connecting trade, logistics, warehousing, and distribution"
+            }
+        ];
+
+        // Add child routes
+        if (businessesRoute.children) {
+            const children = [...businessesRoute.children]
+                .filter((c: any) => c.is_active && c.show_in_navbar)
+                .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+
+            children.forEach((child: any) => {
+                items.push({
+                    label: getLabel(child.translations),
+                    slug: child.path || "",
+                    description: fallbackDescriptions[child.path || ""] || "Jarra Holdings Businesses"
+                });
+            });
+        }
+
+        return items;
+    }, [routes, locale]);
 
     // remove locale prefix: /en/about -> /about
     const normalizedPathname = pathname.replace(/^\/(en|am)/, "");
 
     // Find active item for title & breadcrumb
-    const activeItem = items.find((item) => item.slug === normalizedPathname);
+    const activeItem = dynamicItems.find((item) => item.slug === normalizedPathname);
     const title = activeItem?.label ?? "Our Businesses";
     const description = activeItem?.description ?? "Connecting trade, logistics, warehousing, and distribution";
 
@@ -43,27 +92,35 @@ export default function Layout({
             {/* Main container with relative positioning for overlay */}
             <div className="relative">
                 {/* Overlay Search Bar - positioned to cover half of the PageHeader */}
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] md:w-full max-w-7xl z-[999] pointer-events-auto">
-                    <div className="pt-5 pb-10 w-full bg-white rounded-2xl shadow-xl border border-border overflow-hidden space-y-6 px-4 md:px-7">
-                        <h1 className="text-2xl font-bold text-primary text-center">Explore Our Businesses</h1>
+                {(isLoading || dynamicItems.length > 0) && (
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] md:w-full max-w-7xl z-[999] pointer-events-auto">
+                        <div className="pt-5 pb-10 w-full bg-white rounded-2xl shadow-xl border border-border overflow-hidden space-y-6 px-4 md:px-7">
+                            <h1 className="text-2xl font-bold text-primary text-center">Explore Our Businesses</h1>
 
-                        <div className={`bg-white flex flex-row items-stretch justify-between gap-4 overflow-x-auto pb-4 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x`}>
-                            {items.map((item) => {
-                                const active = normalizedPathname === item.slug;
-                                return (
-                                    <Button
-                                        key={item.slug}
-                                        onClick={() => router.push(item.slug)}
-                                        className={`flex-1 min-w-[180px] p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-primary shadow-xl hover:bg-primary/90" : "text-muted hover:bg-background-secondary"
-                                            }`}
-                                    >
-                                        {item.label}
-                                    </Button>
-                                );
-                            })}
+                            <div className={`bg-white flex flex-row items-stretch justify-between gap-4 overflow-x-auto pb-4 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x`}>
+                                {isLoading ? (
+                                    Array(5).fill(0).map((_, i) => (
+                                        <Skeleton key={i} className="flex-1 min-w-[180px] h-[72px] rounded-md" />
+                                    ))
+                                ) : (
+                                    dynamicItems.map((item) => {
+                                        const active = normalizedPathname === item.slug;
+                                        return (
+                                            <Button
+                                                key={item.slug}
+                                                onClick={() => router.push(item.slug)}
+                                                className={`flex-1 min-w-[180px] p-6 cursor-pointer transition-colors bg-background-secondary border border-border  ${active ? "bg-primary text-white font-semibold border-l-4 border-primary shadow-xl hover:bg-primary/90" : "text-muted hover:bg-background-secondary"
+                                                    }`}
+                                            >
+                                                {item.label}
+                                            </Button>
+                                        );
+                                    })
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* Content section starts below the overlay */}
                 <section className="pt-20 md:pt-28 max-w-7xl mx-auto px-6 py-12">
