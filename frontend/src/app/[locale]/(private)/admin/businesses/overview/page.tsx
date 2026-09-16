@@ -116,12 +116,6 @@ const BusinessOverviewAdminPage = () => {
                     <h1 className="text-3xl font-bold text-teal-900">Manage Business Overview</h1>
                     <p className="text-muted-foreground mt-2">Manage the content for the public Business Overview page.</p>
                 </div>
-                <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
-                    <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
-                        {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                        Save Changes
-                    </Button>
-                </ComponentGuard>
             </div>
 
             <Tabs defaultValue="general" className="space-y-6">
@@ -149,11 +143,19 @@ const BusinessOverviewAdminPage = () => {
                 <TabsContent value="general" className="space-y-6 mt-0">
                     {/* Business Data */}
                     <div className="p-6 rounded-xl bg-card text-primary shadow-sm border border-slate-200">
-                        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-4 border-b pb-4">
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 border-b pb-4">
                             <div className="flex-1 space-y-3">
-                                <h2 className="text-xl text-white font-semibold flex items-center gap-2">
-                                    <Pencil className="w-5 h-5 text-white" /> General Overview & Operations
-                                </h2>
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl text-white font-semibold flex items-center gap-2">
+                                        <Pencil className="w-5 h-5 text-white" /> General Overview & Operations
+                                    </h2>
+                                    <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                                        <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                                            {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                            Save Changes
+                                        </Button>
+                                    </ComponentGuard>
+                                </div>
                                 <div className="grid grid-cols-1 text-white md:grid-cols-2 gap-3">
                                     <div className="space-y-1 text-white">
                                         <label className="text-xs font-medium">Section Title</label>
@@ -256,9 +258,22 @@ const BusinessOverviewAdminPage = () => {
                     <div className="p-6 rounded-xl bg-card shadow-sm border border-slate-200">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-4 border-b pb-4">
                             <div className="flex-1 space-y-3">
-                                <h2 className="text-xl text-white dark:text-white font-semibold flex items-center gap-2">
-                                    <TrendingUp className="w-5 h-5 text-white" /> Section Info: Key Metrics
-                                </h2>
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl text-white dark:text-white font-semibold flex items-center gap-2">
+                                        <TrendingUp className="w-5 h-5 text-white" /> Section Info: Key Metrics
+                                    </h2>
+                                    <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                                        <div className="flex items-center gap-3">
+                                            <Button onClick={() => addArrayItem('key_metrics', { title: '', value: '', change: '', period: '', icon: 'TrendingUp', color: '#14b8a6' })} variant="outline" className="flex items-center gap-2 bg-transparent border-slate-700 text-white hover:bg-slate-800">
+                                                <Plus className="w-4 h-4" /> Add Metric
+                                            </Button>
+                                            <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                                                {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                                Save Changes
+                                            </Button>
+                                        </div>
+                                    </ComponentGuard>
+                                </div>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 text-white md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -266,7 +281,11 @@ const BusinessOverviewAdminPage = () => {
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Metric</CardTitle>
-
+                                        <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={() => removeArrayItem('key_metrics', index)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </ComponentGuard>
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -308,9 +327,22 @@ const BusinessOverviewAdminPage = () => {
                     <div className="p-6 rounded-xl bg-card shadow-sm border border-slate-200">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-4 border-b pb-4">
                             <div className="flex-1 space-y-3">
-                                <h2 className="text-xl text-white font-semibold flex items-center gap-2">
-                                    <Database className="w-5 h-5 text-white" /> Business Operations Table
-                                </h2>
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl text-white font-semibold flex items-center gap-2">
+                                        <Database className="w-5 h-5 text-white" /> Business Operations Table
+                                    </h2>
+                                    <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                                        <div className="flex items-center gap-3">
+                                            <Button onClick={() => addArrayItem('operations_data', { area: '', focus: '', infrastructure: '', status: '', statusIcon: 'TrendingUp', statusColor: '#22c55e' })} variant="outline" className="flex items-center gap-2 bg-transparent border-slate-700 text-white hover:bg-slate-800">
+                                                <Plus className="w-4 h-4" /> Add Row
+                                            </Button>
+                                            <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                                                {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                                Save Changes
+                                            </Button>
+                                        </div>
+                                    </ComponentGuard>
+                                </div>
                                 <div className="grid grid-cols-1 text-white md:grid-cols-3 gap-3">
                                     <div className="space-y-1 text-white">
                                         <label className="text-xs font-medium">Section Title</label>
@@ -331,10 +363,15 @@ const BusinessOverviewAdminPage = () => {
                         <div className="space-y-4">
                             {formData.operations_data?.map((data, index) => (
                                 <div key={index} className="flex flex-col gap-3 p-4 border rounded-lg">
-                                    <div className="flex flex-col md:flex-row gap-3">
+                                    <div className="flex flex-col md:flex-row gap-3 items-center">
                                         <Input placeholder="Business Area" value={data.area} onChange={(e) => updateArrayItem('operations_data', index, 'area', e.target.value)} className="flex-1 text-white" />
                                         <Input placeholder="Strategic Focus" value={data.focus} onChange={(e) => updateArrayItem('operations_data', index, 'focus', e.target.value)} className="flex-1 text-white" />
                                         <Input placeholder="Infrastructure" value={data.infrastructure} onChange={(e) => updateArrayItem('operations_data', index, 'infrastructure', e.target.value)} className="flex-1 text-white" />
+                                        <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                            <Button variant="ghost" size="icon" className="h-10 w-10 text-red-500" onClick={() => removeArrayItem('operations_data', index)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </ComponentGuard>
                                     </div>
                                     <div className="flex flex-col md:flex-row gap-3 items-center border-t pt-3 mt-1">
                                         <span className="text-sm font-medium text-white w-16">Status:</span>
@@ -359,9 +396,22 @@ const BusinessOverviewAdminPage = () => {
                     <div className="p-6 rounded-xl bg-card shadow-sm border border-slate-200">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-4 border-b pb-4">
                             <div className="flex-1 space-y-3">
-                                <h2 className="text-xl text-white font-semibold flex items-center gap-2">
-                                    <Truck className="w-5 h-5 text-white" /> Network Operations
-                                </h2>
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl text-white font-semibold flex items-center gap-2">
+                                        <Truck className="w-5 h-5 text-white" /> Network Operations
+                                    </h2>
+                                    <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                                        <div className="flex items-center gap-3">
+                                            <Button onClick={() => addArrayItem('network_operations', { title: '', description: '', full_description: '', icon: 'Truck' })} variant="outline" className="flex items-center gap-2 bg-transparent border-slate-700 text-white hover:bg-slate-800">
+                                                <Plus className="w-4 h-4" /> Add Operation
+                                            </Button>
+                                            <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                                                {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                                Save Changes
+                                            </Button>
+                                        </div>
+                                    </ComponentGuard>
+                                </div>
                                 <div className="grid grid-cols-1 text-white md:grid-cols-3 gap-3">
                                     <div className="space-y-1 text-white">
                                         <label className="text-xs font-medium">Section Title</label>
@@ -384,7 +434,11 @@ const BusinessOverviewAdminPage = () => {
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Operation</CardTitle>
-
+                                        <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={() => removeArrayItem('network_operations', index)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </ComponentGuard>
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -415,9 +469,22 @@ const BusinessOverviewAdminPage = () => {
                     <div className="p-6 rounded-xl bg-card shadow-sm border border-slate-200">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-4 border-b pb-4">
                             <div className="flex-1 space-y-3">
-                                <h2 className="text-xl text-white font-semibold flex items-center gap-2">
-                                    <Filter className="w-5 h-5 text-white" /> Key Verticals (Sidebar)
-                                </h2>
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl text-white font-semibold flex items-center gap-2">
+                                        <Filter className="w-5 h-5 text-white" /> Key Verticals (Sidebar)
+                                    </h2>
+                                    <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                                        <div className="flex items-center gap-3">
+                                            <Button onClick={() => addArrayItem('business_categories', { title: '', description: '', growth: '', topFocus: [], icon: 'Filter', color: '#3b82f6' })} variant="outline" className="flex items-center gap-2 bg-transparent border-slate-700 text-white hover:bg-slate-800">
+                                                <Plus className="w-4 h-4" /> Add Vertical
+                                            </Button>
+                                            <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                                                {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                                Save Changes
+                                            </Button>
+                                        </div>
+                                    </ComponentGuard>
+                                </div>
                                 <div className="grid grid-cols-1 text-white md:grid-cols-3 gap-3">
                                     <div className="space-y-1 text-white">
                                         <label className="text-xs font-medium">Section Title</label>
@@ -440,7 +507,11 @@ const BusinessOverviewAdminPage = () => {
                                 <Card key={index} className="border-slate-200">
                                     <CardHeader className="py-2 px-4 border-b flex flex-row justify-between items-center">
                                         <CardTitle className="text-sm font-semibold">Vertical</CardTitle>
-
+                                        <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
+                                            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={() => removeArrayItem('business_categories', index)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </ComponentGuard>
                                     </CardHeader>
                                     <CardContent className="p-4 space-y-3">
                                         <div className="space-y-1 text-white">
@@ -519,9 +590,17 @@ const BusinessOverviewAdminPage = () => {
                 <TabsContent value="footer" className="space-y-6 mt-0">
                     {/* Quick Stats */}
                     <div className="p-6 rounded-xl bg-card shadow-sm border border-slate-200">
-                        <div className="mb-6">
-                            <h2 className="text-xl font-semibold flex items-center gap-2 text-white"><TrendingUp className="w-5 h-5 text-white" /> Quick Stats Footer</h2>
-                            <p className="text-sm text-muted-foreground mt-2">Manage stats that appear in a grid layout on the public page.</p>
+                        <div className="mb-6 flex justify-between items-center border-b pb-4">
+                            <div>
+                                <h2 className="text-xl font-semibold flex items-center gap-2 text-white"><TrendingUp className="w-5 h-5 text-white" /> Quick Stats Footer</h2>
+                                <p className="text-sm text-muted-foreground mt-2">Manage stats that appear in a grid layout on the public page.</p>
+                            </div>
+                            <ComponentGuard anyPermissions={['BUSINESS_OVERVIEW:UPDATE']}>
+                                <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                                    {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                    Save Changes
+                                </Button>
+                            </ComponentGuard>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {['left', 'right'].map((pos) => (
