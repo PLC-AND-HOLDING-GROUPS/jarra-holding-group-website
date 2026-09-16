@@ -91,9 +91,8 @@ const businessController = {
             { area: "Distribution", focus: "Supply Networks", infrastructure: "Growing", status: "Active" }
           ],
           quick_stats: {
-            left: { title: "Reliable", subtitle: "Partnerships" },
-            middle: { title: "Integrated", subtitle: "Supply Chain" },
-            right: { title: "Growing", subtitle: "Network" }
+            left: [{ title: "Reliable", subtitle: "Partnerships" }],
+            right: [{ title: "Growing", subtitle: "Network" }]
           },
           network_operations: [
             { title: "Supply Chain", description: "Connecting suppliers and markets", full_description: "Detailed information about our supply chain connectivity.", icon: "Package" },
