@@ -8,6 +8,10 @@ const businessController = {
       let overview = await BusinessOverview.findOne();
       if (!overview) {
         overview = await BusinessOverview.create({
+          title_part1: "Connecting",
+          title_part2: "Markets",
+          description1: "First paragraph...",
+          description2: "Second paragraph...",
           business_data: [
             {
               title: "Business Overview & Operations",
@@ -119,16 +123,16 @@ const businessController = {
 
   async updateOverview(req, res) {
     try {
-      const { business_data, business_categories, key_metrics, operations_data, quick_stats, network_operations, page_metadata } = req.body;
+      const { title_part1, title_part2, description1, description2, business_data, business_categories, key_metrics, operations_data, quick_stats, network_operations, page_metadata } = req.body;
       let overview = await BusinessOverview.findOne();
       
       if (!overview) {
         overview = await BusinessOverview.create({
-          business_data, business_categories, key_metrics, operations_data, quick_stats, network_operations, page_metadata
+          title_part1, title_part2, description1, description2, business_data, business_categories, key_metrics, operations_data, quick_stats, network_operations, page_metadata
         });
       } else {
         await overview.update({
-          business_data, business_categories, key_metrics, operations_data, quick_stats, network_operations, page_metadata
+          title_part1, title_part2, description1, description2, business_data, business_categories, key_metrics, operations_data, quick_stats, network_operations, page_metadata
         });
       }
       return res.status(200).json({ message: "Overview updated successfully", overview });
