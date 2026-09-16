@@ -42,7 +42,18 @@ const BusinessOverviewAdminPage = () => {
 
     useEffect(() => {
         if (overview) {
-            setFormData(overview);
+            const normalizedOverview = { ...overview };
+            
+            // Defensively handle legacy object-style quick_stats
+            if (normalizedOverview.quick_stats) {
+                const qs: any = normalizedOverview.quick_stats;
+                normalizedOverview.quick_stats = {
+                    left: Array.isArray(qs.left) ? qs.left : (qs.left ? [qs.left] : []),
+                    right: Array.isArray(qs.right) ? qs.right : (qs.right ? [qs.right] : [])
+                } as any;
+            }
+            
+            setFormData(normalizedOverview);
         }
     }, [overview]);
 

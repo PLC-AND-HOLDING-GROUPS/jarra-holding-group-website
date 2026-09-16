@@ -35,7 +35,11 @@ const OverviewPage = () => {
     const keyMetrics = data.key_metrics || [];
     const operationsData = data.operations_data || [];
     const networkOperations = data.network_operations || [];
-    const quickStats: any = data.quick_stats || { left: [], right: [] };
+    const rawQuickStats: any = data.quick_stats || { left: [], right: [] };
+    const quickStats: any = {
+        left: Array.isArray(rawQuickStats.left) ? rawQuickStats.left : (rawQuickStats.left ? [rawQuickStats.left] : []),
+        right: Array.isArray(rawQuickStats.right) ? rawQuickStats.right : (rawQuickStats.right ? [rawQuickStats.right] : [])
+    };
     const pageMetadata: any = data.page_metadata || {};
     const generalInfo: any = pageMetadata.general_overview_info || {};
 
