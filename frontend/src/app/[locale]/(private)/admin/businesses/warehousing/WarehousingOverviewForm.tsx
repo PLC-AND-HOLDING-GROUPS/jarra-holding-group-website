@@ -285,7 +285,7 @@ export const WarehousingOverviewForm = () => {
                             <div className="flex justify-between items-center mb-4">
                                 <label className="text-sm font-medium">Features</label>
                                 <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-                                    <Button type="button" variant="outline" size="sm" onClick={addFeature}>
+                                    <Button type="button" className="bg-primary text-white hover:bg-primary/80" variant="outline" size="sm" onClick={addFeature}>
                                         <Plus className="w-4 h-4 mr-2" /> Add Feature
                                     </Button>
                                 </ComponentGuard>
@@ -353,7 +353,7 @@ export const WarehousingOverviewForm = () => {
                             <p className="text-sm text-primary mb-4">The dynamic narratives displayed alongside the flow of goods.</p>
                         </div>
                         <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-                            <Button type="button" variant="outline" size="sm" onClick={addEditorialCard}>
+                            <Button type="button" className="bg-primary text-white hover:bg-primary/80" variant="outline" size="sm" onClick={addEditorialCard}>
                                 <Plus className="w-4 h-4 mr-2" /> Add Card
                             </Button>
                         </ComponentGuard>
@@ -393,7 +393,7 @@ export const WarehousingOverviewForm = () => {
                             <p className="text-sm text-primary mb-4">The nodes displayed in the middle canvas flow (e.g. SUPPLY &rarr; TRADING &rarr; CUSTOMERS).</p>
                         </div>
                         <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-                            <Button type="button" variant="outline" size="sm" onClick={addVisNode}>
+                            <Button type="button" className="bg-primary text-white hover:bg-primary/80" variant="outline" size="sm" onClick={addVisNode}>
                                 <Plus className="w-4 h-4 mr-2" /> Add Node
                             </Button>
                         </ComponentGuard>
@@ -492,7 +492,7 @@ export const WarehousingOverviewForm = () => {
                         )}
 
                         <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-                            <Button type="button" variant="outline" className="w-full mt-4" onClick={addStep}>
+                            <Button type="button" className="w-full mt-4 bg-primary text-white hover:bg-primary/80" variant="outline" onClick={addStep}>
                                 <Plus className="w-4 h-4 mr-2" /> Add Step
                             </Button>
                         </ComponentGuard>
