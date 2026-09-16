@@ -18,6 +18,7 @@ module.exports = {
       { resource: "page_headers", actions: ["read", "update"] },
       { resource: "about", actions: crudActions },
       { resource: "businesses", actions: crudActions },
+      { resource: "business_overview", actions: ["read", "update"] },
       { resource: "services", actions: crudActions },
       { resource: "facilities", actions: crudActions },
       { resource: "contacts", actions: crudActions },
