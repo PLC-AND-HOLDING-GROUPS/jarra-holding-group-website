@@ -216,18 +216,18 @@ export default function Trading() {
             )}
 
             {relationshipNodes.length > 0 && (
-              <div className="lg:col-span-7 relative h-[450px] bg-white border border-slate-100 rounded-3xl shadow-xl">
+              <div className="lg:col-span-7 relative h-[500px] bg-white border border-slate-100 rounded-3xl shadow-xl overflow-hidden">
                  {/* Lines */}
                  <svg className="absolute inset-0 w-full h-full text-slate-200 z-0">
-                    <line x1="50%" y1="10%" x2="50%" y2="45%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="50%" y1="45%" x2="20%" y2="80%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="50%" y1="45%" x2="80%" y2="80%" stroke="currentColor" strokeWidth="2" />
-                    <line x1="20%" y1="80%" x2="50%" y2="110%" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
-                    <line x1="80%" y1="80%" x2="50%" y2="110%" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
+                    <line x1="50%" y1="15%" x2="50%" y2="45%" stroke="currentColor" strokeWidth="2" />
+                    <line x1="50%" y1="45%" x2="20%" y2="70%" stroke="currentColor" strokeWidth="2" />
+                    <line x1="50%" y1="45%" x2="80%" y2="70%" stroke="currentColor" strokeWidth="2" />
+                    <line x1="20%" y1="70%" x2="50%" y2="90%" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
+                    <line x1="80%" y1="70%" x2="50%" y2="90%" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
                  </svg>
                  
                  {/* Nodes */}
-                 {relationshipNodes.map((node: any) => (
+                 {relationshipNodes.map((node: any, idx: number) => (
                    <motion.div
                      key={node.id_name}
                      onMouseEnter={() => setActiveRelNode(node.id_name)}
@@ -235,9 +235,12 @@ export default function Trading() {
                      className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer transition-all duration-300 ${
                        node.main ? 'bg-slate-900 text-white px-6 py-4 rounded-xl shadow-lg' :
                        node.highlight ? 'bg-primary text-white px-6 py-3 rounded-full shadow-lg font-bold' :
-                       'bg-white text-slate-800 px-6 py-3 rounded-full shadow-md border border-slate-200 font-bold text-sm'
+                       'bg-white text-slate-800 px-6 py-3 rounded-full shadow-md border border-slate-200 font-bold text-sm text-center'
                      } ${activeRelNode === node.id_name ? 'scale-110 shadow-xl' : 'scale-100'}`}
-                     style={{ left: `${node.x}%`, top: `${node.y}%` }}
+                     style={{ 
+                       left: `${[50, 50, 20, 80, 50][idx] ?? node.x}%`, 
+                       top: `${[15, 45, 70, 70, 90][idx] ?? node.y}%` 
+                     }}
                    >
                      {node.label}
                    </motion.div>
