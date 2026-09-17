@@ -18,6 +18,7 @@
     "empty_state": {
         "default_description": "በአሁኑ ጊዜ ምንም መረጃ የለም።",
         "news_title": "ምንም ዜና የለም",
+        "related_news_title": "ተዛማጅ ዜና የለም",
         "news_filter_title": "ለዚህ ምድብ ምንም ዜና አልተገኘም",
         "filter_description": "ከዚህ መለያ ጋር የሚዛመድ ምንም ዜና ማግኘት አልቻልንም። እባክዎ ሌላ መለያ ይምረጡ።",
         "error_description": "ዜናውን ለማምጣት ሲሞከር ስህተት ተከስቷል። እባክዎ ትንሽ ቆይተው እንደገና ይሞክሩ።"
