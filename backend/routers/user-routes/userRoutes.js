@@ -10,6 +10,7 @@ const {
   resetUserPassword,
   adminResetPassword,
   getProfile,
+  updateProfile,
   getUserPositions,
   getUserPermissions,
 } = require("../../controllers/user/userController");
@@ -111,6 +112,20 @@ router.get("/:id", getUserById);
  *         description: User profile
  */
 router.get("/profile/me", authenticateToken, getProfile);
+
+/**
+ * @swagger
+ * /users/profile/me:
+ *   put:
+ *     summary: Update current logged in user's profile
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Profile updated
+ */
+router.put("/profile/me", authenticateToken, updateProfile);
 
 /**
  * @swagger

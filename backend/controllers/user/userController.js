@@ -600,6 +600,201 @@ const getUserPermissions = async (req, res) => {
                 },
               ],
             },
+      { is_active, updated_at: new Date() },
+      { transaction: t }
+    );
+    await t.commit();
+
+    return res.status(200).json({
+      success: true,
+      message: `User ${is_active ? "activated" : "deactivated"} successfully.`,
+      data: { user_id: id, is_active },
+    });
+  } catch (error) {
+    await t.rollback();
+    return res.status(500).json({
+      success: false,
+      message: "Error toggling user status",
+      error: error.message,
+    });
+  }
+};
+
+const resetUserPassword = async (req, res) => {
+  const t = await sequelize.transaction();
+  try {
+    const { id } = req.params;
+
+    if (!isUuid(id)) {
+      await t.rollback();
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID format.",
+      });
+    }
+
+    const user = await User.findByPk(id, { transaction: t });
+    if (!user) {
+      await t.rollback();
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // Generate and hash new password
+    const newPassword = generateRandomPassword();
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await user.update(
+      {
+        password: hashedPassword,
+        is_first_logged_in: false,
+        updated_at: new Date(),
+      },
+      { transaction: t }
+    );
+
+    // Send email notification
+    try {
+      await sendEmail(
+        user.email,
+        `Password Reset - ${process.env.APP_NAME}`,
+        `
+      Dear ${user.full_name},
+      Your password has been reset successfully.
+      Email: ${user.email}
+      New Temporary Password: ${newPassword}
+      Please change your password after logging in.
+      `
+      );
+    } catch (emailError) {
+      if (!t.finished) await t.commit();
+      console.error("Reset password email failed, but password was changed:", emailError);
+      return res.status(200).json({
+        success: true,
+        message: `Password reset successfully, but the notification email failed. Please provide this new password to the user manually: ${newPassword}`,
+      });
+    }
+
+    if (!t.finished) await t.commit();
+
+    return res.status(200).json({
+      success: true,
+      message:
+        "Password reset successfully. The new password has been sent via email.",
+    });
+  } catch (error) {
+    if (!t.finished) await t.rollback();
+    console.error("Error resetting user password:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error resetting user password",
+      error: error.message,
+    });
+  }
+};
+
+const adminResetPassword = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const password = generateRandomPassword();
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.is_first_logged_in = true;
+    await user.save();
+
+    try {
+      await sendEmail(
+        user.email,
+        `Password Reset for ${process.env.APP_NAME}`,
+        `Dear ${user.full_name},\n\nYour password has been reset by an administrator.\n\nEmail: ${user.email}\nTemporary Password: ${password}\n\nPlease log in and change your password immediately.\n`
+      );
+    } catch (emailError) {
+      console.error("Password reset email failed:", emailError);
+      return res.status(200).json({
+        success: true,
+        message: `Password reset successfully, but email failed. Temporary password: ${password}`,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successfully and email sent.",
+    });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getProfile = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+
+    const user = await User.findOne({
+      where: { user_id: userId },
+      attributes: [
+        "user_id",
+        "full_name",
+        "email",
+        "phone_number",
+        "profile_image",
+        "is_first_logged_in",
+        "last_login_at",
+        "password_changed_at",
+        "is_active",
+        "created_at",
+        "updated_at",
+      ],
+      include: [],
+    });
+
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+
+    return res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+const getUserPermissions = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+
+    const user = await User.findOne({
+      where: { user_id: userId },
+      include: [
+        {
+          model: Role,
+          as: "roles",
+          through: { attributes: [] },
+          include: [
+            {
+              model: RolePermission,
+              as: "rolePermissions",
+              include: [
+                {
+                  model: Permission,
+                  as: "permission",
+                  attributes: ["resource", "action"],
+                },
+              ],
+            },
           ],
         },
       ],
@@ -643,6 +838,37 @@ const getUserPermissions = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const { full_name, phone_number } = req.body;
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (full_name !== undefined) user.full_name = full_name;
+    if (phone_number !== undefined) user.phone_number = phone_number;
+    
+    user.updated_at = new Date();
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update profile",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createUser,
   getUsers,
@@ -653,6 +879,7 @@ module.exports = {
   resetUserPassword,
   adminResetPassword,
   getProfile,
+  updateProfile,
   getUserPositions,
   getUserPermissions,
 };
