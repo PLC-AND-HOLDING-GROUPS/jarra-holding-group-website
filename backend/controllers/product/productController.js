@@ -6,11 +6,16 @@ const { Op } = require("sequelize");
 // Get all products
 exports.getAllProducts = async (req, res) => {
     try {
-        const { category, search, publish_status, status, isAdmin } = req.query;
+        const { category, search, publish_status, status, isAdmin, page, limit } = req.query;
         
         let includeCategories = { model: ProductCategory, as: "categories" };
         if (category && category !== "all") {
-            includeCategories.where = { slug: category };
+            const isUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(category);
+            if (isUuid) {
+                includeCategories.where = { category_id: category };
+            } else {
+                includeCategories.where = { slug: category };
+            }
         }
 
         const whereClause = { deleted_at: null };
@@ -30,7 +35,7 @@ exports.getAllProducts = async (req, res) => {
             whereClause.name = { [Op.iLike]: `%${search}%` };
         }
 
-        const products = await Product.findAll({
+        const queryOptions = {
             where: whereClause,
             include: [
                 includeCategories,
@@ -40,10 +45,34 @@ exports.getAllProducts = async (req, res) => {
                     include: [{ model: Attachment, as: "attachment" }]
                 }
             ],
-            order: [["created_at", "DESC"]]
-        });
-        
-        return res.status(200).json({ success: true, data: products });
+            order: [["created_at", "DESC"]],
+            distinct: true,
+        };
+
+        if (page && limit) {
+            const pageNumber = parseInt(page, 10) || 1;
+            const limitNumber = parseInt(limit, 10) || 8;
+            const offset = (pageNumber - 1) * limitNumber;
+
+            queryOptions.limit = limitNumber;
+            queryOptions.offset = offset;
+
+            const { count, rows } = await Product.findAndCountAll(queryOptions);
+
+            return res.status(200).json({ 
+                success: true, 
+                data: rows,
+                meta: {
+                    total: count,
+                    page: pageNumber,
+                    limit: limitNumber,
+                    totalPages: Math.ceil(count / limitNumber)
+                }
+            });
+        } else {
+            const products = await Product.findAll(queryOptions);
+            return res.status(200).json({ success: true, data: products });
+        }
     } catch (error) {
         console.error("Get Products Error:", error);
         return res.status(500).json({ success: false, message: "Failed to fetch products" });

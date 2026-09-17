@@ -1,13 +1,40 @@
 "use strict";
-const { ProductCategory } = require("../../models");
+const { ProductCategory, sequelize } = require("../../models");
 
 // Get all categories
 exports.getAllCategories = async (req, res) => {
     try {
-        const categories = await ProductCategory.findAll({
-            order: [["created_at", "DESC"]]
-        });
-        return res.status(200).json({ success: true, data: categories });
+        const { isPublic } = req.query;
+        
+        let queryOptions = {
+            order: [["created_at", "DESC"]],
+            attributes: {
+                include: [
+                    [
+                        sequelize.literal(`(
+                            SELECT CAST(COUNT(*) AS INTEGER)
+                            FROM product_categories_map AS pcm
+                            INNER JOIN products AS p ON p.product_id = pcm.product_id
+                            WHERE pcm.category_id = "ProductCategory"."category_id"
+                            AND p.publish_status = 'published'
+                            AND p.deleted_at IS NULL
+                        )`),
+                        'product_count'
+                    ]
+                ]
+            }
+        };
+
+        const categories = await ProductCategory.findAll(queryOptions);
+
+        let finalCategories = categories;
+        if (isPublic === 'true') {
+            finalCategories = categories.map(c => c.toJSON()).filter(c => c.product_count > 0)
+                .sort((a, b) => b.product_count - a.product_count)
+                .slice(0, 5);
+        }
+
+        return res.status(200).json({ success: true, data: finalCategories });
     } catch (error) {
         console.error("Get Categories Error:", error);
         return res.status(500).json({ success: false, message: "Failed to fetch categories" });

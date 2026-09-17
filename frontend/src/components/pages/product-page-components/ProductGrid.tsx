@@ -1,37 +1,64 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Search, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useGetProductsQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
+import { useGetProductsPaginatedQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
 import { Product, ProductCategory } from "@/redux/types/product";
 import ProductCard from "./ProductCard";
 import { useParams } from "next/navigation";
 import { ProductCardSkeleton } from "@/components/skeletons";
+import { Button } from "@/components/ui/button";
 
 export default function ProductGrid() {
     const params = useParams();
     const locale = (params?.locale as string) || "en";
+    
     const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("all");
+    const [page, setPage] = useState(1);
+    const [allProducts, setAllProducts] = useState<Product[]>([]);
 
-    const { data: products = [], isLoading, isError } = useGetProductsQuery();
-    const { data: categories = [] } = useGetCategoriesQuery();
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
 
-    const filteredProducts = useMemo(() => {
-        return products.filter((product) => {
-            // Only published products are live on the public side
-            if (product.publish_status && product.publish_status !== "published") {
-                return false;
+    // Reset list when filters change
+    useEffect(() => {
+        setPage(1);
+        setAllProducts([]);
+    }, [activeCategory, debouncedSearch]);
+
+    const { data: categories = [] } = useGetCategoriesQuery({ isPublic: true });
+
+    const { data, isLoading, isError, isFetching } = useGetProductsPaginatedQuery({
+        page,
+        limit: 8,
+        category: activeCategory !== "all" ? activeCategory : undefined,
+        search: debouncedSearch || undefined,
+        isAdmin: false
+    });
+
+    // Append new data
+    useEffect(() => {
+        if (data?.data) {
+            if (page === 1) {
+                setAllProducts(data.data);
+            } else {
+                setAllProducts((prev) => {
+                    const existingIds = new Set(prev.map(p => p.product_id));
+                    const newProducts = data.data.filter(p => !existingIds.has(p.product_id));
+                    return [...prev, ...newProducts];
+                });
             }
-            const matchesCategory = activeCategory === "all" || product.categories?.some((c: any) => c.category_id === activeCategory);
-            const searchLower = searchTerm.toLowerCase();
-            const matchesSearch = product.name.toLowerCase().includes(searchLower) || 
-                                  product.short_description?.toLowerCase().includes(searchLower);
-            
-            return matchesCategory && matchesSearch;
-        });
-    }, [searchTerm, activeCategory, products]);
+        }
+    }, [data, page]);
+
+    const hasMore = data?.meta ? page < data.meta.totalPages : false;
 
     return (
         <div id="product-grid" className="py-16 bg-white min-h-[600px]">
@@ -39,7 +66,6 @@ export default function ProductGrid() {
                 
                 {/* Search & Filters */}
                 <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-12">
-                    {/* Categories Tabs (Desktop) / Select (Mobile) - simplified to wrapping pills for both */}
                     <div className="flex flex-wrap gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
                         <button
                             onClick={() => setActiveCategory("all")}
@@ -82,7 +108,7 @@ export default function ProductGrid() {
                 </div>
 
                 {/* Grid */}
-                {isLoading ? (
+                {isLoading && page === 1 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {Array.from({ length: 8 }).map((_, i) => (
                             <ProductCardSkeleton key={i} />
@@ -95,12 +121,35 @@ export default function ProductGrid() {
                             There was an issue loading the products. Please try again later.
                         </p>
                     </div>
-                ) : filteredProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {filteredProducts.map((product: Product) => (
-                            <ProductCard key={product.product_id} product={product} locale={locale} />
-                        ))}
-                    </div>
+                ) : allProducts.length > 0 ? (
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {allProducts.map((product: Product) => (
+                                <ProductCard key={product.product_id} product={product} locale={locale} />
+                            ))}
+                        </div>
+                        
+                        {/* View More Button */}
+                        {hasMore && (
+                            <div className="mt-12 flex justify-center">
+                                <Button 
+                                    size="lg" 
+                                    onClick={() => setPage(p => p + 1)}
+                                    disabled={isFetching}
+                                    className="px-8 rounded-full shadow-md"
+                                >
+                                    {isFetching ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading...
+                                        </>
+                                    ) : (
+                                        "View More"
+                                    )}
+                                </Button>
+                            </div>
+                        )}
+                    </>
                 ) : (
                     <div className="py-24 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 flex flex-col items-center justify-center">
                         <Search className="w-12 h-12 text-slate-300 mb-4" />

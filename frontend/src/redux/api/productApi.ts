@@ -11,8 +11,8 @@ import {
 export const productApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // ================= PRODUCT CATEGORIES =================
-        getCategories: builder.query<ProductCategory[], void>({
-            query: () => "/product-categories",
+        getCategories: builder.query<ProductCategory[], { isPublic?: boolean } | void>({
+            query: (params) => (params ? { url: "/product-categories", params } : { url: "/product-categories" }),
             transformResponse: (res: any) => res.data ?? [],
             providesTags: ["ProductCategory"],
         }),
@@ -41,6 +41,14 @@ export const productApi = baseApi.injectEndpoints({
         >({
             query: (params) => (params ? { url: "/products", params } : { url: "/products" }),
             transformResponse: (res: any) => res.data ?? [],
+            providesTags: ["Product"],
+        }),
+        getProductsPaginated: builder.query<
+            { data: Product[]; meta: { total: number; page: number; limit: number; totalPages: number } },
+            { category?: string; publish_status?: string; search?: string; status?: string; isAdmin?: boolean; page: number; limit: number }
+        >({
+            query: (params) => ({ url: "/products", params }),
+            transformResponse: (res: any) => ({ data: res.data ?? [], meta: res.meta ?? {} }),
             providesTags: ["Product"],
         }),
         getProductByIdOrSlug: builder.query<Product, string | { identifier: string; isAdmin?: boolean }>({
@@ -107,6 +115,7 @@ export const {
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
     useGetProductsQuery,
+    useGetProductsPaginatedQuery,
     useGetProductByIdOrSlugQuery,
     useCreateProductMutation,
     useUpdateProductMutation,
