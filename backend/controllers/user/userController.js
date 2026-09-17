@@ -500,6 +500,45 @@ const resetUserPassword = async (req, res) => {
   }
 };
 
+const adminResetPassword = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const password = generateRandomPassword();
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.is_first_logged_in = true;
+    await user.save();
+
+    try {
+      await sendEmail(
+        user.email,
+        `Password Reset for ${process.env.APP_NAME}`,
+        `Dear ${user.full_name},\n\nYour password has been reset by an administrator.\n\nEmail: ${user.email}\nTemporary Password: ${password}\n\nPlease log in and change your password immediately.\n`
+      );
+    } catch (emailError) {
+      console.error("Password reset email failed:", emailError);
+      return res.status(200).json({
+        success: true,
+        message: `Password reset successfully, but email failed. Temporary password: ${password}`,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successfully and email sent.",
+    });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 const getProfile = async (req, res) => {
   try {
     const userId = req.user.user_id;
@@ -612,6 +651,7 @@ module.exports = {
   deleteUser,
   toggleUserActiveStatus,
   resetUserPassword,
+  adminResetPassword,
   getProfile,
   getUserPositions,
   getUserPermissions,

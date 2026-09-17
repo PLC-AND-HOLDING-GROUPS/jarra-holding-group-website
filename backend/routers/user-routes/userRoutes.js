@@ -8,6 +8,7 @@ const {
   deleteUser,
   toggleUserActiveStatus,
   resetUserPassword,
+  adminResetPassword,
   getProfile,
   getUserPositions,
   getUserPermissions,
@@ -245,7 +246,9 @@ router.patch("/:id/toggle-status", authenticateToken, checkPermission("users", "
  *     responses:
  *       200:
  *         description: Password reset successfully
+ *     security:
+ *       - bearerAuth: []
  */
-router.post("/:id/reset-password", authenticateToken, checkPermission("users", "create"), resetUserPassword);
+router.post("/:id/reset-password", authenticateToken, checkPermission("users", "update"), adminResetPassword);
 
 module.exports = router;

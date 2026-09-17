@@ -9,7 +9,8 @@ import { notify, extractErrorMessage } from "@/utils/notification";
 import {
     useCreateUserMutation,
     useUpdateUserMutation,
-    useGetUserByIdQuery
+    useGetUserByIdQuery,
+    useResetUserPasswordMutation
 } from "@/redux/api/userApi";
 import { useGetRolesQuery } from "@/redux/api/roleApi";
 import { Label } from "@/components/ui/label";
@@ -32,6 +33,7 @@ const UserForm = ({ userId }: UserFormProps) => {
 
     const [createUser, { isLoading: isCreating }] = useCreateUserMutation();
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
+    const [resetUserPassword, { isLoading: isResettingPassword }] = useResetUserPasswordMutation();
 
     /* Form State */
     const [fullName, setFullName] = useState("");
@@ -92,6 +94,19 @@ const UserForm = ({ userId }: UserFormProps) => {
             }, 1000);
         } catch (err: any) {
             notify.error(extractErrorMessage(err, `Failed to ${isEdit ? 'update' : 'create'} user.`), { id: "user-form" });
+        }
+    };
+
+    const handleResetPassword = async () => {
+        if (!userId) return;
+        if (!confirm("Are you sure you want to reset this user's password? A new password will be generated and emailed to them.")) return;
+        
+        try {
+            notify.loading("Resetting password...", { id: "reset-password" });
+            const res = await resetUserPassword(userId as string).unwrap();
+            notify.success(res.message || "Password reset successfully.", { id: "reset-password" });
+        } catch (err: any) {
+            notify.error(extractErrorMessage(err, "Failed to reset password."), { id: "reset-password" });
         }
     };
 
@@ -285,17 +300,39 @@ const UserForm = ({ userId }: UserFormProps) => {
                         </div>
 
                         {isEdit && (
-                            <div className="flex items-center gap-3 p-4 bg-golden-dark/5 rounded-lg border border-golden-dark/10">
-                                <input
-                                    type="checkbox"
-                                    id="isActive"
-                                    className="h-4 w-4 text-golden-dark border-golden-dark/30 rounded focus:ring-golden-dark"
-                                    checked={isActive}
-                                    onChange={(e) => setIsActive(e.target.checked)}
-                                />
-                                <Label htmlFor="isActive" className="text-sm cursor-pointer font-medium text-golden-dark">
-                                    Account is Active & Enabled
-                                </Label>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3 p-4 bg-golden-dark/5 rounded-lg border border-golden-dark/10">
+                                    <input
+                                        type="checkbox"
+                                        id="isActive"
+                                        className="h-4 w-4 text-golden-dark border-golden-dark/30 rounded focus:ring-golden-dark"
+                                        checked={isActive}
+                                        onChange={(e) => setIsActive(e.target.checked)}
+                                    />
+                                    <Label htmlFor="isActive" className="text-sm cursor-pointer font-medium text-golden-dark">
+                                        Account is Active & Enabled
+                                    </Label>
+                                </div>
+                                
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-red-500/5 rounded-lg border border-red-500/20">
+                                    <div>
+                                        <h3 className="font-semibold text-red-600 text-sm">Reset User Password</h3>
+                                        <p className="text-xs text-red-500/80 mt-1">Generates a new random password and emails it to the user. Forces password change on next login.</p>
+                                    </div>
+                                    <ComponentGuard anyPermissions={['USERS:UPDATE']}>
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="sm"
+                                            onClick={handleResetPassword}
+                                            disabled={isResettingPassword}
+                                            className="whitespace-nowrap"
+                                        >
+                                            {isResettingPassword ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                                            Reset Password
+                                        </Button>
+                                    </ComponentGuard>
+                                </div>
                             </div>
                         )}
                     </div>
