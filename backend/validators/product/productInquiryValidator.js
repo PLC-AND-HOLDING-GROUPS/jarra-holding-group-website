@@ -24,9 +24,8 @@ const createProductInquirySchema = Joi.object({
     "string.max": "Company cannot exceed 255 characters.",
   }),
   
-  quantity: Joi.number().integer().min(1).allow(null, "").messages({
-    "number.base": "Quantity must be a number.",
-    "number.min": "Quantity must be at least 1."
+  quantity: Joi.string().max(255).allow(null, "").messages({
+    "string.max": "Quantity cannot exceed 255 characters."
   }),
 
   email: Joi.string().email().max(255).required().messages({
@@ -38,11 +37,6 @@ const createProductInquirySchema = Joi.object({
   phone: Joi.string().max(50).required().messages({
     "string.empty": "Phone number is required.",
     "string.max": "Phone number cannot exceed 50 characters.",
-  }),
-
-  subject: Joi.string().max(255).required().messages({
-    "string.empty": "Subject is required.",
-    "string.max": "Subject cannot exceed 255 characters.",
   }),
 
   message: Joi.string().max(10000).required().messages({

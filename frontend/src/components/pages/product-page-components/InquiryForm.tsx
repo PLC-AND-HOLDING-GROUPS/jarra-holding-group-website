@@ -109,7 +109,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder="John Doe"
                             className={errors.name ? "border-red-500" : ""}
                         />
                         {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
@@ -121,7 +120,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                             name="company"
                             value={formData.company}
                             onChange={handleChange}
-                            placeholder="Company Ltd."
                         />
                     </div>
                 </div>
@@ -135,7 +133,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                             type="email"
                             value={formData.email}
                             onChange={handleChange}
-                            placeholder="john@example.com"
                             className={errors.email ? "border-red-500" : ""}
                         />
                         {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
@@ -148,7 +145,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                             type="tel"
                             value={formData.phone}
                             onChange={handleChange}
-                            placeholder="+1 (555) 000-0000"
                         />
                     </div>
                 </div>
@@ -160,7 +156,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                         name="quantity"
                         value={formData.quantity}
                         onChange={handleChange}
-                        placeholder="e.g., 500 Metric Tons, CIF Port of Djibouti"
                     />
                 </div>
 
@@ -171,7 +166,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        placeholder="Please provide any additional details about your requirements..."
                         className={`min-h-[120px] resize-none ${errors.message ? "border-red-500" : ""}`}
                     />
                     {errors.message && <p className="text-xs text-red-500">{errors.message}</p>}
@@ -194,10 +188,6 @@ export default function InquiryForm({ product }: { product: Product }) {
                         </>
                     )}
                 </Button>
-                
-                <p className="text-xs text-center text-muted-foreground mt-4">
-                    This is a demonstration form. Your data will not be saved or transmitted.
-                </p>
             </form>
         </div>
     );
