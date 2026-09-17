@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "category_id",
                 otherKey: "product_id",
                 as: "products",
+                timestamps: false,
             });
         }
     }
