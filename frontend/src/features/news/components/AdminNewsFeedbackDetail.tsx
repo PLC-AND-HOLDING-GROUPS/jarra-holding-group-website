@@ -18,6 +18,13 @@ import { DataTable } from "@/features/template/component/DataTable";
 import { TableLayout } from "@/features/template/component/TableLayout";
 import { notify } from "@/utils/notification";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import type { FilterField } from "@/types/tableLayout";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 import { formatDate } from "@/utils/datetime";
@@ -39,6 +46,7 @@ export default function AdminNewsFeedbackDetail() {
     const [toggleStatus] = useToggleFeedbackStatusMutation();
     const [deleteFeedback] = useDeleteFeedbackMutation();
     const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: string }>({ open: false, id: "" });
+    const [viewFeedback, setViewFeedback] = useState<NewsFeedback | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
     const [pageIndex, setPageIndex] = useState(0);
@@ -109,7 +117,7 @@ export default function AdminNewsFeedbackDetail() {
             accessorKey: "thought",
             header: "Comment",
             cell: ({ row }) => (
-                <p className="text-sm text-foreground max-w-[400px] line-clamp-3" title={row.getValue("thought")}>
+                <p className="text-sm text-white max-w-[400px] line-clamp-3" title={row.getValue("thought")}>
                     {row.getValue("thought")}
                 </p>
             ),
@@ -151,6 +159,15 @@ export default function AdminNewsFeedbackDetail() {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex items-center gap-1">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        title="View Details"
+                        className="text-primary hover:text-primary/80"
+                        onClick={() => setViewFeedback(row.original)}
+                    >
+                        <Eye className="h-4 w-4" />
+                    </Button>
                     <ComponentGuard anyPermissions={["NEWS:DELETE"]}>
                         <Button
                             variant="ghost"
@@ -271,6 +288,31 @@ export default function AdminNewsFeedbackDetail() {
                     currentIndex={pageIndex}
                 />
             )}
+
+            <Dialog open={!!viewFeedback} onOpenChange={(open) => !open && setViewFeedback(null)}>
+                <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Feedback Details</DialogTitle>
+                        <DialogDescription>
+                            From: {viewFeedback?.fullname}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-1">
+                            <h4 className="text-sm font-medium leading-none">Date</h4>
+                            <p className="text-sm text-muted-foreground">
+                                {viewFeedback?.created_at ? new Date(viewFeedback.created_at).toLocaleString() : ""}
+                            </p>
+                        </div>
+                        <div className="space-y-1">
+                            <h4 className="text-sm font-medium leading-none">Comment</h4>
+                            <p className="text-sm text-white whitespace-pre-wrap rounded-md bg-secondary p-3">
+                                {viewFeedback?.thought}
+                            </p>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
 
             <ConfirmDialog
                 open={deleteConfirm.open}
