@@ -116,21 +116,21 @@ const OverviewPage = () => {
 
                                 <div className='mb-8'>
                                     <div 
-                                        className='h-64 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex flex-col items-center justify-center p-8 text-center bg-cover bg-center relative overflow-hidden'
+                                        className='min-h-[350px] md:min-h-[450px] bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex flex-col items-center justify-center p-6 text-center bg-cover bg-center relative overflow-hidden'
                                         style={bgImageUrl ? { backgroundImage: `url('${bgImageUrl}')` } : {}}
                                     >
                                         {bgImageUrl && (
                                             <div className="absolute inset-0 bg-black/50"></div>
                                         )}
-                                        <div className="relative z-10 flex flex-col items-center">
+                                        <div className="relative z-10 flex flex-col items-center justify-center gap-8 md:gap-12">
                                             {generalInfo.overlay_text ? (
-                                                <p className="text-xl font-semibold text-white mb-4">{generalInfo.overlay_text}</p>
+                                                <p className="text-base sm:text-lg md:text-xl font-semibold text-white">{generalInfo.overlay_text}</p>
                                             ) : (
-                                                <p className={`text-muted mb-4 ${bgImageUrl ? 'text-white' : ''}`}>
+                                                <p className={`text-sm sm:text-base md:text-lg ${bgImageUrl ? 'text-white' : 'text-muted'}`}>
                                                     {generalInfo.right_content?.description}
                                                 </p>
                                             )}
-                                            <IconRenderer name={generalInfo.right_content?.icon || 'Box'} className={`w-16 h-16 mx-auto ${bgImageUrl ? 'text-white' : 'text-footer'}`} />
+                                            <IconRenderer name={generalInfo.right_content?.icon || 'Box'} className={`w-16 h-16 md:w-20 md:h-20 mx-auto ${bgImageUrl ? 'text-white' : 'text-footer'}`} />
                                         </div>
                                     </div>
                                 </div>
