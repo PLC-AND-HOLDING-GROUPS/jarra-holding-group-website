@@ -288,20 +288,10 @@ export const TradingOverviewForm = () => {
                             <h3 className="font-semibold text-lg text-primary">5. Relationship Network Nodes</h3>
                             <p className="text-sm text-primary mb-4">Positional nodes for the animated center graphic.</p>
                         </div>
-                        <ComponentGuard anyPermissions={['BUSINESSES:UPDATE']}>
-                            <Button type="button" className='bg-primary text-white hover:bg-primary/80' variant="outline" size="sm" onClick={() => addToArray("relationship_nodes", { id_name: `node_${formData.relationship_nodes?.length || 0}`, label: "", desc: "", x: 50, y: 50, main: false, highlight: false })}>
-                                <Plus className="w-4 h-4 mr-2" /> Add Node
-                            </Button>
-                        </ComponentGuard>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {(formData.relationship_nodes || []).map((node: any, idx: number) => (
                             <div key={idx} className="flex flex-col gap-3 p-4 border rounded-lg bg-card relative">
-                                <ComponentGuard anyPermissions={['BUSINESSES:DELETE']}>
-                                    <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive" onClick={() => removeFromArray("relationship_nodes", idx)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
-                                </ComponentGuard>
                                 <h4 className="text-sm font-semibold text-primary uppercase pb-2 border-b pr-8">
                                     {RELATIONSHIP_NODE_SLOTS[idx]?.name || `Node ${idx + 1}`}
                                 </h4>

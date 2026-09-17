@@ -80,7 +80,7 @@ export default function Trading() {
             {/* Left Principles */}
             {overview?.principles && overview.principles.length > 0 && (
               <div className="lg:col-span-3 flex flex-col gap-12 lg:pr-8 order-2 lg:order-1">
-                {overview.principles.slice(0, 2).map((p: any, idx: number) => (
+                {overview.principles.filter((_: any, idx: number) => idx % 2 === 0).map((p: any, idx: number) => (
                   <motion.div key={idx} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.2 }}>
                     <div className="text-primary font-mono text-sm font-bold mb-2">{p.number}</div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2 uppercase">{p.title}</h3>
@@ -131,9 +131,9 @@ export default function Trading() {
             )}
 
             {/* Right Principles */}
-            {overview?.principles && overview.principles.length > 2 && (
+            {overview?.principles && overview.principles.length > 1 && (
               <div className="lg:col-span-3 flex flex-col gap-12 lg:pl-8 order-3 lg:order-3 text-left lg:text-right">
-                {overview.principles.slice(2, 4).map((p: any, idx: number) => (
+                {overview.principles.filter((_: any, idx: number) => idx % 2 !== 0).map((p: any, idx: number) => (
                   <motion.div key={idx} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 + (idx * 0.2) }}>
                     <div className="text-primary font-mono text-sm font-bold mb-2">{p.number}</div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2 uppercase">{p.title}</h3>
@@ -216,7 +216,7 @@ export default function Trading() {
             )}
 
             {relationshipNodes.length > 0 && (
-              <div className="lg:col-span-7 relative h-[450px] bg-white border border-slate-100 rounded-3xl shadow-xl overflow-hidden">
+              <div className="lg:col-span-7 relative h-[450px] bg-white border border-slate-100 rounded-3xl shadow-xl">
                  {/* Lines */}
                  <svg className="absolute inset-0 w-full h-full text-slate-200 z-0">
                     <line x1="50%" y1="10%" x2="50%" y2="45%" stroke="currentColor" strokeWidth="2" />
