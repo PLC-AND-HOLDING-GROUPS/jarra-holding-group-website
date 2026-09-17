@@ -360,7 +360,7 @@ export default function CreateProduct() {
             <div className="bg-card text-card-foreground p-6 rounded-lg shadow overflow-y-auto space-y-6">
                 <h1 className="text-2xl font-bold mb-6 text-primary">Create Product</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="publish_status">Publish Status</Label>
                             <select
@@ -388,29 +388,30 @@ export default function CreateProduct() {
                                 <option value="Currently Unavailable">Currently Unavailable</option>
                             </select>
                         </div>
-                        <div className="space-y-2">
-                            <Label>Categories <span className="text-red-500">*</span></Label>
-                            <div className="flex flex-wrap gap-2 border border-border p-3 rounded-md bg-card">
-                                {categories.map(cat => (
-                                    <label key={cat.category_id} className="flex items-center gap-2 cursor-pointer bg-secondary px-3 py-1.5 rounded-md hover:bg-secondary/80">
-                                        <input
-                                            type="checkbox"
-                                            value={cat.category_id}
-                                            checked={categoryIds.includes(cat.category_id)}
-                                            onChange={(e) => {
-                                                if (e.target.checked) {
-                                                    setCategoryIds([...categoryIds, cat.category_id]);
-                                                } else {
-                                                    setCategoryIds(categoryIds.filter(id => id !== cat.category_id));
-                                                }
-                                            }}
-                                            className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4"
-                                        />
-                                        <span className="text-sm font-medium">{cat.name}</span>
-                                    </label>
-                                ))}
-                                {categories.length === 0 && <span className="text-sm text-muted-foreground">No categories available.</span>}
-                            </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Categories <span className="text-red-500">*</span></Label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 border border-border p-3 rounded-md bg-card">
+                            {categories.map(cat => (
+                                <label key={cat.category_id} className="flex items-center gap-2 cursor-pointer bg-secondary px-3 py-1.5 rounded-md hover:bg-secondary/80">
+                                    <input
+                                        type="checkbox"
+                                        value={cat.category_id}
+                                        checked={categoryIds.includes(cat.category_id)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setCategoryIds([...categoryIds, cat.category_id]);
+                                            } else {
+                                                setCategoryIds(categoryIds.filter(id => id !== cat.category_id));
+                                            }
+                                        }}
+                                        className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4 shrink-0"
+                                    />
+                                    <span className="text-sm font-medium line-clamp-1">{cat.name}</span>
+                                </label>
+                            ))}
+                            {categories.length === 0 && <span className="text-sm text-muted-foreground col-span-full">No categories available.</span>}
                         </div>
                     </div>
 
