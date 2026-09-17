@@ -158,15 +158,16 @@ export default function AdminNewsFeedbackDetail() {
             id: "actions",
             header: "Actions",
             cell: ({ row }) => (
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                     <Button
-                        variant="ghost"
-                        size="icon"
+                        variant="outline"
+                        size="sm"
                         title="View Details"
                         className="text-primary hover:text-primary/80"
                         onClick={() => setViewFeedback(row.original)}
                     >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-4 w-4 mr-1.5" />
+                        View
                     </Button>
                     <ComponentGuard anyPermissions={["NEWS:DELETE"]}>
                         <Button
