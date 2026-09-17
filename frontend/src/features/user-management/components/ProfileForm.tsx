@@ -89,7 +89,7 @@ const ProfileForm = () => {
     if (isUserLoading) return <div className="p-10 text-center"><Loader2 className="w-6 h-6 animate-spin mx-auto text-golden-dark" /></div>;
 
     return (
-        <div className="w-full max-w-4xl mx-auto space-y-6 pb-8">
+        <div className="w-full space-y-6 pb-8">
             <form onSubmit={handleUpdateProfile}>
                 <Card className="border-golden-dark/20 shadow-sm">
                     <CardHeader className="bg-golden-dark/5 border-b border-golden-dark/10">
