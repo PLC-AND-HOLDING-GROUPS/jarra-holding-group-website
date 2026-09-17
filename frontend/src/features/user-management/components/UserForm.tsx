@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ComponentGuard } from "@/components/auth/ComponentGuard";
 
 interface UserFormProps {
@@ -42,6 +43,7 @@ const UserForm = ({ userId }: UserFormProps) => {
     const [selectedRoleIds, setSelectedRoleIds] = useState<string[]>([]);
     const [isActive, setIsActive] = useState(true);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
 
     // Track if initial load has happened to prevent overwriting
     const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -99,7 +101,7 @@ const UserForm = ({ userId }: UserFormProps) => {
 
     const handleResetPassword = async () => {
         if (!userId) return;
-        if (!confirm("Are you sure you want to reset this user's password? A new password will be generated and emailed to them.")) return;
+        setIsResetDialogOpen(false);
         
         try {
             notify.loading("Resetting password...", { id: "reset-password" });
@@ -320,17 +322,37 @@ const UserForm = ({ userId }: UserFormProps) => {
                                         <p className="text-xs text-red-500/80 mt-1">Generates a new random password and emails it to the user. Forces password change on next login.</p>
                                     </div>
                                     <ComponentGuard anyPermissions={['USERS:UPDATE']}>
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            size="sm"
-                                            onClick={handleResetPassword}
-                                            disabled={isResettingPassword}
-                                            className="whitespace-nowrap"
-                                        >
-                                            {isResettingPassword ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                                            Reset Password
-                                        </Button>
+                                        <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
+                                            <DialogTrigger asChild>
+                                                <Button
+                                                    type="button"
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    disabled={isResettingPassword}
+                                                    className="whitespace-nowrap"
+                                                >
+                                                    {isResettingPassword ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                                                    Reset Password
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Reset Password</DialogTitle>
+                                                    <DialogDescription>
+                                                        Are you sure you want to reset this user's password? A new random password will be generated and emailed to them, and they will be forced to change it on their next login.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter className="gap-2 sm:gap-0">
+                                                    <Button variant="outline" onClick={() => setIsResetDialogOpen(false)} type="button">
+                                                        Cancel
+                                                    </Button>
+                                                    <Button variant="destructive" onClick={handleResetPassword} disabled={isResettingPassword} type="button">
+                                                        {isResettingPassword ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                                                        Confirm Reset
+                                                    </Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
                                     </ComponentGuard>
                                 </div>
                             </div>
