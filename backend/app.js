@@ -109,8 +109,8 @@ app.use(
   }),
 );
 
-app.use(bodyParser.json({ limit: "10mb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
+app.use(bodyParser.json({ limit: "200mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
 
 // ===========Serve static files (PDFs, uploads)=====================
 app.use(
