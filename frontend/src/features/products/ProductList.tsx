@@ -38,7 +38,7 @@ export default function ProductList() {
     };
 
     const [search, setSearch] = useState("");
-    const [publishStatusFilter, setPublishStatusFilter] = useState("");
+    const [publishStatusFilter, setPublishStatusFilter] = useState("all");
 
     const filters: FilterField[] = [
         {
@@ -57,7 +57,7 @@ export default function ProductList() {
             value: publishStatusFilter,
             onChange: setPublishStatusFilter,
             options: [
-                { label: "All Statuses", value: "" },
+                { label: "All Statuses", value: "all" },
                 { label: "Published", value: "published" },
                 { label: "Draft", value: "draft" },
                 { label: "Archived", value: "archived" },
@@ -68,7 +68,7 @@ export default function ProductList() {
     const filteredData = useMemo(() => {
         return data.filter((item: Product) => {
             const matchesSearch = !search || item.name.toLowerCase().includes(search.toLowerCase());
-            const matchesStatus = !publishStatusFilter || (item.publish_status || "draft").toLowerCase() === publishStatusFilter.toLowerCase();
+            const matchesStatus = !publishStatusFilter || publishStatusFilter === "all" || (item.publish_status || "draft").toLowerCase() === publishStatusFilter.toLowerCase();
             return matchesSearch && matchesStatus;
         });
     }, [data, search, publishStatusFilter]);

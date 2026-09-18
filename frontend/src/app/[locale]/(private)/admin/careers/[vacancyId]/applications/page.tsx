@@ -38,7 +38,7 @@ export default function AdminApplicationsList() {
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
-    const [statusFilter, setStatusFilter] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
     const [search, setSearch] = useState("");
 
     const handlePagination = (index: number, size: number) => {
@@ -47,7 +47,7 @@ export default function AdminApplicationsList() {
     };
 
     const filteredData = applications.filter((app: JobApplication) => {
-        const matchesStatus = !statusFilter || app.status === statusFilter;
+        const matchesStatus = !statusFilter || statusFilter === "all" || app.status === statusFilter;
         const matchesSearch = !search || 
             `${app.first_name} ${app.last_name}`.toLowerCase().includes(search.toLowerCase()) ||
             app.email.toLowerCase().includes(search.toLowerCase());
@@ -126,6 +126,7 @@ export default function AdminApplicationsList() {
                         value: statusFilter,
                         onChange: setStatusFilter,
                         options: [
+                            { label: "All Statuses", value: "all" },
                             { label: "New", value: "new" },
                             { label: "Reviewed", value: "reviewed" },
                             { label: "Shortlisted", value: "shortlisted" },

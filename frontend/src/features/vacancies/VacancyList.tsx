@@ -41,7 +41,7 @@ export default function VacancyList() {
 
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
-    const [statusFilter, setStatusFilter] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
     const [search, setSearch] = useState("");
 
     const handlePagination = (index: number, size: number) => {
@@ -58,6 +58,7 @@ export default function VacancyList() {
             value: statusFilter,
             onChange: setStatusFilter,
             options: [
+                { label: "All Statuses", value: "all" },
                 { label: "Draft", value: "draft" },
                 { label: "Published", value: "published" },
                 { label: "Closed", value: "closed" },
@@ -75,7 +76,7 @@ export default function VacancyList() {
 
     const filteredData = useMemo(() => {
         return data.filter((item: Vacancy) => {
-            const matchesStatus = !statusFilter || item.status === statusFilter;
+            const matchesStatus = !statusFilter || statusFilter === "all" || item.status === statusFilter;
             const matchesSearch =
                 !search ||
                 item.job_title?.toLowerCase().includes(search.toLowerCase()) ||

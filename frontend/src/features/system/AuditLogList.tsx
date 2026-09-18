@@ -29,7 +29,7 @@ export default function AuditLogList() {
 
     /* Filters */
     const [search, setSearch] = useState("");
-    const [actionFilter, setActionFilter] = useState("");
+    const [actionFilter, setActionFilter] = useState("all");
 
     const filters: FilterField[] = [
         {
@@ -45,7 +45,7 @@ export default function AuditLogList() {
             label: "Action Type",
             type: "select",
             options: [
-                { value: "", label: "All Actions" },
+                { value: "all", label: "All Actions" },
                 { value: "CREATE", label: "CREATE" },
                 { value: "UPDATE", label: "UPDATE" },
                 { value: "DELETE", label: "DELETE" },
@@ -60,7 +60,7 @@ export default function AuditLogList() {
         page: pageIndex + 1,
         limit: pageSize,
         search,
-        action: actionFilter,
+        action: actionFilter === "all" ? "" : actionFilter,
     });
 
     const logs = logsData?.data || [];
