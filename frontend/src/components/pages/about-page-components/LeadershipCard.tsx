@@ -1,12 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-
-
-
 export default function LeadershipCard({ person }: any) {
-    const router = useRouter();
 
     return (
         <motion.div
@@ -14,8 +9,7 @@ export default function LeadershipCard({ person }: any) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
-            className={`max-w-[500px] p-2 flex flex-col items-center justify-center text-center cursor-pointer`}
-            onClick={() => router.push(`/leadership/${person.id}`)}
+            className={`max-w-[500px] p-2 flex flex-col items-center justify-center text-center`}
         >
             <div className="relative mx-auto mb-3">
                 <Image
